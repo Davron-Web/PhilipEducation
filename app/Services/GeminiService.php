@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Services;
+
+use Illuminate\Support\Facades\Http;
+
+class GeminiService
+{
+    protected string $key;
+    protected string $model;
+    protected string $url = 'https://generativelanguage.googleapis.com/v1beta/models';
+
+    public function __construct()
+    {
+        $this->key   = config('services.gemini.key');
+        $this->model = config('services.gemini.model');
+    }
+
+    /** Универсальный запрос к Gemini */
+    public function ask(string $prompt, ?string $system = null, bool $json = false): string
+    {
+        $payload = [
+            'contents' => [['role' => 'user', 'parts' => [['text' => $prompt]]]],
+        ];
+
+        if ($system) {
+            $payload['system_instruction'] = ['parts' => [['text' => $system]]];
+        }
+        if ($json) {
+            $payload['generationConfig'] = [
+                'response_mime_type' => 'application/json',
+                'temperature' => 0.7,
+            ];
+        }
+
+        $res = Http::withHeaders(['x-goog-api-key' => $this->key])
+            ->timeout(90)
+            ->post("{$this->url}/{$this->model}:generateContent", $payload);
+
+        if ($res->failed()) {
+            throw new \RuntimeException('Gemini HTTP ' . $res->status() . ': ' . mb_substr($res->body(), 0, 300));
+        }
+
+        return $res->json('candidates.0.content.parts.0.text', '');
+    }
+
+    /** Генерация полного комплекта: урок + слова + упражнения + тест */
+    public function generateLessonPack(string $topic): array
+    {
+        $prompt = <<<PROMPT
+Создай учебный комплект по английскому языку на тему "{$topic}".
+Верни СТРОГО JSON такой структуры:
+{
+  "lesson": {"title": "название урока", "level": "Beginner A1|Elementary A2|Intermediate B1", "theory": "объяснение темы на русском с примерами на английском"},
+  "words": [{"word": "слово на английском", "translation": "перевод на русском"}],
+  "exercises": [{"title": "название упражнения", "questions": [{"question": "задание", "answer": "правильный ответ"}]}],
+  "test": {"title": "Тест: тема", "questions": [{"question": "вопрос", "options": ["вариант1","вариант2","вариант3","вариант4"], "correct": 0}]}
+}
+Требования: 6 слов, 2 упражнения по 3 вопроса, тест из 5 вопросов, "correct" — индекс правильного варианта (с 0).
+PROMPT;
+
+        $raw = trim($this->ask($prompt, json: true));
+        $raw = preg_replace(['/^```(json)?/u', '/```$/u'], '', $raw);
+
+        $data = json_decode($raw, true);
+        if (! is_array($data)) {
+            throw new \RuntimeException('Не удалось распарсить JSON от Gemini');
+        }
+
+        return $data;
+    }
+
+    /** Ответ на вопрос ученика */
+    public function answerQuestion(string $question): string
+    {
+        return $this->ask(
+            "Вопрос: {$question}",
+            'Ты — дружелюбный преподаватель английского языка. Отвечай кратко и понятно на русском, с примерами на английском. Если вопрос не про английский — вежливо верни разговор к учёбе.'
+        );
+    }
+}

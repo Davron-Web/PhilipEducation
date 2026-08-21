@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Book\Book;
+use App\Models\Book\BookRead;
+use App\Models\Certificate\Certificate;
+use App\Models\Content\LessonComment;
+use App\Models\Gamification\Achievement;
+use App\Models\System\Level;
+use App\Models\System\Notification;
+use App\Models\User\Role;
+use App\Models\User\UserProgress;
+use App\Models\User\UserResult;
+use App\Models\Vocabulary\Word;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
+{
+    use HasFactory, Notifiable;
+
+    protected static string $factory = \Database\Factories\UserFactory::class;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role_id',
+        'level_id',
+        'points',
+        'is_active',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'password' => 'hashed',
+        'points' => 'integer',
+        'is_active' => 'boolean',
+    ];
+
+    /**
+     * Проверка роли по имени
+     */
+    public function hasRole(string $roleName): bool
+    {
+        return $this->role && $this->role->name === $roleName;
+    }
+
+    /**
+     * Проверка является ли пользователь админом
+     */
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(Level::class);
+    }
+
+    public function progress(): HasMany
+    {
+        return $this->hasMany(UserProgress::class);
+    }
+
+    public function results(): HasMany
+    {
+        return $this->hasMany(UserResult::class);
+    }
+
+    public function words(): BelongsToMany
+    {
+        return $this->belongsToMany(Word::class, 'user_words')
+            ->withPivot('learned', 'correct_answers', 'wrong_answers', 'last_reviewed_at')
+            ->withTimestamps();
+    }
+
+    public function achievements(): BelongsToMany
+    {
+        return $this->belongsToMany(Achievement::class, 'user_achievements')
+            ->withPivot('earned_at')
+            ->withTimestamps();
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(LessonComment::class);
+    }
+
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function studyStatistic(): HasMany
+    {
+        return $this->hasMany(\App\Models\Gamification\StudyStatistic::class);
+    }
+
+    public function bookReads(): HasMany
+    {
+        return $this->hasMany(BookRead::class);
+    }
+
+    public function books(): BelongsToMany
+    {
+        return $this->belongsToMany(Book::class, 'book_reads')
+            ->withPivot('current_page', 'completed_at')
+            ->withTimestamps();
+    }
+}

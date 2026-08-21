@@ -1,0 +1,373 @@
+/* =====================================================================
+   English Start — design system
+   Static CSS on top of vanilla Bootstrap 5.3 (no build step, no Sass).
+   Loaded after bootstrap.min.css, so these rules win by source order.
+   ===================================================================== */
+
+/* ---- 1. Palette: Bootstrap CSS-variable overrides ---------------------
+   Root-level vars (--bs-body-bg, --bs-border-color, --bs-primary, ...) are
+   consumed live by cards/dropdowns/modals/list-groups in Bootstrap 5.3,
+   so overriding them here re-themes most surfaces without recompiling.
+   Section 2 below patches the handful of components that bake the color
+   in as a literal hex at build time (buttons, form focus, nav-pills...). */
+:root:not([data-bs-theme="dark"]) {
+    --bs-primary: #2563EB;
+    --bs-primary-rgb: 37, 99, 235;
+    --bs-primary-text-emphasis: #1d4ed8;
+    --bs-primary-bg-subtle: #dbeafe;
+    --bs-primary-border-subtle: #bfdbfe;
+    --bs-link-color: #2563EB;
+    --bs-link-color-rgb: 37, 99, 235;
+    --bs-link-hover-color: #1d4ed8;
+    --bs-link-hover-color-rgb: 29, 78, 216;
+
+    --bs-body-bg: #F8FAFC;
+    --bs-body-bg-rgb: 248, 250, 252;
+    --bs-body-color: #0F172A;
+    --bs-body-color-rgb: 15, 23, 42;
+    --bs-emphasis-color: #0F172A;
+    --bs-secondary-color: #64748B;
+    --bs-secondary-bg: #F1F5F9;
+    --bs-tertiary-bg: #F1F5F9;
+    --bs-tertiary-color: #64748B;
+    --bs-border-color: #E2E8F0;
+    --bs-border-color-translucent: #E2E8F0;
+
+    --accent: #FACC15;
+    --accent-rgb: 250, 204, 21;
+    --accent-emphasis: #a16207;
+    --accent-bg-subtle: #fef9c3;
+}
+
+:root[data-bs-theme="dark"] {
+    --bs-primary: #3b82f6;
+    --bs-primary-rgb: 59, 130, 246;
+    --bs-primary-text-emphasis: #93c5fd;
+    --bs-primary-bg-subtle: #172554;
+    --bs-primary-border-subtle: #1e3a8a;
+    --bs-link-color: #60a5fa;
+    --bs-link-color-rgb: 96, 165, 250;
+    --bs-link-hover-color: #93c5fd;
+    --bs-link-hover-color-rgb: 147, 197, 253;
+
+    --bs-body-bg: #0B1220;
+    --bs-body-bg-rgb: 11, 18, 32;
+    --bs-body-color: #E2E8F0;
+    --bs-body-color-rgb: 226, 232, 240;
+    --bs-emphasis-color: #F8FAFC;
+    --bs-secondary-color: #94A3B8;
+    --bs-secondary-bg: #111827;
+    --bs-tertiary-bg: #131C2E;
+    --bs-tertiary-color: #94A3B8;
+    --bs-border-color: #1E293B;
+    --bs-border-color-translucent: #1E293B;
+
+    --accent: #FACC15;
+    --accent-rgb: 250, 204, 21;
+    --accent-emphasis: #fde047;
+    --accent-bg-subtle: #422e0a;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    min-height: 100vh;
+}
+
+/* ---- 2. Component-level patches (Bootstrap bakes these as literal hex) */
+.btn-primary {
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: var(--bs-primary-text-emphasis);
+    --bs-btn-hover-border-color: var(--bs-primary-text-emphasis);
+    --bs-btn-active-bg: var(--bs-primary-text-emphasis);
+    --bs-btn-active-border-color: var(--bs-primary-text-emphasis);
+    --bs-btn-disabled-bg: var(--bs-primary);
+    --bs-btn-disabled-border-color: var(--bs-primary);
+    --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: var(--bs-primary);
+    --bs-btn-hover-border-color: var(--bs-primary);
+    --bs-btn-active-bg: var(--bs-primary);
+    --bs-btn-active-border-color: var(--bs-primary);
+    --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .15);
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .15);
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background-color: var(--bs-primary);
+}
+
+.page-link {
+    color: var(--bs-primary);
+}
+
+.page-item.active .page-link {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.accordion-button:not(.collapsed) {
+    color: var(--bs-primary-text-emphasis);
+    background-color: var(--bs-primary-bg-subtle);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .15);
+}
+
+.spinner-border.text-primary,
+.spinner-grow.text-primary {
+    color: var(--bs-primary) !important;
+}
+
+.progress-bar {
+    background-color: var(--bs-primary);
+    transition: width 1s ease;
+}
+
+/* ---- 3. Accent (yellow) utilities — CTAs, achievements, streak ------- */
+.btn-accent {
+    --bs-btn-color: #1F2937;
+    --bs-btn-bg: var(--accent);
+    --bs-btn-border-color: var(--accent);
+    --bs-btn-hover-color: #1F2937;
+    --bs-btn-hover-bg: #eab308;
+    --bs-btn-hover-border-color: #eab308;
+    --bs-btn-active-color: #1F2937;
+    --bs-btn-active-bg: #eab308;
+    --bs-btn-active-border-color: #eab308;
+    --bs-btn-focus-shadow-rgb: var(--accent-rgb);
+}
+
+.bg-accent { background-color: var(--accent) !important; }
+.bg-accent-subtle { background-color: var(--accent-bg-subtle) !important; }
+.text-accent { color: var(--accent-emphasis) !important; }
+.border-accent { border-color: var(--accent) !important; }
+
+.badge.text-bg-accent {
+    color: #1F2937;
+    background-color: var(--accent);
+}
+
+/* ---- 4. App shell: sidebar / topbar / offcanvas ----------------------- */
+.app-sidebar {
+    width: 264px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1030;
+    background-color: var(--bs-body-bg);
+    border-right: 1px solid var(--bs-border-color);
+    overflow-y: auto;
+}
+
+.app-main {
+    margin-left: 0;
+}
+
+@media (min-width: 992px) {
+    .app-main {
+        margin-left: 264px;
+    }
+}
+
+.app-topbar {
+    z-index: 1020;
+    background-color: rgba(var(--bs-body-bg-rgb), .85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.sidebar-nav .nav-link {
+    color: var(--bs-secondary-color);
+    border-radius: .625rem;
+    font-weight: 500;
+    padding: .625rem .875rem;
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.sidebar-nav .nav-link i {
+    font-size: 1.1rem;
+    width: 1.5rem;
+    display: inline-block;
+}
+
+.sidebar-nav .nav-link:hover {
+    color: var(--bs-body-color);
+    background-color: var(--bs-tertiary-bg);
+}
+
+.sidebar-nav .nav-link.active {
+    color: var(--bs-primary);
+    background-color: var(--bs-primary-bg-subtle);
+}
+
+.app-sidebar::-webkit-scrollbar { width: 6px; }
+.app-sidebar::-webkit-scrollbar-thumb { background: var(--bs-border-color); border-radius: 3px; }
+
+/* ---- 5. Hero banner ---------------------------------------------------- */
+.hero-banner {
+    background: linear-gradient(120deg, #2563EB 0%, #1d4ed8 55%, #1e3a8a 100%);
+    border-radius: 1.5rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(600px circle at 85% 20%, rgba(250, 204, 21, .25), transparent 60%);
+    pointer-events: none;
+}
+
+/* ---- 6. Cards & misc flourishes ---------------------------------------- */
+.card {
+    border-radius: 1rem;
+}
+
+.rounded-4 { border-radius: 1rem !important; }
+
+.card-hover {
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, .12);
+}
+
+@keyframes streak-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, .35); }
+    50% { box-shadow: 0 0 0 6px rgba(250, 204, 21, 0); }
+}
+
+.streak-pulse {
+    animation: streak-pulse 2s infinite;
+}
+
+.avatar-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563EB, #1d4ed8);
+    color: #fff;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.achievement-locked {
+    opacity: .55;
+    filter: grayscale(.6);
+}
+
+/* ---- 7. Theme toggle icon swap ----------------------------------------- */
+[data-theme-icon="dark"] { display: none; }
+html[data-bs-theme="dark"] [data-theme-icon="dark"] { display: inline-block; }
+html[data-bs-theme="dark"] [data-theme-icon="light"] { display: none; }
+
+/* ---- 8. Lesson content body (rendered HTML from lesson_contents) ------- */
+.lesson-content-body h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-top: 1.25rem;
+    margin-bottom: .6rem;
+    color: var(--bs-emphasis-color);
+}
+.lesson-content-body h2:first-child { margin-top: 0; }
+.lesson-content-body p { margin-bottom: .75rem; }
+.lesson-content-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    font-size: .925rem;
+}
+.lesson-content-body th, .lesson-content-body td {
+    border: 1px solid var(--bs-border-color);
+    padding: .5rem .75rem;
+    text-align: left;
+}
+.lesson-content-body th { background: var(--bs-tertiary-bg); font-weight: 600; }
+.lesson-content-body ul { padding-left: 1.25rem; margin-bottom: 1rem; }
+.lesson-content-body li { margin-bottom: .35rem; }
+.lesson-content-body strong { color: var(--bs-emphasis-color); }
+
+/* ---- 9. Word pronunciation button --------------------------------------- */
+.speak-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    margin-left: .4em;
+    vertical-align: middle;
+    border: 1px solid rgba(96, 165, 250, .4);
+    border-radius: 50%;
+    background: rgba(96, 165, 250, .14);
+    color: #2563EB;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease, box-shadow .15s ease, transform .1s ease;
+}
+.speak-btn:hover, .speak-btn:focus-visible {
+    background: #60A5FA;
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(96, 165, 250, .25);
+    outline: none;
+}
+.speak-btn:active { transform: scale(.92); }
+
+/* ---- 10. Book reader: karaoke word highlighting ------------------------- */
+.reader-content {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    transition: font-size .15s ease;
+}
+.reader-paragraph { margin-bottom: 1.1em; }
+.reader-content .w {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 1px 2px;
+    margin: -1px -2px;
+    transition: background-color .15s ease, color .15s ease;
+}
+.reader-content .w:hover {
+    background: rgba(96, 165, 250, .18);
+}
+.reader-content .w.speaking {
+    background: #60A5FA;
+    color: #fff;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, .35);
+}
+:root[data-bs-theme="dark"] .reader-content .w.speaking {
+    color: #0B1220;
+}
+.speed-btn.active, .mode-btn.active {
+    background: #2563EB;
+    color: #fff;
+    border-color: #2563EB;
+}
