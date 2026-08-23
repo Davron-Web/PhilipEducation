@@ -32,11 +32,9 @@ function initReader(config) {
 
     function pickVoice() {
         if (!speechSupported) return;
-        const voices = window.speechSynthesis.getVoices();
-        voice = voices.find(function (v) { return v.lang === 'en-US'; })
-            || voices.find(function (v) { return v.lang === 'en-GB'; })
-            || voices.find(function (v) { return v.lang && v.lang.indexOf('en') === 0; })
-            || null;
+        // Shared with pronounce.js (loaded first on this page) so the reader
+        // and the word-card pronunciation use the same, nicer-sounding voice.
+        voice = (typeof pickBestEnglishVoice === 'function') ? pickBestEnglishVoice() : null;
     }
 
     if (speechSupported) {
