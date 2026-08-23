@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public\Content;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Lesson;
+use App\Models\System\Level;
 use App\Models\User\UserProgress;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,8 +18,12 @@ class LessonController extends Controller
      */
     public function index(): View
     {
+        // Order by the level's CEFR code first (A1, A2, B1, B2, C1, C2 sorts
+        // correctly as a plain string) so lessons form one continuous study
+        // path, then by position within that level.
         $lessons = Lesson::with('level')
             ->where('is_published', true)
+            ->orderBy(Level::select('code')->whereColumn('levels.id', 'lessons.level_id'))
             ->orderBy('order_number')
             ->get();
 
@@ -51,7 +56,7 @@ class LessonController extends Controller
     public function complete(Request $request, $id): RedirectResponse
     {
         $user = Auth::user();
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login')->with('error', 'Please sign in first.');
         }
 

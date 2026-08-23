@@ -12,6 +12,9 @@
     </div>
 
     <div class="card shadow-sm rounded-4 border-0">
+        @if($word->image)
+            <img src="{{ asset($word->image) }}" alt="{{ $word->word }}" class="card-img-top rounded-top-4" style="height: 220px; object-fit: cover;">
+        @endif
         <div class="card-body p-4">
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <div>

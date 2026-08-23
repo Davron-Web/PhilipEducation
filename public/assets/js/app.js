@@ -5,10 +5,12 @@
     var root = document.documentElement;
     var toggleBtn = document.getElementById('theme-toggle');
     var saved = localStorage.getItem('theme');
-    var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    if (saved === 'dark' || (!saved && systemDark)) {
-        root.setAttribute('data-bs-theme', 'dark');
+    // The <html> tag already ships with data-bs-theme="dark" (neon is the
+    // default look now, set server-side to avoid a light-theme flash on
+    // load) — only an explicit saved preference for light should switch it.
+    if (saved === 'light') {
+        root.setAttribute('data-bs-theme', 'light');
     }
 
     if (toggleBtn) {

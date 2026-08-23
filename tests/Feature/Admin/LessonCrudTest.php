@@ -25,6 +25,26 @@ it('blocks guests and students from the admin lesson list', function () use ($st
         ->assertForbidden();
 });
 
+it('lists lessons grouped by level progression, not interleaved by raw order_number', function () use ($admin) {
+    $a1 = Level::factory()->create(['code' => 'A1']);
+    $b1 = Level::factory()->create(['code' => 'B1']);
+
+    Lesson::factory()->create(['level_id' => $b1->id, 'order_number' => 1, 'title' => 'B1 Lesson One']);
+    Lesson::factory()->create(['level_id' => $a1->id, 'order_number' => 1, 'title' => 'A1 Lesson One']);
+    Lesson::factory()->create(['level_id' => $a1->id, 'order_number' => 2, 'title' => 'A1 Lesson Two']);
+
+    $response = $this->actingAs($admin())->get('/admin/content/lessons');
+    $response->assertOk();
+
+    $body = $response->getContent();
+    $posA1First = strpos($body, 'A1 Lesson One');
+    $posA1Second = strpos($body, 'A1 Lesson Two');
+    $posB1First = strpos($body, 'B1 Lesson One');
+
+    expect($posA1First)->toBeLessThan($posA1Second);
+    expect($posA1Second)->toBeLessThan($posB1First);
+});
+
 it('lets an admin list lessons', function () use ($admin) {
     Lesson::factory()->count(3)->create();
 

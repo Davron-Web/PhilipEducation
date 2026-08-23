@@ -1,6 +1,9 @@
 @props(['word', 'learned' => false])
 
 <div class="card card-hover shadow-sm h-100 rounded-4 border-0">
+    @if($word->image)
+        <img src="{{ asset($word->image) }}" alt="{{ $word->word }}" class="card-img-top rounded-top-4" style="height: 140px; object-fit: cover;">
+    @endif
     <div class="card-body p-4 d-flex flex-column">
         <div class="d-flex align-items-start justify-content-between mb-2">
             <div>

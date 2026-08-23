@@ -13,7 +13,12 @@ class ExerciseController extends Controller
      */
     public function index(): View
     {
-        $exercises = Exercise::with('lesson')->withCount('questions')->orderBy('id')->get();
+        // Sorted by the parent lesson's level (A1, A2, B1... sorts correctly
+        // as a plain string) so exercises form one continuous study path,
+        // matching the lessons list.
+        $exercises = Exercise::with('lesson.level')->withCount('questions')->orderBy('id')->get()
+            ->sortBy(fn ($exercise) => optional(optional($exercise->lesson)->level)->code ?? 'zzz')
+            ->values();
 
         return view('public.exercises.index', compact('exercises'));
     }

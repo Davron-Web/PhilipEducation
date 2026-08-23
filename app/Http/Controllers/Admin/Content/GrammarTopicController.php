@@ -19,7 +19,8 @@ class GrammarTopicController extends Controller
             ->when(request('level_id'), function ($query, $levelId) {
                 $query->where('level_id', $levelId);
             })
-            ->orderBy('created_at', 'desc')
+            ->orderBy(Level::select('code')->whereColumn('levels.id', 'grammar_topics.level_id'))
+            ->orderBy('title')
             ->paginate(20)
             ->withQueryString();
 
@@ -38,10 +39,10 @@ class GrammarTopicController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title'    => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
             'level_id' => ['required', 'integer', 'exists:levels,id'],
         ], [
-            'title.required'    => 'Укажите название правила.',
+            'title.required' => 'Укажите название правила.',
             'level_id.required' => 'Выберите уровень.',
         ]);
 
@@ -56,8 +57,8 @@ class GrammarTopicController extends Controller
         $columns = Schema::getColumnListing('grammar_topics');
 
         $payload = [
-            'title'        => $data['title'],
-            'level_id'     => $data['level_id'],
+            'title' => $data['title'],
+            'level_id' => $data['level_id'],
             'order_number' => $request->input('order_number', 1) ?? 1,
         ];
 
@@ -99,10 +100,10 @@ class GrammarTopicController extends Controller
     public function update(Request $request, GrammarTopic $grammartopic)
     {
         $data = $request->validate([
-            'title'    => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
             'level_id' => ['required', 'integer', 'exists:levels,id'],
         ], [
-            'title.required'    => 'Укажите название правила.',
+            'title.required' => 'Укажите название правила.',
             'level_id.required' => 'Выберите уровень.',
         ]);
 
@@ -116,8 +117,8 @@ class GrammarTopicController extends Controller
         $columns = Schema::getColumnListing('grammar_topics');
 
         $payload = [
-            'title'        => $data['title'],
-            'level_id'     => $data['level_id'],
+            'title' => $data['title'],
+            'level_id' => $data['level_id'],
             'order_number' => $request->input('order_number', 1) ?? 1,
         ];
 

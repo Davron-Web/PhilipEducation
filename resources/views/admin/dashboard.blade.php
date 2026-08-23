@@ -86,6 +86,33 @@
 
     <x-admin.page-header title="Панель управления" />
 
+    <section class="ph-admin-hero">
+        <div class="ph-aurora ph-aurora-a"></div>
+        <div class="ph-aurora ph-aurora-b"></div>
+        <canvas class="ph-snow" data-ph-snow></canvas>
+        <div class="ph-admin-hero-content">
+            <div class="ph-admin-hero-badge">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#FFD600" stroke="none"><path d="M12 2l2.9 6.6L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2 2 9.3l7.1-.7L12 2z"/></svg>
+                Администратор
+            </div>
+            <h2>С возвращением, {{ explode(' ', auth()->user()->name ?? 'Admin')[0] }}!</h2>
+            <p>На платформе {{ number_format($usersCount, 0, ',', ' ') }} учеников. Проверьте свежую активность или создайте новый урок.</p>
+            <div class="ph-admin-hero-actions">
+                <a href="{{ route('admin.content.lessons.create') }}" class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Новый урок
+                </a>
+                <a href="{{ route('admin.ai') }}" class="btn btn-ghost ph-admin-hero-ghost">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4v1a2 2 0 0 1 2 2v1a2 2 0 0 0 2 2 2 2 0 0 1 0 4 2 2 0 0 0-2 2v1a2 2 0 0 1-2 2v1a4 4 0 0 1-8 0v-1a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2 2 2 0 0 1 0-4 2 2 0 0 0 2-2V9a2 2 0 0 1 2-2V6a4 4 0 0 1 4-4z"/><circle cx="12" cy="12" r="2"/></svg>
+                    AI-генерация
+                </a>
+            </div>
+        </div>
+        <div class="ph-admin-hero-owl">
+            <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l2 3"/><path d="M18 6l-2 3"/><ellipse cx="12" cy="13" rx="7" ry="8"/><circle cx="9" cy="12" r="2.2"/><circle cx="15" cy="12" r="2.2"/><circle cx="9" cy="12" r=".4" fill="#fff" stroke="none"/><circle cx="15" cy="12" r=".4" fill="#fff" stroke="none"/><path d="M11.3 14.5h1.4l-.7 1.2z" fill="#fff" stroke="none"/></svg>
+        </div>
+    </section>
+
     <section class="stats-grid">
         <x-admin.stat-card color="blue" label="Всего учеников" :value="number_format($usersCount, 0, ',', ' ')"
             icon='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' />

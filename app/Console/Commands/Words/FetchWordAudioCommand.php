@@ -15,7 +15,7 @@ class FetchWordAudioCommand extends Command
     public function handle(): int
     {
         $directory = public_path('assets/audio/words');
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             mkdir($directory, 0755, true);
         }
 
@@ -69,15 +69,15 @@ class FetchWordAudioCommand extends Command
     {
         try {
             $response = Http::timeout(5)
-                ->get('https://api.dictionaryapi.dev/api/v2/entries/en/' . rawurlencode($word));
+                ->get('https://api.dictionaryapi.dev/api/v2/entries/en/'.rawurlencode($word));
 
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 return null;
             }
 
             $entries = $response->json();
 
-            if (!is_array($entries)) {
+            if (! is_array($entries)) {
                 return null;
             }
 
@@ -101,7 +101,7 @@ class FetchWordAudioCommand extends Command
         try {
             $response = Http::timeout(6)->get($url);
 
-            if (!$response->successful() || $response->body() === '') {
+            if (! $response->successful() || $response->body() === '') {
                 return false;
             }
 

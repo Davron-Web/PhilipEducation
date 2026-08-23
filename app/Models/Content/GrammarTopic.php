@@ -15,8 +15,7 @@ class GrammarTopic extends Model
     protected $fillable = [
         'title',
         'level_id',
-        'order_number',
-        'theory_content',
+        'theory',
     ];
 
     public function level(): BelongsTo

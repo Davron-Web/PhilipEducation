@@ -18,6 +18,7 @@ class Lesson extends Model
 
     protected $fillable = [
         'level_id',
+        'grammar_topic_id',
         'title',
         'description',
         'order_number',
@@ -32,6 +33,11 @@ class Lesson extends Model
     public function level(): BelongsTo
     {
         return $this->belongsTo(Level::class);
+    }
+
+    public function grammarTopic(): BelongsTo
+    {
+        return $this->belongsTo(GrammarTopic::class);
     }
 
     public function contents(): HasMany

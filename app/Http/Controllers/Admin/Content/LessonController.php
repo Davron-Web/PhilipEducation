@@ -28,6 +28,11 @@ class LessonController extends Controller
             ->when(request('is_published') !== null, function ($query) {
                 $query->where('is_published', request('is_published'));
             })
+            // Order by the level's CEFR code first (A1, A2, B1... sorts
+            // correctly as a plain string), then by position within that
+            // level — otherwise lessons from different levels interleave
+            // and the "№" column looks like it repeats every few rows.
+            ->orderBy(Level::select('code')->whereColumn('levels.id', 'lessons.level_id'))
             ->orderBy('order_number')
             ->paginate(request('per_page', 20))
             ->withQueryString();
@@ -50,9 +55,9 @@ class LessonController extends Controller
             $lesson = DB::transaction(function () use ($request) {
                 $data = $request->validated();
 
-                if (!isset($data['order_number'])) {
+                if (! isset($data['order_number'])) {
                     $data['order_number'] = Lesson::where('level_id', $data['level_id'])
-                            ->max('order_number') + 1;
+                        ->max('order_number') + 1;
                 }
 
                 return Lesson::create($data);
@@ -72,7 +77,7 @@ class LessonController extends Controller
     public function show(Lesson $lesson): View
     {
         return view('admin.content.lessons.show', [
-            'lesson' => $lesson->load(['level', 'contents', 'words.translations', 'exercises', 'tests'])
+            'lesson' => $lesson->load(['level', 'contents', 'words.translations', 'exercises', 'tests']),
         ]);
     }
 
