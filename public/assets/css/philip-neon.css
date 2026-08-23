@@ -1,0 +1,163 @@
+/* =====================================================================
+   Philip Education — Neon theme.
+   Loads after app.css / philip-theme.css. Only active when the page is
+   in dark mode (data-bs-theme="dark", now the default — see app.js) so a
+   visitor who opts back into light mode gets the original calm theme.
+   ===================================================================== */
+
+[data-bs-theme="dark"] body {
+    position: relative;
+}
+
+/* ---- 1. Ambient background: grid + orbs + particle canvas ------------ */
+[data-bs-theme="dark"] .ph-neon-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+[data-bs-theme="dark"] .ph-neon-grid {
+    position: absolute;
+    inset: -2px;
+    background-image:
+        linear-gradient(rgba(125, 211, 252, .09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125, 211, 252, .09) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 15%, #000 40%, transparent 90%);
+            mask-image: radial-gradient(ellipse 80% 55% at 50% 15%, #000 40%, transparent 90%);
+    animation: ph-grid-pan 26s linear infinite;
+}
+@keyframes ph-grid-pan { from { background-position: 0 0, 0 0; } to { background-position: 44px 44px, 44px 44px; } }
+
+[data-bs-theme="dark"] .ph-neon-orb { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform, opacity; }
+[data-bs-theme="dark"] .ph-neon-orb-a { top: -10%; left: -8%; width: 42vw; height: 42vw; max-width: 560px; max-height: 560px;
+    background: radial-gradient(circle, rgba(125,211,252,.4), transparent 70%); animation: ph-drift-a 20s ease-in-out infinite; }
+[data-bs-theme="dark"] .ph-neon-orb-b { top: 30%; right: -12%; width: 38vw; height: 38vw; max-width: 520px; max-height: 520px;
+    background: radial-gradient(circle, rgba(251,191,36,.28), transparent 70%); animation: ph-drift-b 24s ease-in-out infinite; }
+[data-bs-theme="dark"] .ph-neon-orb-c { bottom: -15%; left: 30%; width: 34vw; height: 34vw; max-width: 480px; max-height: 480px;
+    background: radial-gradient(circle, rgba(186,230,253,.28), transparent 70%); animation: ph-drift-c 18s ease-in-out infinite; }
+@keyframes ph-drift-a { 0%,100% { transform: translate(0,0) scale(1); opacity: .8; } 50% { transform: translate(4%,6%) scale(1.15); opacity: 1; } }
+@keyframes ph-drift-b { 0%,100% { transform: translate(0,0) scale(1); opacity: .6; } 50% { transform: translate(-5%,-4%) scale(1.1); opacity: .85; } }
+@keyframes ph-drift-c { 0%,100% { transform: translate(0,0) scale(.95); opacity: .5; } 50% { transform: translate(-3%,5%) scale(1.08); opacity: .75; } }
+
+[data-bs-theme="dark"] #ph-neon-particles { position: absolute; inset: 0; }
+
+/* ---- 2. Glassmorphism: sidebar, topbar, cards -------------------------- */
+[data-bs-theme="dark"] .app-sidebar,
+[data-bs-theme="dark"] .app-topbar,
+[data-bs-theme="dark"] .card,
+[data-bs-theme="dark"] .offcanvas {
+    background-color: rgba(10, 20, 32, .6) !important;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-color: rgba(125, 211, 252, .22) !important;
+}
+
+/* ---- 3. Neon glow: cards, buttons, nav, avatars ------------------------ */
+[data-bs-theme="dark"] .card-hover:hover {
+    box-shadow: 0 0 32px rgba(186, 230, 253, .5), 0 0 70px rgba(186, 230, 253, .2), 0 16px 34px rgba(0, 0, 0, .45) !important;
+    border-color: rgba(186, 230, 253, .7) !important;
+    transform: translateY(-5px);
+}
+[data-bs-theme="dark"] .btn-primary,
+[data-bs-theme="dark"] .btn-accent {
+    box-shadow: 0 0 16px rgba(125, 211, 252, .45);
+    transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease, filter .2s ease;
+}
+[data-bs-theme="dark"] .btn-primary:hover,
+[data-bs-theme="dark"] .btn-accent:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 26px rgba(186, 230, 253, .9), 0 0 60px rgba(186, 230, 253, .4);
+    filter: brightness(1.08);
+}
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+    box-shadow: 0 0 20px rgba(186, 230, 253, .6);
+}
+[data-bs-theme="dark"] .avatar-circle {
+    box-shadow: 0 0 18px rgba(125, 211, 252, .55);
+}
+[data-bs-theme="dark"] .streak-pulse {
+    animation-name: ph-streak-pulse-neon;
+}
+@keyframes ph-streak-pulse-neon {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(186, 230, 253, .45); }
+    50% { box-shadow: 0 0 0 7px rgba(186, 230, 253, 0); }
+}
+[data-bs-theme="dark"] .sidebar-nav .nav-link.active {
+    background: linear-gradient(120deg, #0A3B4F, #7DD3FC 60%, #BAE6FD);
+    background-size: 200% 100%;
+    color: #06121C !important;
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(125, 211, 252, .55);
+    animation: ph-nav-shimmer 5s ease-in-out infinite;
+}
+@keyframes ph-nav-shimmer { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+[data-bs-theme="dark"] .sidebar-nav .nav-link:hover {
+    color: #BAE6FD !important;
+    text-shadow: 0 0 10px rgba(186, 230, 253, .7);
+}
+[data-bs-theme="dark"] .ph-logo-mark {
+    box-shadow: 0 0 18px rgba(125, 211, 252, .7), 0 0 36px rgba(251, 191, 36, .35);
+    animation: ph-mark-pulse 3s ease-in-out infinite;
+}
+@keyframes ph-mark-pulse {
+    0%,100% { box-shadow: 0 0 18px rgba(125,211,252,.7), 0 0 36px rgba(251,191,36,.35); }
+    50% { box-shadow: 0 0 28px rgba(186,230,253,.95), 0 0 50px rgba(251,191,36,.55); }
+}
+
+/* Gradient/glow text utility */
+[data-bs-theme="dark"] .ph-neon-grad-text {
+    background: linear-gradient(120deg, #7DD3FC, #BAE6FD 45%, #FBBF24);
+    background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: ph-grad-shift 6s ease-in-out infinite;
+}
+@keyframes ph-grad-shift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+/* ---- 4. Hero banner: recolor to neon, drop the old aurora tones ------- */
+[data-bs-theme="dark"] .hero-banner {
+    background: linear-gradient(120deg, #05080F 0%, #0A192F 45%, #7DD3FC 140%);
+    box-shadow: 0 0 60px rgba(125, 211, 252, .18);
+}
+[data-bs-theme="dark"] .hero-banner::after {
+    background: radial-gradient(600px circle at 85% 15%, rgba(186, 230, 253, .32), transparent 60%);
+}
+[data-bs-theme="dark"] .hero-banner::before {
+    background: radial-gradient(420px circle at 10% 110%, rgba(251, 191, 36, .28), transparent 65%);
+}
+[data-bs-theme="dark"] canvas.ph-snow { display: none; }
+
+/* ---- 5. Lessons/Exercises timeline modules ----------------------------- */
+[data-bs-theme="dark"] .ph-module {
+    background: rgba(10, 20, 32, .6) !important;
+    border-color: rgba(125, 211, 252, .22) !important;
+}
+[data-bs-theme="dark"] .ph-module:hover {
+    box-shadow: 0 0 30px rgba(186, 230, 253, .5), 0 0 70px rgba(186, 230, 253, .2) !important;
+    border-color: rgba(186, 230, 253, .7) !important;
+}
+[data-bs-theme="dark"] .ph-module-title { color: #fff; }
+[data-bs-theme="dark"] .ph-module-desc { color: #8CA3B5; }
+[data-bs-theme="dark"] .ph-step { color: #E8F6FB; }
+[data-bs-theme="dark"] .ph-step:hover { color: #BAE6FD; text-shadow: 0 0 10px rgba(186, 230, 253, .8); }
+[data-bs-theme="dark"] .ph-step-dot { background: #05080F; border-color: rgba(125, 211, 252, .4); }
+[data-bs-theme="dark"] .ph-step:hover .ph-step-dot { border-color: #BAE6FD; box-shadow: 0 0 14px rgba(186, 230, 253, .9); }
+[data-bs-theme="dark"] .ph-step.is-done .ph-step-dot {
+    background: linear-gradient(120deg, #7DD3FC, #BAE6FD); border-color: transparent;
+    box-shadow: 0 0 10px rgba(186, 230, 253, .6);
+}
+[data-bs-theme="dark"] .ph-module-steps::before { background: linear-gradient(to bottom, rgba(186,230,253,.5), rgba(251,191,36,.1)); }
+
+/* ---- 6. Reveal-on-scroll (shared with philip-effects.js) --------------- */
+[data-bs-theme="dark"] [data-ph-reveal] { transition-duration: .6s; }
+
+@media (prefers-reduced-motion: reduce) {
+    [data-bs-theme="dark"] .ph-neon-grid,
+    [data-bs-theme="dark"] .ph-neon-orb,
+    [data-bs-theme="dark"] .ph-logo-mark,
+    [data-bs-theme="dark"] .sidebar-nav .nav-link.active,
+    [data-bs-theme="dark"] .ph-neon-grad-text {
+        animation: none !important;
+    }
+}

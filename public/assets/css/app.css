@@ -1,5 +1,5 @@
 /* =====================================================================
-   English Start — design system
+   Philip Education — design system
    Static CSS on top of vanilla Bootstrap 5.3 (no build step, no Sass).
    Loaded after bootstrap.min.css, so these rules win by source order.
    ===================================================================== */
@@ -37,35 +37,73 @@
     --accent-rgb: 250, 204, 21;
     --accent-emphasis: #a16207;
     --accent-bg-subtle: #fef9c3;
+
+    /* Recolor Bootstrap's semantic greens/cyans away from stock palette so
+       stat cards / badges read as part of the same blue-cyan-gold family. */
+    --bs-success: #0D9488;
+    --bs-success-rgb: 13, 148, 136;
+    --bs-success-text-emphasis: #115E59;
+    --bs-success-bg-subtle: #CCFBF1;
+    --bs-success-border-subtle: #99F6E4;
+
+    --bs-info: #0284C7;
+    --bs-info-rgb: 2, 132, 199;
+    --bs-info-text-emphasis: #075985;
+    --bs-info-bg-subtle: #E0F2FE;
+    --bs-info-border-subtle: #BAE6FD;
+
+    --bs-warning: #F59E0B;
+    --bs-warning-rgb: 245, 158, 11;
+    --bs-warning-text-emphasis: #92400E;
+    --bs-warning-bg-subtle: #FEF3C7;
+    --bs-warning-border-subtle: #FDE68A;
 }
 
 :root[data-bs-theme="dark"] {
-    --bs-primary: #3b82f6;
-    --bs-primary-rgb: 59, 130, 246;
-    --bs-primary-text-emphasis: #93c5fd;
-    --bs-primary-bg-subtle: #172554;
-    --bs-primary-border-subtle: #1e3a8a;
-    --bs-link-color: #60a5fa;
-    --bs-link-color-rgb: 96, 165, 250;
-    --bs-link-hover-color: #93c5fd;
-    --bs-link-hover-color-rgb: 147, 197, 253;
+    --bs-primary: #7DD3FC;
+    --bs-primary-rgb: 125, 211, 252;
+    --bs-primary-text-emphasis: #BAE6FD;
+    --bs-primary-bg-subtle: #072535;
+    --bs-primary-border-subtle: #0A3B4F;
+    --bs-link-color: #BAE6FD;
+    --bs-link-color-rgb: 186, 230, 253;
+    --bs-link-hover-color: #6FF3FF;
+    --bs-link-hover-color-rgb: 111, 243, 255;
 
-    --bs-body-bg: #0B1220;
-    --bs-body-bg-rgb: 11, 18, 32;
-    --bs-body-color: #E2E8F0;
-    --bs-body-color-rgb: 226, 232, 240;
-    --bs-emphasis-color: #F8FAFC;
-    --bs-secondary-color: #94A3B8;
-    --bs-secondary-bg: #111827;
-    --bs-tertiary-bg: #131C2E;
-    --bs-tertiary-color: #94A3B8;
-    --bs-border-color: #1E293B;
-    --bs-border-color-translucent: #1E293B;
+    --bs-body-bg: #05080F;
+    --bs-body-bg-rgb: 5, 8, 15;
+    --bs-body-color: #E8F6FB;
+    --bs-body-color-rgb: 232, 246, 251;
+    --bs-emphasis-color: #FFFFFF;
+    --bs-secondary-color: #8CA3B5;
+    --bs-secondary-bg: #0A1420;
+    --bs-tertiary-bg: #0F1B2E;
+    --bs-tertiary-color: #8CA3B5;
+    --bs-border-color: rgba(125, 211, 252, .22);
+    --bs-border-color-translucent: rgba(125, 211, 252, .16);
 
-    --accent: #FACC15;
-    --accent-rgb: 250, 204, 21;
-    --accent-emphasis: #fde047;
-    --accent-bg-subtle: #422e0a;
+    --accent: #FBBF24;
+    --accent-rgb: 251, 191, 36;
+    --accent-emphasis: #FDE68A;
+    --accent-bg-subtle: #422D07;
+
+    --bs-success: #2DD4BF;
+    --bs-success-rgb: 45, 212, 191;
+    --bs-success-text-emphasis: #99F6E4;
+    --bs-success-bg-subtle: #042F2E;
+    --bs-success-border-subtle: #115E59;
+
+    --bs-info: #38BDF8;
+    --bs-info-rgb: 56, 189, 248;
+    --bs-info-text-emphasis: #7DD3FC;
+    --bs-info-bg-subtle: #082F49;
+    --bs-info-border-subtle: #0C4A6E;
+
+    --bs-warning: #FBBF24;
+    --bs-warning-rgb: 251, 191, 36;
+    --bs-warning-text-emphasis: #FDE68A;
+    --bs-warning-bg-subtle: #422D07;
+    --bs-warning-border-subtle: #78350F;
 }
 
 body {

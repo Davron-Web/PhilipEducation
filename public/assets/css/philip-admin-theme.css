@@ -1,0 +1,101 @@
+/* =====================================================================
+   Philip Education — admin panel brand touch-up.
+   Loaded after admin.css; only the logo mark's blink animation and a
+   couple of consistency tweaks. The admin panel keeps its own existing
+   blue design system (already has nav shimmer, breathing icons, etc.).
+   ===================================================================== */
+
+.ph-logo-mark svg circle { transform-origin: center; animation: ph-blink 5.5s ease-in-out infinite; }
+.ph-logo-mark svg circle:nth-of-type(2) { animation-delay: .04s; }
+@keyframes ph-blink {
+    0%, 92%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(.15); }
+}
+
+/* ---- Dashboard hero: night-sky aurora + snow, admin flavour ---------- */
+.ph-admin-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: var(--radius, 16px);
+    padding: 32px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    color: #fff;
+    background: linear-gradient(120deg, #0A1330 0%, #142A55 55%, var(--blue, #2563EB) 130%);
+}
+.ph-admin-hero-content { position: relative; z-index: 2; max-width: 620px; }
+.ph-admin-hero-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,.14); font-size: 12.5px; font-weight: 600;
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 14px;
+}
+.ph-admin-hero h2 { margin: 0 0 8px; font-size: 26px; font-weight: 800; color: #fff; line-height: 1.25; }
+.ph-admin-hero p { margin: 0 0 20px; font-size: 14px; color: rgba(255,255,255,.78); line-height: 1.6; }
+.ph-admin-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.ph-admin-hero-ghost.btn-ghost {
+    background: rgba(255,255,255,.12) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.3) !important;
+}
+.ph-admin-hero-ghost.btn-ghost:hover { background: rgba(255,255,255,.2) !important; }
+.ph-admin-hero-owl {
+    position: relative; z-index: 2; flex-shrink: 0;
+    width: 150px; height: 150px; border-radius: 50%;
+    background: rgba(255,255,255,.10);
+    display: flex; align-items: center; justify-content: center;
+    animation: ph-owl-float 4.5s ease-in-out infinite;
+}
+@keyframes ph-owl-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.ph-aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform, opacity;
+}
+.ph-aurora-a {
+    top: -35%; left: 6%; width: 46%; padding-top: 46%;
+    background: radial-gradient(circle, rgba(56,189,248,.5), transparent 70%);
+    animation: ph-aurora-drift-a 13s ease-in-out infinite;
+}
+.ph-aurora-b {
+    bottom: -45%; right: 8%; width: 42%; padding-top: 42%;
+    background: radial-gradient(circle, rgba(129,140,248,.45), transparent 70%);
+    animation: ph-aurora-drift-b 16s ease-in-out infinite;
+}
+@keyframes ph-aurora-drift-a {
+    0%, 100% { transform: translate(0,0) scale(1); opacity: .75; }
+    50% { transform: translate(3%,5%) scale(1.1); opacity: 1; }
+}
+@keyframes ph-aurora-drift-b {
+    0%, 100% { transform: translate(0,0) scale(1); opacity: .6; }
+    50% { transform: translate(-4%,-4%) scale(1.12); opacity: .9; }
+}
+canvas.ph-snow {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    z-index: 1; pointer-events: none;
+}
+
+@media (max-width: 720px) {
+    .ph-admin-hero { flex-direction: column; align-items: flex-start; padding: 24px; }
+    .ph-admin-hero-owl { width: 96px; height: 96px; }
+    .ph-admin-hero-owl svg { width: 48px; height: 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ph-logo-mark svg circle,
+    .ph-admin-hero-owl,
+    .ph-aurora-a,
+    .ph-aurora-b {
+        animation: none !important;
+    }
+    canvas.ph-snow { display: none; }
+}

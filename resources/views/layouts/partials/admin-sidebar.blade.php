@@ -29,8 +29,8 @@
 
 <aside class="sidebar" id="sidebar">
     <a href="{{ route('admin.dashboard') }}" class="logo">
-        <span class="bolt"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-        <div><b>English<br>Academy</b><small>панель управления</small></div>
+        <span class="bolt ph-logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l2 3"/><path d="M18 6l-2 3"/><ellipse cx="12" cy="13" rx="7" ry="8"/><circle cx="9" cy="12" r="2.2"/><circle cx="15" cy="12" r="2.2"/><circle cx="9" cy="12" r=".4" fill="#fff" stroke="none"/><circle cx="15" cy="12" r=".4" fill="#fff" stroke="none"/><path d="M11.3 14.5h1.4l-.7 1.2z" fill="#fff" stroke="none"/></svg></span>
+        <div><b>Philip<br>Education</b><small>панель управления</small></div>
     </a>
 
     <nav class="nav">
