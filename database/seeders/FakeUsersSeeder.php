@@ -5,15 +5,16 @@ namespace Database\Seeders;
 use App\Models\Content\Lesson;
 use App\Models\Gamification\Achievement;
 use App\Models\Gamification\StudyStatistic;
-use App\Models\System\Level;
 use App\Models\User;
 use App\Models\User\Role;
 use App\Models\User\UserAchievement;
 use App\Models\User\UserProgress;
 use App\Models\User\UserResult;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 /**
@@ -26,6 +27,7 @@ use Illuminate\Support\Str;
 class FakeUsersSeeder extends Seeder
 {
     private int $totalTarget = 100;
+
     private int $batchSize = 10;
 
     private array $firstNames = [
@@ -66,7 +68,7 @@ class FakeUsersSeeder extends Seeder
 
         $toCreate = array_values(array_filter(
             $plannedUsers,
-            fn ($u) => !isset($existingEmails[$u['email']])
+            fn ($u) => ! isset($existingEmails[$u['email']])
         ));
 
         $batch = array_slice($toCreate, 0, $this->batchSize);
@@ -102,7 +104,7 @@ class FakeUsersSeeder extends Seeder
     }
 
     /**
-     * @return array<int, array{name:string, email:string, created_at: \Carbon\Carbon, recent: bool}>
+     * @return array<int, array{name:string, email:string, created_at: Carbon, recent: bool}>
      */
     private function buildPlannedUserList(): array
     {
@@ -118,7 +120,7 @@ class FakeUsersSeeder extends Seeder
             $last = $this->lastNames[($i * 7 + intdiv($i, count($this->firstNames))) % count($this->lastNames)];
             $name = "{$first} {$last}";
 
-            $slug = Str::slug($first) . '.' . Str::slug($last);
+            $slug = Str::slug($first).'.'.Str::slug($last);
             $email = "{$slug}{$i}@example.com";
             $usedEmails[$email] = true;
 
@@ -246,7 +248,7 @@ class FakeUsersSeeder extends Seeder
                             $testsPassedTotal++;
                         }
 
-                        if (!$passed && $hasRetryBudget && !$usedRetry) {
+                        if (! $passed && $hasRetryBudget && ! $usedRetry) {
                             $usedRetry = true;
                             $retryAt = $attemptAt->copy()->addHours(random_int(2, 30));
                             if ($retryAt->gt($now)) {
@@ -291,7 +293,7 @@ class FakeUsersSeeder extends Seeder
                             }
                         }
 
-                        if (!empty($wordRows)) {
+                        if (! empty($wordRows)) {
                             DB::table('user_words')->insert($wordRows);
                             $this->report['words'] += count($wordRows);
                         }
@@ -329,7 +331,7 @@ class FakeUsersSeeder extends Seeder
                 ];
 
                 foreach ($achievementMilestones as $title => $earned) {
-                    if (!$earned || !isset($achievementIds[$title])) {
+                    if (! $earned || ! isset($achievementIds[$title])) {
                         continue;
                     }
 
@@ -341,7 +343,7 @@ class FakeUsersSeeder extends Seeder
                     $this->report['achievements']++;
                 }
 
-                if (\Illuminate\Support\Facades\Schema::hasTable('study_statistics')) {
+                if (Schema::hasTable('study_statistics')) {
                     StudyStatistic::create([
                         'user_id' => $user->id,
                         'total_lessons_completed' => $completedCount,
@@ -350,7 +352,7 @@ class FakeUsersSeeder extends Seeder
                         'study_time_minutes' => (int) round($timeSpentTotal / 60),
                     ]);
                     $this->report['study_stats']++;
-                } elseif (!in_array('study_statistics', $this->report['skipped_tables'], true)) {
+                } elseif (! in_array('study_statistics', $this->report['skipped_tables'], true)) {
                     $this->report['skipped_tables'][] = 'study_statistics';
                 }
 

@@ -1,9 +1,9 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "davron688/english-start",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "English Start — an English-learning platform with lessons, grammar, vocabulary, exercises, tests, books, gamification and an AI study assistant.",
+    "keywords": ["laravel", "e-learning", "english", "lms"],
     "license": "MIT",
     "require": {
         "php": "^8.3",
@@ -49,6 +49,9 @@
         "test": [
             "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
+        ],
+        "format": [
+            "vendor/bin/pint"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

@@ -1,58 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# English Start
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Платформа для изучения английского языка на Laravel: уроки, грамматика, словарь, упражнения, тесты, книги для чтения, геймификация и ИИ-помощник — с полноценной админ-панелью для управления контентом.
 
-## About Laravel
+## Возможности
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Для ученика**
+- Уроки по уровням (A1–C1) с привязанными грамматическими темами
+- Теория по грамматике с примерами
+- Словарь: слова с переводами, отметка "выучено"
+- Упражнения и тесты с автоматической проверкой
+- Книги для чтения с сохранением прогресса чтения
+- Достижения, статистика обучения, сертификаты
+- Личный профиль, публичные профили других учеников
+- Уведомления
+- ИИ-ассистент **Phil** — отвечает на вопросы по английскому в чате
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Для администратора**
+- CRUD для уроков, грамматических тем, содержимого уроков
+- Управление словарём и переводами
+- Управление упражнениями и вопросами к ним
+- Пользователи и роли, прогресс и результаты учеников
+- Достижения и учебная статистика
+- Уровни языка и системные уведомления
+- Тесты, вопросы, варианты ответов
+- Сертификаты и книги
+- Генерация учебного контента через ИИ (Gemini): урок + слова + упражнения + тест по одной теме
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Стек
 
-## Learning Laravel
+- **Backend:** Laravel 13, PHP 8.3
+- **Frontend (публичная часть):** Bootstrap 5.3, Bootstrap Icons, ванильный JS
+- **База данных:** MySQL (продакшн/разработка), SQLite in-memory (тесты)
+- **ИИ:** Google Gemini API
+- **Тесты:** Pest
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Установка
 
 ```bash
-composer require laravel/boost --dev
+git clone <repo-url> english-start
+cd english-start
 
-php artisan boost:install
+composer install
+
+cp .env.example .env
+php artisan key:generate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Настроить подключение к БД и, при необходимости, `GEMINI_API_KEY` в `.env` (ключ для ИИ-ассистента "Phil" и генератора контента в админке — можно получить бесплатно на [aistudio.google.com/apikey](https://aistudio.google.com/apikey); без ключа сайт работает, но ИИ-функции будут недоступны).
 
-## Contributing
+```bash
+php artisan migrate --seed
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Демо-доступ
 
-## Code of Conduct
+| Роль | Email | Пароль |
+|---|---|---|
+| Администратор | `davron@example.com` | `Hello_world` |
+| Ученик (сгенерированный) | любой `*@example.com` из `FakeUsersSeeder`, например `anna.sokolova0@example.com` | `password1234` |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+`FakeUsersSeeder` наполняет платформу 100 реалистичными учениками с прогрессом, результатами тестов и достижениями — админ-панель и рейтинги не пустуют при демонстрации:
 
-## Security Vulnerabilities
+```bash
+php artisan db:seed --class=FakeUsersSeeder   # добавляет по 10 за раз, идемпотентен
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Тесты и стиль кода
 
-## License
+```bash
+php artisan test        # Pest, 74 теста
+composer format          # Laravel Pint — автоформатирование по PSR-12
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Тесты используют изолированную SQLite in-memory базу (`phpunit.xml`), поэтому не трогают рабочую БД. GitHub Actions (`.github/workflows/tests.yml`) гоняет тесты на каждый push и pull request.
+
+## Структура
+
+```
+app/Http/Controllers/
+├── Admin/       # админ-панель (контент, пользователи, тесты, ИИ...)
+└── Public/      # публичная часть сайта (уроки, словарь, книги...)
+
+app/Models/      # сгруппированы по доменам: Content, Vocabulary, Test,
+                 # Book, Gamification, System, User
+
+app/Services/    # GeminiService — интеграция с Google Gemini
+
+database/seeders/ # демо-контент: уроки, слова, тесты, грамматика (A1–C1),
+                   # книги для чтения, достижения
+```

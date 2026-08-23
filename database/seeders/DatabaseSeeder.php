@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LessonSeeder::class,
             LessonContentSeeder::class,
+            GrammarTopicSeeder::class,
             WordSeeder::class,
             WordTranslationSeeder::class,
             TestSeeder::class,
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
             StudyStatisticSeeder::class,
             NotificationSeeder::class,
             CertificateSeeder::class,
+            BookSeeder::class,
         ]);
     }
 }

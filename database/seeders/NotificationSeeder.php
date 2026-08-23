@@ -12,7 +12,7 @@ class NotificationSeeder extends Seeder
         Notification::create([
             'user_id' => 1,
             'title' => 'Welcome',
-            'message' => 'Start learning now!'
+            'message' => 'Start learning now!',
         ]);
     }
 }

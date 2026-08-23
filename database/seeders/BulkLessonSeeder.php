@@ -61,13 +61,13 @@ class BulkLessonSeeder extends Seeder
             DB::transaction(function () use ($topic) {
                 $levelId = $this->levelIds[$topic['level']] ?? null;
 
-                if (!$levelId) {
+                if (! $levelId) {
                     throw new \RuntimeException("Unknown level code: {$topic['level']}");
                 }
 
                 $lesson = Lesson::where('level_id', $levelId)->where('title', $topic['title'])->first();
 
-                if (!$lesson) {
+                if (! $lesson) {
                     $lesson = Lesson::create([
                         'level_id' => $levelId,
                         'title' => $topic['title'],
@@ -116,11 +116,11 @@ class BulkLessonSeeder extends Seeder
         $e = fn ($s) => e($s);
 
         $html = '<h2>Introduction</h2>';
-        $html .= '<p>' . $e($topic['intro']) . '</p>';
+        $html .= '<p>'.$e($topic['intro']).'</p>';
 
         $html .= '<h2>The Rule</h2>';
-        $html .= '<p>' . $e($topic['rule_explanation']) . '</p>';
-        $html .= '<p><strong>Formula:</strong> ' . $e($topic['formula']) . '</p>';
+        $html .= '<p>'.$e($topic['rule_explanation']).'</p>';
+        $html .= '<p><strong>Formula:</strong> '.$e($topic['formula']).'</p>';
 
         $html .= '<h2>Examples</h2><table><tr><th>Affirmative</th><th>Negative</th><th>Question</th></tr>';
         $rows = max(count($topic['examples']['affirmative']), count($topic['examples']['negative']), count($topic['examples']['questions']));
@@ -128,31 +128,31 @@ class BulkLessonSeeder extends Seeder
             $aff = $topic['examples']['affirmative'][$i][0] ?? '';
             $neg = $topic['examples']['negative'][$i][0] ?? '';
             $q = $topic['examples']['questions'][$i][0] ?? '';
-            $html .= '<tr><td>' . $e($aff) . '</td><td>' . $e($neg) . '</td><td>' . $e($q) . '</td></tr>';
+            $html .= '<tr><td>'.$e($aff).'</td><td>'.$e($neg).'</td><td>'.$e($q).'</td></tr>';
         }
         $html .= '</table>';
 
         $html .= '<h2>More Examples</h2><ul>';
         foreach ($topic['more'] as $sentence) {
-            $html .= '<li>' . $e($sentence) . '</li>';
+            $html .= '<li>'.$e($sentence).'</li>';
         }
         $html .= '</ul>';
 
         $html .= '<h2>Common Mistakes</h2><ul>';
         foreach ($topic['mistakes'] as $m) {
-            $html .= '<li>&#10060; ' . $e($m['wrong']) . '<br>&#9989; ' . $e($m['right']) . '</li>';
+            $html .= '<li>&#10060; '.$e($m['wrong']).'<br>&#9989; '.$e($m['right']).'</li>';
         }
         $html .= '</ul>';
 
         $html .= '<h2>Exceptions &amp; Nuances</h2><ul>';
         foreach ($topic['exceptions'] as $item) {
-            $html .= '<li>' . $e($item) . '</li>';
+            $html .= '<li>'.$e($item).'</li>';
         }
         $html .= '</ul>';
 
         $html .= '<h2>Summary</h2><ul>';
         foreach ($topic['summary'] as $item) {
-            $html .= '<li>' . $e($item) . '</li>';
+            $html .= '<li>'.$e($item).'</li>';
         }
         $html .= '</ul>';
 
@@ -192,10 +192,10 @@ class BulkLessonSeeder extends Seeder
     {
         $existingTypes = Exercise::where('lesson_id', $lesson->id)->pluck('type')->all();
 
-        if (!in_array('fill_blank', $existingTypes, true)) {
+        if (! in_array('fill_blank', $existingTypes, true)) {
             $exercise = Exercise::create([
                 'lesson_id' => $lesson->id,
-                'title' => 'Fill in the Blanks: ' . $topic['title'],
+                'title' => 'Fill in the Blanks: '.$topic['title'],
                 'type' => 'fill_blank',
                 'instructions' => 'Complete each sentence with the correct word.',
             ]);
@@ -203,7 +203,7 @@ class BulkLessonSeeder extends Seeder
 
             foreach (['affirmative', 'negative', 'questions'] as $group) {
                 foreach ($topic['examples'][$group] as [$sentence, $key]) {
-                    $blanked = preg_replace('/\b' . preg_quote($key, '/') . '\b/i', '_____', $sentence, 1);
+                    $blanked = preg_replace('/\b'.preg_quote($key, '/').'\b/i', '_____', $sentence, 1);
                     ExerciseQuestion::create([
                         'exercise_id' => $exercise->id,
                         'question' => $blanked,
@@ -214,10 +214,10 @@ class BulkLessonSeeder extends Seeder
             }
         }
 
-        if (!in_array('translation', $existingTypes, true)) {
+        if (! in_array('translation', $existingTypes, true)) {
             $exercise = Exercise::create([
                 'lesson_id' => $lesson->id,
-                'title' => 'Translate the Words: ' . $topic['title'],
+                'title' => 'Translate the Words: '.$topic['title'],
                 'type' => 'translation',
                 'instructions' => 'Translate each English word into Russian.',
             ]);
@@ -233,10 +233,10 @@ class BulkLessonSeeder extends Seeder
             }
         }
 
-        if (!in_array('matching', $existingTypes, true)) {
+        if (! in_array('matching', $existingTypes, true)) {
             $exercise = Exercise::create([
                 'lesson_id' => $lesson->id,
-                'title' => 'Match the Word to Its Example: ' . $topic['title'],
+                'title' => 'Match the Word to Its Example: '.$topic['title'],
                 'type' => 'matching',
                 'instructions' => 'Match each word to the sentence that uses it correctly.',
             ]);
@@ -261,7 +261,7 @@ class BulkLessonSeeder extends Seeder
 
         $test = Test::create([
             'lesson_id' => $lesson->id,
-            'title' => 'Test: ' . $topic['title'],
+            'title' => 'Test: '.$topic['title'],
             'passing_score' => 75,
             'time_limit' => 12,
             'is_published' => true,
@@ -414,7 +414,7 @@ class BulkLessonSeeder extends Seeder
                 ],
                 'test_grammar' => [
                     ['q' => 'Choose the correct sentence.', 'correct' => 'She works in a bank.', 'wrong' => ['She work in a bank.', 'She working in a bank.', 'She working in a bank now.']],
-                    ['q' => 'Choose the correct negative form.', 'correct' => "He doesn't like coffee.", 'wrong' => ["He don't like coffee.", "He isn't like coffee.", "He not like coffee."]],
+                    ['q' => 'Choose the correct negative form.', 'correct' => "He doesn't like coffee.", 'wrong' => ["He don't like coffee.", "He isn't like coffee.", 'He not like coffee.']],
                     ['q' => 'Choose the correct question.', 'correct' => 'Does she live here?', 'wrong' => ['Do she live here?', 'Is she live here?', 'Does she lives here?']],
                     ['q' => 'Which verb form is correct: "He ___ TV every evening."', 'correct' => 'watches', 'wrong' => ['watch', 'watching', 'is watch']],
                     ['q' => 'Which verb form is correct: "I ___ tea every morning."', 'correct' => 'drink', 'wrong' => ['drinks', 'drinking', 'am drink']],
@@ -435,7 +435,7 @@ class BulkLessonSeeder extends Seeder
                         ['They are from Spain.', 'are'],
                     ],
                     'negative' => [
-                        ["I am not tired.", 'not'],
+                        ['I am not tired.', 'not'],
                         ["He isn't at home.", "isn't"],
                         ["We aren't late.", "aren't"],
                         ["They aren't hungry.", "aren't"],
@@ -490,7 +490,7 @@ class BulkLessonSeeder extends Seeder
                     ['q' => 'Choose the correct form: "I ___ a student."', 'correct' => 'am', 'wrong' => ['is', 'are', 'be']],
                     ['q' => 'Choose the correct form: "She ___ happy."', 'correct' => 'is', 'wrong' => ['am', 'are', 'be']],
                     ['q' => 'Choose the correct form: "They ___ from Spain."', 'correct' => 'are', 'wrong' => ['is', 'am', 'be']],
-                    ['q' => 'Choose the correct negative.', 'correct' => "He isn't at home.", 'wrong' => ["He not is at home.", "He don't is at home.", "He isn't home at."]],
+                    ['q' => 'Choose the correct negative.', 'correct' => "He isn't at home.", 'wrong' => ['He not is at home.', "He don't is at home.", "He isn't home at."]],
                     ['q' => 'Choose the correct question.', 'correct' => 'Are you free tonight?', 'wrong' => ['You are free tonight?', 'Do you are free tonight?', 'Is you free tonight?']],
                 ],
             ],
@@ -731,7 +731,7 @@ class BulkLessonSeeder extends Seeder
                         ['They are playing football now.', 'are playing'],
                     ],
                     'negative' => [
-                        ["I am not sleeping.", 'not sleeping'],
+                        ['I am not sleeping.', 'not sleeping'],
                         ["He isn't listening.", "isn't listening"],
                         ["We aren't working today.", "aren't working"],
                         ["They aren't watching TV.", "aren't watching"],
@@ -859,7 +859,7 @@ class BulkLessonSeeder extends Seeder
                 'test_grammar' => [
                     ['q' => 'What is the past form of "go"?', 'correct' => 'went', 'wrong' => ['goed', 'gone', 'going']],
                     ['q' => 'What is the past form of "buy"?', 'correct' => 'bought', 'wrong' => ['buyed', 'buying', 'buys']],
-                    ['q' => 'Choose the correct negative.', 'correct' => "She didn't go to work.", 'wrong' => ["She didn't went to work.", "She not go to work.", "She don't went to work."]],
+                    ['q' => 'Choose the correct negative.', 'correct' => "She didn't go to work.", 'wrong' => ["She didn't went to work.", 'She not go to work.', "She don't went to work."]],
                     ['q' => 'Choose the correct question.', 'correct' => 'Did you work yesterday?', 'wrong' => ['Did you worked yesterday?', 'You did work yesterday?', 'Worked you yesterday?']],
                     ['q' => 'What is the past form of "see"?', 'correct' => 'saw', 'wrong' => ['seed', 'seen', 'seeing']],
                 ],
@@ -1679,7 +1679,7 @@ class BulkLessonSeeder extends Seeder
                 'test_grammar' => [
                     ['q' => 'Choose the correct sentence.', 'correct' => 'I like apples.', 'wrong' => ['I like a apples.', 'I likes apples.', 'I like the apples. (general)']],
                     ['q' => 'Choose the correct sentence.', 'correct' => 'She wants tea.', 'wrong' => ['She want tea.', 'She wants a tea.', 'She wanting tea.']],
-                    ['q' => 'Choose the correct negative.', 'correct' => "I don't have bread.", 'wrong' => ['I have not bread.', "I doesn't have bread.", "I not have bread."]],
+                    ['q' => 'Choose the correct negative.', 'correct' => "I don't have bread.", 'wrong' => ['I have not bread.', "I doesn't have bread.", 'I not have bread.']],
                     ['q' => 'Which word is used in affirmative sentences with uncountable nouns?', 'correct' => 'some', 'wrong' => ['any', 'a', 'many']],
                     ['q' => 'Choose the correct question.', 'correct' => 'Do you like pizza?', 'wrong' => ['Do you likes pizza?', 'You like pizza?', 'Like you pizza?']],
                 ],
@@ -2800,7 +2800,7 @@ class BulkLessonSeeder extends Seeder
                 ],
                 'test_grammar' => [
                     ['q' => 'Choose the correct sentence.', 'correct' => 'I used to play football.', 'wrong' => ['I use to play football.', 'I am used to play football.', 'I using to play football.']],
-                    ['q' => 'Choose the correct negative.', 'correct' => "She didn't use to smoke.", 'wrong' => ["She didn't used to smoke.", "She not used to smoke.", "She didn't uses to smoke."]],
+                    ['q' => 'Choose the correct negative.', 'correct' => "She didn't use to smoke.", 'wrong' => ["She didn't used to smoke.", 'She not used to smoke.', "She didn't uses to smoke."]],
                     ['q' => 'Choose the correct question.', 'correct' => 'Did you use to live here?', 'wrong' => ['Did you used to live here?', 'Do you use to live here?', 'You used to live here?']],
                     ['q' => 'What does "used to" describe?', 'correct' => 'past habits that have changed', 'wrong' => ['future plans', 'present habits', 'current facts']],
                     ['q' => 'Choose the correct sentence.', 'correct' => 'This place used to be a cinema.', 'wrong' => ['This place use to be a cinema.', 'This place is used to be a cinema.', 'This place used to being a cinema.']],
@@ -3125,8 +3125,8 @@ class BulkLessonSeeder extends Seeder
                     'negative' => [
                         ["I don't usually eat meat.", 'usually'],
                         ["She isn't often late.", 'often'],
-                        ["We rarely watch TV.", 'rarely'],
-                        ["They never argue.", 'never'],
+                        ['We rarely watch TV.', 'rarely'],
+                        ['They never argue.', 'never'],
                     ],
                     'questions' => [
                         ['Do you always drink coffee?', 'always'],
@@ -3696,7 +3696,7 @@ class BulkLessonSeeder extends Seeder
                     ['q' => 'Choose the correct sentence.', 'correct' => 'I am going to visit my parents.', 'wrong' => ['I going to visit my parents.', 'I am go to visit my parents.', 'I am going visit my parents.']],
                     ['q' => 'Choose the correct question.', 'correct' => 'Are you going to travel this summer?', 'wrong' => ['Are you go to travel this summer?', 'Do you going to travel this summer?', 'You are going to travel this summer?']],
                     ['q' => 'Which form describes a planned future decision?', 'correct' => 'going to', 'wrong' => ['will (spontaneous)', 'present simple', 'past simple']],
-                    ['q' => 'Choose the correct negative.', 'correct' => "She isn't going to come.", 'wrong' => ["She doesn't going to come.", "She not going to come.", "She isn't go to come."]],
+                    ['q' => 'Choose the correct negative.', 'correct' => "She isn't going to come.", 'wrong' => ["She doesn't going to come.", 'She not going to come.', "She isn't go to come."]],
                     ['q' => 'Choose the correct sentence.', 'correct' => 'We are going to travel next month.', 'wrong' => ['We going to travel next month.', 'We are go to travel next month.', 'We are going travel next month.']],
                 ],
             ],
@@ -3718,7 +3718,7 @@ class BulkLessonSeeder extends Seeder
                         ["I don't think that's true.", "don't think"],
                         ["She doesn't agree with him.", "doesn't agree"],
                         ["We don't believe that story.", "don't believe"],
-                        ["I disagree with this plan.", 'disagree'],
+                        ['I disagree with this plan.', 'disagree'],
                     ],
                     'questions' => [
                         ['What do you think about this?', 'think'],
@@ -3990,8 +3990,8 @@ class BulkLessonSeeder extends Seeder
                 ],
                 'test_grammar' => [
                     ['q' => 'Choose the correct tag: "You are a student, ___?"', 'correct' => "aren't you", 'wrong' => ['are you', "isn't you", "don't you"]],
-                    ['q' => 'Choose the correct tag: "She likes coffee, ___?"', 'correct' => "doesn't she", 'wrong' => ["isn't she", "does she", "hasn't she"]],
-                    ['q' => 'Choose the correct tag: "I am late, ___?"', 'correct' => "aren't I", 'wrong' => ["am I not (too formal here)", "isn't I", "aren't you"]],
+                    ['q' => 'Choose the correct tag: "She likes coffee, ___?"', 'correct' => "doesn't she", 'wrong' => ["isn't she", 'does she', "hasn't she"]],
+                    ['q' => 'Choose the correct tag: "I am late, ___?"', 'correct' => "aren't I", 'wrong' => ['am I not (too formal here)', "isn't I", "aren't you"]],
                     ['q' => 'Choose the correct tag: "They can swim, ___?"', 'correct' => "can't they", 'wrong' => ["don't they", "aren't they", "won't they"]],
                     ['q' => 'What tag follows a negative statement?', 'correct' => 'a positive tag', 'wrong' => ['a negative tag', 'no tag', 'a question word']],
                 ],
@@ -4685,8 +4685,8 @@ class BulkLessonSeeder extends Seeder
                     'negative' => [
                         ["That can't be true.", "can't be"],
                         ["He can't be at home; the lights are off.", "can't be"],
-                        ["She might not know about it.", 'might not know'],
-                        ["They might not be coming.", 'might not be'],
+                        ['She might not know about it.', 'might not know'],
+                        ['They might not be coming.', 'might not be'],
                     ],
                     'questions' => [
                         ['Where could he be?', 'could'],
@@ -5731,10 +5731,10 @@ class BulkLessonSeeder extends Seeder
                         ['Little did they know what was coming.', 'did they know'],
                     ],
                     'negative' => [
-                        ["Under no circumstances should you leave the door open.", 'should you leave'],
-                        ["At no time did she ask for help.", 'did she ask'],
-                        ["Not once did he complain.", 'did he complain'],
-                        ["No sooner had we arrived than it started raining.", 'had we arrived'],
+                        ['Under no circumstances should you leave the door open.', 'should you leave'],
+                        ['At no time did she ask for help.', 'did she ask'],
+                        ['Not once did he complain.', 'did he complain'],
+                        ['No sooner had we arrived than it started raining.', 'had we arrived'],
                     ],
                     'questions' => [
                         ['Have you ever seen such a mess?', 'seen'],
@@ -5879,10 +5879,10 @@ class BulkLessonSeeder extends Seeder
                         ['The doctor recommended that he rest.', 'rest'],
                     ],
                     'negative' => [
-                        ["I suggest that she not call him.", 'not call'],
-                        ["It is important that he not be late.", 'not be'],
-                        ["They insisted that we not leave.", 'not leave'],
-                        ["The teacher recommended that he not skip class.", 'not skip'],
+                        ['I suggest that she not call him.', 'not call'],
+                        ['It is important that he not be late.', 'not be'],
+                        ['They insisted that we not leave.', 'not leave'],
+                        ['The teacher recommended that he not skip class.', 'not skip'],
                     ],
                     'questions' => [
                         ['What do you suggest that she do?', 'do'],
@@ -6329,9 +6329,9 @@ class BulkLessonSeeder extends Seeder
                         ['Sorry, it\'s gonna be late.', 'informal'],
                     ],
                     'negative' => [
-                        ["We are unable to process your request.", 'formal'],
+                        ['We are unable to process your request.', 'formal'],
                         ["We can't do it right now.", 'informal'],
-                        ["I do not agree with this proposal.", 'formal'],
+                        ['I do not agree with this proposal.', 'formal'],
                         ["I don't think that's a good idea.", 'informal'],
                     ],
                     'questions' => [
@@ -6551,9 +6551,9 @@ class BulkLessonSeeder extends Seeder
                         ['It must have rained last night.', 'must have rained'],
                     ],
                     'negative' => [
-                        ["She might not be coming.", 'might not be'],
+                        ['She might not be coming.', 'might not be'],
                         ["He can't have finished already.", "can't have finished"],
-                        ["They may not have heard the news.", 'may not have heard'],
+                        ['They may not have heard the news.', 'may not have heard'],
                         ["It couldn't have been him.", "couldn't have been"],
                     ],
                     'questions' => [
@@ -6606,7 +6606,7 @@ class BulkLessonSeeder extends Seeder
                     ['q' => 'Choose the correct present speculation.', 'correct' => 'She may be late.', 'wrong' => ['She may being late.', 'She may to be late.', 'She mays be late.']],
                     ['q' => 'Choose the correct past speculation.', 'correct' => 'He might have missed the bus.', 'wrong' => ['He might missed the bus.', 'He might has missed the bus.', 'He might have miss the bus.']],
                     ['q' => 'Which modal shows the strongest certainty?', 'correct' => 'must', 'wrong' => ['might', 'could', 'may']],
-                    ['q' => 'Choose the correct negative past speculation.', 'correct' => "They can't have known about it.", 'wrong' => ["They can't known about it.", "They can't have know about it.", "They not can have known about it."]],
+                    ['q' => 'Choose the correct negative past speculation.', 'correct' => "They can't have known about it.", 'wrong' => ["They can't known about it.", "They can't have know about it.", 'They not can have known about it.']],
                     ['q' => 'Choose the correct sentence.', 'correct' => 'It must have rained last night.', 'wrong' => ['It must rained last night.', 'It must having rained last night.', 'It must have rain last night.']],
                 ],
             ],
@@ -6853,10 +6853,10 @@ class BulkLessonSeeder extends Seeder
                         ['Down came the rain.', 'Down came the rain'],
                     ],
                     'negative' => [
-                        ["Not a word did he say.", 'Not a word'],
-                        ["Never again will I trust him.", 'Never again'],
-                        ["Not once did she complain.", 'Not once'],
-                        ["Under no circumstances will we agree.", 'Under no circumstances'],
+                        ['Not a word did he say.', 'Not a word'],
+                        ['Never again will I trust him.', 'Never again'],
+                        ['Not once did she complain.', 'Not once'],
+                        ['Under no circumstances will we agree.', 'Under no circumstances'],
                     ],
                     'questions' => [
                         ['Was it strange that he agreed?', 'strange'],
@@ -7083,7 +7083,7 @@ class BulkLessonSeeder extends Seeder
                     'negative' => [
                         ["He said he wouldn't change his mind.", "wouldn't"],
                         ["She said she couldn't attend.", "couldn't"],
-                        ["They said they might not come.", 'might not'],
+                        ['They said they might not come.', 'might not'],
                         ["He said he didn't believe it.", "didn't"],
                     ],
                     'questions' => [
@@ -7155,10 +7155,10 @@ class BulkLessonSeeder extends Seeder
                         ['Walking home, I saw an old friend.', 'Walking home'],
                     ],
                     'negative' => [
-                        ["Not knowing the answer, she stayed silent.", 'Not knowing'],
-                        ["Not having finished, he stayed late.", 'Not having finished'],
-                        ["Not written clearly, the message confused everyone.", 'Not written clearly'],
-                        ["Not wanting to argue, she left the room.", 'Not wanting'],
+                        ['Not knowing the answer, she stayed silent.', 'Not knowing'],
+                        ['Not having finished, he stayed late.', 'Not having finished'],
+                        ['Not written clearly, the message confused everyone.', 'Not written clearly'],
+                        ['Not wanting to argue, she left the room.', 'Not wanting'],
                     ],
                     'questions' => [
                         ['Why did she go to bed early?', 'go'],
@@ -7306,7 +7306,7 @@ class BulkLessonSeeder extends Seeder
                         ["It doesn't seem to be working.", "doesn't seem"],
                         ["This doesn't tend to happen often.", "doesn't tend"],
                         ["The results don't necessarily suggest a link.", "don't necessarily suggest"],
-                        ["This might not be the only explanation.", 'might not be'],
+                        ['This might not be the only explanation.', 'might not be'],
                     ],
                     'questions' => [
                         ['Does it seem to be working?', 'seem'],
@@ -7377,9 +7377,9 @@ class BulkLessonSeeder extends Seeder
                         ['That\'s pretty cool, actually.', 'casual'],
                     ],
                     'negative' => [
-                        ["We regret to inform you that your request has been declined.", 'formal'],
+                        ['We regret to inform you that your request has been declined.', 'formal'],
                         ["Sorry, can't do it this time.", 'informal'],
-                        ["The data does not support this conclusion.", 'academic'],
+                        ['The data does not support this conclusion.', 'academic'],
                         ["Nah, that's not gonna work.", 'casual'],
                     ],
                     'questions' => [
@@ -7429,7 +7429,7 @@ class BulkLessonSeeder extends Seeder
                     ['word' => 'matter', 'transcription' => 'ˈmætər', 'ru' => 'вопрос/дело', 'example' => 'We would be grateful for your prompt attention to this matter.'],
                 ],
                 'test_grammar' => [
-                    ['q' => 'Which sentence is the most formal?', 'correct' => 'We hereby confirm receipt of your application.', 'wrong' => ["Got your message, thanks!", "That's pretty cool.", "You coming or what?"]],
+                    ['q' => 'Which sentence is the most formal?', 'correct' => 'We hereby confirm receipt of your application.', 'wrong' => ['Got your message, thanks!', "That's pretty cool.", 'You coming or what?']],
                     ['q' => 'Which register uses words like "hereby" and "aforementioned"?', 'correct' => 'legal/formal', 'wrong' => ['casual', 'academic only', 'text messaging']],
                     ['q' => 'Choose the correctly matched informal phrase.', 'correct' => 'touch base', 'wrong' => ['pursuant to', 'hereby confirm', 'aforementioned']],
                     ['q' => 'What should you avoid when writing formally?', 'correct' => 'mixing in slang', 'wrong' => ['using passive voice', 'using formal vocabulary', 'being polite']],
@@ -7808,7 +7808,7 @@ class BulkLessonSeeder extends Seeder
                     ['q' => 'Choose the correct signposting phrase.', 'correct' => "Let me begin by outlining today's agenda.", 'wrong' => ["Let me begin outlining today's agenda.", "Let me begin to outlining today's agenda.", "Let me begin for outlining today's agenda."]],
                     ['q' => 'Choose the correct sentence.', 'correct' => 'This brings me to my next point.', 'wrong' => ['This bring me to my next point.', 'This brings to me my next point.', 'This is brings me to my next point.']],
                     ['q' => 'What should you leave time for at the end of a presentation?', 'correct' => 'questions', 'wrong' => ['a break only', 'more slides', 'a summary of unrelated topics']],
-                    ['q' => 'Choose the correct sentence.', 'correct' => "I'd like to draw your attention to this chart.", 'wrong' => ["I like to draw your attention this chart.", "I'd like to draw your attention this chart.", "I'd like draw your attention to this chart."]],
+                    ['q' => 'Choose the correct sentence.', 'correct' => "I'd like to draw your attention to this chart.", 'wrong' => ['I like to draw your attention this chart.', "I'd like to draw your attention this chart.", "I'd like draw your attention to this chart."]],
                     ['q' => 'What is signposting language used for?', 'correct' => 'guiding the audience through the structure', 'wrong' => ['ending the presentation early', 'avoiding questions', 'skipping the introduction']],
                 ],
             ],
