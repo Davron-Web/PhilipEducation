@@ -53,7 +53,7 @@ class WordTranslationController extends Controller
     public function show(WordTranslation $wordTranslation): View
     {
         return view('admin.vocabulary.wordtranslations.show', [
-            'wordTranslation' => $wordTranslation->load('word')
+            'wordTranslation' => $wordTranslation->load('word'),
         ]);
     }
 

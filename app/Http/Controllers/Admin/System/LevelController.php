@@ -22,9 +22,9 @@ class LevelController extends Controller
             'code' => ['required', 'string', 'max:50', 'unique:levels,code'],
         ], [
             'name.required' => 'Укажите название уровня.',
-            'name.unique'   => 'Такой уровень уже существует.',
+            'name.unique' => 'Такой уровень уже существует.',
             'code.required' => 'Укажите код уровня (например, A1).',
-            'code.unique'   => 'Такой код уже существует.',
+            'code.unique' => 'Такой код уже существует.',
         ]);
 
         Level::create($data);

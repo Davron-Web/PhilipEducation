@@ -17,7 +17,7 @@ class TestAttemptFactory extends Factory
     public function definition(): array
     {
         $startedAt = fake()->dateTimeBetween('-1 month', 'now');
-        $finishedAt = (clone $startedAt)->modify('+' . fake()->numberBetween(60, 3600) . ' seconds');
+        $finishedAt = (clone $startedAt)->modify('+'.fake()->numberBetween(60, 3600).' seconds');
 
         $score = fake()->numberBetween(0, 100);
 

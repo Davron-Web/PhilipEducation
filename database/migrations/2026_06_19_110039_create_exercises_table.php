@@ -27,7 +27,7 @@ return new class extends Migration
                 'matching',
                 'listening',
                 'speaking',
-                'translation'
+                'translation',
             ]);
 
             $table->longText('instructions');

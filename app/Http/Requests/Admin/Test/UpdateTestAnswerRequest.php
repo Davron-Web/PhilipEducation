@@ -23,7 +23,7 @@ class UpdateTestAnswerRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'is_correct' => $this->boolean('is_correct', false)
+            'is_correct' => $this->boolean('is_correct', false),
         ]);
     }
 }

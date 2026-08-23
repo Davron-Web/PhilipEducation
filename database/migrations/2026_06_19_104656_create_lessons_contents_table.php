@@ -19,7 +19,7 @@ return new class extends Migration
                 'video',
                 'audio',
                 'image',
-                'exercise'
+                'exercise',
             ]);
             $table->string('title');
             $table->longText('content')->nullable();

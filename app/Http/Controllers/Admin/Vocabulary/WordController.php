@@ -65,7 +65,7 @@ class WordController extends Controller
     public function show(Word $word): View
     {
         return view('admin.vocabulary.words.show', [
-            'word' => $word->load(['lesson', 'translations', 'userWords'])
+            'word' => $word->load(['lesson', 'translations', 'userWords']),
         ]);
     }
 

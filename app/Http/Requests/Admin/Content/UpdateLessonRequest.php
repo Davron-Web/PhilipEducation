@@ -14,12 +14,12 @@ class UpdateLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'             => ['required', 'string', 'max:255'],
-            'description'       => ['nullable', 'string'],
-            'level_id'          => ['nullable', 'integer', 'exists:levels,id'],
-            'order_number'      => ['nullable', 'integer', 'min:1'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'level_id' => ['nullable', 'integer', 'exists:levels,id'],
+            'order_number' => ['nullable', 'integer', 'min:1'],
             'estimated_minutes' => ['nullable', 'integer', 'min:1'],
-            'is_published'      => ['nullable', 'boolean'],
+            'is_published' => ['nullable', 'boolean'],
         ];
     }
 
@@ -27,7 +27,7 @@ class UpdateLessonRequest extends FormRequest
     {
         return [
             'title.required' => 'Укажите название урока.',
-            'title.max'      => 'Название не должно превышать 255 символов.',
+            'title.max' => 'Название не должно превышать 255 символов.',
         ];
     }
 }

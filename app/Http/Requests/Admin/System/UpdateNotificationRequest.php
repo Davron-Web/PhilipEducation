@@ -24,7 +24,7 @@ class UpdateNotificationRequest extends FormRequest
     {
         if ($this->has('is_read')) {
             $this->merge([
-                'is_read' => filter_var($this->is_read, FILTER_VALIDATE_BOOLEAN)
+                'is_read' => filter_var($this->is_read, FILTER_VALIDATE_BOOLEAN),
             ]);
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Exercise;
 
+use App\Models\Content\Lesson;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -40,7 +41,7 @@ class Exercise extends Model
 
     public function getTypeBadgeColorAttribute(): string
     {
-        return match($this->type) {
+        return match ($this->type) {
             'fill_blank' => 'info',
             'matching' => 'warning',
             'listening' => 'primary',
@@ -52,7 +53,7 @@ class Exercise extends Model
 
     public function lesson(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Content\Lesson::class);
+        return $this->belongsTo(Lesson::class);
     }
 
     public function questions(): HasMany

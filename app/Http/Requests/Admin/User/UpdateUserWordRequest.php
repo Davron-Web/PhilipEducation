@@ -27,7 +27,7 @@ class UpdateUserWordRequest extends FormRequest
     {
         if ($this->has('learned')) {
             $this->merge([
-                'learned' => filter_var($this->learned, FILTER_VALIDATE_BOOLEAN)
+                'learned' => filter_var($this->learned, FILTER_VALIDATE_BOOLEAN),
             ]);
         }
     }

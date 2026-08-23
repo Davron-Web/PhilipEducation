@@ -12,14 +12,14 @@ class ProfileController extends Controller
     public function show(): View
     {
         return view('admin.profile.show', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
         ]);
     }
 
     public function edit(): View
     {
         return view('admin.profile.edit', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
         ]);
     }
 
@@ -27,11 +27,11 @@ class ProfileController extends Controller
     {
         $data = request()->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . Auth::id()],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.Auth::id()],
             'password' => ['nullable', 'string', 'min:6'],
         ]);
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);

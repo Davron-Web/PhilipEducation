@@ -4,6 +4,7 @@ namespace App\Models\Vocabulary;
 
 use App\Models\Content\Lesson;
 use App\Models\User;
+use App\Models\User\UserWord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,6 +50,6 @@ class Word extends Model
 
     public function userWords(): HasMany
     {
-        return $this->hasMany(\App\Models\User\UserWord::class);
+        return $this->hasMany(UserWord::class);
     }
 }

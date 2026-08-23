@@ -16,7 +16,7 @@ class AssistantController extends Controller
         try {
             $answer = $this->gemini->answerQuestion($request->question);
         } catch (\Throwable $e) {
-            return response()->json(['answer' => 'Ошибка: ' . $e->getMessage()], 500);
+            return response()->json(['answer' => 'Ошибка: '.$e->getMessage()], 500);
         }
 
         return response()->json(['answer' => $answer]);

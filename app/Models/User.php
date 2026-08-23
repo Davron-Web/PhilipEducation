@@ -7,12 +7,14 @@ use App\Models\Book\BookRead;
 use App\Models\Certificate\Certificate;
 use App\Models\Content\LessonComment;
 use App\Models\Gamification\Achievement;
+use App\Models\Gamification\StudyStatistic;
 use App\Models\System\Level;
 use App\Models\System\Notification;
 use App\Models\User\Role;
 use App\Models\User\UserProgress;
 use App\Models\User\UserResult;
 use App\Models\Vocabulary\Word;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -24,7 +26,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected static string $factory = \Database\Factories\UserFactory::class;
+    protected static string $factory = UserFactory::class;
 
     protected $fillable = [
         'name',
@@ -114,7 +116,7 @@ class User extends Authenticatable
 
     public function studyStatistic(): HasMany
     {
-        return $this->hasMany(\App\Models\Gamification\StudyStatistic::class);
+        return $this->hasMany(StudyStatistic::class);
     }
 
     public function bookReads(): HasMany

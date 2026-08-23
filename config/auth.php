@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 return [
 
     /*
@@ -36,7 +38,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             // ИСПРАВЛЕНО: Используем стандартный путь App\Models\User
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', User::class),
         ],
 
         // 'users' => [

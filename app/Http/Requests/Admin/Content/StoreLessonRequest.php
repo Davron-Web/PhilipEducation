@@ -22,12 +22,12 @@ class StoreLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'             => ['required', 'string', 'max:255'],
-            'description'       => ['nullable', 'string'],
-            'level_id'          => ['nullable', 'integer', 'exists:levels,id'],
-            'order_number'      => ['nullable', 'integer', 'min:1'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'level_id' => ['nullable', 'integer', 'exists:levels,id'],
+            'order_number' => ['nullable', 'integer', 'min:1'],
             'estimated_minutes' => ['nullable', 'integer', 'min:1'],
-            'is_published'      => ['nullable', 'boolean'],
+            'is_published' => ['nullable', 'boolean'],
         ];
     }
 

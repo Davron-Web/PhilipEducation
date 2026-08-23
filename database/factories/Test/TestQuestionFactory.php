@@ -17,7 +17,7 @@ class TestQuestionFactory extends Factory
     {
         return [
             'test_id' => Test::factory(),
-            'question' => fake()->sentence(10) . '?',
+            'question' => fake()->sentence(10).'?',
             'type' => fake()->randomElement([
                 'single_choice',
                 'multiple_choice',

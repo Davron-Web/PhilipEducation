@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('test_id')->constrained()->cascadeOnDelete();
             $table->text('question');
-            $table->enum('type',[
+            $table->enum('type', [
                 'single_choice',
                 'multiple_choice',
-                'text'
+                'text',
             ]);
             $table->integer('points')->default(1);
             $table->timestamps();

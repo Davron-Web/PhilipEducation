@@ -26,7 +26,7 @@ class UpdateTestRequest extends FormRequest
     {
         if ($this->has('is_published')) {
             $this->merge([
-                'is_published' => filter_var($this->is_published, FILTER_VALIDATE_BOOLEAN)
+                'is_published' => filter_var($this->is_published, FILTER_VALIDATE_BOOLEAN),
             ]);
         }
     }

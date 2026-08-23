@@ -60,7 +60,7 @@ class ExerciseQuestionController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Ошибка: ' . $e->getMessage());
+                ->with('error', 'Ошибка: '.$e->getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ class ExerciseQuestionController extends Controller
     public function show(ExerciseQuestion $exercisequestion): View
     {
         return view('admin.exercise.exercisequestions.show', [
-            'exerciseQuestion' => $exercisequestion->load('exercise')
+            'exerciseQuestion' => $exercisequestion->load('exercise'),
         ]);
     }
 
@@ -99,7 +99,7 @@ class ExerciseQuestionController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Ошибка: ' . $e->getMessage());
+                ->with('error', 'Ошибка: '.$e->getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ class ExerciseQuestionController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Ошибка: ' . $e->getMessage());
+                ->with('error', 'Ошибка: '.$e->getMessage());
         }
     }
 }

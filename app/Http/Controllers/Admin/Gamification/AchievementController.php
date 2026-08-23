@@ -40,7 +40,7 @@ class AchievementController extends Controller
     public function show(Achievement $achievement): View
     {
         return view('admin.gamification.achievements.show', [
-            'achievement' => $achievement->load('users')
+            'achievement' => $achievement->load('users'),
         ]);
     }
 

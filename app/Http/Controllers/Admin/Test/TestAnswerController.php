@@ -45,7 +45,7 @@ class TestAnswerController extends Controller
             DB::transaction(function () use ($request) {
                 $data = $request->validated();
 
-                if (!empty($data['is_correct'])) {
+                if (! empty($data['is_correct'])) {
                     TestAnswer::where('question_id', $data['question_id'])
                         ->update(['is_correct' => false]);
                 }
@@ -67,7 +67,7 @@ class TestAnswerController extends Controller
     public function show(TestAnswer $testanswer): View
     {
         return view('admin.test.testanswers.show', [
-            'testAnswer' => $testanswer->load('question')
+            'testAnswer' => $testanswer->load('question'),
         ]);
     }
 
@@ -83,7 +83,7 @@ class TestAnswerController extends Controller
         try {
             $data = $request->validated();
 
-            if (!empty($data['is_correct']) && !$testanswer->is_correct) {
+            if (! empty($data['is_correct']) && ! $testanswer->is_correct) {
                 TestAnswer::where('question_id', $testanswer->question_id)
                     ->where('id', '!=', $testanswer->id)
                     ->update(['is_correct' => false]);

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Certificate\Certificate;
 use App\Models\System\Level;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CertificateController extends Controller
@@ -78,7 +78,7 @@ class CertificateController extends Controller
         $validated = $request->validate([
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'level_id' => ['required', 'integer', 'exists:levels,id'],
-            'certificate_number' => ['required', 'string', 'max:255', 'unique:certificates,certificate_number,' . $certificate->id],
+            'certificate_number' => ['required', 'string', 'max:255', 'unique:certificates,certificate_number,'.$certificate->id],
             'file' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
             'issued_at' => ['required', 'date'],
         ]);

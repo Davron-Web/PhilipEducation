@@ -26,7 +26,7 @@ class UpdateUserResultRequest extends FormRequest
     {
         if ($this->has('passed')) {
             $this->merge([
-                'passed' => filter_var($this->passed, FILTER_VALIDATE_BOOLEAN)
+                'passed' => filter_var($this->passed, FILTER_VALIDATE_BOOLEAN),
             ]);
         }
     }

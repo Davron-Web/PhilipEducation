@@ -28,7 +28,7 @@ class UpdateUserProgressRequest extends FormRequest
     {
         if ($this->has('is_completed')) {
             $this->merge([
-                'is_completed' => filter_var($this->is_completed, FILTER_VALIDATE_BOOLEAN)
+                'is_completed' => filter_var($this->is_completed, FILTER_VALIDATE_BOOLEAN),
             ]);
         }
     }

@@ -48,7 +48,7 @@ class AiController extends Controller
                     'is_published' => false,
                 ]);
 
-                if (!empty($pack['lesson']['theory'])) {
+                if (! empty($pack['lesson']['theory'])) {
                     LessonContent::create([
                         'lesson_id' => $lesson->id,
                         'type' => 'text',
@@ -69,7 +69,7 @@ class AiController extends Controller
                         'difficulty' => $this->difficultyForLevel($pack['lesson']['level'] ?? null),
                     ]);
 
-                    if (!empty($w['translation'])) {
+                    if (! empty($w['translation'])) {
                         WordTranslation::create([
                             'word_id' => $word->id,
                             'language' => 'ru',
@@ -103,10 +103,10 @@ class AiController extends Controller
                     }
                 }
 
-                if (!empty($pack['test']['questions'])) {
+                if (! empty($pack['test']['questions'])) {
                     $test = Test::create([
                         'lesson_id' => $lesson->id,
-                        'title' => $pack['test']['title'] ?? ('Тест: ' . $request->topic),
+                        'title' => $pack['test']['title'] ?? ('Тест: '.$request->topic),
                         'passing_score' => 70,
                         'time_limit' => 10,
                         'is_published' => false,
@@ -140,9 +140,9 @@ class AiController extends Controller
                 return $lesson;
             });
 
-            $msg = "✅ Создано: урок «{$lesson->title}», слов: " . count($pack['words'] ?? [])
-                . ', упражнений: ' . count($pack['exercises'] ?? [])
-                . ', тест готов. Урок создан как черновик — проверьте и опубликуйте его.';
+            $msg = "✅ Создано: урок «{$lesson->title}», слов: ".count($pack['words'] ?? [])
+                .', упражнений: '.count($pack['exercises'] ?? [])
+                .', тест готов. Урок создан как черновик — проверьте и опубликуйте его.';
 
             return back()
                 ->with('pack', $pack)
@@ -151,7 +151,7 @@ class AiController extends Controller
         } catch (\Throwable $e) {
             return back()
                 ->with('pack', $pack)
-                ->withErrors(['topic' => 'Контент сгенерирован, но не удалось сохранить в БД: ' . $e->getMessage()]);
+                ->withErrors(['topic' => 'Контент сгенерирован, но не удалось сохранить в БД: '.$e->getMessage()]);
         }
     }
 
@@ -162,7 +162,7 @@ class AiController extends Controller
         try {
             $answer = $this->gemini->answerQuestion($request->question);
         } catch (\Throwable $e) {
-            return response()->json(['answer' => 'Ошибка: ' . $e->getMessage()], 500);
+            return response()->json(['answer' => 'Ошибка: '.$e->getMessage()], 500);
         }
 
         return response()->json(['answer' => $answer]);
@@ -170,7 +170,7 @@ class AiController extends Controller
 
     private function resolveLevelId(?string $levelLabel): ?int
     {
-        if (!$levelLabel) {
+        if (! $levelLabel) {
             return null;
         }
 

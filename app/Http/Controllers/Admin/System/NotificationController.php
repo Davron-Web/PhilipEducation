@@ -49,7 +49,7 @@ class NotificationController extends Controller
     public function show(Notification $notification): View
     {
         return view('admin.system.notifications.show', [
-            'notification' => $notification->load('user')
+            'notification' => $notification->load('user'),
         ]);
     }
 

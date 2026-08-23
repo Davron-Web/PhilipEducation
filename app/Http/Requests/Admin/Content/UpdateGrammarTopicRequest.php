@@ -25,18 +25,18 @@ class UpdateGrammarTopicRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'          => ['required', 'string', 'max:255'],
-            'level_id'       => ['required', 'integer', 'exists:levels,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'level_id' => ['required', 'integer', 'exists:levels,id'],
             'theory_content' => ['required', 'string'],
-            'order_number'   => ['nullable', 'integer', 'min:1'],
+            'order_number' => ['nullable', 'integer', 'min:1'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required'          => 'Укажите название правила.',
-            'level_id.required'       => 'Выберите уровень.',
+            'title.required' => 'Укажите название правила.',
+            'level_id.required' => 'Выберите уровень.',
             'theory_content.required' => 'Заполните теорию правила.',
         ];
     }

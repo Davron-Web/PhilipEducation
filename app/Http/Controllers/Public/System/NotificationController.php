@@ -28,7 +28,7 @@ class NotificationController extends Controller
         $notification = Notification::where('user_id', Auth::id())
             ->findOrFail($id);
 
-        if (!$notification->is_read) {
+        if (! $notification->is_read) {
             $notification->update([
                 'is_read' => true,
             ]);

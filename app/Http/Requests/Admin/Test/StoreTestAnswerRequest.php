@@ -24,7 +24,7 @@ class StoreTestAnswerRequest extends FormRequest
     {
         if ($this->has('is_correct')) {
             $this->merge([
-                'is_correct' => filter_var($this->is_correct, FILTER_VALIDATE_BOOLEAN)
+                'is_correct' => filter_var($this->is_correct, FILTER_VALIDATE_BOOLEAN),
             ]);
         }
     }

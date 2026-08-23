@@ -54,7 +54,7 @@ class UserController extends Controller
     public function show(User $user): View
     {
         return view('admin.user.users.show', [
-            'user' => $user->load(['role', 'level', 'achievements', 'progress', 'results'])
+            'user' => $user->load(['role', 'level', 'achievements', 'progress', 'results']),
         ]);
     }
 
@@ -67,7 +67,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);

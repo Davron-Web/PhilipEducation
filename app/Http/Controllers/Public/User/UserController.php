@@ -20,7 +20,7 @@ class UserController extends Controller
             'results.test',
             'words.translations',
             'achievements',
-            'certificates'
+            'certificates',
         ]);
 
         return view('public.profiles.show', compact('user'));
@@ -38,7 +38,7 @@ class UserController extends Controller
         $user = Auth::user();
         $data = $request->validated();
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);

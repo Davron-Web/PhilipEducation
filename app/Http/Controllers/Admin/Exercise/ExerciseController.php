@@ -66,7 +66,7 @@ class ExerciseController extends Controller
     public function show(Exercise $exercise): View
     {
         return view('admin.exercise.exercises.show', [
-            'exercise' => $exercise->load('lesson', 'questions')
+            'exercise' => $exercise->load('lesson', 'questions'),
         ]);
     }
 

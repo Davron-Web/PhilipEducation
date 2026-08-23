@@ -46,7 +46,7 @@ class StudyStatisticController extends Controller
     public function show(StudyStatistic $studyStatistic): View
     {
         return view('admin.gamification.studystatistics.show', [
-            'studyStatistic' => $studyStatistic->load('user')
+            'studyStatistic' => $studyStatistic->load('user'),
         ]);
     }
 

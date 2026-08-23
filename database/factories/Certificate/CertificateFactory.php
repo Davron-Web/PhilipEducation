@@ -20,7 +20,7 @@ class CertificateFactory extends Factory
         return [
             'user_id' => 1,
             'level_id' => 1,
-            'certificate_number' => strtoupper(Str::random(4)) . '-' . fake()->unique()->numerify('######'),
+            'certificate_number' => strtoupper(Str::random(4)).'-'.fake()->unique()->numerify('######'),
             'file_path' => fake()->optional(0.8)->filePath(),
             'issued_at' => $issuedAt,
         ];
@@ -43,7 +43,7 @@ class CertificateFactory extends Factory
     public function withFile(): static
     {
         return $this->state(fn () => [
-            'file_path' => 'certificates/' . fake()->uuid() . '.pdf',
+            'file_path' => 'certificates/'.fake()->uuid().'.pdf',
         ]);
     }
 

@@ -1,14 +1,21 @@
 <?php
 
+use App\Http\Controllers\Admin\AiController;
+use App\Http\Controllers\Admin\Book\BookController as AdminBookController;
+use App\Http\Controllers\Admin\Certificate\CertificateController as AdminCertificateController;
 use App\Http\Controllers\Admin\Content\GrammarTopicController as AdminGrammarTopicController;
 use App\Http\Controllers\Admin\Content\LessonContentController as AdminLessonContentController;
 use App\Http\Controllers\Admin\Content\LessonController as AdminLessonController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Exercise\ExerciseController as AdminExerciseController;
 use App\Http\Controllers\Admin\Exercise\ExerciseQuestionController as AdminExerciseQuestionController;
 use App\Http\Controllers\Admin\Gamification\AchievementController as AdminAchievementController;
 use App\Http\Controllers\Admin\Gamification\StudyStatisticController as AdminStudyStatisticController;
 use App\Http\Controllers\Admin\System\LevelController as AdminLevelController;
 use App\Http\Controllers\Admin\System\NotificationController as AdminNotificationController;
+use App\Http\Controllers\Admin\Test\TestAnswerController as AdminTestAnswerController;
+use App\Http\Controllers\Admin\Test\TestController as AdminTestController;
+use App\Http\Controllers\Admin\Test\TestQuestionController as AdminTestQuestionController;
 use App\Http\Controllers\Admin\User\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\User\RoleController as AdminRoleController;
 use App\Http\Controllers\Admin\User\UserAchievementController as AdminUserAchievementController;
@@ -18,15 +25,8 @@ use App\Http\Controllers\Admin\User\UserResultController as AdminUserResultContr
 use App\Http\Controllers\Admin\User\UserWordController as AdminUserWordController;
 use App\Http\Controllers\Admin\Vocabulary\WordController as AdminWordController;
 use App\Http\Controllers\Admin\Vocabulary\WordTranslationController as AdminWordTranslationController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\Test\TestController as AdminTestController;
-use App\Http\Controllers\Admin\Test\TestQuestionController as AdminTestQuestionController;
-use App\Http\Controllers\Admin\Test\TestAnswerController as AdminTestAnswerController;
-use App\Http\Controllers\Admin\Certificate\CertificateController as AdminCertificateController;
-use App\Http\Controllers\Admin\Book\BookController as AdminBookController;
-use App\Http\Controllers\Admin\AiController;
+use App\Http\Controllers\AssistantController;
 use App\Http\Controllers\Public\Book\BookController as PublicBookController;
-
 use App\Http\Controllers\Public\Content\GrammarTopicController as PublicGrammarTopicController;
 use App\Http\Controllers\Public\Content\LessonController as PublicLessonController;
 use App\Http\Controllers\Public\Exercise\ExerciseController as PublicExerciseController;
@@ -35,10 +35,8 @@ use App\Http\Controllers\Public\System\NotificationController as PublicNotificat
 use App\Http\Controllers\Public\Test\TestController as PublicTestController;
 use App\Http\Controllers\Public\User\ProfileController as PublicProfileController;
 use App\Http\Controllers\Public\Vocabulary\WordController as PublicWordController;
-use App\Http\Controllers\AssistantController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,8 +49,10 @@ Route::get('/', function () {
         if (auth()->user()->role_id == 1) {
             return redirect()->route('admin.dashboard');
         }
+
         return redirect()->route('user.dashboard');
     }
+
     return redirect()->route('login');
 })->name('home');
 
@@ -73,6 +73,7 @@ Route::get('/dashboard', function () {
     if (auth()->user()->role_id == 1) {
         return redirect()->route('admin.dashboard');
     }
+
     return redirect()->route('user.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
@@ -209,5 +210,4 @@ Route::middleware(['auth', 'role:admin|superadmin'])
 | Authentication Routes
 |--------------------------------------------------------------------------
 */
-require __DIR__ . '/auth.php';
-
+require __DIR__.'/auth.php';

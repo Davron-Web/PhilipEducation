@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('last_reviewed_at')->nullable();
             $table->timestamps();
 
-            $table->unique(['user_id','word_id']);
+            $table->unique(['user_id', 'word_id']);
         });
     }
 

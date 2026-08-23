@@ -62,7 +62,7 @@ class TestController extends Controller
     public function show(Test $test): View
     {
         return view('admin.test.tests.show', [
-            'test' => $test->load(['lesson', 'questions'])
+            'test' => $test->load(['lesson', 'questions']),
         ]);
     }
 

@@ -47,7 +47,7 @@ class UserProgressController extends Controller
     {
         $data = $request->validated();
 
-        if (!empty($data['is_completed']) && empty($data['completed_at'])) {
+        if (! empty($data['is_completed']) && empty($data['completed_at'])) {
             $data['completed_at'] = now();
         }
 
@@ -61,7 +61,7 @@ class UserProgressController extends Controller
     public function show(UserProgress $userprogress): View
     {
         return view('admin.user.userprogresses.show', [
-            'userProgress' => $userprogress->load(['user', 'lesson'])
+            'userProgress' => $userprogress->load(['user', 'lesson']),
         ]);
     }
 
@@ -77,7 +77,7 @@ class UserProgressController extends Controller
     {
         $data = $request->validated();
 
-        if (!empty($data['is_completed']) && !$userprogress->is_completed) {
+        if (! empty($data['is_completed']) && ! $userprogress->is_completed) {
             $data['completed_at'] = now();
         }
 

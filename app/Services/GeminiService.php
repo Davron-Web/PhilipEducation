@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Http;
 class GeminiService
 {
     protected string $key;
+
     protected string $model;
+
     protected string $url = 'https://generativelanguage.googleapis.com/v1beta/models';
 
     public function __construct()
     {
-        $this->key   = config('services.gemini.key');
+        $this->key = config('services.gemini.key');
         $this->model = config('services.gemini.model');
     }
 
@@ -38,7 +40,7 @@ class GeminiService
             ->post("{$this->url}/{$this->model}:generateContent", $payload);
 
         if ($res->failed()) {
-            throw new \RuntimeException('Gemini HTTP ' . $res->status() . ': ' . mb_substr($res->body(), 0, 300));
+            throw new \RuntimeException('Gemini HTTP '.$res->status().': '.mb_substr($res->body(), 0, 300));
         }
 
         return $res->json('candidates.0.content.parts.0.text', '');

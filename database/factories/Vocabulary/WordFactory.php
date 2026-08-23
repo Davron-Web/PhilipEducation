@@ -37,7 +37,7 @@ class WordFactory extends Factory
     public function withMedia(): static
     {
         return $this->state(fn () => [
-            'transcription' => '/' . fake()->word() . '/',
+            'transcription' => '/'.fake()->word().'/',
             'audio_url' => fake()->url(),
             'image' => fake()->imageUrl(300, 300, 'words'),
         ]);

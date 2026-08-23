@@ -55,7 +55,7 @@ class UserWordController extends Controller
     public function show(UserWord $userword): View
     {
         return view('admin.user.userwords.show', [
-            'userWord' => $userword->load(['user', 'word'])
+            'userWord' => $userword->load(['user', 'word']),
         ]);
     }
 

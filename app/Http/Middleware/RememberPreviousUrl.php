@@ -10,11 +10,11 @@ class RememberPreviousUrl
     public function handle(Request $request, Closure $next)
     {
         if (
-            !auth()->check() &&
+            ! auth()->check() &&
             $request->isMethod('GET')
         ) {
             session([
-                'url.intended' => $request->fullUrl()
+                'url.intended' => $request->fullUrl(),
             ]);
         }
 

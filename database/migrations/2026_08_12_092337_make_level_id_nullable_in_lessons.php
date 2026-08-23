@@ -9,13 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
-   {
-       Schema::table('lessons', function (Blueprint $table) {
-           $table->unsignedBigInteger('level_id')->nullable()->change();
-           // если колонка другого типа, используйте тот же тип, что был, + ->nullable()->change()
-       });
-   }
+    public function up(): void
+    {
+        Schema::table('lessons', function (Blueprint $table) {
+            $table->unsignedBigInteger('level_id')->nullable()->change();
+            // если колонка другого типа, используйте тот же тип, что был, + ->nullable()->change()
+        });
+    }
 
     /**
      * Reverse the migrations.

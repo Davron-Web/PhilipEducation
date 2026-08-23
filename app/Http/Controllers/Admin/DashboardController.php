@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\User;
 
 class DashboardController extends Controller
@@ -10,28 +12,28 @@ class DashboardController extends Controller
     public function index()
     {
         $stats = [
-            'students'        => User::count(),
+            'students' => User::count(),
             'students_growth' => '+12%',
-            'courses'         => $this->safeCount(\App\Models\Course::class, 32),
-            'lessons_done'    => $this->safeCount(\App\Models\Lesson::class, 8540),
-            'avg_test_score'  => 87,
+            'courses' => $this->safeCount(Course::class, 32),
+            'lessons_done' => $this->safeCount(Lesson::class, 8540),
+            'avg_test_score' => 87,
         ];
 
         $recentStudents = User::latest()->take(4)->get()
             ->map(fn ($u) => [
-                'name'   => $u->name,
-                'email'  => $u->email,
-                'date'   => $u->created_at?->format('d.m.Y') ?? '—',
+                'name' => $u->name,
+                'email' => $u->email,
+                'date' => $u->created_at?->format('d.m.Y') ?? '—',
                 'status' => 'active',
             ])
             ->toArray();
 
-        $recentLessons = class_exists(\App\Models\Lesson::class)
-            ? \App\Models\Lesson::latest()->take(3)->get()
+        $recentLessons = class_exists(Lesson::class)
+            ? Lesson::latest()->take(3)->get()
                 ->map(fn ($l) => [
-                    'title'  => $l->title ?? $l->name ?? 'Урок',
+                    'title' => $l->title ?? $l->name ?? 'Урок',
                     'course' => '—',
-                    'date'   => $l->created_at?->format('d.m.Y') ?? '—',
+                    'date' => $l->created_at?->format('d.m.Y') ?? '—',
                 ])
                 ->toArray()
             : [];

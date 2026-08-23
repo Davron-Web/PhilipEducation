@@ -2,8 +2,8 @@
 
 namespace App\Models\System;
 
-use App\Models\Content\Lesson;
 use App\Models\Content\GrammarTopic;
+use App\Models\Content\Lesson;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

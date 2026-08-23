@@ -42,7 +42,7 @@ class Profile extends Model
 
     public function getAvatarUrlAttribute(): ?string
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : null;
+        return $this->avatar ? asset('storage/'.$this->avatar) : null;
     }
 
     public function getAgeAttribute(): ?int
@@ -50,5 +50,3 @@ class Profile extends Model
         return $this->birth_date ? now()->diffInYears($this->birth_date) : null;
     }
 }
-
-

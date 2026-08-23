@@ -61,7 +61,7 @@ class UserAchievementController extends Controller
     public function show(UserAchievement $userachievement): View
     {
         return view('admin.user.userachievements.show', [
-            'userAchievement' => $userachievement->load(['user', 'achievement'])
+            'userAchievement' => $userachievement->load(['user', 'achievement']),
         ]);
     }
 

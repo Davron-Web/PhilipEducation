@@ -17,7 +17,7 @@ class ExerciseQuestionFactory extends Factory
     {
         return [
             'exercise_id' => Exercise::factory(),
-            'question' => fake()->sentence(10) . '?',
+            'question' => fake()->sentence(10).'?',
             'correct_answer' => fake()->word(),
         ];
     }

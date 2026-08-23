@@ -55,7 +55,7 @@ class UserResultController extends Controller
     public function show(UserResult $userresult): View
     {
         return view('admin.user.userresults.show', [
-            'userResult' => $userresult->load(['user', 'test'])
+            'userResult' => $userresult->load(['user', 'test']),
         ]);
     }
 

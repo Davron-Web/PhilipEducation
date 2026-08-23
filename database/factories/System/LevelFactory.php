@@ -24,7 +24,7 @@ class LevelFactory extends Factory
             'C2' => 'Proficiency',
         ];
 
-        $code = fake()->unique()->randomElement($codes) . '-' . fake()->unique()->numberBetween(1, 100000);
+        $code = fake()->unique()->randomElement($codes).'-'.fake()->unique()->numberBetween(1, 100000);
         $baseCode = explode('-', $code)[0];
 
         return [
