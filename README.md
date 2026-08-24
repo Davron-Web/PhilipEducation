@@ -57,8 +57,8 @@ php artisan serve
 
 | Роль | Email | Пароль |
 |---|---|---|
-| Администратор | `davron@example.com` | `Hello_world` |
-| Ученик (сгенерированный) | любой `*@example.com` из `FakeUsersSeeder`, например `anna.sokolova0@example.com` | `password1234` |
+| Администратор | `davron@example.com` (создаётся `UserSeeder` только на чистой БД — если админ уже переименован под свою почту, используйте её) | `Hello_world` |
+| Ученик (сгенерированный) | любой `*@example.com` из `FakeUsersSeeder`, например `anna.sokolova0@example.com` — проверено вживую | `password1234` |
 
 `FakeUsersSeeder` наполняет платформу 100 реалистичными учениками с прогрессом, результатами тестов и достижениями — админ-панель и рейтинги не пустуют при демонстрации:
 
