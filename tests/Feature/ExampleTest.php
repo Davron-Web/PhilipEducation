@@ -3,10 +3,11 @@
 use App\Models\User;
 use App\Models\User\Role;
 
-it('redirects guests from the root page to login', function () {
+it('shows the marketing home page to guests', function () {
     $response = $this->get('/');
 
-    $response->assertRedirect('/login');
+    $response->assertOk();
+    $response->assertViewIs('public.home');
 });
 
 it('redirects authenticated students from the root page to their dashboard', function () {

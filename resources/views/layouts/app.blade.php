@@ -149,6 +149,48 @@
             }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
             targets.forEach(function (el) { observer.observe(el); });
+
+            // Счётчики с анимацией нарастания: <span data-counter data-target="120">
+            var counters = document.querySelectorAll('[data-counter]');
+            if (counters.length) {
+                if (prefersReduced || !('IntersectionObserver' in window)) {
+                    counters.forEach(function (el) {
+                        el.textContent = (parseInt(el.dataset.target, 10) || 0).toLocaleString('ru-RU');
+                    });
+                } else {
+                    var counterObserver = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (entry) {
+                            if (!entry.isIntersecting) return;
+                            counterObserver.unobserve(entry.target);
+                            var el = entry.target;
+                            var target = parseInt(el.dataset.target, 10) || 0;
+                            var duration = 1400;
+                            var start = null;
+                            function step(ts) {
+                                if (!start) start = ts;
+                                var progress = Math.min((ts - start) / duration, 1);
+                                var eased = 1 - Math.pow(1 - progress, 3);
+                                el.textContent = Math.round(eased * target).toLocaleString('ru-RU');
+                                if (progress < 1) requestAnimationFrame(step);
+                            }
+                            requestAnimationFrame(step);
+                        });
+                    }, { threshold: 0.4 });
+                    counters.forEach(function (el) { counterObserver.observe(el); });
+                }
+            }
+
+            // Лёгкий параллакс декоративных элементов: <div data-parallax="0.2">
+            var parallaxEls = document.querySelectorAll('[data-parallax]');
+            if (parallaxEls.length && !prefersReduced) {
+                window.addEventListener('scroll', function () {
+                    var y = window.scrollY;
+                    parallaxEls.forEach(function (el) {
+                        var factor = parseFloat(el.dataset.parallax) || 0.2;
+                        el.style.transform = 'translateY(' + (y * factor) + 'px)';
+                    });
+                }, { passive: true });
+            }
         });
     </script>
 

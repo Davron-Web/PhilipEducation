@@ -53,7 +53,7 @@ Route::get('/', function () {
         return redirect()->route('user.dashboard');
     }
 
-    return redirect()->route('login');
+    return view('public.home');
 })->name('home');
 
 /*
