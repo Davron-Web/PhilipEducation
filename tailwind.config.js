@@ -11,7 +11,17 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                // Единая палитра пользовательской части сайта (см. layouts/app.blade.php,
+                // где та же палитра продублирована в конфиге Tailwind CDN — сборки через
+                // npm сейчас нет, поэтому оба места нужно держать в синхроне).
+                ink: '#1E3A8A',
+                brand: '#2563EB',
+                sky: '#38BDF8',
+                skylight: '#7DD3FC',
+                sun: '#FACC15',
             },
         },
     },
