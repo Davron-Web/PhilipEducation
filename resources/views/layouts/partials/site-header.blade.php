@@ -3,10 +3,12 @@
 @php
     $navItems = [
         ['label' => 'Уроки', 'url' => route('lessons.index'), 'active' => request()->routeIs('lessons.*')],
-        ['label' => 'Словарь', 'url' => route('words.index'), 'active' => request()->routeIs('words.*')],
         ['label' => 'Грамматика', 'url' => route('grammartopics.index'), 'active' => request()->routeIs('grammartopics.*')],
+        ['label' => 'Словарь', 'url' => route('words.index'), 'active' => request()->routeIs('words.*')],
+        ['label' => 'Упражнения', 'url' => route('exercises.index'), 'active' => request()->routeIs('exercises.*')],
         ['label' => 'Тесты', 'url' => route('tests.index'), 'active' => request()->routeIs('tests.*')],
         ['label' => 'Книги', 'url' => route('books.index'), 'active' => request()->routeIs('books.*')],
+        ['label' => 'Достижения', 'url' => route('achievements.index'), 'active' => request()->routeIs('achievements.*')],
     ];
 @endphp
 
@@ -33,11 +35,11 @@
 
         @auth
             {{-- Десктоп-навигация (авторизован) --}}
-            <div class="hidden items-center gap-1 lg:flex">
+            <div class="hidden items-center gap-0.5 xl:flex">
                 @foreach ($navItems as $item)
                     <a
                         href="{{ $item['url'] }}"
-                        class="rounded-lg px-3 py-2 text-sm font-semibold transition {{ $item['active'] ? 'bg-brand/10 text-brand' : 'text-ink/70 hover:bg-brand/5 hover:text-brand' }}"
+                        class="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold transition {{ $item['active'] ? 'bg-brand/10 text-brand' : 'text-ink/70 hover:bg-brand/5 hover:text-brand' }}"
                     >{{ $item['label'] }}</a>
                 @endforeach
             </div>
@@ -126,7 +128,7 @@
                 <button
                     type="button"
                     @click="mobileOpen = !mobileOpen"
-                    class="flex h-10 w-10 items-center justify-center rounded-full text-ink/70 hover:bg-brand/5 lg:hidden"
+                    class="flex h-10 w-10 items-center justify-center rounded-full text-ink/70 hover:bg-brand/5 xl:hidden"
                     aria-label="Открыть меню"
                     :aria-expanded="mobileOpen"
                 >
@@ -166,7 +168,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-2"
-        class="border-t border-white/50 bg-white/95 backdrop-blur-xl lg:hidden"
+        class="border-t border-white/50 bg-white/95 backdrop-blur-xl xl:hidden"
         style="display: none;"
     >
         <div class="space-y-1 px-4 py-3">
