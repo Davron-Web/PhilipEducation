@@ -130,6 +130,24 @@
     <x-phil-widget />
 
     <script>
+        // Анимация нарастания числа — используется на статистике/дашборде:
+        // x-data x-init="countUp($el, 0, 42, 900)"
+        window.countUp = function (el, from, to, duration) {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.textContent = to;
+                return;
+            }
+            var start = null;
+            function step(ts) {
+                if (!start) start = ts;
+                var progress = Math.min((ts - start) / duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(from + (to - from) * eased);
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        };
+
         // Проявление карточек и блоков с атрибутом data-reveal при попадании в область видимости
         document.addEventListener('DOMContentLoaded', function () {
             var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
