@@ -10,6 +10,10 @@
         ['label' => 'Книги', 'url' => route('books.index'), 'active' => request()->routeIs('books.*')],
         ['label' => 'Достижения', 'url' => route('achievements.index'), 'active' => request()->routeIs('achievements.*')],
     ];
+
+    $unreadCount = auth()->check()
+        ? auth()->user()->notifications()->where('is_read', false)->count()
+        : 0;
 @endphp
 
 <header
@@ -76,6 +80,20 @@
                     </div>
                 </div>
 
+                {{-- Уведомления --}}
+                <a
+                    href="{{ route('notifications.index') }}"
+                    class="relative flex h-10 w-10 items-center justify-center rounded-full text-ink/60 transition hover:bg-brand/5 hover:text-brand"
+                    aria-label="Уведомления{{ $unreadCount > 0 ? " ({$unreadCount} непрочитано)" : '' }}"
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+                    @if ($unreadCount > 0)
+                        <span class="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-sun px-1 text-[10px] font-extrabold text-ink">
+                            {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                        </span>
+                    @endif
+                </a>
+
                 {{-- Streak: показываем только если контроллер прислал значение --}}
                 @isset($streak)
                     <div class="hidden items-center gap-1 rounded-full bg-sun/15 px-3 py-1.5 text-sm font-bold text-amber-700 sm:flex" title="Серия дней подряд">
@@ -115,7 +133,6 @@
                         <div class="my-1 h-px bg-ink/10"></div>
                         <a href="{{ route('profiles.index') }}" class="block rounded-xl px-3 py-2 text-sm font-medium text-ink/80 hover:bg-brand/5 hover:text-brand">Профиль</a>
                         <a href="{{ route('profiles.edit') }}" class="block rounded-xl px-3 py-2 text-sm font-medium text-ink/80 hover:bg-brand/5 hover:text-brand">Настройки</a>
-                        <a href="{{ route('notifications.index') }}" class="block rounded-xl px-3 py-2 text-sm font-medium text-ink/80 hover:bg-brand/5 hover:text-brand">Уведомления</a>
                         <div class="my-1 h-px bg-ink/10"></div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -177,7 +194,14 @@
                     <a href="{{ $item['url'] }}" class="block rounded-xl px-3 py-2.5 text-sm font-semibold {{ $item['active'] ? 'bg-brand/10 text-brand' : 'text-ink/80 hover:bg-brand/5' }}">{{ $item['label'] }}</a>
                 @endforeach
                 <div class="my-2 h-px bg-ink/10"></div>
+                <a href="{{ route('notifications.index') }}" class="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-brand/5">
+                    Уведомления
+                    @if ($unreadCount > 0)
+                        <span class="flex h-5 min-w-5 items-center justify-center rounded-full bg-sun px-1 text-[11px] font-extrabold text-ink">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+                    @endif
+                </a>
                 <a href="{{ route('profiles.index') }}" class="block rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-brand/5">Профиль</a>
+                <a href="{{ route('profiles.edit') }}" class="block rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-brand/5">Настройки</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="block w-full rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-red-600 hover:bg-red-50">Выйти</button>
