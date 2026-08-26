@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Public\Vocabulary;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vocabulary\Word;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -53,5 +55,54 @@ class WordController extends Controller
             : false;
 
         return view('public.words.show', compact('word', 'isLearned'));
+    }
+
+    /**
+     * Отметить слово как выученное/на повторении для текущего пользователя
+     * (карточки в режиме флеш-карт).
+     */
+    public function markProgress(Request $request, Word $word)
+    {
+        $request->validate(['learned' => 'required|boolean']);
+
+        Auth::user()->words()->syncWithoutDetaching([
+            $word->id => [
+                'learned' => $request->boolean('learned'),
+                'last_reviewed_at' => now(),
+            ],
+        ]);
+
+        if ($request->wantsJson()) {
+            return response()->json(['ok' => true]);
+        }
+
+        return back();
+    }
+
+    /**
+     * Добавить своё слово в словарь (без привязки к уроку) и сразу
+     * сохранить его перевод.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'word' => 'required|string|max:255',
+            'translation' => 'required|string|max:255',
+            'example' => 'nullable|string|max:500',
+        ]);
+
+        $word = Word::create([
+            'word' => $data['word'],
+            'example' => $data['example'] ?? null,
+        ]);
+
+        $word->translations()->create([
+            'language' => 'ru',
+            'translation' => $data['translation'],
+        ]);
+
+        Auth::user()->words()->syncWithoutDetaching([$word->id => ['learned' => false]]);
+
+        return redirect()->route('words.index')->with('success', "Слово «{$word->word}» добавлено в словарь!");
     }
 }

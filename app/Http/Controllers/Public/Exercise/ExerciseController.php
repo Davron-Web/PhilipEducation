@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Public\Exercise;
 use App\Http\Controllers\Controller;
 use App\Models\Exercise\Exercise;
 use Illuminate\View\View;
-
 class ExerciseController extends Controller
 {
     /**
