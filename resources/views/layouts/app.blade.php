@@ -66,16 +66,22 @@
         .animate-blob-slow { animation: blob-drift 24s ease-in-out infinite; }
         .animate-blob-delay { animation: blob-drift 20s ease-in-out infinite; animation-delay: -7s; }
 
-        /* Плотный узор дорожек как на печатной плате — жёлтый, тайлится по всему фону */
-        .bg-circuit-pattern {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23FACC15' stroke-width='1.4'%3E%3Cpath d='M0 30 H50 V70 H90 V30 H140 V90 H200'/%3E%3Cpath d='M30 0 V50 H70 V20 H110 V80 H160 V140 H200'/%3E%3Cpath d='M0 120 H40 V150 H80 V110 H130 V170 H200'/%3E%3Cpath d='M160 0 V40 H190 V0'/%3E%3Cpath d='M0 180 H30 V160 H60'/%3E%3Cpath d='M120 200 V160 H150 V190 H180 V150'/%3E%3Cpath d='M60 100 H100 V130 H140'/%3E%3C/g%3E%3Cg fill='%23FACC15'%3E%3Ccircle cx='50' cy='30' r='2.3'/%3E%3Ccircle cx='90' cy='70' r='2.3'/%3E%3Ccircle cx='140' cy='30' r='2.3'/%3E%3Ccircle cx='70' cy='50' r='2.3'/%3E%3Ccircle cx='110' cy='20' r='2.3'/%3E%3Ccircle cx='160' cy='80' r='2.3'/%3E%3Ccircle cx='40' cy='120' r='2.3'/%3E%3Ccircle cx='80' cy='150' r='2.3'/%3E%3Ccircle cx='130' cy='110' r='2.3'/%3E%3Ccircle cx='190' cy='40' r='2.3'/%3E%3Ccircle cx='30' cy='160' r='2.3'/%3E%3Ccircle cx='150' cy='160' r='2.3'/%3E%3Ccircle cx='180' cy='190' r='2.3'/%3E%3Ccircle cx='100' cy='100' r='2.3'/%3E%3Ccircle cx='100' cy='130' r='2.3'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: 200px 200px;
+        /* Звёздное небо — тайл со звёздами, тайлится по всему фону */
+        .bg-starfield {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cg fill='%23E8F6FB'%3E%3Ccircle cx='12' cy='40' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='55' cy='15' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='90' cy='70' r='1.3' fill-opacity='.8'/%3E%3Ccircle cx='130' cy='30' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='210' cy='20' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='250' cy='55' r='1.5' fill-opacity='.9'/%3E%3Ccircle cx='20' cy='120' r='1.1' fill-opacity='.7'/%3E%3Ccircle cx='60' cy='160' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='140' cy='180' r='0.6' fill-opacity='.5'/%3E%3Ccircle cx='180' cy='150' r='0.9' fill-opacity='.7'/%3E%3Ccircle cx='260' cy='200' r='1.2' fill-opacity='.8'/%3E%3Ccircle cx='30' cy='220' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='110' cy='230' r='0.6' fill-opacity='.5'/%3E%3Ccircle cx='150' cy='260' r='1.4' fill-opacity='.85'/%3E%3Ccircle cx='230' cy='280' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='270' cy='250' r='1.1' fill-opacity='.7'/%3E%3Ccircle cx='50' cy='90' r='0.9' fill-opacity='.7'/%3E%3Ccircle cx='95' cy='10' r='0.5' fill-opacity='.5'/%3E%3Ccircle cx='240' cy='130' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='5' cy='180' r='0.5' fill-opacity='.5'/%3E%3C/g%3E%3Cg fill='%237DD3FC'%3E%3Ccircle cx='170' cy='90' r='1.0' fill-opacity='.8'/%3E%3Ccircle cx='280' cy='110' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='100' cy='140' r='1.6' fill-opacity='.9'/%3E%3Ccircle cx='220' cy='170' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='70' cy='250' r='1.0' fill-opacity='.8'/%3E%3Ccircle cx='190' cy='240' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='10' cy='280' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='160' cy='110' r='0.7' fill-opacity='.7'/%3E%3Ccircle cx='290' cy='20' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='200' cy='290' r='1.0' fill-opacity='.8'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 300px 300px;
         }
+
+        @keyframes star-twinkle {
+            0%, 100% { opacity: .55; }
+            50% { opacity: 1; }
+        }
+        .animate-twinkle { animation: star-twinkle 5s ease-in-out infinite; }
 
         /* Уважаем предпочтение отключить анимации */
         @media (prefers-reduced-motion: reduce) {
             [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
-            .animate-blob, .animate-blob-slow, .animate-blob-delay { animation: none !important; }
+            .animate-blob, .animate-blob-slow, .animate-blob-delay, .animate-twinkle { animation: none !important; }
             * { scroll-behavior: auto !important; }
         }
     </style>
@@ -90,7 +96,14 @@
         <div class="animate-blob-slow absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-skylight/20 blur-3xl"></div>
         <div class="animate-blob-delay absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-sky/15 blur-3xl"></div>
         <div class="animate-blob absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-skylight/15 blur-3xl"></div>
-        <div class="absolute inset-0 bg-circuit-pattern opacity-[0.22]"></div>
+        <div class="absolute inset-0 bg-starfield animate-twinkle opacity-80"></div>
+
+        {{-- Яркие крупные звёзды со свечением --}}
+        <div class="absolute left-[15%] top-[20%] h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_12px_4px_rgba(255,255,255,.8)]"></div>
+        <div class="absolute left-[80%] top-[15%] h-1 w-1 rounded-full bg-skylight shadow-[0_0_10px_3px_rgba(125,211,252,.9)]"></div>
+        <div class="absolute left-[70%] top-[65%] h-2 w-2 rounded-full bg-sun shadow-[0_0_16px_5px_rgba(250,204,21,.7)]"></div>
+        <div class="absolute left-[10%] top-[75%] h-1 w-1 rounded-full bg-white shadow-[0_0_10px_3px_rgba(255,255,255,.8)]"></div>
+        <div class="absolute left-[45%] top-[40%] h-1 w-1 rounded-full bg-skylight shadow-[0_0_10px_3px_rgba(125,211,252,.9)]"></div>
     </div>
 
     @include('layouts.partials.site-header')
