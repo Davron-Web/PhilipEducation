@@ -18,7 +18,7 @@ class WordController extends Controller
      * shows one entry per unique word (earliest occurrence) instead of
      * every per-lesson duplicate.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         $allWords = Word::with(['translations', 'lesson'])->orderBy('word')->orderBy('id')->get();
 
@@ -40,9 +40,17 @@ class WordController extends Controller
             ->pluck('id')
             ->all();
 
-        $categories = $words->pluck('category')->filter()->unique()->sort()->values();
+        // Category counts are computed from the full set *before* filtering,
+        // so the category picker always shows how many words each topic has.
+        $categoryCounts = $words->groupBy('category')->filter(fn ($group, $key) => $key !== '')->map->count()->sortKeys();
 
-        return view('public.words.index', compact('words', 'learnedWordIds', 'categories'));
+        $selectedCategory = $request->query('category');
+
+        if ($selectedCategory && $selectedCategory !== 'all') {
+            $words = $words->filter(fn ($word) => $word->category === $selectedCategory)->values();
+        }
+
+        return view('public.words.index', compact('words', 'learnedWordIds', 'categoryCounts', 'selectedCategory'));
     }
 
     /**
