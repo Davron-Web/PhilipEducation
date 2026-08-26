@@ -1,5 +1,5 @@
 {{-- Подвал сайта: разделы, соцсети, копирайт. --}}
-<footer class="relative mt-20 overflow-hidden bg-gradient-to-br from-ink via-brand to-sky text-white">
+<footer class="relative mt-20 overflow-hidden border-t border-sky/10 bg-gradient-to-b from-[#0A192F] to-[#05080F] text-white">
     <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
