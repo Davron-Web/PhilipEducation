@@ -418,6 +418,89 @@ class GrammarTopicSeeder extends Seeder
                     ."Пример: The results were somewhat inconclusive.\n\n"
                     .'Hedging позволяет избежать излишне категоричных утверждений (avoid, prevent absolute claims), что особенно важно в научных работах, где выводы часто носят вероятностный характер, а также в деловой переписке для сохранения вежливого тона.',
             ],
+
+            // Новые темы — категории, которых раньше не было в списке
+            [
+                'level' => 'A1',
+                'lesson' => 'Personal Pronouns',
+                'title' => 'Местоимения (Pronouns)',
+                'category' => 'Pronouns',
+                'theory' => "Местоимения (pronouns) заменяют существительные, чтобы избежать повторов.\n\n"
+                    ."Личные местоимения (subject): I, you, he, she, it, we, they — используются как подлежащее.\n"
+                    ."Пример: She works in a bank. They live in London.\n\n"
+                    ."Объектные местоимения (object): me, you, him, her, it, us, them — используются как дополнение, после глагола или предлога.\n"
+                    ."Пример: Can you help me? I gave the book to her.\n\n"
+                    ."Притяжательные местоимения (possessive): mine, yours, his, hers, its, ours, theirs — заменяют «существительное + притяжательное прилагательное».\n"
+                    ."Пример: This is my book. This book is mine.\n\n"
+                    ."Возвратные местоимения (reflexive): myself, yourself, himself, herself, itself, ourselves, yourselves, themselves — когда подлежащее и дополнение совпадают.\n"
+                    ."Пример: I cut myself while cooking. She looked at herself in the mirror.\n\n"
+                    ."Важно: it используется для предметов, животных (если пол неизвестен) и в безличных конструкциях о погоде и времени: It's raining. It's 5 o'clock.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => 'Plural Nouns',
+                'title' => 'Существительные (Nouns)',
+                'category' => 'Nouns',
+                'theory' => "Существительные (nouns) называют людей, предметы, места и понятия. В английском они бывают исчисляемые (countable) и неисчисляемые (uncountable).\n\n"
+                    ."Множественное число исчисляемых существительных обычно образуется добавлением -s: book → books, car → cars.\n\n"
+                    ."После шипящих (-s, -ss, -sh, -ch, -x, -z) добавляется -es: box → boxes, watch → watches, bus → buses.\n\n"
+                    ."Если существительное оканчивается на согласную + y, y меняется на i + es: city → cities, baby → babies. Если перед y стоит гласная — просто -s: boy → boys, day → days.\n\n"
+                    ."Неправильные формы множественного числа: man → men, woman → women, child → children, tooth → teeth, foot → feet, person → people, mouse → mice.\n\n"
+                    ."Неисчисляемые существительные (water, information, advice, furniture, money) не имеют множественного числа и не используются с a/an; для счёта используются слова-счётчики: a piece of advice, a glass of water.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => 'Adverbs of Frequency',
+                'title' => 'Наречия (Adverbs)',
+                'category' => 'Adverbs',
+                'theory' => "Наречия (adverbs) описывают, как, когда, где или как часто происходит действие, и обычно относятся к глаголу, прилагательному или другому наречию.\n\n"
+                    ."Наречия образа действия чаще всего образуются от прилагательного + -ly: quick → quickly, careful → carefully, happy → happily (y меняется на i).\n"
+                    ."Исключения: good → well, fast → fast, hard → hard.\n\n"
+                    ."Наречия частотности (adverbs of frequency) показывают, как часто происходит действие: always, usually, often, sometimes, rarely, seldom, never. Ставятся перед смысловым глаголом, но после глагола to be.\n"
+                    ."Примеры: I always drink coffee in the morning. She is never late.\n\n"
+                    ."Место наречий образа действия — обычно после глагола или дополнения: She sings beautifully. He drives carefully.\n\n"
+                    ."Наречия степени (very, quite, really, too, enough) усиливают или ослабляют значение прилагательного или другого наречия: The exam was really difficult. She speaks English quite fluently.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => "Can and Can't",
+                'title' => 'Модальные и полумодальные глаголы (Modals and Semi-modals)',
+                'category' => 'Modals and Semi-modals',
+                'theory' => "Модальные глаголы (modal verbs) выражают возможность, необходимость, разрешение или совет. После них глагол всегда стоит в начальной форме без to, и они не меняются по лицам.\n\n"
+                    ."Can/could — возможность, умение, просьба: I can swim. Could you help me, please?\n\n"
+                    ."Must — сильная необходимость (часто исходящая от говорящего): You must wear a seatbelt. Mustn't выражает запрет: You mustn't smoke here.\n\n"
+                    ."Should/ought to — совет, рекомендация: You should see a doctor.\n\n"
+                    ."May/might — вероятность, формальное разрешение: It may rain later. May I come in?\n\n"
+                    ."Полумодальные глаголы (semi-modals) ведут себя как модальные, но изменяются по лицам и временам: have to, need to, used to. Have to выражает необходимость, часто исходящую извне: I have to work on Saturdays.\n\n"
+                    ."Важно: don't have to означает отсутствие необходимости (не путать с mustn't — запретом): You don't have to come if you're busy (это необязательно, но можно).",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => 'Prepositions of Place',
+                'title' => 'Предлоги и союзы (Prepositions and Conjunctions)',
+                'category' => 'Prepositions and Conjunctions',
+                'theory' => "Предлоги (prepositions) показывают отношения между словами — место, время, направление. Союзы (conjunctions) соединяют слова, части предложения или целые предложения.\n\n"
+                    ."Предлоги места: in (внутри, в городе/стране), on (на поверхности), at (в точке, конкретном месте).\n"
+                    ."Примеры: in the box, in London, on the table, on the wall, at the door, at school.\n\n"
+                    ."Предлоги времени: in (месяцы, годы, время суток), on (дни, даты), at (точное время).\n"
+                    ."Примеры: in June, in 2020, in the evening, on Monday, on my birthday, at 5 o'clock, at night.\n\n"
+                    ."Предлоги направления: to, into, from, out of, towards.\n"
+                    ."Пример: She walked into the room. He came from Spain.\n\n"
+                    ."Сочинительные союзы (and, but, or, so, yet) соединяют равноправные части: I like tea and coffee. She was tired, but she kept working.\n\n"
+                    ."Подчинительные союзы (because, although, if, when, since) вводят придаточные предложения: I stayed home because it was raining. Although he was tired, he finished the work.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Пунктуация и орфография (Punctuation and Spelling)',
+                'category' => 'Punctuation and Spelling',
+                'theory' => "Пунктуация и орфография — важная часть письменной грамотности в английском языке.\n\n"
+                    ."Запятая (comma) разделяет элементы списка, отделяет вводные слова и части сложного предложения: I bought apples, bananas, and oranges. However, she decided to stay.\n\n"
+                    ."Апостроф (apostrophe) используется в сокращениях (don't, it's, she's) и для притяжательного падежа: the student's book (один студент), the students' books (несколько студентов).\n\n"
+                    ."Заглавная буква ставится в начале предложения, у имён собственных, названий дней недели, месяцев и национальностей: Monday, June, English, London.\n\n"
+                    ."Разница между британским и американским написанием: colour/color, favourite/favorite, centre/center, travelling/traveling, organise/organize.\n\n"
+                    ."Частая ошибка: it's (сокращение от it is/it has) vs its (притяжательное местоимение). It's raining. The dog wagged its tail.",
+            ],
         ];
     }
 }
