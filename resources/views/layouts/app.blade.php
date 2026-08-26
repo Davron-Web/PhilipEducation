@@ -66,10 +66,11 @@
         .animate-blob-slow { animation: blob-drift 24s ease-in-out infinite; }
         .animate-blob-delay { animation: blob-drift 20s ease-in-out infinite; animation-delay: -7s; }
 
-        /* Тонкий точечный паттерн поверх фона (5% непрозрачности) */
-        .bg-dot-pattern {
-            background-image: radial-gradient(#1E3A8A 1px, transparent 1px);
-            background-size: 28px 28px;
+        /* Линии-дорожки как на чипе/плате: ломаные прямые с площадками
+           в местах изгиба, тайлится по фону. */
+        .bg-circuit-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%237DD3FC' stroke-width='1.5'%3E%3Cpath d='M0 24 H46 V64 H94 V24 H140'/%3E%3Cpath d='M24 0 V46 H70 V94 H116 V140'/%3E%3Cpath d='M0 100 H30 V120 H60'/%3E%3Cpath d='M100 0 V30 H120 V60'/%3E%3C/g%3E%3Cg fill='%237DD3FC'%3E%3Ccircle cx='46' cy='24' r='2.2'/%3E%3Ccircle cx='94' cy='64' r='2.2'/%3E%3Ccircle cx='24' cy='46' r='2.2'/%3E%3Ccircle cx='70' cy='94' r='2.2'/%3E%3Ccircle cx='30' cy='100' r='2.2'/%3E%3Ccircle cx='120' cy='30' r='2.2'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 140px 140px;
         }
 
         /* Уважаем предпочтение отключить анимации */
@@ -84,13 +85,13 @@
 </head>
 <body class="min-h-screen bg-white font-sans text-ink antialiased">
 
-    {{-- ===================== АНИМИРОВАННЫЙ ФОН ===================== --}}
-    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-sky-50 via-white to-blue-50" aria-hidden="true">
-        <div class="animate-blob absolute -top-24 -left-24 h-[28rem] w-[28rem] rounded-full bg-brand/20 blur-3xl"></div>
-        <div class="animate-blob-slow absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-sky/25 blur-3xl"></div>
-        <div class="animate-blob-delay absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-skylight/30 blur-3xl"></div>
-        <div class="animate-blob absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-brand/10 blur-3xl"></div>
-        <div class="absolute inset-0 bg-dot-pattern opacity-[0.05]"></div>
+    {{-- ===================== АНИМИРОВАННЫЙ ФОН (тёмный, как в админке) ===================== --}}
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-[#05080F] via-[#0A192F] to-[#05080F]" aria-hidden="true">
+        <div class="animate-blob absolute -top-24 -left-24 h-[28rem] w-[28rem] rounded-full bg-sky/25 blur-3xl"></div>
+        <div class="animate-blob-slow absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-skylight/20 blur-3xl"></div>
+        <div class="animate-blob-delay absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-sky/15 blur-3xl"></div>
+        <div class="animate-blob absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-skylight/15 blur-3xl"></div>
+        <div class="absolute inset-0 bg-circuit-pattern opacity-[0.12]"></div>
     </div>
 
     @include('layouts.partials.site-header')
