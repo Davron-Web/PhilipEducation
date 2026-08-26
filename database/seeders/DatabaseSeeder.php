@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             GrammarTopicSeeder::class,
             WordSeeder::class,
             WordTranslationSeeder::class,
+            WordCategorySeeder::class,
             TestSeeder::class,
             TestQuestionSeeder::class,
             TestAnswerSeeder::class,

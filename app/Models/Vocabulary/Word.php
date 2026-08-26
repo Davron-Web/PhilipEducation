@@ -22,6 +22,7 @@ class Word extends Model
         'example',
         'image',
         'difficulty',
+        'category',
         'audio_url',
         'audio_checked',
     ];

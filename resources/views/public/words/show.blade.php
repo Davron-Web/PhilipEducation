@@ -22,6 +22,9 @@
                     @if ($word->transcription)
                         <span class="text-ink/40">/{{ $word->transcription }}/</span>
                     @endif
+                    @if ($word->category)
+                        <span class="mt-1 block w-fit rounded-full bg-sun/15 px-2.5 py-0.5 text-xs font-bold text-amber-700">{{ $word->category }}</span>
+                    @endif
                 </div>
                 <x-ui.badge :variant="$isLearned ? 'success' : 'neutral'">{{ $isLearned ? 'Выучено' : 'Новое' }}</x-ui.badge>
             </div>

@@ -34,9 +34,11 @@
                 index: 0,
                 flipped: false,
                 get filteredCards() {
-                    if (this.filter === 'learned') return this.cards.filter(c => c.learned);
-                    if (this.filter === 'new') return this.cards.filter(c => !c.learned);
-                    return this.cards;
+                    var list = this.cards;
+                    if (this.filter === 'learned') list = list.filter(c => c.learned);
+                    if (this.filter === 'new') list = list.filter(c => !c.learned);
+                    if (this.category !== 'all') list = list.filter(c => c.category === this.category);
+                    return list;
                 },
                 get current() {
                     var list = this.filteredCards;
@@ -80,12 +82,13 @@
             'transcription' => $w->transcription,
             'translation' => $w->translations->pluck('translation')->join(', ') ?: '—',
             'learned' => in_array($w->id, $learnedWordIds, true),
+            'category' => $w->category,
         ])->values();
     @endphp
 
     <div
         class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"
-        x-data="Object.assign(wordDeck({{ Js::from($flashcards) }}), { mode: 'list', filter: 'all', addWordOpen: false })"
+        x-data="Object.assign(wordDeck({{ Js::from($flashcards) }}), { mode: 'list', filter: 'all', category: 'all', addWordOpen: false })"
     >
         <div class="mb-8 flex flex-wrap items-end justify-between gap-4" data-reveal>
             <div>
@@ -106,12 +109,27 @@
             </div>
         </div>
 
-        {{-- Фильтр --}}
-        <div class="mb-8 flex flex-wrap gap-2" data-reveal>
+        {{-- Фильтр по статусу --}}
+        <div class="mb-4 flex flex-wrap gap-2" data-reveal>
             <button type="button" @click="filter = 'all'" :class="filter === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-white/70 text-ink/60 hover:bg-brand/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Все слова</button>
             <button type="button" @click="filter = 'learned'" :class="filter === 'learned' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-white/70 text-ink/60 hover:bg-brand/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Выучено</button>
             <button type="button" @click="filter = 'new'" :class="filter === 'new' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-white/70 text-ink/60 hover:bg-brand/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">На изучении</button>
         </div>
+
+        {{-- Фильтр по категории --}}
+        @if ($categories->isNotEmpty())
+            <div class="mb-8 flex flex-wrap gap-1.5" data-reveal>
+                <button type="button" @click="category = 'all'" :class="category === 'all' ? 'bg-sun text-ink shadow-md shadow-sun/30' : 'bg-white/70 text-ink/50 hover:bg-sun/10'" class="rounded-full px-3 py-1 text-xs font-bold transition">Все темы</button>
+                @foreach ($categories as $cat)
+                    <button
+                        type="button"
+                        @click="category = {{ Js::from($cat) }}"
+                        :class="category === {{ Js::from($cat) }} ? 'bg-sun text-ink shadow-md shadow-sun/30' : 'bg-white/70 text-ink/50 hover:bg-sun/10'"
+                        class="rounded-full px-3 py-1 text-xs font-bold transition"
+                    >{{ $cat }}</button>
+                @endforeach
+            </div>
+        @endif
 
         @if ($words->isEmpty())
             <x-ui.card :hover="false" class="py-16 text-center">
@@ -123,7 +141,9 @@
             <div x-show="mode === 'list'" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($words as $word)
                     @php $isLearned = in_array($word->id, $learnedWordIds, true); @endphp
-                    <div x-show="filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}">
+                    <div
+                        x-show="(filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}) && (category === 'all' || category === {{ Js::from($word->category) }})"
+                    >
                         <a
                             href="{{ route('words.show', $word->id) }}"
                             class="group flex h-full flex-col rounded-2xl border border-white/60 bg-white/60 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
@@ -148,6 +168,10 @@
 
                             @if ($word->example)
                                 <p class="mt-2 flex-1 text-sm italic text-ink/50">&laquo;{{ $word->example }}&raquo;</p>
+                            @endif
+
+                            @if ($word->category)
+                                <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">{{ $word->category }}</span>
                             @endif
                         </a>
                     </div>

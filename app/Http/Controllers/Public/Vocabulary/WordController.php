@@ -40,7 +40,9 @@ class WordController extends Controller
             ->pluck('id')
             ->all();
 
-        return view('public.words.index', compact('words', 'learnedWordIds'));
+        $categories = $words->pluck('category')->filter()->unique()->sort()->values();
+
+        return view('public.words.index', compact('words', 'learnedWordIds', 'categories'));
     }
 
     /**
