@@ -66,6 +66,11 @@
         .animate-blob-slow { animation: blob-drift 24s ease-in-out infinite; }
         .animate-blob-delay { animation: blob-drift 20s ease-in-out infinite; animation-delay: -7s; }
 
+        /* Плотный узор дорожек как на печатной плате — жёлтый, тайлится по всему фону */
+        .bg-circuit-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23FACC15' stroke-width='1.4'%3E%3Cpath d='M0 30 H50 V70 H90 V30 H140 V90 H200'/%3E%3Cpath d='M30 0 V50 H70 V20 H110 V80 H160 V140 H200'/%3E%3Cpath d='M0 120 H40 V150 H80 V110 H130 V170 H200'/%3E%3Cpath d='M160 0 V40 H190 V0'/%3E%3Cpath d='M0 180 H30 V160 H60'/%3E%3Cpath d='M120 200 V160 H150 V190 H180 V150'/%3E%3Cpath d='M60 100 H100 V130 H140'/%3E%3C/g%3E%3Cg fill='%23FACC15'%3E%3Ccircle cx='50' cy='30' r='2.3'/%3E%3Ccircle cx='90' cy='70' r='2.3'/%3E%3Ccircle cx='140' cy='30' r='2.3'/%3E%3Ccircle cx='70' cy='50' r='2.3'/%3E%3Ccircle cx='110' cy='20' r='2.3'/%3E%3Ccircle cx='160' cy='80' r='2.3'/%3E%3Ccircle cx='40' cy='120' r='2.3'/%3E%3Ccircle cx='80' cy='150' r='2.3'/%3E%3Ccircle cx='130' cy='110' r='2.3'/%3E%3Ccircle cx='190' cy='40' r='2.3'/%3E%3Ccircle cx='30' cy='160' r='2.3'/%3E%3Ccircle cx='150' cy='160' r='2.3'/%3E%3Ccircle cx='180' cy='190' r='2.3'/%3E%3Ccircle cx='100' cy='100' r='2.3'/%3E%3Ccircle cx='100' cy='130' r='2.3'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 200px 200px;
+        }
 
         /* Уважаем предпочтение отключить анимации */
         @media (prefers-reduced-motion: reduce) {
@@ -85,19 +90,7 @@
         <div class="animate-blob-slow absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-skylight/20 blur-3xl"></div>
         <div class="animate-blob-delay absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-sky/15 blur-3xl"></div>
         <div class="animate-blob absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-skylight/15 blur-3xl"></div>
-        {{-- Толстые жёлтые ломаные "молнии" с тёмной обводкой — декоративный акцент фона --}}
-        <svg class="absolute -left-6 top-10 h-[420px] w-[160px] -rotate-6 opacity-30" viewBox="0 0 140 500" fill="none" aria-hidden="true">
-            <polyline points="55,0 48,150 18,240 2,500" stroke="#05080F" stroke-width="22" stroke-linejoin="miter" stroke-linecap="butt" />
-            <polyline points="95,20 88,160 55,250 40,490" stroke="#05080F" stroke-width="22" stroke-linejoin="miter" stroke-linecap="butt" />
-            <polyline points="55,0 48,150 18,240 2,500" stroke="#FACC15" stroke-width="15" stroke-linejoin="miter" stroke-linecap="butt" />
-            <polyline points="95,20 88,160 55,250 40,490" stroke="#FACC15" stroke-width="15" stroke-linejoin="miter" stroke-linecap="butt" />
-        </svg>
-        <svg class="absolute -right-10 bottom-0 h-[380px] w-[150px] rotate-12 opacity-20" viewBox="0 0 140 500" fill="none" aria-hidden="true">
-            <polyline points="55,0 48,150 18,240 2,500" stroke="#05080F" stroke-width="22" stroke-linejoin="miter" stroke-linecap="butt" />
-            <polyline points="95,20 88,160 55,250 40,490" stroke="#05080F" stroke-width="22" stroke-linejoin="miter" stroke-linecap="butt" />
-            <polyline points="55,0 48,150 18,240 2,500" stroke="#FACC15" stroke-width="15" stroke-linejoin="miter" stroke-linecap="butt" />
-            <polyline points="95,20 88,160 55,250 40,490" stroke="#FACC15" stroke-width="15" stroke-linejoin="miter" stroke-linecap="butt" />
-        </svg>
+        <div class="absolute inset-0 bg-circuit-pattern opacity-[0.22]"></div>
     </div>
 
     @include('layouts.partials.site-header')
