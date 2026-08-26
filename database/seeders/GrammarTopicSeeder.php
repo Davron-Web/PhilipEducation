@@ -501,6 +501,186 @@ class GrammarTopicSeeder extends Seeder
                     ."Разница между британским и американским написанием: colour/color, favourite/favorite, centre/center, travelling/traveling, organise/organize.\n\n"
                     ."Частая ошибка: it's (сокращение от it is/it has) vs its (притяжательное местоимение). It's raining. The dog wagged its tail.",
             ],
+
+            // Подтемы категории Pronouns
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Personal Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Personal pronouns (личные местоимения) — это полная система форм для каждого лица и числа, заменяющая имена людей и предметов.\n\n"
+                    ."Единственное число: I (я), you (ты), he (он), she (она), it (оно/это).\n"
+                    ."Множественное число: we (мы), you (вы), they (они).\n\n"
+                    ."У каждого личного местоимения есть форма подлежащего (I, he, she) и форма дополнения (me, him, her) — они рассматриваются отдельно в темах Subject Pronouns и Object Pronouns.\n\n"
+                    ."It используется не только для предметов и животных, но и в безличных предложениях: It's cold today. It's 6 p.m.\n\n"
+                    ."В современном английском they всё чаще используется как местоимение единственного числа, когда пол человека неизвестен или не указывается: Someone left their umbrella here.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Subject Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Subject pronouns (местоимения-подлежащие) — I, you, he, she, it, we, they — стоят перед глаголом и показывают, кто выполняет действие.\n\n"
+                    ."Примеры: I live in Tashkent. She works at a hospital. They study English together.\n\n"
+                    ."Глагол в Present Simple согласуется с местоимением: he/she/it + глагол с окончанием -s (he works), остальные — без -s (I work, they work).\n\n"
+                    ."Частая ошибка носителей других языков — использовать объектное местоимение вместо подлежащего: 'Me and him went to the party' неправильно; правильно 'He and I went to the party'.\n\n"
+                    ."В сложном подлежащем (два человека) вежливая норма — ставить 'I' на последнее место: My friend and I, not I and my friend.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Object Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Object pronouns (объектные местоимения) — me, you, him, her, it, us, them — используются как прямое или косвенное дополнение, то есть отвечают на вопрос «кого? что? кому?».\n\n"
+                    ."После глагола (прямое дополнение): I saw her yesterday. Call me later.\n\n"
+                    ."После глагола с двумя дополнениями (косвенное + прямое): She gave him a present. Или с предлогом to/for: She gave a present to him.\n\n"
+                    ."После предлогов: This letter is for you. Come with us.\n\n"
+                    ."В неформальной речи объектная форма часто используется и в кратких ответах: 'Who wants coffee?' — 'Me!' (вместо более формального 'I do').",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Reflexive Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Reflexive pronouns (возвратные местоимения) — myself, yourself, himself, herself, itself, oneself, ourselves, yourselves, themselves — используются, когда подлежащее и дополнение обозначают одно и то же лицо.\n\n"
+                    ."Пример: I hurt myself. She taught herself to play the piano. They introduced themselves.\n\n"
+                    ."Устойчивые выражения: enjoy yourself (хорошо провести время), help yourself (угощайся), by myself/on my own (в одиночку, самостоятельно).\n\n"
+                    ."Некоторые глаголы, требующие возвратного местоимения в других языках, в английском обычно обходятся без него: I washed (not 'I washed myself', если речь просто о гигиене), She feels good (not 'She feels herself good').\n\n"
+                    ."Не путайте с emphatic pronouns — та же форма, но другая функция (см. тему Emphatic Pronouns).",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Demonstrative Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Demonstrative pronouns (указательные местоимения) — this, that, these, those — указывают на конкретный предмет или предметы.\n\n"
+                    ."This (это/этот) и these (эти) — для близких по расстоянию или времени предметов: This is my bag. These are my keys.\n\n"
+                    ."That (то/тот) и those (те) — для далёких предметов: That was a great film. Those shoes look expensive.\n\n"
+                    ."This/that — единственное число, these/those — множественное. Глагол согласуется соответственно: This is..., These are....\n\n"
+                    ."Отличие от указательных прилагательных (determiners): в 'This book is mine' this — определитель перед существительным, а в 'This is mine' this — самостоятельное местоимение, заменяющее существительное.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Emphatic Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Emphatic pronouns (эмфатические местоимения) используют те же формы, что и reflexive pronouns (myself, himself, themselves...), но не являются дополнением — они лишь усиливают подлежащее или дополнение, подчёркивая «сам, лично».\n\n"
+                    ."Пример: I myself don't believe it. (= I personally don't believe it.) The manager himself called me.\n\n"
+                    ."Могут стоять сразу после существительного/местоимения или в конце предложения без изменения смысла: She repaired the car herself. / She herself repaired the car.\n\n"
+                    ."Ключевое отличие от reflexive pronouns: эмфатическое местоимение можно убрать из предложения без потери грамматической правильности — оно не является членом предложения (дополнением), а лишь усилением.\n\n"
+                    ."Сравните: She hurt herself (reflexive, обязательное дополнение) — She herself opened the door (emphatic, можно убрать: She opened the door).",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Interrogative Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Interrogative pronouns (вопросительные местоимения) — who, whom, whose, what, which — используются для формирования вопросов.\n\n"
+                    ."Who — вопрос о подлежащем-человеке: Who called you? Whom — вопрос о дополнении-человеке, формальный стиль: Whom did you meet? (в разговорной речи обычно заменяется на who).\n\n"
+                    ."Whose — вопрос о принадлежности: Whose is this jacket? Whose bag is this? (второй вариант — уже определитель, а не местоимение).\n\n"
+                    ."What — открытый вопрос без ограничения вариантов: What do you want to eat? Which — вопрос с ограниченным выбором: Which do you prefer, tea or coffee?\n\n"
+                    ."Все эти слова также используются как relative pronouns в придаточных предложениях — сравните с темой Relative Pronouns.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Possessive Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Possessive pronouns (притяжательные местоимения) — mine, yours, his, hers, its, ours, theirs — заменяют «притяжательное прилагательное + существительное» и употребляются самостоятельно, без следующего за ними существительного.\n\n"
+                    ."Пример: This is my book. → This book is mine. Is this your pen? → Is this pen yours?\n\n"
+                    ."Не путайте с possessive adjectives (my, your, his, her, its, our, their), которые всегда стоят перед существительным: my book (adjective) vs This book is mine (pronoun).\n\n"
+                    ."Its практически не используется как самостоятельное местоимение (its употребляется только как определитель: its colour), поскольку неодушевлённые предметы редко участвуют в конструкциях типа 'this is its'.\n\n"
+                    ."Устойчивая конструкция 'a friend of mine' (один из моих друзей) использует possessive pronoun после предлога of, а не possessive adjective.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Indefinite Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Indefinite pronouns (неопределённые местоимения) обозначают неопределённых или неуказанных людей, предметы и количества: somebody/someone, anybody/anyone, nobody/no one, everybody/everyone; something, anything, nothing, everything; some, any, none, all, both, several, few, many.\n\n"
+                    ."Some- используется в утвердительных предложениях: I saw someone in the garden. Any- — в вопросах и отрицаниях: Did you see anyone? I didn't see anyone.\n\n"
+                    ."No- уже содержит отрицание, поэтому глагол ставится в утвердительной форме: Nobody knows the answer (не 'Nobody doesn't know').\n\n"
+                    ."Местоимения на -body/-one/-thing согласуются с глаголом в единственном числе: Everybody is here. Everyone knows that.\n\n"
+                    ."All, both, none, several, few, many могут заменять исчисляемые существительные во множественном числе: Many of them agreed. Few understood the question.",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Dummy Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Dummy pronouns (местоимения-«пустышки», формальные подлежащие) — it и there — заполняют обязательную позицию подлежащего в английском предложении, не указывая на конкретный предмет.\n\n"
+                    ."It используется для погоды, времени, расстояния и общих оценок: It's raining. It's 9 o'clock. It's 200 km to the city. It's important to be honest.\n\n"
+                    ."There используется, чтобы сообщить о существовании чего-либо (there is/are): There is a café on the corner. There were many people at the concert.\n\n"
+                    ."Отличие: it не имеет реального значения и просто занимает место подлежащего; there хотя бы указывает на существование объекта, но само по себе не является ни подлежащим по смыслу, ни обстоятельством места (не путать с there — наречием места: Put it there).\n\n"
+                    ."Английский язык, в отличие от русского, не допускает предложений без подлежащего, поэтому dummy pronouns грамматически обязательны там, где в русском подлежащее просто опускается ('Идёт дождь' → It is raining).",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Reciprocal Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Reciprocal pronouns (взаимные местоимения) — each other и one another — показывают, что действие взаимно направлено между двумя и более участниками.\n\n"
+                    ."Пример: Tom and Jerry always argue with each other. The students helped one another during the exam.\n\n"
+                    ."Традиционно each other используется для двух человек, а one another — для трёх и более, но в современном английском это различие практически стёрлось, и оба варианта взаимозаменяемы.\n\n"
+                    ."Притяжательная форма: each other's, one another's — We celebrated each other's birthdays.\n\n"
+                    ."Не путайте с reflexive pronouns: 'They blamed themselves' (каждый винил себя самого) отличается по смыслу от 'They blamed each other' (они винили друг друга).",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Relative Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Relative pronouns (относительные местоимения) — who, whom, whose, which, that — вводят придаточное предложение и одновременно заменяют существительное, о котором идёт речь.\n\n"
+                    ."Who — для людей в роли подлежащего: The woman who called you is my aunt. Whom — для людей в роли дополнения (формально): The man whom I met was very kind.\n\n"
+                    ."Which — для предметов и животных: The car which I bought is red. That — для людей и предметов в defining (уточняющих) придаточных, более разговорный вариант: The book that I read was boring.\n\n"
+                    ."Whose — притяжательное значение, для людей и предметов: The boy whose bike was stolen called the police.\n\n"
+                    ."Подробнее о построении самих придаточных предложений с этими местоимениями — в теме Relative Clauses (категория Phrases and Clauses).",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Impersonal Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Impersonal pronouns (безличные местоимения в обобщающем значении) — one, generic you, generic they — используются, чтобы говорить о людях в целом, а не о конкретном человеке.\n\n"
+                    ."One — формальный, часто используется в академическом и официальном стиле: One should always tell the truth. One must follow the rules.\n\n"
+                    ."Generic you — неформальный аналог one, гораздо более распространён в разговорной речи: You can't please everyone. You never know what will happen.\n\n"
+                    ."Generic they — используется, когда речь идёт о неопределённой группе людей, часто в значении «говорят, что»: They say it's going to rain. In Japan, they drive on the left.\n\n"
+                    ."Выбор между one/you/they зависит от регистра речи: one — самый формальный и книжный вариант, в повседневной речи звучит несколько чопорно.",
+            ],
+            [
+                'level' => 'C1',
+                'lesson' => '',
+                'title' => 'Nominal Relative Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Nominal relative pronouns (номинативные относительные местоимения) — what, whoever, whatever, whichever, whomever — одновременно выполняют роль относительного местоимения и его антецедента (существительного, к которому оно относится), образуя целое именное придаточное предложение.\n\n"
+                    ."What = 'the thing(s) that': What she said surprised everyone. (= The thing that she said...) I don't understand what you mean.\n\n"
+                    ."Whoever = 'the person who / anyone who': Whoever wins the race gets a prize. Whatever = 'anything that': You can do whatever you like.\n\n"
+                    ."Whichever выбирает из ограниченного набора вариантов: Choose whichever option suits you best.\n\n"
+                    ."Отличие от обычных relative pronouns: обычные (who, which, that) всегда ссылаются на уже названное существительное в главном предложении, а nominal relative pronouns сами образуют подлежащее или дополнение всего предложения — отдельного антецедента не требуется.",
+            ],
+            [
+                'level' => 'C1',
+                'lesson' => '',
+                'title' => 'Archaic Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Archaic pronouns (архаичные местоимения) — thou, thee, thy, thine, ye — исторические формы 2-го лица, вышедшие из повседневного употребления к XVIII веку, но встречающиеся в поэзии, Шекспире, Библии короля Якова (King James Bible) и стилизованных текстах.\n\n"
+                    ."Thou — подлежащее, единственное число (= you, ты): Thou art welcome. (= You are welcome.)\n"
+                    ."Thee — дополнение, единственное число (= you): I give thee my word.\n\n"
+                    ."Thy/thine — притяжательные формы (= your/yours): thy kingdom come; thine eyes (thine перед гласным звуком, как an перед гласной).\n\n"
+                    ."Ye — форма множественного числа для подлежащего (= you, вы): Hear ye, hear ye!\n\n"
+                    ."Сегодня эти формы практически не используются в живой речи, но узнавание их важно для понимания классической литературы, религиозных текстов и некоторых устойчивых архаизмов (например, 'the powers that be').",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Distributive Pronouns',
+                'category' => 'Pronouns',
+                'theory' => "Distributive pronouns (дистрибутивные местоимения) — each, either, neither — указывают на членов группы по отдельности, а не на группу как целое.\n\n"
+                    ."Each — каждый из группы (два и более): Each of the students has a laptop. Each costs \$10.\n\n"
+                    ."Either — один из двух (в утвердительном или вопросительном смысле): You can take either of the two roads. Either is fine with me.\n\n"
+                    ."Neither — ни один из двух (отрицательное значение): Neither of the answers is correct.\n\n"
+                    ."Важно: each, either, neither согласуются с глаголом в единственном числе, даже когда после них стоит 'of + существительное во множественном числе': Each of them has a key (не 'have').",
+            ],
         ];
     }
 }
