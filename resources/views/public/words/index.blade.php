@@ -102,15 +102,15 @@
                 @foreach ($categoryCounts as $cat => $count)
                     <a
                         href="{{ route('words.index', ['category' => $cat]) }}"
-                        class="group flex items-center gap-3 rounded-2xl border border-white/60 bg-white/60 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
+                        class="group flex items-center gap-3 rounded-2xl border border-white/60 bg-gradient-to-br from-brand to-sky p-5 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
                         data-reveal
                     >
-                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sun/15 text-amber-600 transition group-hover:bg-sun group-hover:text-ink">
+                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z" /><circle cx="7" cy="7" r="1.2" fill="currentColor" stroke="none" /></svg>
                         </span>
                         <span>
-                            <span class="block font-bold text-ink">{{ $cat }}</span>
-                            <span class="block text-sm text-ink/50">{{ $count }} {{ $count === 1 ? 'слово' : 'слов' }}</span>
+                            <span class="block font-bold">{{ $cat }}</span>
+                            <span class="block text-sm text-white/70">{{ $count }} {{ $count === 1 ? 'слово' : 'слов' }}</span>
                         </span>
                     </a>
                 @endforeach
