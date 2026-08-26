@@ -66,12 +66,6 @@
         .animate-blob-slow { animation: blob-drift 24s ease-in-out infinite; }
         .animate-blob-delay { animation: blob-drift 20s ease-in-out infinite; animation-delay: -7s; }
 
-        /* Линии-дорожки как на чипе/плате: ломаные прямые с площадками
-           в местах изгиба, тайлится по фону. */
-        .bg-circuit-pattern {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%237DD3FC' stroke-width='1.5'%3E%3Cpath d='M0 24 H46 V64 H94 V24 H140'/%3E%3Cpath d='M24 0 V46 H70 V94 H116 V140'/%3E%3Cpath d='M0 100 H30 V120 H60'/%3E%3Cpath d='M100 0 V30 H120 V60'/%3E%3C/g%3E%3Cg fill='%237DD3FC'%3E%3Ccircle cx='46' cy='24' r='2.2'/%3E%3Ccircle cx='94' cy='64' r='2.2'/%3E%3Ccircle cx='24' cy='46' r='2.2'/%3E%3Ccircle cx='70' cy='94' r='2.2'/%3E%3Ccircle cx='30' cy='100' r='2.2'/%3E%3Ccircle cx='120' cy='30' r='2.2'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: 140px 140px;
-        }
 
         /* Уважаем предпочтение отключить анимации */
         @media (prefers-reduced-motion: reduce) {
@@ -91,7 +85,19 @@
         <div class="animate-blob-slow absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-skylight/20 blur-3xl"></div>
         <div class="animate-blob-delay absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-sky/15 blur-3xl"></div>
         <div class="animate-blob absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-skylight/15 blur-3xl"></div>
-        <div class="absolute inset-0 bg-circuit-pattern opacity-[0.12]"></div>
+        {{-- Толстые жёлтые ломаные "молнии" с тёмной обводкой — декоративный акцент фона --}}
+        <svg class="absolute -left-6 top-10 h-[420px] w-[160px] -rotate-6 opacity-30" viewBox="0 0 140 500" fill="none" aria-hidden="true">
+            <polyline points="55,0 48,150 18,240 2,500" stroke="#05080F" stroke-width="22" stroke-linejoin="miter" stroke-linecap="butt" />
+            <polyline points="95,20 88,160 55,250 40,490" stroke="#05080F" stroke-width="22" stroke-linejoin="miter" stroke-linecap="butt" />
+            <polyline points="55,0 48,150 18,240 2,500" stroke="#FACC15" stroke-width="15" stroke-linejoin="miter" stroke-linecap="butt" />
+            <polyline points="95,20 88,160 55,250 40,490" stroke="#FACC15" stroke-width="15" stroke-linejoin="miter" stroke-linecap="butt" />
+        </svg>
+        <svg class="absolute -right-10 bottom-0 h-[380px] w-[150px] rotate-12 opacity-20" viewBox="0 0 140 500" fill="none" aria-hidden="true">
+            <polyline points="55,0 48,150 18,240 2,500" stroke="#05080F" stroke-width="22" stroke-linejoin="miter" stroke-linecap="butt" />
+            <polyline points="95,20 88,160 55,250 40,490" stroke="#05080F" stroke-width="22" stroke-linejoin="miter" stroke-linecap="butt" />
+            <polyline points="55,0 48,150 18,240 2,500" stroke="#FACC15" stroke-width="15" stroke-linejoin="miter" stroke-linecap="butt" />
+            <polyline points="95,20 88,160 55,250 40,490" stroke="#FACC15" stroke-width="15" stroke-linejoin="miter" stroke-linecap="butt" />
+        </svg>
     </div>
 
     @include('layouts.partials.site-header')
