@@ -14,6 +14,7 @@ class GrammarTopic extends Model
 
     protected $fillable = [
         'title',
+        'category',
         'level_id',
         'theory',
     ];

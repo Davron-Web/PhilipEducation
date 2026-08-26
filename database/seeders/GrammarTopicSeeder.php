@@ -31,6 +31,7 @@ class GrammarTopicSeeder extends Seeder
 
             $topic = GrammarTopic::create([
                 'title' => $data['title'],
+                'category' => $data['category'] ?? null,
                 'level_id' => $levelId,
                 'theory' => $data['theory'],
             ]);
@@ -42,7 +43,7 @@ class GrammarTopicSeeder extends Seeder
     }
 
     /**
-     * @return array<int, array{level: string, lesson: string, title: string, theory: string}>
+     * @return array<int, array{level: string, lesson: string, title: string, category: string, theory: string}>
      */
     private function topics(): array
     {
@@ -52,6 +53,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A1',
                 'lesson' => 'Present Simple Basics',
                 'title' => 'Present Simple',
+                'category' => 'Tenses',
                 'theory' => "Present Simple используется для описания привычных действий, фактов и повторяющихся событий.\n\n"
                     ."Утверждение: I/You/We/They + глагол; He/She/It + глагол + -s.\n"
                     ."Примеры: I work in an office. She works in an office.\n\n"
@@ -66,6 +68,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A1',
                 'lesson' => 'Verb To Be: Am, Is, Are',
                 'title' => 'Глагол to be (am/is/are)',
+                'category' => 'Verbs and Voices',
                 'theory' => "Глагол to be — один из самых важных глаголов в английском языке. Он используется для описания состояния, качеств, профессии, возраста.\n\n"
                     ."I am (I'm), He/She/It is (He's/She's/It's), You/We/They are (You're/We're/They're).\n\n"
                     ."Утверждение: I am a student. She is happy. They are teachers.\n"
@@ -79,6 +82,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A1',
                 'lesson' => 'Present Continuous',
                 'title' => 'Present Continuous',
+                'category' => 'Tenses',
                 'theory' => "Present Continuous описывает действие, которое происходит прямо сейчас, в момент речи, или временную ситуацию.\n\n"
                     ."Формула: am/is/are + глагол + -ing.\n"
                     ."Примеры: I am reading a book. She is cooking dinner. They are playing football.\n\n"
@@ -93,6 +97,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A1',
                 'lesson' => 'Past Simple Basics',
                 'title' => 'Past Simple',
+                'category' => 'Tenses',
                 'theory' => "Past Simple используется для завершённых действий в прошлом, которые произошли в конкретный момент времени.\n\n"
                     ."Правильные глаголы: глагол + -ed. Пример: work → worked, play → played.\n"
                     ."Неправильные глаголы имеют особую форму: go → went, see → saw, be → was/were.\n\n"
@@ -107,6 +112,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A1',
                 'lesson' => 'Articles: A, An, The',
                 'title' => 'Артикли a/an/the',
+                'category' => 'Determiners',
                 'theory' => "В английском языке два вида артиклей: неопределённый (a/an) и определённый (the).\n\n"
                     ."A используется перед словом, начинающимся с согласного звука: a book, a car.\n"
                     ."An используется перед словом, начинающимся с гласного звука: an apple, an hour.\n"
@@ -121,6 +127,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A2',
                 'lesson' => 'Past Continuous Tense',
                 'title' => 'Past Continuous',
+                'category' => 'Tenses',
                 'theory' => "Past Continuous описывает действие, которое происходило в определённый момент в прошлом, часто на фоне которого случилось другое, более короткое действие.\n\n"
                     ."Формула: was/were + глагол + -ing.\n"
                     ."Примеры: I was reading at 8 p.m. They were playing football when it started to rain.\n\n"
@@ -135,6 +142,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A2',
                 'lesson' => 'Future Simple: Will',
                 'title' => 'Future Simple (will)',
+                'category' => 'Tenses',
                 'theory' => "Future Simple с will используется для спонтанных решений, обещаний, предположений о будущем и предложений помощи.\n\n"
                     ."Формула: will + глагол в начальной форме (для всех лиц).\n"
                     ."Примеры: I will (I'll) call you tomorrow. It will rain later, I think.\n\n"
@@ -149,6 +157,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A2',
                 'lesson' => 'Present Perfect: Introduction',
                 'title' => 'Present Perfect (введение)',
+                'category' => 'Tenses',
                 'theory' => "Present Perfect связывает прошлое с настоящим: действие произошло в неопределённом прошлом, но результат важен сейчас.\n\n"
                     ."Формула: have/has + глагол в 3-й форме (Participle II).\n"
                     ."Правильные глаголы: + -ed (worked). Неправильные: особая форма (go → gone, see → seen).\n\n"
@@ -164,6 +173,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A2',
                 'lesson' => 'First Conditional',
                 'title' => 'First Conditional (реальное условие)',
+                'category' => 'Sentences',
                 'theory' => "First Conditional используется для реальных, возможных ситуаций в будущем и их вероятных последствий.\n\n"
                     ."Формула: If + Present Simple, ... will + глагол.\n"
                     ."Пример: If it rains, I will stay at home. If you study hard, you will pass the exam.\n\n"
@@ -177,6 +187,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'A2',
                 'lesson' => 'Comparatives and Superlatives',
                 'title' => 'Сравнительная и превосходная степень',
+                'category' => 'Adjectives',
                 'theory' => "Сравнительная степень (comparative) используется для сравнения двух предметов, превосходная (superlative) — для выделения одного предмета среди многих.\n\n"
                     ."Короткие прилагательные (1 слог): + -er / + -est.\n"
                     ."Пример: tall → taller → the tallest.\n\n"
@@ -194,6 +205,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B1',
                 'lesson' => 'Present Perfect vs Past Simple',
                 'title' => 'Present Perfect vs Past Simple',
+                'category' => 'Tenses',
                 'theory' => "Оба времени описывают прошлое, но с разным акцентом.\n\n"
                     ."Past Simple: действие завершено в КОНКРЕТНЫЙ момент прошлого, важен САМ факт/момент.\n"
                     ."Пример: I visited Paris in 2019. She called me yesterday.\n\n"
@@ -208,6 +220,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B1',
                 'lesson' => 'Second Conditional',
                 'title' => 'Second Conditional (нереальное условие)',
+                'category' => 'Sentences',
                 'theory' => "Second Conditional используется для гипотетических, нереальных или маловероятных ситуаций в настоящем/будущем.\n\n"
                     ."Формула: If + Past Simple, ... would + глагол.\n"
                     ."Пример: If I had more money, I would travel around the world. If I were you, I would apologize.\n\n"
@@ -219,6 +232,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B1',
                 'lesson' => 'Passive Voice: Advanced Structures',
                 'title' => 'Страдательный залог (Passive Voice)',
+                'category' => 'Verbs and Voices',
                 'theory' => "Страдательный залог используется, когда важнее само действие или его результат, а не тот, кто его совершил.\n\n"
                     ."Формула: be (в нужном времени) + глагол в 3-й форме (Participle II).\n\n"
                     ."Present Simple Passive: The letters are sent every day.\n"
@@ -233,6 +247,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B1',
                 'lesson' => 'Reported Speech: Statements',
                 'title' => 'Косвенная речь: утверждения',
+                'category' => 'Sentences',
                 'theory' => "Косвенная речь используется, чтобы передать чужие слова без кавычек. При этом обычно происходит сдвиг времени на один шаг назад.\n\n"
                     ."Present Simple → Past Simple: 'I work here.' → He said (that) he worked there.\n"
                     ."Present Continuous → Past Continuous: 'I am reading.' → She said she was reading.\n"
@@ -246,6 +261,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B1',
                 'lesson' => 'Relative Clauses',
                 'title' => 'Относительные придаточные (Relative Clauses)',
+                'category' => 'Phrases and Clauses',
                 'theory' => "Relative clauses уточняют, о каком именно человеке, предмете или месте идёт речь, с помощью относительных местоимений.\n\n"
                     ."Who — для людей: The man who called you is my brother.\n"
                     ."Which — для предметов/животных: The book which is on the table is mine.\n"
@@ -262,6 +278,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B2',
                 'lesson' => 'Third Conditional',
                 'title' => 'Third Conditional (нереальное прошлое)',
+                'category' => 'Sentences',
                 'theory' => "Third Conditional используется для гипотетических ситуаций в ПРОШЛОМ, которые не произошли, и их воображаемых последствий.\n\n"
                     ."Формула: If + Past Perfect, ... would have + глагол в 3-й форме.\n"
                     ."Пример: If I had studied harder, I would have passed the exam. (В реальности я не учился усерднее и не сдал экзамен.)\n\n"
@@ -273,6 +290,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B2',
                 'lesson' => 'Mixed Conditionals',
                 'title' => 'Смешанные условные предложения',
+                'category' => 'Sentences',
                 'theory' => "Mixed Conditionals объединяют разные времена в одном условном предложении, когда условие относится к одному времени, а результат — к другому.\n\n"
                     ."Тип 1: нереальное прошлое → результат в настоящем.\n"
                     ."Формула: If + Past Perfect, ... would + глагол.\n"
@@ -286,6 +304,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B2',
                 'lesson' => 'Inversion for Emphasis',
                 'title' => 'Инверсия для усиления',
+                'category' => 'Grammatical Functions',
                 'theory' => "Инверсия — изменение обычного порядка слов (подлежащее + сказуемое → сказуемое + подлежащее) для придания эмоциональной выразительности, часто в формальной или литературной речи.\n\n"
                     ."После отрицательных наречий в начале предложения: Never, Rarely, Seldom, Not only, No sooner, Hardly.\n"
                     ."Пример: Never have I seen such a beautiful sunset. Not only did she win the race, but she also broke the record.\n\n"
@@ -299,6 +318,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B2',
                 'lesson' => 'Subjunctive Mood',
                 'title' => 'Сослагательное наклонение (Subjunctive Mood)',
+                'category' => 'Moods',
                 'theory' => "Subjunctive Mood выражает пожелания, требования, предположения и нереальные ситуации. Используется начальная форма глагола независимо от лица.\n\n"
                     ."После глаголов suggest, recommend, insist, demand, propose + that:\n"
                     ."Пример: I suggest that he study harder. (не 'studies') The doctor recommended that she rest for a week.\n\n"
@@ -312,6 +332,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'B2',
                 'lesson' => 'Reported Speech: Advanced Reporting Verbs',
                 'title' => 'Косвенная речь: продвинутые глаголы',
+                'category' => 'Verbs and Voices',
                 'theory' => "Помимо say и tell, в косвенной речи используется множество более точных глаголов, которые сразу передают тон и намерение говорящего.\n\n"
                     ."Совет: advise, recommend + doing/to do.\n"
                     ."Пример: He advised me to see a doctor.\n\n"
@@ -329,6 +350,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'C1',
                 'lesson' => 'Participle Clauses',
                 'title' => 'Причастные обороты (Participle Clauses)',
+                'category' => 'Phrases and Clauses',
                 'theory' => "Participle clauses позволяют сокращать придаточные предложения, делая речь более компактной и характерной для письменного/формального стиля.\n\n"
                     ."Present Participle (-ing) — для одновременных или активных действий:\n"
                     ."Пример: Feeling tired, she went to bed early. (= Because she felt tired...)\n\n"
@@ -342,6 +364,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'C1',
                 'lesson' => 'Nominalization',
                 'title' => 'Номинализация (Nominalization)',
+                'category' => 'Etymology and Morphology',
                 'theory' => "Номинализация — превращение глагола или прилагательного в существительное. Это ключевая черта формального и академического английского.\n\n"
                     ."Глагол → существительное: decide → decision, arrive → arrival, analyse → analysis, develop → development.\n"
                     ."Прилагательное → существительное: important → importance, difficult → difficulty, aware → awareness.\n\n"
@@ -357,6 +380,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'C1',
                 'lesson' => 'Fronting for Emphasis',
                 'title' => 'Вынесение вперёд (Fronting)',
+                'category' => 'Grammatical Functions',
                 'theory' => "Fronting — вынесение элемента предложения (не подлежащего) в начало для смыслового акцента. Характерно для риторики, литературы и выразительной речи.\n\n"
                     ."Вынесение дополнения:\n"
                     ."Пример: This I cannot accept. (= I cannot accept this.)\n\n"
@@ -370,6 +394,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'C1',
                 'lesson' => 'Ellipsis',
                 'title' => 'Эллипсис (пропуск слов)',
+                'category' => 'Grammatical Functions',
                 'theory' => "Эллипсис — намеренный пропуск слов, которые понятны из контекста, чтобы избежать повторов и сделать речь более естественной.\n\n"
                     ."Пропуск подлежащего в разговорной речи: (I) Sounds good! (Are you) Ready?\n\n"
                     ."Пропуск повторяющегося глагола после and/but/or:\n"
@@ -383,6 +408,7 @@ class GrammarTopicSeeder extends Seeder
                 'level' => 'C1',
                 'lesson' => 'Hedging Language',
                 'title' => 'Хеджирование (смягчение высказывания)',
+                'category' => 'Miscellaneous Grammar Subjects',
                 'theory' => "Hedging — использование смягчающих конструкций, чтобы высказывание звучало менее категорично, более вежливо или осторожно. Особенно важно в академическом и деловом английском.\n\n"
                     ."Модальные глаголы: may, might, could, would suggest.\n"
                     ."Пример: This might explain the results. The data would suggest a correlation.\n\n"

@@ -19,7 +19,9 @@ it('lists grammar topics grouped by level progression', function () use ($user) 
     GrammarTopic::factory()->create(['level_id' => $b1->id, 'title' => 'B1 Topic']);
     GrammarTopic::factory()->create(['level_id' => $a1->id, 'title' => 'A1 Topic']);
 
-    $response = $this->actingAs($user())->get('/grammartopics');
+    // "/grammartopics" alone is now the category picker; "?category=all"
+    // is the flat, level-ordered list of every topic.
+    $response = $this->actingAs($user())->get('/grammartopics?category=all');
     $response->assertOk();
 
     $body = $response->getContent();
