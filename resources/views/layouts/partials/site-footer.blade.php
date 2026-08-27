@@ -1,5 +1,5 @@
 {{-- Подвал сайта: разделы, соцсети, копирайт. --}}
-<footer class="relative mt-20 overflow-hidden border-t border-sky/10 bg-gradient-to-b from-[#0A192F] to-[#05080F] text-white">
+<footer class="relative mt-20 overflow-hidden border-t border-sky/10 bg-gradient-to-b from-armor2 to-armor text-white">
     <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
@@ -51,7 +51,7 @@
                     @foreach (['Telegram', 'Instagram', 'YouTube'] as $network)
                         <a
                             href="#"
-                            class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 transition hover:-translate-y-0.5 hover:bg-sun hover:text-ink"
+                            class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 transition hover:-translate-y-0.5 hover:bg-sun hover:text-[#171325]"
                             aria-label="{{ $network }}"
                         >
                             <span class="text-xs font-bold">{{ mb_substr($network, 0, 1) }}</span>

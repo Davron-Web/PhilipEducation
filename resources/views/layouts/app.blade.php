@@ -12,15 +12,16 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Philip Education">
 
-    {{-- Шрифт --}}
+    {{-- Шрифты: Unbounded для заголовков (font-display), Manrope для текста --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     {{--
         Сборки через npm на этой машине нет, поэтому Tailwind и Alpine
-        подключены через CDN (без шага компиляции). Палитра ниже продублирована
-        в tailwind.config.js — держите оба места в синхроне при правках.
+        подключены через CDN (без шага компиляции). Палитра — тема "Lingua
+        Arcana" (тёмное стекло + фиолетовый/циан-неон/золото), перенесённая
+        с гостевой главной на весь сайт. Держите в синхроне с tailwind.config.js.
     --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -28,14 +29,17 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        display: ['Unbounded', 'ui-sans-serif', 'system-ui', 'sans-serif'],
                     },
                     colors: {
-                        ink: '#1E3A8A',
-                        brand: '#2563EB',
-                        sky: '#38BDF8',
-                        skylight: '#7DD3FC',
-                        sun: '#FACC15',
+                        ink: '#EAF0F6',
+                        armor: '#1E222A',
+                        armor2: '#252B36',
+                        brand: '#7C3AED',
+                        sky: '#22D3EE',
+                        skylight: '#5EEAD4',
+                        sun: '#FFD700',
                     },
                 },
             },
@@ -68,7 +72,7 @@
 
         /* Звёздное небо — тайл со звёздами, тайлится по всему фону */
         .bg-starfield {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cg fill='%23E8F6FB'%3E%3Ccircle cx='12' cy='40' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='55' cy='15' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='90' cy='70' r='1.3' fill-opacity='.8'/%3E%3Ccircle cx='130' cy='30' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='210' cy='20' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='250' cy='55' r='1.5' fill-opacity='.9'/%3E%3Ccircle cx='20' cy='120' r='1.1' fill-opacity='.7'/%3E%3Ccircle cx='60' cy='160' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='140' cy='180' r='0.6' fill-opacity='.5'/%3E%3Ccircle cx='180' cy='150' r='0.9' fill-opacity='.7'/%3E%3Ccircle cx='260' cy='200' r='1.2' fill-opacity='.8'/%3E%3Ccircle cx='30' cy='220' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='110' cy='230' r='0.6' fill-opacity='.5'/%3E%3Ccircle cx='150' cy='260' r='1.4' fill-opacity='.85'/%3E%3Ccircle cx='230' cy='280' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='270' cy='250' r='1.1' fill-opacity='.7'/%3E%3Ccircle cx='50' cy='90' r='0.9' fill-opacity='.7'/%3E%3Ccircle cx='95' cy='10' r='0.5' fill-opacity='.5'/%3E%3Ccircle cx='240' cy='130' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='5' cy='180' r='0.5' fill-opacity='.5'/%3E%3C/g%3E%3Cg fill='%237DD3FC'%3E%3Ccircle cx='170' cy='90' r='1.0' fill-opacity='.8'/%3E%3Ccircle cx='280' cy='110' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='100' cy='140' r='1.6' fill-opacity='.9'/%3E%3Ccircle cx='220' cy='170' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='70' cy='250' r='1.0' fill-opacity='.8'/%3E%3Ccircle cx='190' cy='240' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='10' cy='280' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='160' cy='110' r='0.7' fill-opacity='.7'/%3E%3Ccircle cx='290' cy='20' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='200' cy='290' r='1.0' fill-opacity='.8'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cg fill='%23EAF0F6'%3E%3Ccircle cx='12' cy='40' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='55' cy='15' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='90' cy='70' r='1.3' fill-opacity='.8'/%3E%3Ccircle cx='130' cy='30' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='210' cy='20' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='250' cy='55' r='1.5' fill-opacity='.9'/%3E%3Ccircle cx='20' cy='120' r='1.1' fill-opacity='.7'/%3E%3Ccircle cx='60' cy='160' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='140' cy='180' r='0.6' fill-opacity='.5'/%3E%3Ccircle cx='180' cy='150' r='0.9' fill-opacity='.7'/%3E%3Ccircle cx='260' cy='200' r='1.2' fill-opacity='.8'/%3E%3Ccircle cx='30' cy='220' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='110' cy='230' r='0.6' fill-opacity='.5'/%3E%3Ccircle cx='150' cy='260' r='1.4' fill-opacity='.85'/%3E%3Ccircle cx='230' cy='280' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='270' cy='250' r='1.1' fill-opacity='.7'/%3E%3Ccircle cx='50' cy='90' r='0.9' fill-opacity='.7'/%3E%3Ccircle cx='95' cy='10' r='0.5' fill-opacity='.5'/%3E%3Ccircle cx='240' cy='130' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='5' cy='180' r='0.5' fill-opacity='.5'/%3E%3C/g%3E%3Cg fill='%2322D3EE'%3E%3Ccircle cx='170' cy='90' r='1.0' fill-opacity='.8'/%3E%3Ccircle cx='280' cy='110' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='100' cy='140' r='1.6' fill-opacity='.9'/%3E%3Ccircle cx='220' cy='170' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='70' cy='250' r='1.0' fill-opacity='.8'/%3E%3Ccircle cx='190' cy='240' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='10' cy='280' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='160' cy='110' r='0.7' fill-opacity='.7'/%3E%3Ccircle cx='290' cy='20' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='200' cy='290' r='1.0' fill-opacity='.8'/%3E%3C/g%3E%3C/svg%3E");
             background-size: 300px 300px;
         }
 
@@ -88,13 +92,13 @@
 
     @stack('styles')
 </head>
-<body class="min-h-screen bg-white font-sans text-ink antialiased">
+<body class="min-h-screen bg-armor font-sans text-ink antialiased">
 
-    {{-- ===================== АНИМИРОВАННЫЙ ФОН (тёмный, как в админке) ===================== --}}
-    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-[#05080F] via-[#0A192F] to-[#05080F]" aria-hidden="true">
-        <div class="animate-blob absolute -top-24 -left-24 h-[28rem] w-[28rem] rounded-full bg-sky/25 blur-3xl"></div>
-        <div class="animate-blob-slow absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-skylight/20 blur-3xl"></div>
-        <div class="animate-blob-delay absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-sky/15 blur-3xl"></div>
+    {{-- ===================== АНИМИРОВАННЫЙ ФОН (тема Lingua Arcana) ===================== --}}
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-armor via-[#2A1F3D] to-armor" aria-hidden="true">
+        <div class="animate-blob absolute -top-24 -left-24 h-[28rem] w-[28rem] rounded-full bg-brand/25 blur-3xl"></div>
+        <div class="animate-blob-slow absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-sky/20 blur-3xl"></div>
+        <div class="animate-blob-delay absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-brand/15 blur-3xl"></div>
         <div class="animate-blob absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-skylight/15 blur-3xl"></div>
         <div class="absolute inset-0 bg-starfield animate-twinkle opacity-80"></div>
 

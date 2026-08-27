@@ -11,19 +11,19 @@
     $code = is_object($level) ? ($level->code ?? $level->name ?? null) : $level;
 
     $paletteByLevel = [
-        'A1' => 'bg-sky/15 text-sky-700',
-        'A2' => 'bg-skylight/30 text-sky-800',
-        'B1' => 'bg-brand/10 text-brand',
-        'B2' => 'bg-brand/15 text-ink',
-        'C1' => 'bg-ink/10 text-ink',
-        'C2' => 'bg-ink/15 text-ink',
+        'A1' => 'border border-sky/30 bg-sky/10 text-sky',
+        'A2' => 'border border-skylight/30 bg-skylight/10 text-skylight',
+        'B1' => 'border border-brand/40 bg-brand/10 text-brand',
+        'B2' => 'border border-brand/40 bg-brand/15 text-[#C4B5FD]',
+        'C1' => 'border border-sun/30 bg-sun/10 text-sun',
+        'C2' => 'border border-sun/30 bg-sun/15 text-sun',
     ];
 
     $variants = [
-        'success' => 'bg-green-100 text-green-700',
-        'danger' => 'bg-red-100 text-red-700',
-        'accent' => 'bg-sun/20 text-amber-700',
-        'neutral' => 'bg-ink/5 text-ink/60',
+        'success' => 'border border-green-500/30 bg-green-500/10 text-green-400',
+        'danger' => 'border border-red-500/30 bg-red-500/10 text-red-400',
+        'accent' => 'border border-sun/30 bg-sun/10 text-sun',
+        'neutral' => 'border border-white/10 bg-white/5 text-ink/50',
     ];
 
     if ($variant === 'level') {

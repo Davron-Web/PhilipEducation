@@ -18,13 +18,25 @@
             </div>
 
             {{-- Streak --}}
-            <div class="flex items-center gap-2 rounded-2xl border border-sun/30 bg-sun/10 px-4 py-2.5 text-amber-700">
-                <span class="text-2xl" aria-hidden="true">🔥</span>
-                <div class="leading-tight">
-                    <p class="text-lg font-extrabold" x-data x-init="countUp($el, 0, {{ $stats['streak'] }}, 800)">0</p>
-                    <p class="text-xs font-semibold uppercase tracking-wide text-amber-700/70">
-                        {{ $stats['streak'] === 1 ? 'день подряд' : 'дней подряд' }}
-                    </p>
+            <div class="rounded-2xl border border-sun/30 bg-sun/10 px-4 py-3 text-sun">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl" aria-hidden="true">🔥</span>
+                    <div class="leading-tight">
+                        <p class="text-lg font-extrabold" x-data x-init="countUp($el, 0, {{ $stats['streak'] }}, 800)">0</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-sun/70">
+                            {{ $stats['streak'] === 1 ? 'день подряд' : 'дней подряд' }}
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-2 flex items-center gap-1">
+                    @foreach ($streakDays as $day)
+                        <div class="flex flex-col items-center gap-1">
+                            <span
+                                class="h-2.5 w-2.5 rounded-full {{ $day['active'] ? 'bg-sun' : 'bg-sun/15' }} {{ $day['isToday'] ? 'ring-2 ring-sun ring-offset-1 ring-offset-armor' : '' }}"
+                                title="{{ $day['label'] }}"
+                            ></span>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -34,26 +46,40 @@
 
                 {{-- Прогресс уровня --}}
                 <x-ui.card class="!p-6">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
-                        <div class="flex items-center gap-2">
-                            <span class="text-sm font-bold uppercase tracking-wide text-ink/50">Текущий уровень</span>
-                            <x-ui.badge variant="level" :level="auth()->user()->level" />
+                    <div class="flex items-center gap-5">
+                        <div class="relative flex h-20 w-20 shrink-0 items-center justify-center">
+                            <svg class="h-20 w-20 -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="42" fill="none" stroke-width="10" class="stroke-white/10" />
+                                <circle
+                                    cx="50" cy="50" r="42" fill="none" stroke-width="10" stroke-linecap="round"
+                                    stroke="url(#level-ring-gradient)"
+                                    stroke-dasharray="264"
+                                    style="stroke-dashoffset: 264; transition: stroke-dashoffset 1s ease-out"
+                                    x-data
+                                    x-init="requestAnimationFrame(() => $el.style.strokeDashoffset = 264 - (264 * {{ $stats['lessons_progress'] }} / 100))"
+                                />
+                                <defs>
+                                    <linearGradient id="level-ring-gradient" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#7C3AED" />
+                                        <stop offset="100%" stop-color="#22D3EE" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <span class="absolute text-lg font-extrabold text-ink">{{ $stats['lessons_progress'] }}%</span>
                         </div>
-                        <span class="text-sm font-bold text-brand">{{ $stats['lessons_progress'] }}%</span>
+
+                        <div class="min-w-0 flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-sm font-bold uppercase tracking-wide text-ink/50">Текущий уровень</span>
+                                <x-ui.badge variant="level" :level="auth()->user()->level" />
+                            </div>
+                            <p class="mt-1 text-sm text-ink/50">{{ $stats['lessons_completed'] }} уроков пройдено на пути к следующему уровню.</p>
+                        </div>
                     </div>
-                    <div class="mt-3 h-3 w-full overflow-hidden rounded-full bg-ink/10">
-                        <div
-                            class="h-full rounded-full bg-gradient-to-r from-brand to-sky transition-all duration-1000 ease-out"
-                            style="width: 0%"
-                            x-data
-                            x-init="requestAnimationFrame(() => $el.style.width = '{{ $stats['lessons_progress'] }}%')"
-                        ></div>
-                    </div>
-                    <p class="mt-2 text-sm text-ink/50">{{ $stats['lessons_completed'] }} уроков пройдено на пути к следующему уровню.</p>
                 </x-ui.card>
 
                 {{-- Продолжить урок --}}
-                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-ink via-brand to-sky p-8 text-white shadow-2xl shadow-brand/25" data-reveal>
+                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-armor via-brand to-sky p-8 text-white shadow-2xl shadow-brand/25" data-reveal>
                     <div class="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
                     <div class="absolute -bottom-16 left-10 h-40 w-40 rounded-full bg-sun/20 blur-2xl"></div>
 
@@ -106,7 +132,7 @@
             <div>
                 <x-ui.card class="!p-6" :hover="false">
                     <div class="mb-4 flex items-center gap-2">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sun/20 text-amber-600">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sun/15 text-sun">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /><circle cx="12" cy="12" r="4" /></svg>
                         </span>
                         <h3 class="text-lg font-bold text-ink">Задание дня</h3>

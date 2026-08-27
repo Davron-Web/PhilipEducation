@@ -24,10 +24,10 @@
         name="{{ $name }}"
         type="{{ $type }}"
         {{ $attributes->merge([
-            'class' => 'w-full rounded-xl border-2 bg-white/70 px-4 py-2.5 text-sm text-ink placeholder:text-ink/40 backdrop-blur transition focus:outline-none focus:ring-4 '
+            'class' => 'w-full rounded-xl border-2 bg-armor2/60 px-4 py-2.5 text-sm text-ink placeholder:text-ink/30 backdrop-blur transition focus:outline-none focus:ring-4 '
                 .($errorMessage
                     ? 'border-red-400 focus:border-red-500 focus:ring-red-500/15'
-                    : 'border-ink/10 focus:border-brand focus:ring-brand/15'),
+                    : 'border-white/10 focus:border-sky focus:ring-sky/15'),
         ]) }}
     >
 

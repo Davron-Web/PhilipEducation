@@ -34,7 +34,7 @@
                         type="search"
                         x-model="search"
                         placeholder="Поиск по названию урока..."
-                        class="w-full rounded-xl border-2 border-ink/10 bg-white/70 py-2.5 pl-10 pr-4 text-sm text-ink placeholder:text-ink/40 backdrop-blur transition focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/15"
+                        class="w-full rounded-xl border-2 border-white/10 bg-armor2/70 py-2.5 pl-10 pr-4 text-sm text-ink placeholder:text-ink/40 backdrop-blur transition focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/15"
                     >
                 </div>
 
@@ -42,14 +42,14 @@
                     <button
                         type="button"
                         @click="level = 'all'"
-                        :class="level === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-white/70 text-ink/60 hover:bg-brand/5'"
+                        :class="level === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'"
                         class="rounded-full px-4 py-1.5 text-sm font-bold transition"
                     >Все уровни</button>
                     @foreach ($levels as $code)
                         <button
                             type="button"
                             @click="level = '{{ $code }}'"
-                            :class="level === '{{ $code }}' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-white/70 text-ink/60 hover:bg-brand/5'"
+                            :class="level === '{{ $code }}' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'"
                             class="rounded-full px-4 py-1.5 text-sm font-bold transition"
                         >{{ $code }}</button>
                     @endforeach
@@ -87,7 +87,7 @@
                         @else
                             <a
                                 href="{{ route('lessons.show', $lesson->id) }}"
-                                class="group relative block overflow-hidden rounded-2xl border border-white/60 bg-white/60 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
+                                class="group relative block overflow-hidden rounded-2xl border border-white/10 bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
                                 data-reveal
                             >
                                 <div class="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full {{ $isCompleted ? 'bg-green-100 text-green-600' : 'bg-brand/10 text-brand' }}">

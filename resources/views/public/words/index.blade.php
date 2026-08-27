@@ -145,7 +145,7 @@
                             Добавить своё слово
                         </x-ui.button>
 
-                        <div class="flex rounded-xl border border-ink/10 bg-white/70 p-1">
+                        <div class="flex rounded-xl border border-white/10 bg-armor2/70 p-1">
                             <button type="button" @click="mode = 'list'" :class="mode === 'list' ? 'bg-brand text-white shadow' : 'text-ink/60'" class="rounded-lg px-3 py-1.5 text-sm font-bold transition">Список</button>
                             <button type="button" @click="mode = 'cards'; index = 0; flipped = false" :class="mode === 'cards' ? 'bg-brand text-white shadow' : 'text-ink/60'" class="rounded-lg px-3 py-1.5 text-sm font-bold transition">Карточки</button>
                         </div>
@@ -154,9 +154,9 @@
 
                 {{-- Фильтр по статусу --}}
                 <div class="mb-8 flex flex-wrap gap-2" data-reveal>
-                    <button type="button" @click="filter = 'all'" :class="filter === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-white/70 text-ink/60 hover:bg-brand/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Все слова</button>
-                    <button type="button" @click="filter = 'learned'" :class="filter === 'learned' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-white/70 text-ink/60 hover:bg-brand/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Выучено</button>
-                    <button type="button" @click="filter = 'new'" :class="filter === 'new' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-white/70 text-ink/60 hover:bg-brand/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">На изучении</button>
+                    <button type="button" @click="filter = 'all'" :class="filter === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Все слова</button>
+                    <button type="button" @click="filter = 'learned'" :class="filter === 'learned' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Выучено</button>
+                    <button type="button" @click="filter = 'new'" :class="filter === 'new' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">На изучении</button>
                 </div>
 
                 @if ($words->isEmpty())
@@ -172,7 +172,7 @@
                             <div x-show="filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}">
                                 <a
                                     href="{{ route('words.show', $word->id) }}"
-                                    class="group flex h-full flex-col rounded-2xl border border-white/60 bg-white/60 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
+                                    class="group flex h-full flex-col rounded-2xl border border-white/10 bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
                                     data-reveal
                                 >
                                     <div class="mb-2 flex items-start justify-between gap-2">
@@ -197,7 +197,7 @@
                                     @endif
 
                                     @if ($selectedCategory === 'all' && $word->category)
-                                        <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">{{ $word->category }}</span>
+                                        <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/10 border border-sun/30 px-2.5 py-0.5 text-[11px] font-bold text-sun">{{ $word->category }}</span>
                                     @endif
                                 </a>
                             </div>
@@ -218,7 +218,7 @@
                                     @click="flip()"
                                 >
                                     <div class="flip-card-inner h-full w-full">
-                                        <div class="flip-card-face flex h-full flex-col items-center justify-center rounded-3xl border border-white/60 bg-gradient-to-br from-white to-sky-50 p-8 text-center shadow-2xl shadow-brand/10">
+                                        <div class="flip-card-face flex h-full flex-col items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-armor2 to-armor p-8 text-center shadow-2xl shadow-brand/10">
                                             <p class="text-xs font-bold uppercase tracking-widest text-ink/40">Слово</p>
                                             <p class="mt-3 flex items-center gap-2 text-3xl font-extrabold capitalize text-ink">
                                                 <span x-text="current.word"></span>
@@ -234,7 +234,7 @@
                                             <p class="mt-2 text-ink/40" x-show="current.transcription" x-text="'/' + current.transcription + '/'"></p>
                                             <p class="mt-6 text-xs text-ink/30">Нажмите, чтобы перевернуть</p>
                                         </div>
-                                        <div class="flip-card-face flip-card-back flex h-full flex-col items-center justify-center rounded-3xl bg-gradient-to-br from-ink via-brand to-sky p-8 text-center text-white shadow-2xl">
+                                        <div class="flip-card-face flip-card-back flex h-full flex-col items-center justify-center rounded-3xl bg-gradient-to-br from-armor via-brand to-sky p-8 text-center text-white shadow-2xl">
                                             <p class="text-xs font-bold uppercase tracking-widest text-white/60">Перевод</p>
                                             <p class="mt-3 text-3xl font-extrabold" x-text="current.translation"></p>
                                         </div>
@@ -266,7 +266,7 @@
                     class="fixed inset-0 z-[60] flex items-center justify-center bg-ink/40 p-4 backdrop-blur-sm"
                     @keydown.escape.window="addWordOpen = false"
                 >
-                    <div @click.outside="addWordOpen = false" class="w-full max-w-md rounded-3xl border border-white/60 bg-white p-6 shadow-2xl">
+                    <div @click.outside="addWordOpen = false" class="w-full max-w-md rounded-3xl border border-white/10 bg-armor2 p-6 shadow-2xl">
                         <div class="mb-4 flex items-center justify-between">
                             <h2 class="text-lg font-bold text-ink">Добавить своё слово</h2>
                             <button type="button" @click="addWordOpen = false" class="text-ink/40 hover:text-ink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12" /></svg></button>

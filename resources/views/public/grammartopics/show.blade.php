@@ -32,10 +32,10 @@
 
                     @if ($isWarning)
                         <div class="flex gap-3 rounded-2xl border border-sun/30 bg-sun/10 p-4">
-                            <span class="mt-0.5 shrink-0 text-amber-600" aria-hidden="true">
+                            <span class="mt-0.5 shrink-0 text-sun" aria-hidden="true">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" /><path d="M12 9v4M12 17h.01" /></svg>
                             </span>
-                            <p class="text-sm leading-relaxed text-amber-900">
+                            <p class="text-sm leading-relaxed text-sun/90">
                                 <strong class="font-bold">{{ $m[1] }}:</strong> {{ $m[2] }}
                                 @foreach (array_slice($lines, 1) as $line)
                                     <br>{{ $line }}
