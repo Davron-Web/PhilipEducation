@@ -37,6 +37,10 @@ use App\Http\Controllers\Public\User\ProfileController as PublicProfileControlle
 use App\Http\Controllers\Public\Vocabulary\WordController as PublicWordController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Models\Content\Lesson;
+use App\Models\System\Level;
+use App\Models\User;
+use App\Models\Vocabulary\Word;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,7 +57,23 @@ Route::get('/', function () {
         return redirect()->route('user.dashboard');
     }
 
-    return view('public.home');
+    // Реальные данные для гостевой главной (уровни + честные цифры платформы,
+    // без выдуманных чисел).
+    $levels = Level::whereIn('code', ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
+        ->orderBy('code')
+        ->get()
+        ->map(fn ($level) => [
+            'code' => $level->code,
+            'name' => $level->name,
+            'description' => $level->description ?: 'Материалы уровня '.$level->code.'.',
+            'lessons_count' => Lesson::where('level_id', $level->id)->where('is_published', true)->count(),
+        ]);
+
+    $totalLessons = Lesson::where('is_published', true)->count();
+    $totalWords = Word::count();
+    $totalUsers = User::count();
+
+    return view('public.home', compact('levels', 'totalLessons', 'totalWords', 'totalUsers'));
 })->name('home');
 
 /*
