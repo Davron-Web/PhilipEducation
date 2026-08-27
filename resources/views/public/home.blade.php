@@ -37,7 +37,7 @@ body{font-family:var(--font-body);background:var(--armor);color:var(--ink);overf
 ::selection{background:var(--royal);color:#fff}
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
-.container{width:min(1200px,92%);margin:0 auto}
+.la-wrap{width:min(1200px,92%);margin:0 auto}
 
 #scrollProgress{position:fixed;top:0;left:0;height:3px;width:0;z-index:120;
   background:linear-gradient(90deg,var(--gold),var(--cyan),var(--electric));box-shadow:0 0 12px rgba(0,255,255,.55)}
@@ -209,7 +209,7 @@ section{position:relative;padding:96px 0}
 <div id="scrollProgress"></div>
 
 <header class="site-header" id="siteHeader">
-  <div class="container header-inner">
+  <div class="la-wrap header-inner">
     <a href="{{ route('home') }}" class="logo">
       <span class="logo-badge">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#171325" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l2 3" /><path d="M18 6l-2 3" /><ellipse cx="12" cy="13" rx="7" ry="8" /><circle cx="9" cy="12" r="1.4" fill="#171325" stroke="none" /><circle cx="15" cy="12" r="1.4" fill="#171325" stroke="none" /></svg>
@@ -232,7 +232,7 @@ section{position:relative;padding:96px 0}
 
 <section class="hero">
   <canvas id="particleCanvas"></canvas>
-  <div class="container hero-inner">
+  <div class="la-wrap hero-inner">
     <div class="hero-copy">
       <span class="hero-badge"><i></i>ИИ-наставник + геймификация</span>
       <h1>Английский — это <span class="grad-cyan">путь героя</span>,<br>а <span class="grad-gold">Phil</span> — твой наставник</h1>
@@ -261,12 +261,15 @@ section{position:relative;padding:96px 0}
       <span class="rune gold" style="bottom:6%;right:14%;animation-delay:-1s">✧</span>
       <div class="mentor-badge" id="mentorBadge">
         <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="5" y="8" width="14" height="12" rx="3" />
-          <circle cx="9.5" cy="14" r="1.4" fill="#FFD700" stroke="none" />
-          <circle cx="14.5" cy="14" r="1.4" fill="#FFD700" stroke="none" />
-          <path d="M9 17.5h6" />
-          <path d="M12 8V5" />
-          <circle cx="12" cy="3.5" r="1.3" fill="#FFD700" stroke="none" />
+          <path d="M6 6.5 7.5 9.5" />
+          <path d="M18 6.5 16.5 9.5" />
+          <ellipse cx="12" cy="11" rx="7" ry="6.5" />
+          <path d="M6 14c0 4.2 2.5 7.5 6 7.5s6-3.3 6-7.5" />
+          <circle cx="9" cy="10.5" r="2.1" />
+          <circle cx="15" cy="10.5" r="2.1" />
+          <circle cx="9" cy="10.5" r=".5" fill="#FFD700" stroke="none" />
+          <circle cx="15" cy="10.5" r=".5" fill="#FFD700" stroke="none" />
+          <path d="M11.3 12.6h1.4l-.7 1.3z" fill="#FFD700" stroke="none" />
         </svg>
       </div>
     </div>
@@ -274,7 +277,7 @@ section{position:relative;padding:96px 0}
 </section>
 
 <section id="levels">
-  <div class="container">
+  <div class="la-wrap">
     <div class="ornament reveal"><i></i><b></b><i></i></div>
     <p class="sec-kicker reveal">Уровни · CEFR</p>
     <h2 class="sec-title reveal">Выбери свой <span class="gold">уровень</span></h2>
@@ -298,7 +301,7 @@ section{position:relative;padding:96px 0}
 </section>
 
 <section id="perks">
-  <div class="container">
+  <div class="la-wrap">
     <div class="ornament reveal"><i></i><b></b><i></i></div>
     <p class="sec-kicker reveal">Почему мы</p>
     <h2 class="sec-title reveal">Учиться <span class="cyan">по-другому</span></h2>
@@ -340,7 +343,7 @@ section{position:relative;padding:96px 0}
 </section>
 
 <section id="reviews">
-  <div class="container">
+  <div class="la-wrap">
     <div class="ornament reveal"><i></i><b></b><i></i></div>
     <p class="sec-kicker reveal">Отзывы</p>
     <h2 class="sec-title reveal">Что говорят <span class="gold">ученики</span></h2>
@@ -367,7 +370,7 @@ section{position:relative;padding:96px 0}
 </section>
 
 <section class="cta-band">
-  <div class="container">
+  <div class="la-wrap">
     <div class="cta-inner reveal">
       <h2>Готов начать <span class="grad-gold" style="background:linear-gradient(92deg,#FFD700,#FFF3A0);-webkit-background-clip:text;background-clip:text;color:transparent">свой путь</span>?</h2>
       <p>Регистрация бесплатна. Выбери уровень, встреть Phil и пройди первый урок уже сегодня.</p>
@@ -380,7 +383,7 @@ section{position:relative;padding:96px 0}
 </section>
 
 <footer class="site-footer">
-  <div class="container">
+  <div class="la-wrap">
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="logo">
