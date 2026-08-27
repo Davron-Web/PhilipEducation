@@ -54,7 +54,9 @@ class DashboardController extends Controller
             ->orderBy('id')
             ->first();
 
-        return view('user.dashboard', compact('stats', 'nextLesson', 'dailyExercise'));
+        $streakDays = $this->lastSevenDays($user);
+
+        return view('user.dashboard', compact('stats', 'nextLesson', 'dailyExercise', 'streakDays'));
     }
 
     /**
@@ -85,5 +87,32 @@ class DashboardController extends Controller
         }
 
         return $streak;
+    }
+
+    /**
+     * Последние 7 дней (сегодня — последний) с отметкой, был ли в этот
+     * день завершён хотя бы один урок — для полоски дней streak на дашборде.
+     *
+     * @return array<int, array{label: string, active: bool, isToday: bool}>
+     */
+    private function lastSevenDays(User $user): array
+    {
+        $completedDates = $user->progress()
+            ->whereNotNull('completed_at')
+            ->pluck('completed_at')
+            ->map(fn ($date) => $date->toDateString())
+            ->unique();
+
+        $days = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $days[] = [
+                'label' => $date->translatedFormat('D'),
+                'active' => $completedDates->contains($date->toDateString()),
+                'isToday' => $i === 0,
+            ];
+        }
+
+        return $days;
     }
 }
