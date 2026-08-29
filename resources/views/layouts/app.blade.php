@@ -60,32 +60,9 @@
             transform: translateY(0);
         }
 
-        /* Дрейф размытых пятен на фоне */
-        @keyframes blob-drift {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(4%, -6%) scale(1.08); }
-            66% { transform: translate(-3%, 4%) scale(0.96); }
-        }
-        .animate-blob { animation: blob-drift 18s ease-in-out infinite; }
-        .animate-blob-slow { animation: blob-drift 24s ease-in-out infinite; }
-        .animate-blob-delay { animation: blob-drift 20s ease-in-out infinite; animation-delay: -7s; }
-
-        /* Звёздное небо — тайл со звёздами, тайлится по всему фону */
-        .bg-starfield {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cg fill='%23EAF0F6'%3E%3Ccircle cx='12' cy='40' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='55' cy='15' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='90' cy='70' r='1.3' fill-opacity='.8'/%3E%3Ccircle cx='130' cy='30' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='210' cy='20' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='250' cy='55' r='1.5' fill-opacity='.9'/%3E%3Ccircle cx='20' cy='120' r='1.1' fill-opacity='.7'/%3E%3Ccircle cx='60' cy='160' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='140' cy='180' r='0.6' fill-opacity='.5'/%3E%3Ccircle cx='180' cy='150' r='0.9' fill-opacity='.7'/%3E%3Ccircle cx='260' cy='200' r='1.2' fill-opacity='.8'/%3E%3Ccircle cx='30' cy='220' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='110' cy='230' r='0.6' fill-opacity='.5'/%3E%3Ccircle cx='150' cy='260' r='1.4' fill-opacity='.85'/%3E%3Ccircle cx='230' cy='280' r='0.7' fill-opacity='.6'/%3E%3Ccircle cx='270' cy='250' r='1.1' fill-opacity='.7'/%3E%3Ccircle cx='50' cy='90' r='0.9' fill-opacity='.7'/%3E%3Ccircle cx='95' cy='10' r='0.5' fill-opacity='.5'/%3E%3Ccircle cx='240' cy='130' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='5' cy='180' r='0.5' fill-opacity='.5'/%3E%3C/g%3E%3Cg fill='%2322D3EE'%3E%3Ccircle cx='170' cy='90' r='1.0' fill-opacity='.8'/%3E%3Ccircle cx='280' cy='110' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='100' cy='140' r='1.6' fill-opacity='.9'/%3E%3Ccircle cx='220' cy='170' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='70' cy='250' r='1.0' fill-opacity='.8'/%3E%3Ccircle cx='190' cy='240' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='10' cy='280' r='0.6' fill-opacity='.6'/%3E%3Ccircle cx='160' cy='110' r='0.7' fill-opacity='.7'/%3E%3Ccircle cx='290' cy='20' r='0.8' fill-opacity='.7'/%3E%3Ccircle cx='200' cy='290' r='1.0' fill-opacity='.8'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: 300px 300px;
-        }
-
-        @keyframes star-twinkle {
-            0%, 100% { opacity: .55; }
-            50% { opacity: 1; }
-        }
-        .animate-twinkle { animation: star-twinkle 5s ease-in-out infinite; }
-
         /* Уважаем предпочтение отключить анимации */
         @media (prefers-reduced-motion: reduce) {
             [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
-            .animate-blob, .animate-blob-slow, .animate-blob-delay, .animate-twinkle { animation: none !important; }
             * { scroll-behavior: auto !important; }
         }
     </style>
@@ -94,20 +71,13 @@
 </head>
 <body class="min-h-screen bg-armor font-sans text-ink antialiased">
 
-    {{-- ===================== АНИМИРОВАННЫЙ ФОН (тема Lingua Arcana) ===================== --}}
-    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-armor via-[#2A1F3D] to-armor" aria-hidden="true">
-        <div class="animate-blob absolute -top-24 -left-24 h-[28rem] w-[28rem] rounded-full bg-brand/25 blur-3xl"></div>
-        <div class="animate-blob-slow absolute top-1/3 -right-32 h-[32rem] w-[32rem] rounded-full bg-sky/20 blur-3xl"></div>
-        <div class="animate-blob-delay absolute bottom-0 left-1/4 h-96 w-96 rounded-full bg-brand/15 blur-3xl"></div>
-        <div class="animate-blob absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-skylight/15 blur-3xl"></div>
-        <div class="absolute inset-0 bg-starfield animate-twinkle opacity-80"></div>
-
-        {{-- Яркие крупные звёзды со свечением --}}
-        <div class="absolute left-[15%] top-[20%] h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_12px_4px_rgba(255,255,255,.8)]"></div>
-        <div class="absolute left-[80%] top-[15%] h-1 w-1 rounded-full bg-skylight shadow-[0_0_10px_3px_rgba(125,211,252,.9)]"></div>
-        <div class="absolute left-[70%] top-[65%] h-2 w-2 rounded-full bg-sun shadow-[0_0_16px_5px_rgba(250,204,21,.7)]"></div>
-        <div class="absolute left-[10%] top-[75%] h-1 w-1 rounded-full bg-white shadow-[0_0_10px_3px_rgba(255,255,255,.8)]"></div>
-        <div class="absolute left-[45%] top-[40%] h-1 w-1 rounded-full bg-skylight shadow-[0_0_10px_3px_rgba(125,211,252,.9)]"></div>
+    {{-- ===================== АНИМИРОВАННЫЙ ФОН (тот же, что на гостевой главной) ===================== --}}
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-armor" aria-hidden="true">
+        <div class="absolute inset-0" style="background:
+            radial-gradient(700px 420px at 12% 8%, rgba(93,43,125,.35), transparent 60%),
+            radial-gradient(640px 420px at 88% 30%, rgba(0,229,255,.12), transparent 60%),
+            radial-gradient(520px 380px at 50% 100%, rgba(93,43,125,.22), transparent 65%);"></div>
+        <canvas id="bgParticleCanvas" class="absolute inset-0"></canvas>
     </div>
 
     @include('layouts.partials.site-header')
@@ -226,6 +196,42 @@
                         el.style.transform = 'translateY(' + (y * factor) + 'px)';
                     });
                 }, { passive: true });
+            }
+
+            // Фоновые частицы (та же анимация, что на гостевой главной)
+            var bgCanvas = document.getElementById('bgParticleCanvas');
+            if (bgCanvas && !prefersReduced) {
+                var bgCtx = bgCanvas.getContext('2d');
+                var bgSparks = [];
+                var bgSparkColors = ['0,255,255', '0,229,255', '77,238,234', '255,215,0', '138,75,184'];
+                function bgSizeCanvas() { bgCanvas.width = bgCanvas.offsetWidth; bgCanvas.height = bgCanvas.offsetHeight; }
+                function bgSeedSparks() {
+                    bgSparks = [];
+                    var amount = Math.min(70, Math.floor(bgCanvas.width / 22));
+                    for (var i = 0; i < amount; i++) {
+                        bgSparks.push({
+                            posX: Math.random() * bgCanvas.width, posY: Math.random() * bgCanvas.height,
+                            rad: Math.random() * 1.8 + .5, velY: -(Math.random() * .35 + .08), velX: (Math.random() - .5) * .25,
+                            col: bgSparkColors[Math.floor(Math.random() * bgSparkColors.length)], phase: Math.random() * Math.PI * 2
+                        });
+                    }
+                }
+                function bgDrawSparks(t) {
+                    bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+                    bgSparks.forEach(function (s) {
+                        s.posY += s.velY; s.posX += s.velX;
+                        if (s.posY < -6) { s.posY = bgCanvas.height + 6; s.posX = Math.random() * bgCanvas.width; }
+                        if (s.posX < -6) s.posX = bgCanvas.width + 6;
+                        if (s.posX > bgCanvas.width + 6) s.posX = -6;
+                        var tw = .35 + Math.abs(Math.sin(t / 900 + s.phase)) * .65;
+                        bgCtx.beginPath(); bgCtx.arc(s.posX, s.posY, s.rad, 0, Math.PI * 2);
+                        bgCtx.fillStyle = 'rgba(' + s.col + ',' + tw.toFixed(2) + ')';
+                        bgCtx.shadowColor = 'rgba(' + s.col + ',.9)'; bgCtx.shadowBlur = 8; bgCtx.fill();
+                    });
+                    requestAnimationFrame(bgDrawSparks);
+                }
+                bgSizeCanvas(); bgSeedSparks(); requestAnimationFrame(bgDrawSparks);
+                window.addEventListener('resize', function () { bgSizeCanvas(); bgSeedSparks(); });
             }
         });
     </script>
