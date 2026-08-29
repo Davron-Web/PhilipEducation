@@ -7,6 +7,7 @@
         ['label' => 'Словарь', 'url' => route('words.index'), 'active' => request()->routeIs('words.*')],
         ['label' => 'Упражнения', 'url' => route('exercises.index'), 'active' => request()->routeIs('exercises.*')],
         ['label' => 'Тесты', 'url' => route('tests.index'), 'active' => request()->routeIs('tests.*')],
+        ['label' => 'IELTS', 'url' => route('ielts.index'), 'active' => request()->routeIs('ielts.*')],
         ['label' => 'Книги', 'url' => route('books.index'), 'active' => request()->routeIs('books.*')],
         ['label' => 'Достижения', 'url' => route('achievements.index'), 'active' => request()->routeIs('achievements.*')],
     ];

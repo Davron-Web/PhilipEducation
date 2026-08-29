@@ -80,4 +80,48 @@ PROMPT;
             'Ты — дружелюбный преподаватель английского языка. Отвечай кратко и понятно на русском, с примерами на английском. Если вопрос не про английский — вежливо верни разговор к учёбе.'
         );
     }
+
+    /**
+     * Проверка письменного задания IELTS (Task 1 или Task 2) — экзаменатор
+     * ставит band score 0-9 и даёт разбор по 4 критериям IELTS Writing.
+     *
+     * @return array{band: float, feedback: string}
+     */
+    public function gradeIeltsWriting(string $taskType, string $taskPrompt, string $answerText): array
+    {
+        $criteria = $taskType === 'writing_task1'
+            ? 'Task Achievement, Coherence and Cohesion, Lexical Resource, Grammatical Range and Accuracy'
+            : 'Task Response, Coherence and Cohesion, Lexical Resource, Grammatical Range and Accuracy';
+
+        $prompt = <<<PROMPT
+Ты — опытный экзаменатор IELTS Writing. Оцени ответ ученика по заданию ниже.
+
+Тип задания: {$taskType}
+Формулировка задания:
+{$taskPrompt}
+
+Ответ ученика:
+{$answerText}
+
+Оцени по критериям: {$criteria}.
+Верни СТРОГО JSON такой структуры (без markdown, без пояснений вне JSON):
+{
+  "band": число от 0 до 9 с шагом 0.5 (итоговый band score),
+  "feedback": "развёрнутый разбор на русском: по каждому из 4 критериев кратко что хорошо и что улучшить, 3-5 предложений на критерий суммарно, плюс 2-3 конкретных примера ошибок из текста ученика с исправлением"
+}
+PROMPT;
+
+        $raw = trim($this->ask($prompt, json: true));
+        $raw = preg_replace(['/^```(json)?/u', '/```$/u'], '', $raw);
+
+        $data = json_decode($raw, true);
+        if (! is_array($data) || ! isset($data['band'], $data['feedback'])) {
+            throw new \RuntimeException('Не удалось распарсить оценку от Gemini');
+        }
+
+        return [
+            'band' => (float) $data['band'],
+            'feedback' => (string) $data['feedback'],
+        ];
+    }
 }

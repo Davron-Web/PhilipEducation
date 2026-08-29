@@ -31,6 +31,7 @@ use App\Http\Controllers\Public\Content\GrammarTopicController as PublicGrammarT
 use App\Http\Controllers\Public\Content\LessonController as PublicLessonController;
 use App\Http\Controllers\Public\Exercise\ExerciseController as PublicExerciseController;
 use App\Http\Controllers\Public\Gamification\AchievementController as PublicAchievementController;
+use App\Http\Controllers\Public\Ielts\IeltsController as PublicIeltsController;
 use App\Http\Controllers\Public\System\NotificationController as PublicNotificationController;
 use App\Http\Controllers\Public\Test\TestController as PublicTestController;
 use App\Http\Controllers\Public\User\ProfileController as PublicProfileController;
@@ -133,6 +134,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [PublicBookController::class, 'index'])->name('index');
         Route::get('/{book}/read', [PublicBookController::class, 'read'])->name('read');
         Route::post('/{book}/progress', [PublicBookController::class, 'saveProgress'])->name('progress');
+    });
+
+    Route::prefix('ielts')->name('ielts.')->group(function () {
+        Route::get('/', [PublicIeltsController::class, 'index'])->name('index');
+        Route::get('/{task}', [PublicIeltsController::class, 'show'])->name('show');
+        Route::post('/{task}/submit', [PublicIeltsController::class, 'submit'])->name('submit');
     });
 
     Route::prefix('profiles')->name('profiles.')->group(function () {

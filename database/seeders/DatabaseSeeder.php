@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             NotificationSeeder::class,
             CertificateSeeder::class,
             BookSeeder::class,
+            IeltsTaskSeeder::class,
         ]);
     }
 }
