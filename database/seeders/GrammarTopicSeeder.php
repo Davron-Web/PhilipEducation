@@ -155,16 +155,9 @@ class GrammarTopicSeeder extends Seeder
             [
                 'level' => 'B1',
                 'lesson' => 'Reported Speech: Statements',
-                'title' => 'Косвенная речь: утверждения',
+                'title' => 'Косвенная речь (Reported Speech: Indirect Speech)',
                 'category' => 'Sentences',
-                'theory' => "Косвенная речь используется, чтобы передать чужие слова без кавычек. При этом обычно происходит сдвиг времени на один шаг назад.\n\n"
-                    ."Present Simple → Past Simple: 'I work here.' → He said (that) he worked there.\n"
-                    ."Present Continuous → Past Continuous: 'I am reading.' → She said she was reading.\n"
-                    ."Past Simple → Past Perfect: 'I saw him.' → He said he had seen him.\n"
-                    ."Present Perfect → Past Perfect: 'I have finished.' → She said she had finished.\n"
-                    ."will → would: 'I will help.' → He said he would help.\n\n"
-                    ."Также меняются местоимения и указатели места/времени: I → he/she, here → there, today → that day, tomorrow → the next day, yesterday → the day before.\n\n"
-                    ."Пример полностью: 'I am tired today,' she said. → She said (that) she was tired that day.",
+                'theory' => "Indirect (reported) speech передаёт чужие слова НЕ дословно, а пересказом, обычно через глагол сообщения (say, tell) в прошедшем времени — при этом время и некоторые слова в придаточном предложении обычно сдвигаются назад (backshift).\n\nКогда используется:\n— чтобы пересказать чьи-то слова, не цитируя их дословно: She said that she was tired.\n— say используется без указания слушателя (say something), tell — обязательно с указанием слушателя (tell someone something).\n— that часто можно опустить в разговорной речи: She said (that) she was tired.\n\nФормы (backshift времени):\nPresent Simple → Past Simple, Present Continuous → Past Continuous, Present Perfect → Past Perfect, Past Simple → Past Perfect, will → would, can → could. Также меняются указатели места/времени: now → then, today → that day, tomorrow → the next day, here → there.\n\nПримеры:\n'I'm tired,' she said. → She said she was tired. 'I'll call you,' he said. → He said he would call me. 'We have finished,' they said. → They said they had finished. 'I saw him yesterday,' she said. → She said she had seen him the day before.\n\nДополнительные примеры:\n'I live in London,' he said. → He said he lived in London. 'I can help you,' she said. → She said she could help me. 'I went there last year,' he told me. → He told me he had gone there the previous year.\n\nЧастые ошибки:\n— Отсутствие backshift там, где он нужен: 'She said she is tired' менее правильно в формальном стиле, нужно 'She said she was tired'.\n— tell без указания слушателя: 'He told that he was busy' — неправильно, нужно либо 'He told me that he was busy', либо 'He said that he was busy'.",
             ],
             [
                 'level' => 'B1',
@@ -192,16 +185,9 @@ class GrammarTopicSeeder extends Seeder
             [
                 'level' => 'B2',
                 'lesson' => 'Inversion for Emphasis',
-                'title' => 'Инверсия для усиления',
-                'category' => 'Grammatical Functions',
-                'theory' => "Инверсия — изменение обычного порядка слов (подлежащее + сказуемое → сказуемое + подлежащее) для придания эмоциональной выразительности, часто в формальной или литературной речи.\n\n"
-                    ."После отрицательных наречий в начале предложения: Never, Rarely, Seldom, Not only, No sooner, Hardly.\n"
-                    ."Пример: Never have I seen such a beautiful sunset. Not only did she win the race, but she also broke the record.\n\n"
-                    ."После So + прилагательное и Such + существительное:\n"
-                    ."Пример: So surprised was he that he couldn't speak.\n\n"
-                    ."После условных предложений без if (формальный стиль):\n"
-                    ."Пример: Had I known, I would have come earlier. (= If I had known...)\n\n"
-                    .'Инверсия придаёт речи книжный, формальный или драматический оттенок и часто встречается в академических и литературных текстах.',
+                'title' => 'Инверсия и вынесение вперёд (Inversion and Fronting)',
+                'category' => 'Sentences',
+                'theory' => "Inversion (инверсия) — изменение обычного порядка «подлежащее + глагол» на «глагол + подлежащее» для эмфазы; fronting (вынесение вперёд) — постановка обычно не-начального элемента предложения в начало для акцента.\n\nКогда используется:\n— после отрицательных наречий в начале предложения (never, rarely, hardly, not only) — с полной инверсией: Never have I seen such chaos.\n— в условных предложениях формального стиля вместо if: Had I known, I would have come. (= If I had known...)\n— fronting — вынос дополнения, обстоятельства или прилагательного в начало для акцента, часто без полной инверсии: Exhausted, she finally sat down. Down the street ran the dog.\n\nСтруктура:\nОтрицательное наречие + вспомогательный глагол + подлежащее + смысловой глагол (инверсия). Fronted-элемент + остальная часть предложения (обычный или частично изменённый порядок).\n\nПримеры:\nNever have I seen such a beautiful sunset. Not only did she win, but she also broke the record. Had I known about the meeting, I would have attended. Down the hill rolled the ball. So tired was she that she fell asleep instantly.\n\nДополнительные примеры:\nRarely does he complain about anything. Should you need any help, just ask. Little did they know what awaited them. Exhausted after the trip, she went straight to bed. Such was his anger that he couldn't speak.\n\nЧастые ошибки:\n— Пропуск инверсии после отрицательного наречия в начале предложения: 'Never I have seen this' — неправильно, нужно 'Never have I seen this'.\n— Использование инверсии в обычной нейтральной речи без необходимости в эмфазе — этот приём типичен для формального/литературного стиля, а не повседневного общения.",
             ],
             [
                 'level' => 'B2',
@@ -253,31 +239,10 @@ class GrammarTopicSeeder extends Seeder
             ],
             [
                 'level' => 'C1',
-                'lesson' => 'Fronting for Emphasis',
-                'title' => 'Вынесение вперёд (Fronting)',
-                'category' => 'Grammatical Functions',
-                'theory' => "Fronting — вынесение элемента предложения (не подлежащего) в начало для смыслового акцента. Характерно для риторики, литературы и выразительной речи.\n\n"
-                    ."Вынесение дополнения:\n"
-                    ."Пример: This I cannot accept. (= I cannot accept this.)\n\n"
-                    ."Вынесение обстоятельства места/направления (часто с инверсией):\n"
-                    ."Пример: Down the street came a strange procession.\n\n"
-                    ."Вынесение прилагательного/причастия:\n"
-                    ."Пример: Exhausted but happy, the runners crossed the finish line.\n\n"
-                    .'Fronting привлекает внимание к вынесенному элементу и создаёт эффект неожиданности или драматизма — приём, часто используемый в художественной литературе, ораторской речи и заголовках.',
-            ],
-            [
-                'level' => 'C1',
                 'lesson' => 'Ellipsis',
-                'title' => 'Эллипсис (пропуск слов)',
-                'category' => 'Grammatical Functions',
-                'theory' => "Эллипсис — намеренный пропуск слов, которые понятны из контекста, чтобы избежать повторов и сделать речь более естественной.\n\n"
-                    ."Пропуск подлежащего в разговорной речи: (I) Sounds good! (Are you) Ready?\n\n"
-                    ."Пропуск повторяющегося глагола после and/but/or:\n"
-                    ."Пример: She likes tea, and he coffee. (= ...and he likes coffee.)\n\n"
-                    ."Пропуск после вспомогательных глаголов в кратких ответах:\n"
-                    ."Пример: 'Have you finished?' 'Yes, I have (finished).'\n\n"
-                    ."Пропуск в сравнительных конструкциях: She earns more than he (does).\n\n"
-                    .'Эллипсис делает речь экономнее и естественнее, но требует хорошего понимания контекста — иначе пропущенная часть может быть непонятна собеседнику.',
+                'title' => 'Эллипсис (Ellipsis)',
+                'category' => 'Sentences',
+                'theory' => "Ellipsis — намеренный пропуск слов, которые легко восстанавливаются из контекста, чтобы избежать повторения и сделать речь короче и естественнее.\n\nКогда используется:\n— в ответах на вопросы, чтобы не повторять уже сказанное: Where are you going? (I'm going) To the shops.\n— после and/but/or при повторяющемся подлежащем или вспомогательном глаголе: She likes tea, and (she likes) coffee too.\n— после than/as в сравнениях: He earns more than I (do).\n— в неформальной речи для краткости: (Have you) Seen my keys?\n\nФормы:\nПропуск подлежащего: (I) See you later! Пропуск вспомогательного глагола: She can sing, and he (can) too. Пропуск повторяющегося глагола: She likes coffee, and he (likes) tea.\n\nПримеры:\nA: Are you coming? B: (I'm) Not sure yet. She wanted to go, but couldn't (go). I've never been to Japan, but my sister has (been). Some people prefer tea; others (prefer) coffee. Want some help? (Do you want some help?)\n\nДополнительные примеры:\nHe speaks French better than she (speaks French). (Have you) Got a minute? A: Who broke the window? B: (I think it was) The neighbour's kids. I'll call you when (I) I get home.\n\nЧастые ошибки:\n— Эллипсис, создающий двусмысленность (непонятно, что именно пропущено): в таких случаях лучше не сокращать предложение, а сохранить полную форму для ясности.\n— Излишне частый эллипсис в формальном письменном стиле — уместнее в разговорной речи, чем в официальных документах.",
             ],
             [
                 'level' => 'C1',
@@ -1866,6 +1831,154 @@ class GrammarTopicSeeder extends Seeder
                 'title' => 'Инфинитивные обороты (Infinitive Phrases)',
                 'category' => 'Phrases and Clauses',
                 'theory' => "Infinitive phrase — словосочетание, построенное вокруг инфинитива вместе со всеми зависимыми от него словами (дополнениями, обстоятельствами), которое работает как единое целое в роли существительного, прилагательного или наречия.\n\nКогда используется:\n— в роли существительного (подлежащее/дополнение): To learn a new language takes dedication.\n— в роли прилагательного (описывает существительное): This is the perfect time to start a new project.\n— в роли наречия (обстоятельство цели): She exercises every day to stay healthy.\n\nСтруктура:\nto + начальная форма глагола + (дополнения/обстоятельства, зависящие от этого глагола).\nto finish the project on time, to help her friends move house.\n\nПримеры:\nTo become a doctor requires many years of study. She has a strong desire to travel the world. He saved money to buy a new car. It's important to arrive on time for the interview. They worked overtime to meet the deadline.\n\nДополнительные примеры:\nI don't have time to explain everything right now. She left early to avoid the traffic. To improve your writing, read more books. This is not the right way to solve the problem.\n\nЧастые ошибки:\n— Разрыв инфинитивного оборота лишними словами, нарушающий его целостность как единой смысловой единицы.\n— Использование to-infinitive phrase там, где по смыслу нужен gerund phrase (например, после предлогов, которые не сочетаются с to-infinitive): 'interested to learn' в некоторых контекстах менее естественно, чем 'interested in learning'.",
+            ],
+
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Предложения (Sentences)',
+                'category' => 'Sentences',
+                'theory' => "Sentence (предложение) — группа слов, которая выражает законченную мысль, содержит подлежащее и сказуемое и начинается с заглавной буквы, заканчиваясь точкой, вопросительным или восклицательным знаком.\n\nКогда используется:\n— чтобы сообщить факт (declarative): She works in London.\n— чтобы задать вопрос (interrogative): Where do you live?\n— чтобы дать команду (imperative): Close the door.\n— чтобы выразить эмоцию (exclamatory): What a beautiful day!\n\nФормы (по структуре, рассматриваемые в этой категории):\nSimple Sentences (одна clause), Compound Sentences (несколько независимых clauses), Complex Sentences (независимая + зависимая clause), Compound-Complex Sentences (комбинация) — подробнее в отдельных темах.\n\nПримеры:\nThe sun is shining. (simple) I like tea, and she likes coffee. (compound) Although it was raining, we went out. (complex) She left early because she was tired, but she came back later. (compound-complex)\n\nДополнительные примеры:\nHe works hard. Close the window, please! What a wonderful surprise! Is she coming to the party? We stayed home because it was raining.\n\nЧастые ошибки:\n— Sentence fragment — неполное предложение без подлежащего или сказуемого: 'Because it was raining.' само по себе не является законченным предложением.\n— Run-on sentence — слияние двух независимых предложений без союза или знака препинания: 'She smiled he laughed' — неправильно, нужен разделитель.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Простые предложения (Simple Sentences)',
+                'category' => 'Sentences',
+                'theory' => "Simple sentence — предложение, состоящее из ОДНОЙ независимой clause: одно подлежащее и одно сказуемое (хотя они могут быть составными).\n\nКогда используется:\n— чтобы выразить одну законченную мысль без дополнительных придаточных: The dog barked.\n— может иметь составное подлежащее или сказуемое, оставаясь при этом simple sentence: Tom and Jerry ran and played.\n\nСтруктура:\nПодлежащее + сказуемое (+ дополнение/обстоятельство) — только одна clause, без союзов, соединяющих другие clauses.\n\nПримеры:\nThe children played in the garden. She works as a nurse. Tom and his sister went to the cinema. My father cooked dinner. The train arrived on time. I love reading books.\n\nДополнительные примеры:\nThe old bridge collapsed suddenly. We watched a great film last night. The cat slept on the sofa all afternoon. She sang and danced beautifully at the party.\n\nЧастые ошибки:\n— Путаница simple sentence с коротким предложением: длина не имеет значения — simple sentence определяется наличием только ОДНОЙ clause, даже если оно длинное.\n— Отсутствие сказуемого: 'The beautiful garden with many flowers.' — не является полным простым предложением без глагола.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Сложносочинённые предложения (Compound Sentences)',
+                'category' => 'Sentences',
+                'theory' => "Compound sentence — предложение, состоящее из ДВУХ И БОЛЕЕ независимых clauses, равноправно соединённых coordinating conjunction (and, but, or, so) или точкой с запятой.\n\nКогда используется:\n— чтобы связать два равноправных, самостоятельных по смыслу предложения: I wanted to go, but I was too tired.\n— обе части compound sentence грамматически равноправны — каждая могла бы существовать как отдельное simple sentence.\n\nСтруктура:\nIndependent clause 1 + , + coordinating conjunction (and/but/or/so/yet/for/nor) + independent clause 2. ИЛИ Independent clause 1 + ; + independent clause 2.\n\nПримеры:\nShe studied hard, so she passed the exam. I like coffee, but my sister prefers tea. We can go to the cinema, or we can stay home. He apologised, yet she was still upset. It was late; we decided to go home.\n\nДополнительные примеры:\nThe weather was terrible, but we still enjoyed the trip. She didn't call, nor did she text. He was tired, for he had worked all day. I finished my homework, and then I watched TV.\n\nЧастые ошибки:\n— Comma splice — соединение двух independent clauses только запятой без союза: 'She smiled, he laughed' — неправильно, нужен союз или точка с запятой.\n— Пропуск запятой перед coordinating conjunction в формальном стиле: 'I was tired but I kept working' обычно пишут с запятой: 'I was tired, but I kept working.'",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Сложноподчинённые предложения (Complex Sentences)',
+                'category' => 'Sentences',
+                'theory' => "Complex sentence — предложение, состоящее из ОДНОЙ независимой clause и одной или более зависимых (dependent) clauses, соединённых subordinating conjunction или относительным местоимением.\n\nКогда используется:\n— чтобы показать неравноправную связь между идеями: одна главная мысль и одна зависящая от неё (причина, время, условие, определение): Although it was raining, we went for a walk.\n— dependent clause не может существовать как самостоятельное предложение.\n\nСтруктура:\nSubordinating conjunction + dependent clause + , + independent clause. ИЛИ Independent clause + subordinating conjunction + dependent clause (без запятой).\n\nПримеры:\nBecause she was late, she missed the bus. I know that you're telling the truth. The man who called is my brother. If you need help, just ask. She left before the film ended.\n\nДополнительные примеры:\nAlthough he was nervous, he gave a great speech. This is the book that changed my life. Since you're here, let's talk. Unless you hurry, you'll be late.\n\nЧастые ошибки:\n— Dependent clause как отдельное предложение (sentence fragment): 'Because it was raining.' само по себе неполно.\n— Отсутствие запятой, когда dependent clause стоит первой: 'Because it was raining we stayed home' лучше писать с запятой.",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Сложносочинённо-подчинённые предложения (Compound-Complex Sentences)',
+                'category' => 'Sentences',
+                'theory' => "Compound-complex sentence сочетает признаки compound (несколько независимых clauses) и complex (хотя бы одна зависимая clause) предложений — самый структурно насыщенный тип предложения.\n\nКогда используется:\n— чтобы выразить несколько связанных, но грамматически разных по статусу идей в одном предложении: She left early because she was tired, but she came back later.\n— типично для более сложной, «взрослой» письменной и устной речи (эссе, новости, литература).\n\nСтруктура:\nIndependent clause 1 + coordinating conjunction + Independent clause 2 + subordinating conjunction + dependent clause (порядок частей может варьироваться).\n\nПримеры:\nAlthough it was raining, we went for a walk, and we didn't regret it. She studied hard because she wanted to pass, but the exam was still difficult. When the alarm rang, everyone rushed outside, and the building was evacuated safely.\n\nДополнительные примеры:\nBecause he was late, he missed the bus, so he had to walk to work. I wanted to help, but since I was busy, I couldn't, and I felt terrible about it. The team celebrated when they won, and the fans cheered loudly.\n\nЧастые ошибки:\n— Перегрузка предложения слишком многими clauses без чёткой структуры — это затрудняет понимание, лучше иногда разбить на два отдельных предложения.\n— Неверная пунктуация на стыках нескольких clauses — важно правильно расставлять запятые перед coordinating conjunctions и после начальных dependent clauses.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Порядок слов (Word Order)',
+                'category' => 'Sentences',
+                'theory' => "Word order (порядок слов) в английском языке гораздо более строгий, чем в русском, поскольку падежных окончаний почти нет — именно порядок слов показывает, кто подлежащее, а кто дополнение.\n\nКогда используется:\n— базовый порядок утвердительного предложения: Subject + Verb + Object (SVO): She reads books.\n— в вопросах — инверсия вспомогательного глагола и подлежащего: Do you like tea?\n— обстоятельства обычно идут в конце предложения, в порядке manner → place → time.\n\nСтруктура:\nSubject + Verb + Object + Manner + Place + Time.\nShe sang beautifully at the concert last night.\n\nПримеры:\nI eat breakfast every morning. She gave him a present yesterday. They played football in the park. He speaks English fluently. We arrived at the airport early. The cat sleeps on the sofa all day.\n\nДополнительные примеры:\nMy sister works hard at the office every day. She sang beautifully at the concert last night. He carefully wrapped the gift for his mother. We usually have dinner at 7 p.m.\n\nЧастые ошибки:\n— Прямой перевод с русского с более свободным порядком слов: 'Books she reads' — неестественно, нужно 'She reads books' (SVO).\n— Наречие между глаголом и прямым дополнением: 'She speaks fluently English' — неправильно, нужно 'She speaks English fluently'.",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => 'Cleft Sentences',
+                'title' => 'Расщеплённые предложения (Cleft Sentences)',
+                'category' => 'Sentences',
+                'theory' => "Cleft sentence — предложение, «расщеплённое» на две части специально для того, чтобы выделить один конкретный элемент и подчеркнуть его важность, обычно с помощью it или what.\n\nКогда используется:\n— it-cleft — чтобы выделить конкретное слово/фразу: It was John who broke the window (акцент на John, не кто-то другой).\n— wh-cleft (what-cleft) — чтобы выделить действие или предмет через what: What I need is a holiday.\n— чтобы противопоставить или уточнить информацию, особенно в письменной и ораторской речи.\n\nСтруктура:\nIt + be + выделяемый элемент + who/that + остальная часть предложения. What + подлежащее + сказуемое + be + выделяемый элемент.\n\nПримеры:\nIt was my sister who called you, not me. It's the price that worries me the most. What surprised everyone was his honesty. What we need is more time. It was in 1969 that man first walked on the Moon.\n\nДополнительные примеры:\nIt's not the money that matters, it's the effort. What she said really upset him. It was yesterday that the letter arrived. What impressed me most was her confidence.\n\nЧастые ошибки:\n— Пропуск that/who после it-cleft: 'It was John broke the window' — неправильно, нужно 'It was John who broke the window'.\n— Несогласование глагола be в what-cleft: важно, чтобы be согласовывался с выделяемым элементом по числу: 'What I need are a few days off' (если элемент множественный).",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Отрицание (Negation)',
+                'category' => 'Sentences',
+                'theory' => "Negation (отрицание) — способ показать, что действие, состояние или качество НЕ имеет места. В английском отрицание строится с помощью not, отрицательных местоимений/наречий или отрицательных приставок.\n\nКогда используется:\n— отрицание глагола: с помощью not после вспомогательного/модального глагола: I don't like coffee. She isn't here.\n— отрицание существительного/местоимения: no, none, nobody, nothing.\n— отрицание наречием: never, rarely, hardly.\n— отрицание приставкой: unhappy, impossible, disagree.\n\nФормы (основные типы отрицания, рассматриваемые в этой категории):\nNegation: Verbs & Clauses, Negation: Nouns & Pronouns, Negation: Adverbs, Double Negations, Negative Markers — подробнее в отдельных темах этой категории.\n\nПримеры:\nI don't understand this exercise. There's nobody in the office. She never eats meat. He is unhappy with the result. Nothing happened yesterday. We can't come to the party.\n\nДополнительные примеры:\nI haven't finished my homework yet. None of the students passed. It's impossible to finish on time. She rarely complains about anything. Don't worry about it.\n\nЧастые ошибки:\n— Двойное отрицание: 'I don't know nothing' — неправильно, нужно 'I don't know anything' или 'I know nothing'.\n— Пропуск do-support при отрицании смыслового глагола в Present/Past Simple: 'I not like it' — неправильно, нужно 'I don't like it'.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Отрицание глаголов и придаточных (Negation: Verbs & Clauses)',
+                'category' => 'Sentences',
+                'theory' => "Отрицание глагола (verbal negation) строится добавлением not (или его сокращения n't) после вспомогательного, модального глагола или глагола to be.\n\nКогда используется:\n— с to be: is/am/are + not: She isn't tired.\n— с вспомогательными глаголами (do/does/did, have/has/had, will): don't, doesn't, didn't, haven't, won't.\n— с модальными глаголами: can't, mustn't, shouldn't.\n— отрицание целого придаточного предложения (clausal negation) может влиять на смысл всего высказывания: I don't think that she's right (отрицание относится к главному глаголу, хотя логически — к придаточному).\n\nСтруктура:\nПодлежащее + вспомогательный/модальный глагол + not (n't) + смысловой глагол (в начальной форме).\n\nПримеры:\nI don't eat meat. She isn't coming tonight. We haven't finished yet. He can't swim. They didn't call me back. You mustn't smoke here.\n\nДополнительные примеры:\nIt won't rain tomorrow. She shouldn't work so hard. I wasn't aware of the problem. We don't think this is a good idea. He hasn't decided yet.\n\nЧастые ошибки:\n— Пропуск do-support: 'She not like it' — неправильно, нужно 'She doesn't like it'.\n— do-support вместе с to be или модальными глаголами: 'She doesn't can swim' — неправильно, нужно 'She can't swim'.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Отрицание существительных и местоимений (Negation: Nouns & Pronouns)',
+                'category' => 'Sentences',
+                'theory' => "Negation существительных и местоимений строится с помощью отрицательных determiners и местоимений (no, none, nobody, no one, nothing) — они сами по себе выражают отрицание, без дополнительного not в глаголе.\n\nКогда используется:\n— no + существительное: There is no milk left.\n— nobody/no one/nothing/none — заменяют собой существительное или местоимение целиком: Nobody called. I have none.\n— важно не использовать одновременно not и negative pronoun — это создаёт двойное отрицание.\n\nФормы:\nno (+ существительное), none (без существительного, часто с of), nobody/no one, nothing.\n\nПримеры:\nThere's no reason to worry. Nobody knows the answer. I have nothing to say. None of the students finished the test. No one called while you were out. There's no time to lose.\n\nДополнительные примеры:\nNone of this makes sense. There's nothing wrong with the plan. No one warned me about the traffic. I found no evidence to support the claim.\n\nЧастые ошибки:\n— Двойное отрицание с not: 'I don't have no money' — неправильно, нужно либо 'I don't have any money', либо 'I have no money'.\n— none вместо no перед существительным напрямую: 'none milk' — неправильно, none используется самостоятельно или с of ('none of the milk'), а перед существительным нужно no ('no milk').",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Отрицание наречиями (Negation: Adverbs)',
+                'category' => 'Sentences',
+                'theory' => "Некоторые наречия (never, rarely, seldom, hardly, barely, scarcely) сами по себе несут отрицательное или почти отрицательное значение, хотя формально не являются словом not.\n\nКогда используется:\n— never — «никогда», полное отрицание частоты: I've never been to Japan.\n— rarely/seldom — «редко», почти отрицание: She rarely complains.\n— hardly/barely/scarcely — «едва, почти не»: I could hardly hear him.\n— когда такое наречие стоит В НАЧАЛЕ предложения (для эмфазы), требуется инверсия: Never have I seen such chaos.\n\nСтруктура:\nПодлежащее + negative adverb + глагол (обычный порядок). ИЛИ Negative adverb + вспомогательный глагол + подлежащее + глагол (инверсия, если наречие в начале).\n\nПримеры:\nI rarely go to the cinema these days. She hardly ever complains. We seldom see each other anymore. Never have I felt so proud. I could barely understand his accent.\n\nДополнительные примеры:\nHe scarcely spoke during the meeting. Rarely does he arrive late. I hardly recognised her after so many years. They seldom argue about money.\n\nЧастые ошибки:\n— Дополнительное not вместе с negative adverb (двойное отрицание): 'I don't never go there' — неправильно, нужно 'I never go there'.\n— Пропуск инверсии, когда negative adverb стоит в начале предложения: 'Never I have seen this' — неправильно, нужно 'Never have I seen this'.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Двойное отрицание (Double Negations)',
+                'category' => 'Sentences',
+                'theory' => "Double negation — использование двух отрицательных элементов в одном предложении. В стандартном английском это считается грамматической ошибкой (в отличие от русского, где двойное отрицание нормативно), но встречается как особенность некоторых диалектов.\n\nКогда используется:\n— НЕ используется в стандартном письменном/формальном английском — считается ошибкой: 'I don't know nothing' — неправильно.\n— встречается в разговорных диалектах (например, во многих региональных вариантах английского) как усилительная, а не буквальная конструкция.\n— в стандартном языке правильно использовать только ОДНО отрицание на утверждение.\n\nФормы (правильная замена double negation):\n'I don't know nothing' → 'I don't know anything' ИЛИ 'I know nothing'. 'She didn't say nothing' → 'She didn't say anything'.\n\nПримеры:\nНеправильно: I can't find nowhere to sit. Правильно: I can't find anywhere to sit. Неправильно: He doesn't never call. Правильно: He never calls. Неправильно: We didn't see nobody. Правильно: We didn't see anybody.\n\nДополнительные примеры:\nНеправильно: She didn't say nothing about it. Правильно: She didn't say anything about it. Неправильно: I haven't got no money. Правильно: I haven't got any money.\n\nЧастые ошибки:\n— Именно double negation и есть сама ошибка: not + any-форма ИЛИ отдельно no-форма без not — но никогда оба одновременно в стандартном английском.\n— Перенос русской грамматической нормы (где двойное отрицание обязательно) напрямую в английский — в английском это меняет или искажает смысл.",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Маркеры отрицания (Negative Markers)',
+                'category' => 'Sentences',
+                'theory' => "Negative markers — общее название для всех средств, с помощью которых английский язык выражает отрицание: частица not, отрицательные приставки, отрицательные местоимения и наречия.\n\nКогда используется:\n— not/n't — базовое отрицание глагола: isn't, doesn't, won't.\n— отрицательные приставки к прилагательным/существительным: un-, in-/im-, dis-, non-, mis-: unhappy, impossible, disagree, non-existent.\n— отрицательные местоимения/наречия: no, none, never, nothing, nobody, nowhere.\n— less как суффикс отсутствия качества: hopeless, careless.\n\nФормы:\nun- (unfair), in-/im-/il-/ir- (incorrect, impossible, illegal, irregular), dis- (disagree), non- (non-smoker), mis- (misunderstand), -less (careless).\n\nПримеры:\nHe was unhappy with the decision. It's impossible to finish by Friday. She disagreed with the plan. This is a non-smoking area. He misunderstood the instructions. That was a careless mistake.\n\nДополнительные примеры:\nThe document is illegal in this country. Her behaviour was irregular for the situation. This information is inaccurate. He seems disinterested in the project.\n\nЧастые ошибки:\n— Неверная приставка для конкретного слова (нужно запоминать индивидуально): 'inpossible' — неправильно, нужно 'impossible' (im- перед p/b/m).\n— Смешение нескольких negative markers в одном слове без необходимости: 'unimpossible' — неправильно, слово уже отрицательное само по себе (impossible), дополнительная приставка не нужна.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Вопросы (Questions)',
+                'category' => 'Sentences',
+                'theory' => "Question (вопрос) — предложение, построенное для получения информации от собеседника, с изменённым (обычно инвертированным) порядком слов по сравнению с утверждением.\n\nКогда используется:\n— чтобы получить ответ да/нет: Do you like tea?\n— чтобы получить конкретную информацию: Where do you live?\n— чтобы уточнить или получить подтверждение: You're coming, aren't you?\n\nФормы (основные типы вопросов, рассматриваемые в этой категории):\nYes/No Questions, Wh- Questions, Embedded Questions, Tags — подробнее в отдельных темах этой категории.\n\nПримеры:\nDo you speak French? (yes/no) Where is the nearest station? (wh-question) Could you tell me what time it is? (embedded) You like coffee, don't you? (tag question)\n\nДополнительные примеры:\nHave you finished your homework? What time does the film start? I wonder if she's coming. It's cold today, isn't it?\n\nЧастые ошибки:\n— Прямой порядок слов вместо инверсии: 'Where you live?' — неправильно, нужно 'Where do you live?'.\n— Пропуск вспомогательного глагола: 'You like tea?' грамматически неполно как формальный вопрос, нужно 'Do you like tea?'.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Общие вопросы (Yes/No Questions)',
+                'category' => 'Sentences',
+                'theory' => "Yes/No question — общий вопрос, на который можно ответить коротко «да» или «нет», строится с помощью инверсии вспомогательного/модального глагола и подлежащего.\n\nКогда используется:\n— чтобы узнать, верно ли утверждение: Do you like coffee?\n— чтобы попросить подтверждения или уточнения: Is she coming tonight?\n\nСтруктура:\nВспомогательный/модальный глагол (или be) + подлежащее + смысловой глагол (+ остальная часть предложения)?\nDo you speak English? Is he ready? Have they arrived? Can she swim?\n\nПримеры:\nDo you live nearby? Is this seat taken? Have you ever been to Italy? Can I help you with that? Did she call you back? Are they coming to the party?\n\nДополнительные примеры:\nDoes he work here? Was the film good? Have you finished eating? Will you be at the meeting tomorrow? Should we leave now?\n\nЧастые ошибки:\n— Отсутствие инверсии: 'You like tea?' звучит слишком неформально как полноценный вопрос, стандартно нужно 'Do you like tea?'.\n— do-support вместе с to be: 'Does she is happy?' — неправильно, нужно 'Is she happy?'.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => 'Asking Questions: Wh-Words',
+                'title' => 'Специальные вопросы (Wh- Questions)',
+                'category' => 'Sentences',
+                'theory' => "Wh-question (специальный вопрос) начинается с вопросительного слова (who, what, where, when, why, how) и запрашивает конкретную информацию, а не просто да/нет.\n\nКогда используется:\n— who — о человеке: Who called you?\n— what — о предмете/действии: What are you doing?\n— where — о месте: Where do you live?\n— when — о времени: When does the film start?\n— why — о причине: Why are you late?\n— how — о способе/состоянии: How are you? How does this work?\n\nСтруктура:\nWh-word + вспомогательный/модальный глагол + подлежащее + смысловой глагол? (кроме вопроса к подлежащему, где инверсия не нужна: Who called you?)\n\nПримеры:\nWhat time does the shop open? Where did you buy that jacket? Why didn't you call me? How long have you lived here? Who is knocking at the door? When will you be back?\n\nДополнительные примеры:\nWhat are you thinking about? How much does this cost? Where were you last night? Who broke the window? Why is she upset?\n\nЧастые ошибки:\n— Прямой порядок слов вместо инверсии: 'Where you live?' — неправильно, нужно 'Where do you live?'.\n— Лишняя инверсия в вопросе к подлежащему: 'Who did call you?' — неправильно, если who — само подлежащее, нужно 'Who called you?' (без do).",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => 'Indirect Questions',
+                'title' => 'Встроенные вопросы (Embedded Questions)',
+                'category' => 'Sentences',
+                'theory' => "Embedded question (встроенный/косвенный вопрос) — вопрос, вставленный внутрь другого предложения, при этом порядок слов внутри него становится ПРЯМЫМ (как в утверждении), а не инвертированным.\n\nКогда используется:\n— чтобы вежливо задать вопрос: Could you tell me where the station is? (вместо прямого 'Where is the station?')\n— после фраз типа I wonder, I don't know, Do you know, Could you tell me: I wonder what time it is.\n— в отчёте о чужом вопросе (косвенная речь): She asked me where I lived.\n\nСтруктура:\nВводная фраза + wh-word/if/whether + подлежащее + сказуемое (прямой порядок слов, без инверсии, без do-support).\n\nПримеры:\nCould you tell me what time it is? I wonder where she went. Do you know if the shop is open? I'm not sure how this works. She asked me why I was late.\n\nДополнительные примеры:\nI don't know when the meeting starts. Can you tell me how much this costs? I wonder whether he'll come. Do you have any idea where my keys are?\n\nЧастые ошибки:\n— Инверсия внутри embedded question: 'I wonder where is she' — неправильно, нужно 'I wonder where she is' (прямой порядок слов).\n— Пропуск if/whether для встроенного общего вопроса: 'I don't know she is coming' — неправильно, нужно 'I don't know if/whether she is coming'.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => 'Question Tags',
+                'title' => 'Разделительные вопросы (Tags)',
+                'category' => 'Sentences',
+                'theory' => "Question tag (разделительный вопрос) — короткий вопрос, добавленный в конец утвердительного или отрицательного предложения, чтобы попросить подтверждения или проверить информацию.\n\nКогда используется:\n— чтобы подтвердить сказанное или начать разговор: It's a lovely day, isn't it?\n— утвердительное предложение получает ОТРИЦАТЕЛЬНЫЙ tag, отрицательное — ПОЛОЖИТЕЛЬНЫЙ (правило противоположности): She likes tea, doesn't she? You don't smoke, do you?\n— tag использует тот же вспомогательный/модальный глагол, что и главное предложение, и местоимение вместо подлежащего.\n\nСтруктура:\nУтверждение + отрицательный tag (вспомогательный глагол + not + местоимение)? Отрицание + положительный tag (вспомогательный глагол + местоимение)?\n\nПримеры:\nYou're coming to the party, aren't you? She doesn't like spicy food, does she? They've already left, haven't they? It wasn't very expensive, was it? Let's go for a walk, shall we?\n\nДополнительные примеры:\nHe can swim, can't he? You won't tell anyone, will you? We should leave now, shouldn't we? There isn't much time left, is there? Open the window, will you?\n\nЧастые ошибки:\n— Одинаковая полярность утверждения и tag: 'She likes tea, does she?' в значении подтверждения звучит странно, обычно нужна противоположная полярность: 'does she?' для нейтрального подтверждения — 'doesn't she?'.\n— Неверный вспомогательный глагол в tag: 'She works here, isn't she?' — неправильно, нужно 'She works here, doesn't she?' (согласование со смысловым глаголом через do-support).",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Согласование (Agreement)',
+                'category' => 'Sentences',
+                'theory' => "Subject-verb agreement (согласование подлежащего и сказуемого) — правило, по которому форма глагола в Present Simple должна соответствовать числу и лицу подлежащего.\n\nКогда используется:\n— единственное число, 3-е лицо (he/she/it) требует -s у глагола: She works here.\n— собирательные существительные (team, family, government) могут согласовываться и в единственном, и во множественном числе в зависимости от того, воспринимается ли группа как единое целое или как отдельные члены.\n— подлежащие, соединённые and, обычно требуют множественного числа глагола: Tom and Jerry are friends.\n— either...or/neither...nor — глагол согласуется с БЛИЖАЙШИМ подлежащим.\n\nФормы:\nI/you/we/they + начальная форма. He/she/it + форма с -s. Собирательные существительные: The team is winning (как единое целое) / The team are arguing among themselves (как отдельные члены, брит. вариант).\n\nПримеры:\nMy sister lives in Berlin. The students are studying for their exams. Neither the manager nor the employees were informed. Everybody needs a break sometimes. The news is surprising.\n\nДополнительные примеры:\nPolitics is a difficult subject. Either you or your brother has to help. The committee has made its decision. Mathematics was my favourite subject at school.\n\nЧастые ошибки:\n— Пропуск -s в 3-м лице единственного числа: 'She work here' — неправильно, нужно 'She works here'.\n— Согласование с ближайшим существительным в сложном подлежащем вместо реального грамматического числа: 'The list of items are on the table' — неправильно, нужно 'The list of items is on the table' (подлежащее — list, единственное число).",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Косвенная речь (Reported Speech)',
+                'category' => 'Sentences',
+                'theory' => "Reported speech — общее название для двух способов передать чужие слова: дословное цитирование (direct speech) и пересказ своими словами (indirect/reported speech).\n\nКогда используется:\n— direct speech — чтобы процитировать слова точно, как они были сказаны, в кавычках: She said, 'I'm tired.'\n— indirect speech — чтобы пересказать смысл чужих слов без кавычек, обычно с изменением времени и местоимений: She said that she was tired.\n\nФормы (основные аспекты, рассматриваемые в этой категории):\nDirect Speech (пунктуация и структура прямой речи), Indirect Speech (backshift времени, изменение местоимений и указателей места/времени) — подробнее в отдельных темах этой категории.\n\nПримеры:\n'I love this song,' she said. (direct) She said that she loved that song. (indirect) 'We will help you,' they promised. (direct) They promised that they would help me. (indirect)\n\nДополнительные примеры:\n'I'm leaving tomorrow,' he said. (direct) He said he was leaving the next day. (indirect) 'Have you finished?' she asked. (direct) She asked if I had finished. (indirect)\n\nЧастые ошибки:\n— Кавычки в indirect speech: 'She said that \\\"she was tired\\\"' — неправильно, indirect speech не использует кавычки.\n— Отсутствие backshift там, где он нужен по контексту прошедшего времени глагола сообщения.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Прямая речь (Reported Speech: Direct Speech)',
+                'category' => 'Sentences',
+                'theory' => "Direct speech — точное, дословное цитирование чьих-то слов, заключённое в кавычки, без изменения времени или местоимений.\n\nКогда используется:\n— чтобы передать слова человека точно, как они прозвучали: She said, 'I'm very happy.'\n— в художественной литературе, диалогах, интервью, новостных цитатах.\n\nСтруктура (пунктуация):\nПодлежащее + say/ask + , + \"прямая речь в кавычках\" (первое слово с заглавной буквы, знак препинания перед закрывающей кавычкой).\nHe said, \"I'll call you later.\" \"Are you coming?\" she asked.\n\nПримеры:\n\"I love this city,\" she said. He asked, \"What time is it?\" \"Please be quiet,\" the teacher said. \"I can't believe it!\" he exclaimed. She said, \"I'll finish it tomorrow.\"\n\nДополнительные примеры:\n\"Where are you going?\" he asked her. \"That's a great idea,\" she replied. The manager said, \"The meeting starts at 9.\" \"I'm so tired,\" he whispered.\n\nЧастые ошибки:\n— Запятая или точка ПОСЛЕ закрывающей кавычки вместо перед ней (в американской пунктуации): 'He said \"I agree\".' менее стандартно, чем 'He said, \"I agree.\"'\n— Строчная буква в начале прямой речи: 'She said, \"i am ready.\"' — неправильно, нужна заглавная 'I'.",
             ],
 
         ];
