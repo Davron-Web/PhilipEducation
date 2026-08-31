@@ -380,15 +380,10 @@ class GrammarTopicSeeder extends Seeder
             ],
             [
                 'level' => 'A1',
-                'lesson' => 'Plural Nouns',
+                'lesson' => '',
                 'title' => 'Существительные (Nouns)',
                 'category' => 'Nouns',
-                'theory' => "Существительные (nouns) называют людей, предметы, места и понятия. В английском они бывают исчисляемые (countable) и неисчисляемые (uncountable).\n\n"
-                    ."Множественное число исчисляемых существительных обычно образуется добавлением -s: book → books, car → cars.\n\n"
-                    ."После шипящих (-s, -ss, -sh, -ch, -x, -z) добавляется -es: box → boxes, watch → watches, bus → buses.\n\n"
-                    ."Если существительное оканчивается на согласную + y, y меняется на i + es: city → cities, baby → babies. Если перед y стоит гласная — просто -s: boy → boys, day → days.\n\n"
-                    ."Неправильные формы множественного числа: man → men, woman → women, child → children, tooth → teeth, foot → feet, person → people, mouse → mice.\n\n"
-                    ."Неисчисляемые существительные (water, information, advice, furniture, money) не имеют множественного числа и не используются с a/an; для счёта используются слова-счётчики: a piece of advice, a glass of water.",
+                'theory' => "Существительные (nouns) называют людей, места, предметы, вещества, качества, действия или понятия — практически всё, о чём можно говорить.\n\nКогда используется:\n— чтобы назвать предмет или человека, о котором идёт речь: The teacher explained the lesson.\n— как подлежащее, дополнение или после предлога в предложении.\n— чтобы отнести объект к одной из категорий: собственное или нарицательное, исчисляемое или неисчисляемое, конкретное или абстрактное (см. отдельные темы).\n\nФормы (основные категории):\nСобственные/нарицательные (Proper and Common), исчисляемые/неисчисляемые (Countable and Uncountable), единственное/множественное число (Singular and Plural), собирательные (Collective), абстрактные/конкретные (Abstract and Concrete), составные (Compound Nouns).\n\nПримеры:\ntable, teacher, London, happiness, water, team, information, sunshine.\n\nДополнительные примеры:\nThe children are playing in the park. Honesty is an important quality. My brother works for a large company. We need more information about the project.\n\nЧастые ошибки:\n— Использование неисчисляемых существительных с a/an или во множественном числе: 'an informations' — неправильно, information неисчисляемо: 'some information'.\n— Отсутствие заглавной буквы у собственных существительных: 'i live in london' — неправильно, нужно 'I live in London'.",
             ],
             [
                 'level' => 'A2',
@@ -685,6 +680,112 @@ class GrammarTopicSeeder extends Seeder
                     ."Perfect continuous aspect — сочетает завершённость к моменту и длительность процесса до этого момента: I have been writing, I had been writing, I will have been writing.\n\n"
                     ."Понимание aspect как отдельной от tense категории помогает системно понять всю систему из 12 времён, а не запоминать каждое время отдельно.",
             ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Proper and Common Nouns',
+                'category' => 'Nouns',
+                'theory' => "Proper nouns (собственные) называют конкретного, уникального человека, место или вещь и всегда пишутся с заглавной буквы. Common nouns (нарицательные) называют общий класс предметов или людей.\n\nКогда используется:\n— proper noun для конкретного имени: London, Sarah, Monday, the Eiffel Tower.\n— common noun для общего названия класса объектов: city, girl, day, tower.\n— артикль the часто используется с некоторыми proper nouns (реки, горные цепи, страны во множественном числе): the Nile, the Alps, the Netherlands.\n\nСтруктура:\nProper nouns пишутся с заглавной буквы независимо от позиции в предложении: I met John in Paris last June.\n\nПримеры:\nCommon: city, book, dog, teacher, country. Proper: New York, Harry Potter, Max, Ms. Johnson, Japan.\n\nДополнительные примеры:\nShe was born in Spain. My favourite month is December. He reads the Bible every Sunday. We visited the Louvre in Paris.\n\nЧастые ошибки:\n— Строчная буква у имён собственных: 'i met sarah in london' — неправильно, нужно 'I met Sarah in London'.\n— Заглавная буква у нарицательных существительных без причины: 'I bought a New Book' — неправильно, нужно 'I bought a new book'.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => 'Countable and Uncountable Nouns',
+                'title' => 'Countable and Uncountable Nouns',
+                'category' => 'Nouns',
+                'theory' => "Countable nouns (исчисляемые) можно посчитать и использовать во множественном числе. Uncountable nouns (неисчисляемые) обозначают вещества, качества или понятия, которые нельзя посчитать поштучно.\n\nКогда используется:\n— countable — для отдельных, счётных предметов: one apple, two apples.\n— uncountable — для веществ, жидкостей, абстрактных понятий: water, rice, advice, information, furniture.\n— many/few — с исчисляемыми; much/little — с неисчисляемыми: many books, much water.\n— для счёта неисчисляемых используются слова-счётчики: a piece of advice, a glass of water, a loaf of bread.\n\nФормы:\nCountable: singular + plural (book/books). Uncountable: только одна форма, без множественного числа, не используется с a/an: information (не an information, не informations).\n\nПримеры:\nI have three books. She gave me some advice. There isn't much time left. How many apples do you want? We need a bit of sugar. There are a lot of chairs in the room.\n\nДополнительные примеры:\nI'd like a cup of coffee, please. He has very little money. There are many opportunities here. I need some information about the course. Can you give me a few examples?\n\nЧастые ошибки:\n— Множественное число у неисчисляемых: 'informations', 'advices', 'furnitures' — неправильно; information, advice, furniture не имеют формы множественного числа.\n— many вместо much с неисчисляемыми: 'How many money do you have?' — неправильно, нужно 'How much money do you have?'.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => 'Plural Nouns',
+                'title' => 'Singular and Plural',
+                'category' => 'Nouns',
+                'theory' => "Singular (единственное число) — один предмет, plural (множественное число) — два и более. Форма существительного зависит от его числа.\n\nКогда используется:\n— singular для одного предмета или человека: one cat, a book.\n— plural для двух и более: two cats, three books.\n— некоторые существительные всегда во множественном числе (см. тему Plural-Only Nouns), некоторые не меняются вовсе (sheep, fish).\n\nФормы (образование множественного числа):\nБольшинство: + -s (cat → cats). После -s/-ss/-sh/-ch/-x/-o: + -es (box → boxes, potato → potatoes). После согласной + y: y → ies (city → cities). После -f/-fe: часто f/fe → ves (leaf → leaves, knife → knives). Неправильные формы: man → men, child → children, foot → feet, mouse → mice, person → people.\n\nПримеры:\none dog — two dogs. one box — five boxes. one baby — three babies. one child — two children. one leaf — many leaves. one sheep — twenty sheep (не меняется).\n\nДополнительные примеры:\nThere are four buses at the station. She has two knives in the kitchen. I saw three mice in the garden. Many countries have their own currency. The women were talking outside.\n\nЧастые ошибки:\n— Регулярное окончание -s у неправильных форм: 'childs', 'mans', 'foots' — неправильно, нужно children, men, feet.\n— Пропуск -es после шипящих: 'boxs' — неправильно, нужно 'boxes'.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Plural-Only Nouns',
+                'category' => 'Nouns',
+                'theory' => "Plural-only nouns — существительные, которые всегда употребляются только во множественном числе и не имеют формы единственного числа с тем же значением.\n\nКогда используется:\n— предметы, состоящие из двух одинаковых частей: trousers, scissors, glasses, jeans, shorts.\n— некоторые слова, обозначающие категории вещей: clothes, goods, belongings.\n— всегда согласуются с глаголом во множественном числе: My trousers are too tight.\n\nФормы:\nЕсли нужно посчитать такой предмет, используется 'a pair of': a pair of scissors, two pairs of jeans.\n\nПримеры:\nMy glasses are broken. These scissors are very sharp. Where are my trousers? I bought new jeans yesterday. All my clothes are in the wardrobe. The police are investigating the case.\n\nДополнительные примеры:\nI need a new pair of shorts. Her belongings were left at the hotel. The stairs are quite steep. Where did you put the tongs? The goods arrived yesterday.\n\nЧастые ошибки:\n— Использование единственного числа глагола: 'My trousers is dirty' — неправильно, нужно 'My trousers are dirty'.\n— Употребление a/an напрямую перед plural-only существительным: 'a scissors' — неправильно, нужно 'a pair of scissors'.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Collective Nouns',
+                'category' => 'Nouns',
+                'theory' => "Collective nouns (собирательные существительные) обозначают группу людей, животных или предметов как единое целое: team, family, government, audience, herd.\n\nКогда используется:\n— чтобы назвать группу как единый организованный коллектив: The team is playing well.\n— в британском варианте английского собирательные существительные часто согласуются с глаголом во множественном числе, когда речь о членах группы как отдельных людях: The team are arguing among themselves.\n— в американском варианте почти всегда используется единственное число: The team is playing well.\n\nФормы:\nПримеры собирательных существительных: family, team, government, staff, audience, crowd, herd (стадо), flock (стая), jury.\n\nПримеры:\nMy family is very supportive. The audience was silent during the film. The government has announced new plans. A herd of elephants crossed the road. The jury is still deliberating. Our staff works hard every day.\n\nДополнительные примеры:\nThe band are recording a new album. The committee has made its decision. A flock of birds flew overhead. The crowd was cheering loudly. The class is going on a trip next week.\n\nЧастые ошибки:\n— Смешение единственного и множественного числа в одном предложении: лучше выбрать один вариант согласования и придерживаться его во всём предложении.\n— Путаница собирательного существительного с обычным множественным числом: family (одна семья, собирательное) отличается от families (несколько семей, обычное множественное).",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Abstract and Concrete Nouns',
+                'category' => 'Nouns',
+                'theory' => "Concrete nouns (конкретные) называют предметы, которые можно увидеть, потрогать, услышать — физически ощутимые. Abstract nouns (абстрактные) называют идеи, качества, чувства, состояния — то, что нельзя воспринять органами чувств.\n\nКогда используется:\n— concrete для физических объектов: table, dog, rain, music (можно услышать).\n— abstract для понятий, эмоций, качеств: love, freedom, honesty, courage, happiness.\n— многие abstract nouns образуются от прилагательных или глаголов с помощью суффиксов: happy → happiness, free → freedom, decide → decision.\n\nФормы (типичные суффиксы абстрактных существительных):\n-ness (kindness), -ity (creativity), -tion/-sion (decision), -ance/-ence (patience), -ism (optimism), -ship (friendship).\n\nПримеры:\nConcrete: chair, apple, river, phone, teacher. Abstract: happiness, freedom, courage, knowledge, friendship.\n\nДополнительные примеры:\nHonesty is the best policy. I could smell fresh bread in the kitchen. Her kindness touched everyone. The bridge was built in 1990. True happiness comes from within.\n\nЧастые ошибки:\n— Использование артикля a/an с абстрактными существительными в общем смысле: 'I want a happiness' — обычно неправильно, нужно 'I want happiness'.\n— Путаница суффиксов: 'happyness' — неправильно, нужно 'happiness'.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Gender-specific Nouns',
+                'category' => 'Nouns',
+                'theory' => "Gender-specific nouns — существительные, которые указывают на пол человека или животного, в отличие от gender-neutral nouns, которые подходят для любого пола.\n\nКогда используется:\n— когда пол важен для смысла или является частью традиционного названия профессии/роли: actor/actress, prince/princess.\n— в современном английском предпочтение часто отдаётся гендерно-нейтральным вариантам, особенно для профессий: actor (для любого пола), police officer вместо policeman.\n\nФормы (пары мужской/женский род):\nman/woman, boy/girl, king/queen, actor/actress, waiter/waitress, husband/wife, uncle/aunt, host/hostess, hero/heroine.\n\nПримеры:\nThe prince married the princess. My uncle and aunt live abroad. The waiter brought our food. She works as a police officer. The lion and the lioness were resting.\n\nДополнительные примеры:\nThe king and queen attended the ceremony. My grandson and granddaughter are twins. The actor won an award for his role. The hero saved the town. Every host and hostess welcomed the guests warmly.\n\nЧастые ошибки:\n— Использование устаревших гендерных форм в официальном контексте, где предпочтителен нейтральный вариант: 'chairman' часто заменяют на 'chairperson' или 'chair'.\n— Неверное образование женского рода: 'actoress' — неправильно, нужно 'actress'.",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Noun Modifiers',
+                'category' => 'Nouns',
+                'theory' => "Noun modifiers — слова, которые определяют, уточняют или описывают существительное: прилагательные, другие существительные (noun + noun), причастия, определители.\n\nКогда используется:\n— прилагательное перед существительным: a beautiful garden.\n— существительное в роли определения другого существительного: a garden gate, a coffee cup, a summer holiday.\n— причастие как определение: a sleeping baby, a broken window.\n— несколько модификаторов подряд в определённом порядке.\n\nФормы (порядок прилагательных перед существительным):\nopinion → size → age → shape → colour → origin → material → purpose + noun. Пример: a beautiful small old round black Italian leather handbag.\n\nПримеры:\na wooden table (материал). a summer dress (назначение/сезон). a broken chair (причастие). a beautiful old house (мнение + возраст). a large red apple (размер + цвет). the sleeping cat (причастие).\n\nДополнительные примеры:\nShe wore a stunning long red evening dress. He bought a small black leather wallet. The falling leaves covered the path. A crying baby woke us up. We stayed in a charming old French village.\n\nЧастые ошибки:\n— Неправильный порядок прилагательных: 'a red big apple' звучит неестественно, нужно 'a big red apple'.\n— Множественное число у существительного-модификатора: 'a shoes shop' — неправильно, нужно 'a shoe shop'.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Possessive Form of Nouns',
+                'category' => 'Nouns',
+                'theory' => "Possessive form (притяжательный падеж) показывает принадлежность одного существительного другому.\n\nКогда используется:\n— чтобы показать, кому что принадлежит: Anna's book, the dog's tail.\n— для людей и животных чаще используется 's, для неодушевлённых предметов чаще предлог of: the roof of the house.\n— для указания времени и расстояния: a week's holiday, two hours' drive.\n\nФормы:\nЕдинственное число: + 's (Tom's car). Множественное число, оканчивающееся на -s: + ' (the girls' room). Множественное число без -s: + 's (the children's toys). Имена, оканчивающиеся на -s: обычно + 's (James's book) или + ' (James').\n\nПримеры:\nThis is Maria's phone. The children's toys are everywhere. My parents' house is huge. The cat's tail is black. James's car is new. The students' results were excellent.\n\nДополнительные примеры:\nThat's my sister's bag. The company's profits increased this year. The teachers' meeting starts at 9. Charles's book is on the table. Where is the manager's office?\n\nЧастые ошибки:\n— Апостроф перед -s у существительного во множественном числе, уже оканчивающегося на -s: 'the girls's room' — неправильно, нужно 'the girls' room'.\n— Путаница possessive с обычным множественным числом: 'The dog's are barking' — неправильно, нужно 'The dogs are barking'.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Compound Nouns',
+                'category' => 'Nouns',
+                'theory' => "Compound nouns (составные существительные) образуются из двух или более слов, которые вместе выражают одно понятие.\n\nКогда используется:\n— чтобы назвать понятие, для которого нет отдельного простого слова: a toothbrush, a bus stop, mother-in-law.\n— первое слово обычно уточняет или описывает второе (главное) слово: a coffee cup — чашка для кофе.\n\nФормы (три способа написания):\nСлитно: toothbrush, notebook, sunflower. Через дефис: mother-in-law, well-known, check-in. Раздельно: bus stop, credit card, swimming pool. Единого правила нет — нужно запоминать написание конкретного слова.\n\nПримеры:\ntoothpaste, football, bus stop, mother-in-law, credit card, sunrise, blackboard, swimming pool.\n\nДополнительные примеры:\nShe bought a new washing machine. My brother-in-law is a doctor. We need a fire extinguisher in the kitchen. The traffic light turned red. He works as a part-time babysitter.\n\nЧастые ошибки:\n— Множественное число не в том месте составного слова: 'mother-in-laws' — неправильно, нужно 'mothers-in-law'.\n— Смешение слитного и раздельного написания — всегда стоит проверять по словарю.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => 'Gerunds vs Infinitives',
+                'title' => 'Gerunds',
+                'category' => 'Nouns',
+                'theory' => "Gerund — форма глагола на -ing, которая используется как существительное: называет действие или процесс, но ведёт себя в предложении как noun.\n\nКогда используется:\n— как подлежащее предложения: Swimming is good for your health.\n— как дополнение после определённых глаголов (enjoy, avoid, finish, suggest, mind): I enjoy reading.\n— после предлогов: She is interested in learning Spanish.\n— после некоторых устойчивых выражений: It's no use crying over spilt milk.\n\nФорма и образование:\nглагол + -ing (walk → walking, run → running (удвоение согласной), write → writing (убираем немую -e)).\n\nПримеры:\nSmoking is bad for your health. I love cooking on weekends. She's good at painting. Thank you for helping me. He avoided answering the question. Reading books expands your vocabulary.\n\nДополнительные примеры:\nWould you mind closing the window? I'm thinking of moving to another city. Playing video games is his favourite hobby. We finished decorating the house. She's tired of waiting.\n\nЧастые ошибки:\n— Использование to + infinitive после глаголов, требующих gerund: 'I enjoy to read' — неправильно, нужно 'I enjoy reading'.\n— Gerund после предлога заменяется infinitive по ошибке: 'She's interested to learn' — неправильно, нужно 'She's interested in learning'.",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Verbal Nouns',
+                'category' => 'Nouns',
+                'theory' => "Verbal nouns — общий термин для существительных, образованных от глаголов и обозначающих действие или процесс. Gerund (-ing) — один из типов verbal noun, но есть и другие формы с суффиксами.\n\nКогда используется:\n— чтобы превратить действие/процесс в существительное, о котором можно говорить как о предмете: the arrival of the train, a decision, an agreement.\n— часто используется в формальном, письменном и академическом стиле.\n\nФормы (типичные суффиксы):\n-tion/-sion: decide → decision, inform → information. -ment: develop → development, agree → agreement. -al: arrive → arrival, refuse → refusal. -ing (gerund): read → reading.\n\nПримеры:\nThe decision surprised everyone. Their agreement was signed yesterday. The arrival of the guests was delayed. Government investment in education is increasing. His refusal to apologise upset her.\n\nДополнительные примеры:\nThe development of the new drug took years. Their movement was quick and quiet. The explanation was very clear. The construction of the bridge finished last month. Her improvement in English is remarkable.\n\nЧастые ошибки:\n— Использование глагола вместо verbal noun там, где грамматически нужно существительное: 'The develop of the city' — неправильно, нужно 'The development of the city'.\n— Неправильный суффикс: 'the decideion' — неправильно, нужно 'the decision'.",
+            ],
+            [
+                'level' => 'C1',
+                'lesson' => '',
+                'title' => 'Nominal Adjectives',
+                'category' => 'Nouns',
+                'theory' => "Nominal adjectives (субстантивированные прилагательные) — прилагательные, которые используются как существительные, обычно с определённым артиклем the, для обозначения целой группы людей.\n\nКогда используется:\n— the + прилагательное для обозначения группы людей с общим признаком: the rich, the poor, the elderly, the unemployed, the blind.\n— такие конструкции всегда согласуются с глаголом во множественном числе: The rich are not always happy.\n— иногда the + прилагательное обозначает абстрактное понятие (реже): the unknown, the impossible.\n\nФормы:\nthe + прилагательное (без последующего существительного и без -s): the rich, the young, the disabled, the injured.\n\nПримеры:\nThe government should help the poor. The elderly need special care. The wounded were taken to hospital. The unemployed are struggling to find jobs. She always fights for the oppressed. The brave deserve recognition.\n\nДополнительные примеры:\nThe rich often forget how the other half live. Charities support the homeless. The young are usually more open to change. The blind rely on their other senses. Society must protect the vulnerable.\n\nЧастые ошибки:\n— Добавление -s к nominal adjective: 'the riches' меняет значение — нужно просто 'the rich'.\n— Согласование глагола в единственном числе: 'The poor is suffering' — неправильно, нужно 'The poor are suffering'.",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Noun Clauses',
+                'category' => 'Nouns',
+                'theory' => "Noun clause — придаточное предложение, которое выполняет в предложении роль существительного: может быть подлежащим, дополнением или именной частью сказуемого.\n\nКогда используется:\n— как подлежащее: What she said surprised me.\n— как дополнение после глагола: I don't know where he lives.\n— как дополнение после прилагательного: I'm not sure if this is correct.\n— после предлога: I'm interested in what you think.\n\nФормы (вводные слова noun clause):\nthat, if/whether (для да/нет вопросов), вопросительные слова (what, where, when, why, how, who), а также what/whoever и т.д.\n\nПримеры:\nI believe that he is right. Do you know if she is coming? What you need is more practice. I wonder why he left early. She asked where I had been. It's important that everyone attends.\n\nДополнительные примеры:\nI'm not sure whether this is the right decision. What happened next surprised everyone. He explained how the machine works. I doubt that she will agree. Whoever wins the competition gets a prize.\n\nЧастые ошибки:\n— Прямой порядок слов теряется в косвенном вопросе: 'I don't know where is he' — неправильно, нужно 'I don't know where he is'.\n— Пропуск if/whether в косвенном да/нет вопросе: 'I asked he was coming' — неправильно, нужно 'I asked if/whether he was coming'.",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Gerund Phrases',
+                'category' => 'Nouns',
+                'theory' => "Gerund phrase — словосочетание, в котором gerund (глагол на -ing) выступает главным словом вместе со своими дополнениями и определениями, и вся конструкция играет роль существительного.\n\nКогда используется:\n— как подлежащее: Learning a new language takes time and patience.\n— как дополнение: I enjoy spending time with my family.\n— после предлога: She left without saying goodbye.\n— с притяжательным местоимением/существительным перед gerund в формальном стиле: I appreciate your helping me.\n\nФормы:\ngerund + дополнение/обстоятельство: reading books, driving to work, being late, having finished the project.\n\nПримеры:\nEating too much sugar is bad for you. I love listening to music in the evening. Thank you for coming to my party. She's afraid of flying alone. Winning the championship was a huge achievement. He apologised for being late.\n\nДополнительные примеры:\nStudying abroad changed my perspective on life. I can't imagine living without my phone. They talked about moving to another country. Playing sports every day keeps you healthy. I remember meeting him for the first time.\n\nЧастые ошибки:\n— Использование infinitive вместо gerund phrase после предлога: 'without to say goodbye' — неправильно, нужно 'without saying goodbye'.\n— Неполная фраза без нужного дополнения может звучать неестественно, если контекст явно требует уточнения.",
+            ],
+
         ];
     }
 }
