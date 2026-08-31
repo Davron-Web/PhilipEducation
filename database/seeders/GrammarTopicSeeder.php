@@ -681,6 +681,166 @@ class GrammarTopicSeeder extends Seeder
                     ."Neither — ни один из двух (отрицательное значение): Neither of the answers is correct.\n\n"
                     ."Важно: each, either, neither согласуются с глаголом в единственном числе, даже когда после них стоит 'of + существительное во множественном числе': Each of them has a key (не 'have').",
             ],
+
+            // Подтемы категории Tenses — все 12 времён + обзорные темы
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Tenses',
+                'category' => 'Tenses',
+                'theory' => "В английском языке 12 основных времён, образованных сочетанием трёх времён (present, past, future) и четырёх аспектов (simple, continuous, perfect, perfect continuous).\n\n"
+                    ."Present: Present Simple (I work), Present Continuous (I am working), Present Perfect (I have worked), Present Perfect Continuous (I have been working).\n\n"
+                    ."Past: Past Simple (I worked), Past Continuous (I was working), Past Perfect (I had worked), Past Perfect Continuous (I had been working).\n\n"
+                    ."Future: Future Simple (I will work), Future Continuous (I will be working), Future Perfect (I will have worked), Future Perfect Continuous (I will have been working).\n\n"
+                    ."Ключ к выбору правильного времени — понять две вещи: когда происходит действие (время) и как оно происходит — как разовое действие, процесс, результат или длительный процесс до момента (аспект). Подробнее об этом — в теме Aspects.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Present Perfect Continuous',
+                'category' => 'Tenses',
+                'theory' => "Present Perfect Continuous описывает действие, которое началось в прошлом и либо продолжается сейчас, либо только что закончилось, но его результат виден в настоящем.\n\n"
+                    ."Формула: have/has + been + глагол-ing.\n"
+                    ."Примеры: I have been studying English for three years. She has been waiting for an hour.\n\n"
+                    ."Используется, чтобы подчеркнуть длительность действия (со словами for, since, how long): How long have you been living here? I've been living here since 2020.\n\n"
+                    ."Также используется, когда видны следы недавнего продолжительного действия: You look tired. Have you been running?\n\n"
+                    ."Отличие от Present Perfect Simple: Present Perfect Continuous делает акцент на процессе и его длительности, а Present Perfect Simple — на результате или количестве. Сравните: I have read five books this month (сколько — результат) vs I have been reading all day (как долго — процесс).",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => 'Past Perfect Tense',
+                'title' => 'Past Perfect',
+                'category' => 'Tenses',
+                'theory' => "Past Perfect используется для действия, которое произошло раньше другого момента или действия в прошлом — «прошлое в прошлом».\n\n"
+                    ."Формула: had + глагол в 3-й форме (Participle II).\n"
+                    ."Пример: When I arrived at the station, the train had already left.\n\n"
+                    ."Часто используется с наречиями already, just, never, before в контексте прошлого: She had never seen snow before she moved to Canada.\n\n"
+                    ."Сравнение с Past Simple: Past Simple описывает более позднее событие, Past Perfect — более раннее.\n"
+                    ."Пример: I had finished my homework before I watched TV. (сначала закончил уроки, потом смотрел телевизор)\n\n"
+                    ."Частая ошибка: использовать Past Perfect для единственного события в прошлом без сравнения с другим моментом — тогда достаточно Past Simple: I went to Paris last year (не had gone).",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Past Perfect Continuous',
+                'category' => 'Tenses',
+                'theory' => "Past Perfect Continuous описывает действие, которое продолжалось в течение некоторого времени до другого момента или события в прошлом.\n\n"
+                    ."Формула: had + been + глагол-ing.\n"
+                    ."Пример: She was tired because she had been working all day.\n\n"
+                    ."Часто отвечает на вопрос «как долго» до момента в прошлом: They had been waiting for two hours when the bus finally arrived.\n\n"
+                    ."Сравнение с Past Perfect Simple: Past Perfect Continuous акцентирует процесс/длительность, Past Perfect Simple — факт завершения или результат.\n"
+                    ."Пример: I had written the report by 5 p.m. (результат — отчёт готов) vs I had been writing the report all afternoon (процесс).\n\n"
+                    ."Часто используется с because, since, for, чтобы объяснить причину состояния в прошлом: His hands were dirty because he had been fixing the car.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Future Continuous',
+                'category' => 'Tenses',
+                'theory' => "Future Continuous описывает действие, которое будет происходить в определённый момент в будущем — «в процессе» в это время.\n\n"
+                    ."Формула: will + be + глагол-ing.\n"
+                    ."Пример: This time tomorrow, I will be flying to London.\n\n"
+                    ."Также используется для действий, которые точно запланированы и произойдут в ходе обычного развития событий, без особого намерения: I will be seeing him at the meeting anyway, so I'll tell him then.\n\n"
+                    ."Вопрос о планах в вежливой форме: Will you be using the car this evening?\n\n"
+                    ."Сравните с Future Simple: I will call you at 8 (конкретное действие-точка) vs I will be cooking dinner at 8 (процесс, который будет идти в этот момент).",
+            ],
+            [
+                'level' => 'B2',
+                'lesson' => '',
+                'title' => 'Future Perfect',
+                'category' => 'Tenses',
+                'theory' => "Future Perfect используется для действия, которое будет завершено к определённому моменту в будущем.\n\n"
+                    ."Формула: will + have + глагол в 3-й форме.\n"
+                    ."Пример: By next year, I will have graduated from university.\n\n"
+                    ."Часто используется с by, by the time, before: By the time you arrive, we will have finished dinner.\n\n"
+                    ."Показывает завершённость действия до указанного будущего момента, а не сам процесс: By 2030, scientists will have developed new vaccines.\n\n"
+                    ."Отрицание и вопрос: I won't have finished by Friday. Will you have completed the project by then?",
+            ],
+            [
+                'level' => 'C1',
+                'lesson' => '',
+                'title' => 'Future Perfect Continuous',
+                'category' => 'Tenses',
+                'theory' => "Future Perfect Continuous описывает действие, которое будет продолжаться в течение определённого периода вплоть до конкретного момента в будущем.\n\n"
+                    ."Формула: will + have + been + глагол-ing.\n"
+                    ."Пример: By December, I will have been working at this company for five years.\n\n"
+                    ."Отвечает на вопрос «как долго» будет длиться действие к указанному моменту в будущем: In two more hours, she will have been driving for ten hours straight.\n\n"
+                    ."Используется довольно редко, в основном в формальном или письменном английском, когда важно подчеркнуть непрерывность и продолжительность процесса.\n\n"
+                    ."Сравните с Future Perfect Simple: By 6 p.m. I will have finished the report (результат) vs By 6 p.m. I will have been writing the report for six hours (процесс — сколько времени потрачено).",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Future with Going To',
+                'category' => 'Tenses',
+                'theory' => "Going to используется для описания будущих планов и намерений, а также предсказаний, основанных на видимых сейчас признаках.\n\n"
+                    ."Формула: am/is/are + going to + глагол в начальной форме.\n"
+                    ."Планы и намерения: I am going to study medicine after school. (решение уже принято заранее)\n\n"
+                    ."Предсказания на основе текущей ситуации: Look at those clouds! It's going to rain. (видим признаки прямо сейчас)\n\n"
+                    ."Отрицание и вопрос: She isn't going to come to the party. Are you going to buy a new phone?\n\n"
+                    ."Сравнение с will: going to — заранее спланированное намерение или очевидное по признакам предсказание; will — спонтанное решение в момент речи. 'I'm thirsty.' — 'I'll get you some water.' (спонтанно) vs 'I've decided — I'm going to learn Spanish this year.' (план).",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Past with Going To',
+                'category' => 'Tenses',
+                'theory' => "Was/were going to описывает намерение или план в прошлом, который обычно не был реализован — что-то помешало.\n\n"
+                    ."Формула: was/were + going to + глагол в начальной форме.\n"
+                    ."Пример: I was going to call you, but I forgot. (собирался, но не сделал)\n\n"
+                    ."Также используется для предсказания в прошлом относительно ещё более раннего момента: The sky was dark — it was going to storm. (было понятно по признакам, что вот-вот начнётся буря)\n\n"
+                    ."Часто сопровождается объяснением причины, почему план не сработал, через but: We were going to go to the beach, but it started raining.\n\n"
+                    ."Отличие от простых намерений (wanted to, planned to): was/were going to подчёркивает, что подготовка к действию уже была на конкретной стадии, а не просто общее желание.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Talking about the Present',
+                'category' => 'Tenses',
+                'theory' => "Чтобы говорить о настоящем, в английском используется несколько разных времён — выбор зависит от того, что именно вы хотите сказать.\n\n"
+                    ."Present Simple — для фактов, привычек, постоянных состояний: I live in Tashkent. Water boils at 100°C.\n\n"
+                    ."Present Continuous — для действий, происходящих прямо сейчас, или временных ситуаций: I am reading a book right now. She is staying with her parents this month.\n\n"
+                    ."Present Perfect — для связи прошлого опыта или недавнего действия с настоящим моментом: I have already eaten. Have you ever been to Japan?\n\n"
+                    ."Present Perfect Continuous — чтобы подчеркнуть длительность действия, которое продолжается сейчас: I have been working on this project for two weeks.\n\n"
+                    ."Некоторые глаголы состояния (state verbs: know, want, believe, love, own) обычно не используются в Continuous формах: I know the answer (не am knowing).",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => '',
+                'title' => 'Talking about the Past',
+                'category' => 'Tenses',
+                'theory' => "Для рассказа о прошлом английский язык предлагает несколько времён и конструкций, в зависимости от того, что важно подчеркнуть.\n\n"
+                    ."Past Simple — для завершённых действий в конкретный момент прошлого: I visited Rome in 2019.\n\n"
+                    ."Past Continuous — для действия в процессе в определённый момент прошлого, часто как фон для другого действия: I was cooking when the phone rang.\n\n"
+                    ."Past Perfect — для действия, которое произошло раньше другого события в прошлом: She had left before I arrived.\n\n"
+                    ."Used to и would — для повторяющихся действий или состояний в прошлом, которые больше не происходят: I used to play football every weekend. We would visit our grandparents every summer. (would — только для действий, не для состояний: 'I used to live in London', а не 'I would live')\n\n"
+                    ."Выбор времени зависит от контекста: если важен просто факт — Past Simple; если процесс — Past Continuous; если последовательность событий — Past Perfect.",
+            ],
+            [
+                'level' => 'B1',
+                'lesson' => 'Future Forms Review',
+                'title' => 'Talking about the Future',
+                'category' => 'Tenses',
+                'theory' => "В английском нет отдельной грамматической формы «будущего времени» — вместо этого используется несколько конструкций в зависимости от смысла.\n\n"
+                    ."Will — для предсказаний без явных доказательств, спонтанных решений, обещаний: I think it will rain tomorrow. I'll help you with that.\n\n"
+                    ."Going to — для заранее спланированных намерений и предсказаний на основе видимых признаков: We're going to move to a new flat next month.\n\n"
+                    ."Present Continuous — для договорённостей и запланированных событий с конкретным временем: I'm meeting my dentist at 3 p.m. on Friday.\n\n"
+                    ."Present Simple — для расписаний и графиков (поезда, самолёты, программы): The train leaves at 9:15 tomorrow.\n\n"
+                    ."Future Continuous и Future Perfect — для действий в процессе или уже завершённых к определённому моменту в будущем (см. отдельные темы).",
+            ],
+            [
+                'level' => 'C1',
+                'lesson' => '',
+                'title' => 'Aspects',
+                'category' => 'Tenses',
+                'theory' => "Aspect (вид/аспект) — это грамматическая категория, которая показывает, как протекает действие во времени, в отличие от tense (времени), которое показывает, когда оно происходит.\n\n"
+                    ."В английском есть четыре аспекта, которые комбинируются с тремя временами (present/past/future), образуя 12 времён.\n\n"
+                    ."Simple aspect — действие представлено как факт, без внимания к процессу: I write, I wrote, I will write.\n\n"
+                    ."Continuous (progressive) aspect — действие представлено как процесс, происходящий в определённый момент: I am writing, I was writing, I will be writing.\n\n"
+                    ."Perfect aspect — действие представлено как завершённое к определённому моменту, с акцентом на результат или связь с этим моментом: I have written, I had written, I will have written.\n\n"
+                    ."Perfect continuous aspect — сочетает завершённость к моменту и длительность процесса до этого момента: I have been writing, I had been writing, I will have been writing.\n\n"
+                    ."Понимание aspect как отдельной от tense категории помогает системно понять всю систему из 12 времён, а не запоминать каждое время отдельно.",
+            ],
         ];
     }
 }
