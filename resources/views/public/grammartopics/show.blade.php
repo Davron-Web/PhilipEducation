@@ -53,7 +53,7 @@
                                 'icon' => '<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />',
                                 'iconClass' => 'text-sky',
                             ],
-                            Str::contains($label, 'структур') || Str::contains($label, 'формул') => [
+                            Str::contains($label, 'структур') || Str::contains($label, 'форм') => [
                                 'wrap' => 'flex gap-3 rounded-2xl border border-brand/30 bg-brand/10 p-4',
                                 'text' => 'text-sm leading-relaxed text-ink/90',
                                 'label' => 'font-bold text-brand',
