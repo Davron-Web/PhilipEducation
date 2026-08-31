@@ -123,16 +123,9 @@ class GrammarTopicSeeder extends Seeder
             [
                 'level' => 'A2',
                 'lesson' => 'First Conditional',
-                'title' => 'First Conditional (реальное условие)',
-                'category' => 'Sentences',
-                'theory' => "First Conditional используется для реальных, возможных ситуаций в будущем и их вероятных последствий.\n\n"
-                    ."Формула: If + Present Simple, ... will + глагол.\n"
-                    ."Пример: If it rains, I will stay at home. If you study hard, you will pass the exam.\n\n"
-                    ."Условная часть (if-clause) может стоять и после главной части, тогда запятая не нужна:\n"
-                    ."I will stay at home if it rains.\n\n"
-                    ."Вместо will можно использовать can, may, might для выражения возможности:\n"
-                    ."If you finish early, you can go home.\n\n"
-                    .'Важно: в условной части (после if) никогда не используется will, только Present Simple, даже если речь о будущем.',
+                'title' => 'Conditional 1 (реальное условие)',
+                'category' => 'Moods',
+                'theory' => "Conditional 1 (First Conditional) описывает реальные, вполне возможные ситуации в будущем и их вероятные последствия — «если случится А, произойдёт Б».\n\nКогда используется:\n— реальные планы и условия, которые вполне могут выполниться: If it rains, I will stay home.\n— предупреждения и угрозы: If you touch that wire, you'll get an electric shock.\n— обещания: If you help me, I'll help you next time.\n— советы и инструкции (вместо will может быть модальный глагол или императив): If you feel ill, see a doctor.\n\nСтруктура:\nIf + Present Simple, ... will + начальная форма глагола.\nIf it rains, I will stay home. I will stay home if it rains. (запятая нужна, только если if-часть стоит первой)\n\nПримеры:\nIf you study hard, you will pass the exam. If we leave now, we'll catch the train. She'll be upset if you forget her birthday. If it's sunny tomorrow, we'll go to the beach. Unless you hurry, you'll be late.\n\nДополнительные примеры:\nIf I have time, I'll call you tonight. If he doesn't apologise, I won't speak to him. What will you do if you fail the test? If you don't water the plants, they'll die. I'll be surprised if she says no.\n\nЧастые ошибки:\n— will в if-части: 'If it will rain, I will stay home' — неправильно, нужно 'If it rains, I will stay home' (после if используется Present Simple, а не will).\n— Смешение с Conditional 2: Conditional 1 описывает реально возможное будущее, а не гипотетическое настоящее — если ситуация маловероятна, нужен Conditional 2.",
             ],
             [
                 'level' => 'A2',
@@ -170,14 +163,9 @@ class GrammarTopicSeeder extends Seeder
             [
                 'level' => 'B1',
                 'lesson' => 'Second Conditional',
-                'title' => 'Second Conditional (нереальное условие)',
-                'category' => 'Sentences',
-                'theory' => "Second Conditional используется для гипотетических, нереальных или маловероятных ситуаций в настоящем/будущем.\n\n"
-                    ."Формула: If + Past Simple, ... would + глагол.\n"
-                    ."Пример: If I had more money, I would travel around the world. If I were you, I would apologize.\n\n"
-                    ."С глаголом to be в условной части традиционно используется were для всех лиц (I were, he were), хотя в разговорной речи встречается и was.\n\n"
-                    ."Отличие от First Conditional: First — реальная ситуация ('If it rains, I will stay home' — дождь вполне возможен), Second — нереальная/маловероятная ситуация ('If I won the lottery, I would buy a house' — маловероятно).\n\n"
-                    ."'If I were you, I would...' — устойчивая фраза для совета.",
+                'title' => 'Conditional 2 (нереальное условие)',
+                'category' => 'Moods',
+                'theory' => "Conditional 2 (Second Conditional) описывает гипотетические, нереальные или маловероятные ситуации в настоящем или будущем и их воображаемые последствия.\n\nКогда используется:\n— нереальные или маловероятные ситуации: If I won the lottery, I would buy a house.\n— советы (If I were you...): If I were you, I would apologise.\n— вежливые просьбы и гипотетические вопросы: If you had more time, what would you do?\n— воображаемые сценарии: If I could fly, I would travel everywhere.\n\nСтруктура:\nIf + Past Simple, ... would + начальная форма глагола. С to be традиционно используется were для всех лиц (I/he/she/it were), хотя в разговорной речи встречается was.\nIf I had more money, I would travel more. If she were here, she would help us.\n\nПримеры:\nIf I were rich, I would buy a big house. If he studied harder, he would get better grades. What would you do if you saw a ghost? If we lived closer, we would meet more often. I would help you if I had the time.\n\nДополнительные примеры:\nIf I were you, I wouldn't say that. If she spoke French, she could get that job. If they had a car, they wouldn't need the bus. Would you travel to space if you had the chance? If I knew the answer, I would tell you.\n\nОтличие от Conditional 1:\nConditional 1 — реальная, вполне возможная ситуация ('If it rains, I will stay home' — дождь вполне вероятен). Conditional 2 — нереальная или маловероятная ситуация ('If I won the lottery, I would buy a house' — маловероятно).\n\nЧастые ошибки:\n— would в if-части: 'If I would have money, I would travel' — неправильно, нужно 'If I had money, I would travel'.\n— was вместо were в формальном стиле с if I/he/she were — оба варианта встречаются в речи, но were считается более правильным/формальным.",
             ],
             [
                 'level' => 'B1',
@@ -228,28 +216,16 @@ class GrammarTopicSeeder extends Seeder
             [
                 'level' => 'B2',
                 'lesson' => 'Third Conditional',
-                'title' => 'Third Conditional (нереальное прошлое)',
-                'category' => 'Sentences',
-                'theory' => "Third Conditional используется для гипотетических ситуаций в ПРОШЛОМ, которые не произошли, и их воображаемых последствий.\n\n"
-                    ."Формула: If + Past Perfect, ... would have + глагол в 3-й форме.\n"
-                    ."Пример: If I had studied harder, I would have passed the exam. (В реальности я не учился усерднее и не сдал экзамен.)\n\n"
-                    ."Отрицательная форма: If I hadn't been late, I wouldn't have missed the train.\n\n"
-                    ."Third Conditional часто выражает сожаление о прошлом: If I had known about the meeting, I would have come.\n\n"
-                    .'Сравнение всех условных: Zero — общие истины (If you heat ice, it melts), First — реальное будущее, Second — нереальное настоящее/будущее, Third — нереальное прошлое.',
+                'title' => 'Conditional 3 (нереальное прошлое)',
+                'category' => 'Moods',
+                'theory' => "Conditional 3 (Third Conditional) описывает гипотетические ситуации в ПРОШЛОМ, которые не произошли, и их воображаемые последствия — часто выражает сожаление.\n\nКогда используется:\n— сожаление о том, что случилось или не случилось в прошлом: If I had studied, I would have passed.\n— критика прошлых действий: If you had listened to me, this wouldn't have happened.\n— размышления об альтернативном ходе событий: If she had left earlier, she wouldn't have missed the train.\n\nСтруктура:\nIf + Past Perfect, ... would have + причастие прошедшего времени (Participle II).\nIf I had known about the meeting, I would have come. If he hadn't been late, he wouldn't have missed the flight.\n\nПримеры:\nIf I had studied harder, I would have passed the exam. If we had left earlier, we wouldn't have missed the train. She would have helped you if you had asked. If it hadn't rained, we would have gone for a picnic. If I had known, I would have told you.\n\nДополнительные примеры:\nIf they had saved more money, they could have bought a house. What would you have done if you had been in my place? If he had apologised, she would have forgiven him. If I hadn't missed the bus, I wouldn't have been late. We would have won if we had played better.\n\nЧастые ошибки:\n— would have в if-части: 'If I would have known, I would have come' — неправильно, нужно 'If I had known, I would have come'.\n— Past Simple вместо Past Perfect в if-части: 'If I studied harder, I would have passed' — неправильно для прошлой ситуации, нужно 'If I had studied harder, I would have passed'.",
             ],
             [
                 'level' => 'B2',
                 'lesson' => 'Mixed Conditionals',
-                'title' => 'Смешанные условные предложения',
-                'category' => 'Sentences',
-                'theory' => "Mixed Conditionals объединяют разные времена в одном условном предложении, когда условие относится к одному времени, а результат — к другому.\n\n"
-                    ."Тип 1: нереальное прошлое → результат в настоящем.\n"
-                    ."Формула: If + Past Perfect, ... would + глагол.\n"
-                    ."Пример: If I had studied medicine, I would be a doctor now. (Я не изучал медицину в прошлом, поэтому сейчас я не врач.)\n\n"
-                    ."Тип 2: нереальное настоящее (постоянная характеристика) → результат в прошлом.\n"
-                    ."Формула: If + Past Simple, ... would have + глагол в 3-й форме.\n"
-                    ."Пример: If I weren't so shy, I would have asked her out. (Я вообще стеснительный человек, поэтому в прошлом не пригласил её на свидание.)\n\n"
-                    .'Смешанные условные показывают связь между разными временными пластами и часто используются в естественной речи носителей.',
+                'title' => 'Mixed Conditional (смешанное условие)',
+                'category' => 'Moods',
+                'theory' => "Mixed Conditional соединяет разные временные пласты в одном предложении — обычно нереальное условие в прошлом и его следствие в настоящем, или наоборот.\n\nКогда используется:\n— прошлое условие → следствие в настоящем: If I had taken that job, I would be living in London now (условие в прошлом, результат сейчас).\n— условие-состояние в настоящем → следствие в прошлом: If I were more organised, I would have remembered the meeting (постоянное качество, повлиявшее на прошлое событие).\n\nСтруктура (тип 1 — прошлое → настоящее):\nIf + Past Perfect, ... would + начальная форма глагола.\nIf she had taken the job, she would be much richer now.\n\nСтруктура (тип 2 — настоящее → прошлое):\nIf + Past Simple, ... would have + причастие прошедшего времени.\nIf I weren't so shy, I would have asked her out years ago.\n\nПримеры:\nIf I had studied medicine, I would be a doctor now. If he weren't so lazy, he would have finished the project by now. If she had married him, she would be unhappy today. If I were taller, I would have joined the basketball team. If they hadn't moved abroad, they would still live next door.\n\nДополнительные примеры:\nIf you had listened to me, you wouldn't be in this mess now. If I didn't have a fear of heights, I would have gone skydiving with them. If she were more careful, she wouldn't have lost her keys. If we had bought that house, we would be much happier now.\n\nЧастые ошибки:\n— Использование обычного Conditional 3 там, где следствие относится к настоящему, а не к прошлому: важно проверять, к какому времени относится результат, а не автоматически ставить would have.\n— Путаница направлений: смешанные условные показывают связь между разными временными пластами, поэтому важно определить, какая часть (условие или результат) относится к прошлому, а какая — к настоящему.",
             ],
             [
                 'level' => 'B2',
@@ -270,14 +246,7 @@ class GrammarTopicSeeder extends Seeder
                 'lesson' => 'Subjunctive Mood',
                 'title' => 'Сослагательное наклонение (Subjunctive Mood)',
                 'category' => 'Moods',
-                'theory' => "Subjunctive Mood выражает пожелания, требования, предположения и нереальные ситуации. Используется начальная форма глагола независимо от лица.\n\n"
-                    ."После глаголов suggest, recommend, insist, demand, propose + that:\n"
-                    ."Пример: I suggest that he study harder. (не 'studies') The doctor recommended that she rest for a week.\n\n"
-                    ."После выражений it is important/essential/vital that:\n"
-                    ."Пример: It is essential that everyone be on time.\n\n"
-                    ."С were вместо was в нереальных условиях и после wish/if only:\n"
-                    ."Пример: I wish I were taller. If only he were here now.\n\n"
-                    .'Subjunctive чаще встречается в формальном/письменном английском, особенно в американском варианте.',
+                'theory' => "Subjunctive Mood выражает пожелания, требования, предложения, предположения и нереальные ситуации. В отличие от изъявительного наклонения, здесь часто используется начальная форма глагола независимо от лица или were вместо was.\n\nКогда используется:\n— после глаголов требования/рекомендации (suggest, recommend, insist, demand, propose) в that-clause: I suggest that he see a doctor.\n— после прилагательных важности/необходимости (important, essential, vital, necessary): It is essential that she be informed.\n— в устойчивых пожеланиях: God save the Queen! Long live the King!\n— в нереальных условиях и после wish/if only с were: If I were you... I wish I were taller.\n\nФормы:\nPresent Subjunctive — начальная форма глагола для всех лиц (без -s в 3-м лице): I suggest that he come early (не comes). Past Subjunctive — were для всех лиц с to be: If I were rich...\n\nПримеры:\nI recommend that she arrive early. It's important that everyone be on time. The teacher insists that students submit their work on time. If I were you, I would apologise. I wish it were summer already. Long live freedom!\n\nДополнительные примеры:\nThey demanded that he resign immediately. It is vital that this information remain confidential. She proposed that the meeting be postponed. If only he were here to see this. Suffice it to say, the plan failed.\n\nЧастые ошибки:\n— Добавление -s в 3-м лице после suggest/insist/demand: 'I suggest that he comes' — в формальном/американском стиле неправильно, нужно 'I suggest that he come'.\n— was вместо were в формальном сослагательном наклонении: 'If I was you' звучит более разговорно; в формальном стиле предпочтительно 'If I were you'.",
             ],
             [
                 'level' => 'B2',
@@ -905,6 +874,56 @@ class GrammarTopicSeeder extends Seeder
                 'title' => 'Adverbial Clauses',
                 'category' => 'Adverbs',
                 'theory' => "Adverbial clause — придаточное предложение, которое выполняет функцию наречия: показывает время, причину, условие, цель, уступку или место главного действия.\n\nКогда используется:\n— время: She called me when she arrived.\n— причина: I stayed home because I was ill.\n— условие: If it rains, we'll stay inside.\n— уступка (несмотря на что-то): Although he was tired, he kept working.\n— цель: She studied hard so that she could pass the exam.\n— место: Sit wherever you like.\n\nФормы (типичные союзы):\nwhen/while/before/after/as soon as (время), because/since/as (причина), if/unless (условие), although/though/even though (уступка), so that/in order that (цель), where/wherever (место).\n\nПримеры:\nI'll call you when I get home. Although it was raining, we went for a walk. She left early because she was tired. If you study hard, you'll pass. He whispered so that no one would hear. We can meet wherever you want.\n\nДополнительные примеры:\nAs soon as the bell rang, the students left. Since you're here, let's talk. Unless you hurry, you'll miss the train. Even though he apologised, she was still angry. Wherever she goes, her dog follows.\n\nЧастые ошибки:\n— will в условном придаточном (после if): 'If it will rain, we'll stay home' — неправильно, нужно 'If it rains, we'll stay home'.\n— Отсутствие запятой, когда adverbial clause стоит в начале предложения: 'Although it was raining we went out' лучше писать с запятой: 'Although it was raining, we went out.'",
+            ],
+
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Наклонения в английском языке (Moods)',
+                'category' => 'Moods',
+                'theory' => "Mood (наклонение) глагола показывает, как говорящий относится к высказыванию: сообщает факт, отдаёт приказ, задаёт вопрос, выражает эмоцию или описывает нереальную/условную ситуацию.\n\nКогда используется:\n— чтобы сообщить факт или информацию: изъявительное наклонение (declarative).\n— чтобы отдать команду или попросить: повелительное наклонение (imperative).\n— чтобы задать вопрос: вопросительное наклонение (interrogative).\n— чтобы выразить сильную эмоцию: восклицательное наклонение (exclamatory).\n— чтобы описать нереальную, гипотетическую или условную ситуацию: сослагательное (subjunctive) и условное (conditional) наклонения.\n\nФормы (основные типы наклонений):\nDeclarative Mood, Imperative Mood, Interrogative Mood, Exclamatory Mood, Subjunctive Mood, Conditional Mood — подробнее в отдельных темах этой категории.\n\nПримеры:\nThe sun rises in the east. (declarative) Close the door! (imperative) Where do you live? (interrogative) What a beautiful sunset! (exclamatory) If I were you, I would go. (subjunctive/conditional)\n\nДополнительные примеры:\nShe works as a teacher. Please sit down. Have you finished your homework? How amazing this view is! I wish I were on holiday now.\n\nЧастые ошибки:\n— Смешение mood (наклонение — отношение говорящего к действию) с tense (время — когда происходит действие) и voice (залог — кто выполняет действие): это три разных грамматических категории глагола, а не синонимы.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Изъявительное наклонение (Declarative Mood)',
+                'category' => 'Moods',
+                'theory' => "Declarative Mood — самое частое наклонение в английском языке. Оно используется, чтобы сообщить факт, мнение или информацию в виде обычного утвердительного или отрицательного предложения.\n\nКогда используется:\n— чтобы сообщить факт: Water boils at 100 degrees.\n— чтобы выразить мнение: I think this film is great.\n— чтобы описать состояние или событие: She works in a hospital.\n— и в утвердительной, и в отрицательной форме — оба варианта остаются declarative mood.\n\nСтруктура:\nПодлежащее + сказуемое (+ дополнение), с прямым порядком слов, без инверсии. В конце предложения ставится точка.\nShe likes tea. They don't live here. I have finished my homework.\n\nПримеры:\nThe Earth orbits the Sun. My brother is a doctor. We went to the cinema yesterday. I don't agree with you. It is raining outside. She has never been to Paris.\n\nДополнительные примеры:\nHe plays football every weekend. The meeting starts at nine. They aren't coming to the party. I believe you are right. The book was written in 1997.\n\nЧастые ошибки:\n— Инверсия подлежащего и глагола, как в вопросе: 'Is she a doctor' вместо утверждения 'She is a doctor' — важно не путать порядок слов declarative и interrogative mood.\n— Отсутствие подлежащего в declarative-предложении (кроме imperative, где оно опускается специально): английский язык требует явного подлежащего почти всегда.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => 'Imperatives: Giving Commands',
+                'title' => 'Повелительное наклонение (Imperative Mood)',
+                'category' => 'Moods',
+                'theory' => "Imperative Mood используется, чтобы дать команду, инструкцию, совет, просьбу или предупреждение. Подлежащее (you) обычно опускается, потому что оно и так понятно из контекста.\n\nКогда используется:\n— команды и инструкции: Close the window. Turn left at the corner.\n— просьбы (обычно с please для вежливости): Please sit down.\n— советы и предупреждения: Be careful! Don't touch that.\n— приглашения и предложения (let's = let us): Let's go to the cinema.\n\nСтруктура:\nНачальная форма глагола (без to) в начале предложения, без явного подлежащего. Отрицание: Don't + начальная форма глагола. Множественное включающее 'мы': Let's + начальная форма глагола.\n\nПримеры:\nOpen your books. Don't be late. Please pass the salt. Let's start the meeting. Be quiet, please! Turn off the lights when you leave.\n\nДополнительные примеры:\nWatch out! Take a seat. Don't forget your umbrella. Let's not argue about this. Always wash your hands before eating. Never talk to strangers.\n\nЧастые ошибки:\n— Добавление подлежащего you: 'You close the door' звучит как утверждение, а не команда; для imperative нужно просто 'Close the door'.\n— Использование to перед глаголом: 'To close the door' — неправильно как команда, нужно 'Close the door'.",
+            ],
+            [
+                'level' => 'A1',
+                'lesson' => '',
+                'title' => 'Вопросительное наклонение (Interrogative Mood)',
+                'category' => 'Moods',
+                'theory' => "Interrogative Mood используется, чтобы задать вопрос — получить информацию, подтверждение или уточнение от собеседника.\n\nКогда используется:\n— общие вопросы (да/нет): Do you like coffee?\n— специальные вопросы с вопросительным словом: Where do you live?\n— альтернативные вопросы: Do you want tea or coffee?\n— разделительные вопросы (question tags): You like tea, don't you?\n\nСтруктура:\nВспомогательный/модальный глагол (или to be) + подлежащее + смысловой глагол? В специальных вопросах вопросительное слово ставится в самое начало.\nDo you speak English? Where is the station? Can she swim? Are you ready?\n\nПримеры:\nWhat time does the film start? Have you finished your homework? Why is she crying? Can you help me, please? Is this seat taken? How much does it cost?\n\nДополнительные примеры:\nWho wrote this book? Did you enjoy the party? Where did you put my keys? Isn't it a beautiful day? Would you like some tea?\n\nЧастые ошибки:\n— Прямой порядок слов вместо инверсии: 'Where you live?' — неправильно, нужно 'Where do you live?'.\n— Пропуск вспомогательного глагола в общих вопросах: 'You like tea?' грамматически неверно как формальный вопрос (хотя используется в разговорной речи с интонацией), правильная форма — 'Do you like tea?'.",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Восклицательное наклонение (Exclamatory Mood)',
+                'category' => 'Moods',
+                'theory' => "Exclamatory Mood используется, чтобы выразить сильную эмоцию — удивление, восхищение, возмущение или радость — и обычно заканчивается восклицательным знаком.\n\nКогда используется:\n— восхищение или удивление качеством: What a beautiful view!\n— восхищение количеством/степенью признака: How amazing this is!\n— эмоциональные восклицания без формальной структуры: What a shame! Wow!\n\nСтруктура (What + существительное):\nWhat (a/an) + прилагательное + существительное (+ подлежащее + глагол)!\nWhat a lovely day (it is)! What beautiful flowers!\n\nСтруктура (How + прилагательное/наречие):\nHow + прилагательное/наречие (+ подлежащее + глагол)!\nHow interesting (this is)! How quickly she runs!\n\nПримеры:\nWhat a wonderful surprise! How kind of you! What a mess this room is! How beautifully she sings! What an amazing idea! How tall he has grown!\n\nДополнительные примеры:\nWhat a fantastic goal! How strange that sounds! What terrible weather we're having! How lucky you are! What a long day it's been!\n\nЧастые ошибки:\n— Артикль a/an перед неисчисляемым или множественным существительным: 'What a beautiful weather!' — неправильно, нужно 'What beautiful weather!' (weather неисчисляемое).\n— Использование what вместо how перед прилагательным без существительного: 'What beautiful!' — неправильно, нужно 'How beautiful!' (what требует после себя существительное).",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => '',
+                'title' => 'Условное наклонение (Conditional Mood)',
+                'category' => 'Moods',
+                'theory' => "Conditional Mood описывает ситуации, которые зависят от условия — «если случится А, произойдёт Б». В английском есть несколько типов условных предложений в зависимости от того, насколько реальна ситуация.\n\nКогда используется:\n— общие истины и автоматические следствия: Zero Conditional (If you heat ice, it melts).\n— реальные, вероятные ситуации в будущем: Conditional 1 (If it rains, I will stay home).\n— гипотетические, маловероятные ситуации в настоящем/будущем: Conditional 2 (If I won the lottery, I would travel).\n— гипотетические ситуации в прошлом, которые не произошли: Conditional 3 (If I had studied, I would have passed).\n— смешение временных пластов: Mixed Conditional (If I had taken that job, I would be rich now).\n\nСтруктура (общая модель условного предложения):\nIf + условие, ... результат. Если if-часть стоит первой, между частями ставится запятая; если результат стоит первым — запятая не нужна.\n\nПримеры:\nIf you mix blue and yellow, you get green. If it rains, we'll cancel the trip. If I had more money, I would buy a car. If I had known, I would have called you. If I had trained harder, I would be fitter now.\n\nДополнительные примеры:\nWe'll go for a walk if the weather is nice. If she were taller, she could join the team. If they hadn't missed the flight, they would be here already. Ice melts if you heat it.\n\nЧастые ошибки:\n— Смешение типов условных предложений: важно правильно определить, насколько реальна ситуация, чтобы выбрать нужный тип (Zero/1/2/3/Mixed) — подробнее в отдельных темах этой категории.\n— will/would в if-части вместо Present/Past Simple: 'If it will rain' или 'If I would know' — неправильно в стандартных условных предложениях (кроме особых вежливых просьб типа 'If you would wait a moment').",
+            ],
+            [
+                'level' => 'A2',
+                'lesson' => 'Zero Conditional',
+                'title' => 'Zero Conditional (нулевое условие)',
+                'category' => 'Moods',
+                'theory' => "Zero Conditional используется для общих истин, научных фактов и автоматических следствий — ситуаций, которые ВСЕГДА верны при данном условии.\n\nКогда используется:\n— научные факты и природные законы: If you heat water to 100°C, it boils.\n— общие истины и привычки: If I drink coffee at night, I can't sleep.\n— инструкции и правила (можно заменить if на when без изменения смысла): If you press this button, the machine starts.\n\nСтруктура:\nIf + Present Simple, ... Present Simple. Обе части предложения стоят в Present Simple, так как речь идёт о постоянной закономерности, а не о будущем событии.\nIf you heat ice, it melts. Plants die if they don't get water.\n\nПримеры:\nIf you mix red and white, you get pink. Water freezes if the temperature drops below zero. If I eat too much sugar, I get a headache. Metal expands when it is heated. If you don't sleep enough, you feel tired.\n\nДополнительные примеры:\nIf children are tired, they get grumpy. Plants grow if they get enough sunlight. If you touch fire, you get burned. People feel happier if they exercise regularly. If it doesn't rain, the ground gets dry.\n\nЧастые ошибки:\n— will вместо Present Simple во второй части: 'If you heat ice, it will melt' — здесь описывается общая закономерность, поэтому правильнее 'If you heat ice, it melts' (will больше подходит для Conditional 1 с конкретной будущей ситуацией).\n— Путаница с Conditional 1: Zero Conditional говорит про ВСЕГДА верное следствие, а Conditional 1 — про ОДНО конкретное вероятное событие в будущем.",
             ],
 
         ];
