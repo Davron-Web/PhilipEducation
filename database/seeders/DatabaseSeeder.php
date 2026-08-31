@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             WordTranslationSeeder::class,
             WordCategorySeeder::class,
             VocabularyBatch1Seeder::class,
+            VocabularyBatch2Seeder::class,
             TestSeeder::class,
             TestQuestionSeeder::class,
             TestAnswerSeeder::class,
