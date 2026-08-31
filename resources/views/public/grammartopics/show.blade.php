@@ -27,16 +27,57 @@
                     @php
                         $lines = explode("\n", $paragraph);
                         preg_match('/^([^:]{2,40}):\s*(.*)$/u', $lines[0], $m);
-                        $isWarning = $m && Str::contains(Str::lower($m[1]), 'важно');
+                        $label = $m ? Str::lower($m[1]) : '';
+
+                        // Ярлык абзаца определяет визуальное оформление блока —
+                        // единственный способ разметки без отдельных полей в БД.
+                        $box = match (true) {
+                            Str::contains($label, 'важно') => [
+                                'wrap' => 'flex gap-3 rounded-2xl border border-sun/30 bg-sun/10 p-4',
+                                'text' => 'text-sm leading-relaxed text-sun/90',
+                                'label' => 'font-bold',
+                                'icon' => '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" /><path d="M12 9v4M12 17h.01" />',
+                                'iconClass' => 'text-sun',
+                            ],
+                            Str::contains($label, 'ошиб') => [
+                                'wrap' => 'flex gap-3 rounded-2xl border border-red-400/30 bg-red-400/10 p-4',
+                                'text' => 'text-sm leading-relaxed text-red-200',
+                                'label' => 'font-bold',
+                                'icon' => '<circle cx="12" cy="12" r="10" /><path d="M15 9l-6 6M9 9l6 6" />',
+                                'iconClass' => 'text-red-300',
+                            ],
+                            Str::contains($label, 'пример') => [
+                                'wrap' => 'flex gap-3 rounded-2xl border border-sky/30 bg-sky/10 p-4',
+                                'text' => 'text-sm leading-relaxed text-sky-100',
+                                'label' => 'font-bold text-sky',
+                                'icon' => '<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />',
+                                'iconClass' => 'text-sky',
+                            ],
+                            Str::contains($label, 'структур') || Str::contains($label, 'формул') => [
+                                'wrap' => 'flex gap-3 rounded-2xl border border-brand/30 bg-brand/10 p-4',
+                                'text' => 'text-sm leading-relaxed text-ink/90',
+                                'label' => 'font-bold text-brand',
+                                'icon' => '<rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" />',
+                                'iconClass' => 'text-brand',
+                            ],
+                            Str::contains($label, 'использ') => [
+                                'wrap' => 'flex gap-3 rounded-2xl border border-skylight/30 bg-skylight/10 p-4',
+                                'text' => 'text-sm leading-relaxed text-skylight',
+                                'label' => 'font-bold',
+                                'icon' => '<circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" />',
+                                'iconClass' => 'text-skylight',
+                            ],
+                            default => null,
+                        };
                     @endphp
 
-                    @if ($isWarning)
-                        <div class="flex gap-3 rounded-2xl border border-sun/30 bg-sun/10 p-4">
-                            <span class="mt-0.5 shrink-0 text-sun" aria-hidden="true">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" /><path d="M12 9v4M12 17h.01" /></svg>
+                    @if ($box)
+                        <div class="{{ $box['wrap'] }}">
+                            <span class="mt-0.5 shrink-0 {{ $box['iconClass'] }}" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{!! $box['icon'] !!}</svg>
                             </span>
-                            <p class="text-sm leading-relaxed text-sun/90">
-                                <strong class="font-bold">{{ $m[1] }}:</strong> {{ $m[2] }}
+                            <p class="{{ $box['text'] }}">
+                                <strong class="{{ $box['label'] }}">{{ $m[1] }}:</strong> {{ $m[2] }}
                                 @foreach (array_slice($lines, 1) as $line)
                                     <br>{{ $line }}
                                 @endforeach
