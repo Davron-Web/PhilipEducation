@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-        <a href="{{ route('ielts.index') }}" class="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-ink/60 transition hover:text-sky">
+        <a href="{{ route('ielts.writing.index') }}" class="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-ink/60 transition hover:text-sky">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
             Все задания IELTS
         </a>
@@ -38,7 +38,7 @@
             }"
         >
             <x-ui.card :hover="false">
-                <form method="POST" action="{{ route('ielts.submit', $task) }}">
+                <form method="POST" action="{{ route('ielts.writing.submit', $task) }}">
                     @csrf
                     <label for="answer_text" class="mb-2 block text-sm font-bold text-ink">Ваш ответ</label>
                     <textarea

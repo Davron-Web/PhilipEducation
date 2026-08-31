@@ -75,6 +75,6 @@ class IeltsController extends Controller
             ]);
         }
 
-        return redirect()->route('ielts.show', $task)->with('success', 'Ответ отправлен на проверку.');
+        return redirect()->route('ielts.writing.show', $task)->with('success', 'Ответ отправлен на проверку.');
     }
 }

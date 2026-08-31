@@ -129,6 +129,11 @@ class User extends Authenticatable
         return $this->hasMany(\App\Models\Ielts\IeltsSubmission::class);
     }
 
+    public function ieltsPassageAttempts(): HasMany
+    {
+        return $this->hasMany(\App\Models\Ielts\IeltsPassageAttempt::class);
+    }
+
     public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class, 'book_reads')

@@ -32,6 +32,10 @@ use App\Http\Controllers\Public\Content\LessonController as PublicLessonControll
 use App\Http\Controllers\Public\Exercise\ExerciseController as PublicExerciseController;
 use App\Http\Controllers\Public\Gamification\AchievementController as PublicAchievementController;
 use App\Http\Controllers\Public\Ielts\IeltsController as PublicIeltsController;
+use App\Http\Controllers\Public\Ielts\IeltsHubController as PublicIeltsHubController;
+use App\Http\Controllers\Public\Ielts\IeltsListeningController as PublicIeltsListeningController;
+use App\Http\Controllers\Public\Ielts\IeltsReadingController as PublicIeltsReadingController;
+use App\Http\Controllers\Public\Ielts\IeltsSpeakingController as PublicIeltsSpeakingController;
 use App\Http\Controllers\Public\System\NotificationController as PublicNotificationController;
 use App\Http\Controllers\Public\Test\TestController as PublicTestController;
 use App\Http\Controllers\Public\User\ProfileController as PublicProfileController;
@@ -137,9 +141,30 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('ielts')->name('ielts.')->group(function () {
-        Route::get('/', [PublicIeltsController::class, 'index'])->name('index');
-        Route::get('/{task}', [PublicIeltsController::class, 'show'])->name('show');
-        Route::post('/{task}/submit', [PublicIeltsController::class, 'submit'])->name('submit');
+        Route::get('/', [PublicIeltsHubController::class, 'index'])->name('index');
+
+        Route::prefix('writing')->name('writing.')->group(function () {
+            Route::get('/', [PublicIeltsController::class, 'index'])->name('index');
+            Route::get('/{task}', [PublicIeltsController::class, 'show'])->name('show');
+            Route::post('/{task}/submit', [PublicIeltsController::class, 'submit'])->name('submit');
+        });
+
+        Route::prefix('reading')->name('reading.')->group(function () {
+            Route::get('/', [PublicIeltsReadingController::class, 'index'])->name('index');
+            Route::get('/{passage}', [PublicIeltsReadingController::class, 'show'])->name('show');
+            Route::post('/{passage}/submit', [PublicIeltsReadingController::class, 'submit'])->name('submit');
+        });
+
+        Route::prefix('listening')->name('listening.')->group(function () {
+            Route::get('/', [PublicIeltsListeningController::class, 'index'])->name('index');
+            Route::get('/{passage}', [PublicIeltsListeningController::class, 'show'])->name('show');
+            Route::post('/{passage}/submit', [PublicIeltsListeningController::class, 'submit'])->name('submit');
+        });
+
+        Route::prefix('speaking')->name('speaking.')->group(function () {
+            Route::get('/', [PublicIeltsSpeakingController::class, 'index'])->name('index');
+            Route::get('/{card}', [PublicIeltsSpeakingController::class, 'show'])->name('show');
+        });
     });
 
     Route::prefix('profiles')->name('profiles.')->group(function () {
