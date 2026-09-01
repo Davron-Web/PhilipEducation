@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             VocabularyBatch1Seeder::class,
             VocabularyBatch2Seeder::class,
             VocabularyBatch3Seeder::class,
+            VocabularyBatch3Seeder::class,
             TestSeeder::class,
             TestQuestionSeeder::class,
             TestAnswerSeeder::class,
