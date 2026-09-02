@@ -39,6 +39,15 @@
         </div>
 
         @if($philAuthed)
+            <div id="phil-context-pill" hidden>
+                <span id="phil-context-label"></span>
+                <button type="button" id="phil-context-clear" aria-label="Забыть контекст">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+        @endif
+
+        @if($philAuthed)
             <div id="phil-messages"></div>
             <div id="phil-inputrow">
                 <input type="text" id="phil-input" placeholder="Спросите Phil про английский…" autocomplete="off">
@@ -100,6 +109,18 @@
     #phil-close { background: none; border: none; color: rgba(255,255,255,.85); cursor: pointer; padding: 4px; border-radius: 8px; flex-shrink: 0; }
     #phil-close:hover { background: rgba(255,255,255,.15); color: #fff; }
     #phil-close svg { width: 18px; height: 18px; display: block; }
+
+    #phil-context-pill {
+        display: flex; align-items: center; gap: 6px; margin: 10px 14px 0;
+        padding: 6px 6px 6px 12px; border-radius: 999px; flex-shrink: 0;
+        background: rgba(79, 70, 229, .1); border: 1px solid rgba(79, 70, 229, .25);
+        color: #4F46E5; font-size: 12px; font-weight: 600;
+    }
+    html.dark #phil-context-pill { background: rgba(99, 102, 241, .15); border-color: rgba(99, 102, 241, .3); color: #A5B4FC; }
+    #phil-context-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #phil-context-clear { background: none; border: none; color: inherit; cursor: pointer; padding: 3px; border-radius: 999px; display: flex; flex-shrink: 0; opacity: .7; }
+    #phil-context-clear:hover { opacity: 1; background: rgba(79, 70, 229, .15); }
+    #phil-context-clear svg { width: 12px; height: 12px; display: block; }
 
     #phil-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
     .phil-msg { padding: 10px 13px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; max-width: 88%; white-space: pre-wrap; word-break: break-word; }
@@ -191,6 +212,10 @@
     toggleBtn.addEventListener('click', openPanel);
     closeBtn.addEventListener('click', closePanel);
 
+    // Позволяет страницам слова/выражения открыть Phil напрямую кнопкой
+    // «Спросить Phil» вместо клика по плавающей кнопке.
+    window.openPhilWidget = openPanel;
+
     if (!isAuthed) {
         if (state.open) openPanel();
         return;
@@ -200,6 +225,29 @@
     var input = document.getElementById('phil-input');
     var sendBtn = document.getElementById('phil-send');
     var endpoint = root.dataset.endpoint;
+
+    // Контекст текущей страницы (слово/выражение) — страница выставляет
+    // window.philContext через @push('phil-context') до подключения этого
+    // скрипта (см. word/show.blade.php, expressions/show.blade.php). Учтён
+    // только в СЛЕДУЮЩЕМ вопросе, история чата не трогается.
+    var contextPill = document.getElementById('phil-context-pill');
+    var contextLabel = document.getElementById('phil-context-label');
+    var contextClear = document.getElementById('phil-context-clear');
+    var activeContext = null;
+
+    function setContext(ctx) {
+        activeContext = ctx && ctx.id ? ctx : null;
+        if (!contextPill) return;
+        if (activeContext) {
+            contextLabel.textContent = (activeContext.type === 'expression' ? '💬 ' : '📖 ') + activeContext.label;
+            contextPill.hidden = false;
+        } else {
+            contextPill.hidden = true;
+        }
+    }
+
+    if (window.philContext) setContext(window.philContext);
+    if (contextClear) contextClear.addEventListener('click', function () { setContext(null); });
 
     // `text` is always the raw string (never pre-rendered HTML) so it can be
     // safely persisted to sessionStorage and re-rendered identically on the
@@ -286,7 +334,11 @@
                     'Accept': 'application/json',
                     'X-CSRF-TOKEN': csrfToken()
                 },
-                body: JSON.stringify({ question: text })
+                body: JSON.stringify({
+                    question: text,
+                    context_type: activeContext ? activeContext.type : null,
+                    context_id: activeContext ? activeContext.id : null,
+                })
             });
             if (res.status === 429) {
                 wait.textContent = 'Слишком много сообщений подряд — подождите минутку и попробуйте снова.';

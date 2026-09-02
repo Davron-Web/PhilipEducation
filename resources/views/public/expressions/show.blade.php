@@ -46,6 +46,11 @@
                 <x-ui.badge :variant="$isLearned ? 'success' : 'neutral'">{{ $isLearned ? 'Выучено' : 'Новое' }}</x-ui.badge>
             </div>
 
+            <button type="button" onclick="window.openPhilWidget && window.openPhilWidget()" class="mt-4 inline-flex items-center gap-1.5 rounded-full border border-brand/30 bg-brand/5 px-3.5 py-1.5 text-[13px] font-bold text-brand transition hover:bg-brand/10">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><line x1="9" y1="9" x2="9.01" y2="9" /><line x1="15" y1="9" x2="15.01" y2="9" /></svg>
+                Спросить Phil про это выражение
+            </button>
+
             @if ($expression->type === 'phrasal_verb' && ($expression->base_verb || $expression->particle))
                 <div class="mt-6 flex flex-wrap gap-4 rounded-xl bg-brand/5 px-4 py-3 text-sm">
                     @if ($expression->base_verb)
@@ -99,4 +104,8 @@
             @endif
         </x-ui.card>
     </div>
+
+    @push('phil-context')
+        <script>window.philContext = { type: 'expression', id: {{ $expression->id }}, label: @json($expression->text) };</script>
+    @endpush
 @endsection

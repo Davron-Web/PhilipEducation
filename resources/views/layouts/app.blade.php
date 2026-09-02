@@ -171,6 +171,10 @@
 
     @include('layouts.partials.site-footer')
 
+    {{-- Страницы слова/выражения могут выставить window.philContext ДО
+         подключения виджета (см. phil-widget.blade.php) --}}
+    @stack('phil-context')
+
     <x-phil-widget />
 
     <script>
