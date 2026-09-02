@@ -3,17 +3,17 @@
 namespace App\Models\User;
 
 use App\Models\User;
-use App\Models\Vocabulary\Word;
+use App\Models\Vocabulary\Expression;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class UserWord extends Pivot
+class UserExpression extends Pivot
 {
-    protected $table = 'user_words';
+    protected $table = 'user_expressions';
 
     protected $fillable = [
         'user_id',
-        'word_id',
+        'expression_id',
         'learned',
         'correct_answers',
         'wrong_answers',
@@ -32,8 +32,8 @@ class UserWord extends Pivot
         return $this->belongsTo(User::class);
     }
 
-    public function word(): BelongsTo
+    public function expression(): BelongsTo
     {
-        return $this->belongsTo(Word::class);
+        return $this->belongsTo(Expression::class);
     }
 }

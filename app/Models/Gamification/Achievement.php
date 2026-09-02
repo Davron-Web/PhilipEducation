@@ -16,6 +16,9 @@ class Achievement extends Model
         'description',
         'icon',
         'points',
+        'code',
+        'condition_type',
+        'condition_value',
     ];
 
     protected $casts = [

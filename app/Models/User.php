@@ -13,6 +13,7 @@ use App\Models\System\Notification;
 use App\Models\User\Role;
 use App\Models\User\UserProgress;
 use App\Models\User\UserResult;
+use App\Models\Vocabulary\Expression;
 use App\Models\Vocabulary\Word;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -96,6 +97,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Achievement::class, 'user_achievements')
             ->withPivot('earned_at')
+            ->withTimestamps();
+    }
+
+    public function expressions(): BelongsToMany
+    {
+        return $this->belongsToMany(Expression::class, 'user_expressions')
+            ->withPivot('learned', 'correct_answers', 'wrong_answers', 'last_reviewed_at')
             ->withTimestamps();
     }
 

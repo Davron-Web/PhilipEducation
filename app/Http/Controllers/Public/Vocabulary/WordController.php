@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public\Vocabulary;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vocabulary\Word;
+use App\Services\AchievementService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +72,7 @@ class WordController extends Controller
      * Отметить слово как выученное/на повторении для текущего пользователя
      * (карточки в режиме флеш-карт).
      */
-    public function markProgress(Request $request, Word $word)
+    public function markProgress(Request $request, Word $word, AchievementService $achievements)
     {
         $request->validate(['learned' => 'required|boolean']);
 
@@ -81,6 +82,10 @@ class WordController extends Controller
                 'last_reviewed_at' => now(),
             ],
         ]);
+
+        if ($request->boolean('learned')) {
+            $achievements->checkAndAward(Auth::user(), 'words_learned');
+        }
 
         if ($request->wantsJson()) {
             return response()->json(['ok' => true]);
