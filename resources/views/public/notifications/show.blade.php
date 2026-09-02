@@ -5,25 +5,23 @@
 @section('page_description', $notification->created_at->diffForHumans())
 
 @section('content')
-    <div class="mb-3">
-        <a href="{{ route('notifications.index') }}" class="link-secondary text-decoration-none small">
-            <i class="bi bi-arrow-left me-1"></i>Back to notifications
+    <div class="mx-auto max-w-2xl px-4 py-10 sm:px-6 lg:px-8">
+        <a href="{{ route('notifications.index') }}" class="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-ink/60 transition hover:text-brand">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
+            Все уведомления
         </a>
-    </div>
 
-    <div class="card shadow-sm rounded-4 border-0">
-        <div class="card-body p-4">
-            <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary"
-                      style="width: 3rem; height: 3rem;">
-                    <i class="bi bi-bell fs-5"></i>
+        <x-ui.card :hover="false">
+            <div class="mb-4 flex items-center gap-3">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
                 </span>
                 <div>
-                    <h1 class="h5 fw-bold mb-0">{{ $notification->title }}</h1>
-                    <span class="text-secondary small">{{ $notification->created_at->format('M j, Y \a\t H:i') }}</span>
+                    <h1 class="text-lg font-extrabold text-ink">{{ $notification->title }}</h1>
+                    <span class="text-sm text-ink/40">{{ $notification->created_at->format('M j, Y \a\t H:i') }}</span>
                 </div>
             </div>
-            <p class="mb-0">{{ $notification->message }}</p>
-        </div>
+            <p class="text-ink/70">{{ $notification->message }}</p>
+        </x-ui.card>
     </div>
 @endsection

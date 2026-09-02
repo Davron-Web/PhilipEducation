@@ -144,23 +144,21 @@ function initReader(config) {
 
     function showPracticeBar() {
         if (!practiceBar) return;
-        practiceBar.classList.remove('d-none');
-        practiceBar.classList.add('d-flex');
+        practiceBar.classList.remove('hidden');
+        practiceBar.classList.add('flex');
     }
 
     function hidePracticeBar() {
         if (!practiceBar) return;
-        practiceBar.classList.add('d-none');
-        practiceBar.classList.remove('d-flex');
+        practiceBar.classList.add('hidden');
+        practiceBar.classList.remove('flex');
     }
 
     function updateButtons() {
         playBtn.disabled = playing && !paused;
         pauseBtn.disabled = !playing || paused;
         stopBtn.disabled = !playing;
-        playBtn.innerHTML = paused
-            ? '<i class="bi bi-play-fill"></i> Resume'
-            : '<i class="bi bi-play-fill"></i> Read';
+        playBtn.textContent = paused ? 'Продолжить' : 'Слушать';
     }
 
     function finishReading() {

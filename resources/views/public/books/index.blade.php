@@ -5,53 +5,62 @@
 @section('page_description', $books->count() . ' books to read and listen to')
 
 @section('content')
-    @if($books->isEmpty())
-        <div class="text-center py-5">
-            <i class="bi bi-book display-4 text-secondary"></i>
-            <p class="text-secondary mt-3 mb-0">No books published yet. Check back soon!</p>
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="mb-8" data-reveal>
+            <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Книги</h1>
+            <p class="mt-1 text-ink/60">{{ $books->count() }} книг для чтения и прослушивания.</p>
         </div>
-    @else
-        <div class="row g-3">
-            @foreach($books as $book)
-                @php
-                    $currentPage = $readsByBook[$book->id] ?? null;
-                    $isStarted = $currentPage !== null;
-                    $initials = mb_strtoupper(mb_substr($book->title, 0, 1));
-                @endphp
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card card-hover shadow-sm h-100 rounded-4 border-0">
-                        @if($book->cover_image)
-                            <img src="{{ $book->cover_image }}" alt="{{ $book->title }}" class="rounded-top-4" style="height:160px;object-fit:cover;">
+
+        @if ($books->isEmpty())
+            <x-ui.card :hover="false" class="py-16 text-center">
+                <p class="text-ink/50">Книги пока не опубликованы. Загляните позже!</p>
+            </x-ui.card>
+        @else
+            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($books as $book)
+                    @php
+                        $currentPage = $readsByBook[$book->id] ?? null;
+                        $isStarted = $currentPage !== null;
+                        $initials = mb_strtoupper(mb_substr($book->title, 0, 1));
+                    @endphp
+                    <div class="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft card-lift">
+                        @if ($book->cover_image)
+                            <img src="{{ $book->cover_image }}" alt="{{ $book->title }}" class="h-40 w-full object-cover">
                         @else
-                            <div class="rounded-top-4 d-flex align-items-center justify-content-center" style="height:160px;background:linear-gradient(135deg,#2563EB,#60A5FA);">
-                                <span class="display-5 fw-bold text-white">{{ $initials }}</span>
+                            <div class="flex h-40 w-full items-center justify-center bg-gradient-to-br from-brand to-sky">
+                                <span class="text-4xl font-extrabold text-white">{{ $initials }}</span>
                             </div>
                         @endif
-                        <div class="card-body p-4 d-flex flex-column">
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <x-level-badge :level="$book->level" />
-                                <span class="text-secondary small"><i class="bi bi-journal-text me-1"></i>{{ $book->pages_count }} pages</span>
+                        <div class="flex flex-1 flex-col p-5">
+                            <div class="mb-2 flex items-center gap-2">
+                                <x-ui.badge variant="level" :level="$book->level" />
+                                <span class="inline-flex items-center gap-1 text-sm text-ink/50">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
+                                    {{ $book->pages_count }} стр.
+                                </span>
                             </div>
-                            <h3 class="h6 fw-bold mb-1">{{ $book->title }}</h3>
-                            <p class="text-secondary small mb-3">by {{ $book->author }}</p>
+                            <h3 class="text-base font-bold text-ink">{{ $book->title }}</h3>
+                            <p class="mb-3 text-sm text-ink/50">{{ $book->author }}</p>
 
-                            @if($book->description)
-                                <p class="text-secondary small mb-3 flex-grow-1">{{ Str::limit($book->description, 90) }}</p>
+                            @if ($book->description)
+                                <p class="mb-4 flex-1 text-sm text-ink/50">{{ Str::limit($book->description, 90) }}</p>
                             @else
-                                <div class="flex-grow-1"></div>
+                                <div class="flex-1"></div>
                             @endif
 
-                            <a href="{{ route('books.read', $book) }}{{ $isStarted ? '?page=' . $currentPage : '' }}" class="btn btn-primary btn-sm mt-auto">
-                                @if($isStarted)
-                                    <i class="bi bi-play-fill me-1"></i>Continue — page {{ $currentPage }}
+                            <x-ui.button :href="route('books.read', $book).($isStarted ? '?page='.$currentPage : '')" size="sm" class="mt-auto">
+                                @if ($isStarted)
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                                    Продолжить — стр. {{ $currentPage }}
                                 @else
-                                    <i class="bi bi-book me-1"></i>Read
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
+                                    Читать
                                 @endif
-                            </a>
+                            </x-ui.button>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-    @endif
+                @endforeach
+            </div>
+        @endif
+    </div>
 @endsection

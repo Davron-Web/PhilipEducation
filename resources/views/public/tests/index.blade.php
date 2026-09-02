@@ -5,24 +5,28 @@
 @section('page_description', 'Check your knowledge by level')
 
 @section('content')
-    @if($testsByLevel->isEmpty())
-        <div class="text-center py-5">
-            <i class="bi bi-clipboard-check display-4 text-secondary"></i>
-            <p class="text-secondary mt-3 mb-0">No tests published yet. Check back soon!</p>
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="mb-8" data-reveal>
+            <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Тесты</h1>
+            <p class="mt-1 text-ink/60">Проверьте свои знания по уровням.</p>
         </div>
-    @else
-        @foreach($testsByLevel as $level => $tests)
-            <div class="d-flex align-items-center gap-2 mb-3">
-                <h2 class="h6 fw-bold mb-0">{{ $level }}</h2>
-                <span class="text-secondary small">{{ $tests->count() }} {{ Str::plural('test', $tests->count()) }}</span>
-            </div>
-            <div class="row g-3 mb-4">
-                @foreach($tests as $test)
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+
+        @if ($testsByLevel->isEmpty())
+            <x-ui.card :hover="false" class="py-16 text-center">
+                <p class="text-ink/50">Тесты пока не опубликованы. Загляните позже!</p>
+            </x-ui.card>
+        @else
+            @foreach ($testsByLevel as $level => $tests)
+                <div class="mb-3 flex items-center gap-2" data-reveal>
+                    <h2 class="text-lg font-extrabold text-ink">{{ $level }}</h2>
+                    <span class="text-sm text-ink/50">{{ $tests->count() }} тестов</span>
+                </div>
+                <div class="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    @foreach ($tests as $test)
                         <x-test-card :test="$test" />
-                    </div>
-                @endforeach
-            </div>
-        @endforeach
-    @endif
+                    @endforeach
+                </div>
+            @endforeach
+        @endif
+    </div>
 @endsection

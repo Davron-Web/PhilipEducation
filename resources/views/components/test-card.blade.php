@@ -1,26 +1,30 @@
 @props(['test'])
 
-<div class="card card-hover shadow-sm h-100 rounded-4 border-0">
-    <div class="card-body p-4 d-flex flex-column">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-            <x-level-badge :level="optional($test->lesson)->level" />
-            <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle text-primary"
-                  style="width: 2.25rem; height: 2.25rem;">
-                <i class="bi bi-clipboard-check"></i>
-            </span>
-        </div>
-
-        <h3 class="h6 fw-bold mb-2">{{ $test->title }}</h3>
-
-        <div class="d-flex align-items-center gap-3 text-secondary small mb-3">
-            <span><i class="bi bi-question-circle me-1"></i>{{ $test->questions_count ?? $test->questions->count() }} questions</span>
-            @if($test->time_limit)
-                <span><i class="bi bi-clock me-1"></i>{{ $test->time_limit }} min</span>
-            @endif
-        </div>
-
-        <a href="{{ route('tests.show', $test->id) }}" class="btn btn-primary btn-sm mt-auto">
-            Start Test <i class="bi bi-arrow-right ms-1"></i>
-        </a>
+<div class="flex h-full flex-col rounded-2xl border border-line bg-armor2 p-5 shadow-soft card-lift">
+    <div class="mb-2 flex items-center justify-between">
+        <x-ui.badge variant="level" :level="optional($test->lesson)->level" />
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand/10 text-brand">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
+        </span>
     </div>
+
+    <h3 class="mb-2 text-base font-bold text-ink">{{ $test->title }}</h3>
+
+    <div class="mb-3 flex items-center gap-3 text-sm text-ink/50">
+        <span class="inline-flex items-center gap-1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
+            {{ $test->questions_count ?? $test->questions->count() }} вопросов
+        </span>
+        @if ($test->time_limit)
+            <span class="inline-flex items-center gap-1">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                {{ $test->time_limit }} мин
+            </span>
+        @endif
+    </div>
+
+    <x-ui.button :href="route('tests.show', $test->id)" size="sm" class="mt-auto">
+        Начать тест
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+    </x-ui.button>
 </div>

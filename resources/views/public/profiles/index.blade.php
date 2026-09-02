@@ -5,70 +5,61 @@
 @section('page_description', 'Your learning journey at a glance')
 
 @section('content')
-    <div class="card shadow-sm rounded-4 border-0 mb-4">
-        <div class="card-body p-4">
-            <div class="d-flex flex-wrap align-items-center gap-3">
-                <span class="avatar-circle" style="width: 4.5rem; height: 4.5rem; font-size: 1.5rem;">
+    <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+        <x-ui.card :hover="false" class="mb-6">
+            <div class="flex flex-wrap items-center gap-4">
+                <span class="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand to-sky text-2xl font-extrabold text-white">
                     {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
                 </span>
-                <div class="flex-grow-1">
-                    <h1 class="h5 fw-bold mb-1">{{ $user->name }}</h1>
-                    <p class="text-secondary mb-1"><i class="bi bi-envelope me-1"></i>{{ $user->email }}</p>
-                    <x-level-badge :level="$user->level" />
-                </div>
-                <div class="d-flex gap-2">
-                    <a href="{{ route('profiles.edit') }}" class="btn btn-primary">
-                        <i class="bi bi-pencil me-1"></i>Edit Profile
-                    </a>
-                    <a href="{{ route('profiles.edit') }}#password" class="btn btn-outline-primary">
-                        <i class="bi bi-shield-lock me-1"></i>Change Password
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row g-3 mb-4">
-        <div class="col-12 col-sm-6 col-xl-3">
-            <x-stat-card icon="bi-journal-check" :number="$stats['lessons_completed']" title="Lessons Completed" color="primary" />
-        </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <x-stat-card icon="bi-translate" :number="$stats['words_learned']" title="Words Learned" color="success" />
-        </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <x-stat-card icon="bi-clipboard-check" :number="$stats['tests_passed']" title="Tests Passed" color="info" />
-        </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <x-stat-card icon="bi-trophy" :number="$stats['achievements_count']" title="Achievements" color="accent" />
-        </div>
-    </div>
-
-    <div class="row g-3">
-        <div class="col-12 col-sm-6">
-            <div class="card shadow-sm rounded-4 border-0">
-                <div class="card-body p-4 d-flex align-items-center gap-3">
-                    <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-accent-subtle text-accent" style="width: 3rem; height: 3rem;">
-                        <i class="bi bi-star fs-4"></i>
-                    </span>
-                    <div>
-                        <h3 class="fw-bold mb-0">{{ $user->points }}</h3>
-                        <p class="text-secondary small mb-0">Points</p>
+                <div class="flex-1">
+                    <h1 class="text-lg font-extrabold text-ink">{{ $user->name }}</h1>
+                    <p class="mt-0.5 flex items-center gap-1 text-sm text-ink/50">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 7 10 6 10-6" /></svg>
+                        {{ $user->email }}
+                    </p>
+                    <div class="mt-2">
+                        <x-ui.badge variant="level" :level="$user->level" />
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6">
-            <div class="card shadow-sm rounded-4 border-0">
-                <div class="card-body p-4 d-flex align-items-center gap-3">
-                    <span class="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary-subtle text-primary" style="width: 3rem; height: 3rem;">
-                        <i class="bi bi-patch-check fs-4"></i>
-                    </span>
-                    <div>
-                        <h3 class="fw-bold mb-0">{{ $stats['certificates_count'] }}</h3>
-                        <p class="text-secondary small mb-0">Certificates</p>
-                    </div>
+                <div class="flex gap-2">
+                    <x-ui.button :href="route('profiles.edit')" size="sm">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                        Редактировать
+                    </x-ui.button>
+                    <x-ui.button :href="route('profiles.edit').'#password-section'" variant="outline" size="sm">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                        Сменить пароль
+                    </x-ui.button>
                 </div>
             </div>
+        </x-ui.card>
+
+        <div class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <x-stat-card icon="bi-journal-check" :number="$stats['lessons_completed']" title="Уроков пройдено" color="primary" />
+            <x-stat-card icon="bi-translate" :number="$stats['words_learned']" title="Слов выучено" color="success" />
+            <x-stat-card icon="bi-clipboard-check" :number="$stats['tests_passed']" title="Тестов сдано" color="info" />
+            <x-stat-card icon="bi-trophy" :number="$stats['achievements_count']" title="Достижений" color="accent" />
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+            <x-ui.card :hover="false" class="flex items-center gap-3">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sun/10 text-sun">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                </span>
+                <div>
+                    <h3 class="text-xl font-extrabold text-ink">{{ $user->points }}</h3>
+                    <p class="text-sm text-ink/50">Очков</p>
+                </div>
+            </x-ui.card>
+            <x-ui.card :hover="false" class="flex items-center gap-3">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m9 12 2 2 4-4" /></svg>
+                </span>
+                <div>
+                    <h3 class="text-xl font-extrabold text-ink">{{ $stats['certificates_count'] }}</h3>
+                    <p class="text-sm text-ink/50">Сертификатов</p>
+                </div>
+            </x-ui.card>
         </div>
     </div>
 @endsection
