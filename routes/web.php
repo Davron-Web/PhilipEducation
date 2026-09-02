@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\User\UserController as AdminUserController;
 use App\Http\Controllers\Admin\User\UserProgressController as AdminUserProgressController;
 use App\Http\Controllers\Admin\User\UserResultController as AdminUserResultController;
 use App\Http\Controllers\Admin\User\UserWordController as AdminUserWordController;
+use App\Http\Controllers\Admin\Vocabulary\ExpressionController as AdminExpressionController;
 use App\Http\Controllers\Admin\Vocabulary\WordController as AdminWordController;
 use App\Http\Controllers\Admin\Vocabulary\WordTranslationController as AdminWordTranslationController;
 use App\Http\Controllers\AssistantController;
@@ -217,6 +218,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])
         // Vocabulary
         Route::resource('vocabulary/words', AdminWordController::class)->names('vocabulary.words');
         Route::resource('vocabulary/word-translations', AdminWordTranslationController::class)->names('vocabulary.wordtranslations');
+        Route::resource('vocabulary/expressions', AdminExpressionController::class)->names('vocabulary.expressions');
 
         // Exercise
         Route::resource('exercise/exercises', AdminExerciseController::class)->names('exercise.exercises');
