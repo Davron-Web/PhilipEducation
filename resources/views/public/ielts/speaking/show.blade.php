@@ -94,7 +94,7 @@
 
             <template x-if="phase === 'done'">
                 <div>
-                    <p class="text-2xl font-extrabold text-ink">Время вышло 🎉</p>
+                    <p class="text-2xl font-extrabold text-ink">Время вышло</p>
                     <p class="mt-1 text-sm text-ink/60">Отличная практика! Можно попробовать ещё раз.</p>
                     <x-ui.button variant="accent" class="mt-6" @click="start()">Повторить</x-ui.button>
                 </div>

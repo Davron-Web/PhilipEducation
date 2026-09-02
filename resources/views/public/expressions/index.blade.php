@@ -213,7 +213,7 @@
                                     @click="flip()"
                                 >
                                     <div class="flip-card-inner h-full w-full">
-                                        <div class="flip-card-face flex h-full flex-col items-center justify-center rounded-3xl border border-line bg-gradient-to-br from-armor2 to-armor p-8 text-center shadow-2xl shadow-brand/10">
+                                        <div class="flip-card-face flex h-full flex-col items-center justify-center rounded-2xl border border-line bg-armor2 p-8 text-center shadow-softLg">
                                             <p class="text-xs font-bold uppercase tracking-widest text-ink/40">Выражение</p>
                                             <p class="mt-3 flex items-center gap-2 text-2xl font-extrabold text-ink">
                                                 <span x-text="current.word"></span>
@@ -229,7 +229,7 @@
                                             <p class="mt-2 text-ink/40" x-show="current.transcription" x-text="'/' + current.transcription + '/'"></p>
                                             <p class="mt-6 text-xs text-ink/30">Нажмите, чтобы перевернуть</p>
                                         </div>
-                                        <div class="flip-card-face flip-card-back flex h-full flex-col items-center justify-center rounded-3xl bg-gradient-to-br from-armor via-brand to-sky p-8 text-center text-white shadow-2xl">
+                                        <div class="flip-card-face flip-card-back flex h-full flex-col items-center justify-center rounded-2xl bg-brand p-8 text-center text-white shadow-softLg">
                                             <p class="text-xs font-bold uppercase tracking-widest text-white/60">Перевод</p>
                                             <p class="mt-3 text-3xl font-extrabold" x-text="current.translation"></p>
                                         </div>
@@ -265,7 +265,7 @@
                                     <span x-text="'Правильно: ' + quizScore"></span>
                                 </div>
 
-                                <div class="rounded-3xl border border-line bg-armor2 p-8 text-center shadow-soft">
+                                <div class="rounded-2xl border border-line bg-armor2 p-8 text-center shadow-soft">
                                     <p class="text-xs font-bold uppercase tracking-widest text-ink/40">Как переводится?</p>
                                     <p class="mt-3 text-2xl font-extrabold text-ink" x-text="quizCurrent && quizCurrent.word"></p>
 
@@ -296,7 +296,7 @@
 
                         <template x-if="quizPool.length >= 4 && quizDone">
                             <div class="mx-auto max-w-md text-center" data-reveal>
-                                <div class="rounded-3xl border border-line bg-armor2 p-10 shadow-soft">
+                                <div class="rounded-2xl border border-line bg-armor2 p-10 shadow-soft">
                                     <p class="text-5xl font-extrabold text-brand" x-text="quizScore + ' / ' + quizQuestions.length"></p>
                                     <p class="mt-2 text-ink/60">правильных ответов</p>
                                     <x-ui.button variant="primary" class="mt-6" @click="startQuiz()">Пройти ещё раз</x-ui.button>
@@ -314,7 +314,7 @@
                     class="fixed inset-0 z-[60] flex items-center justify-center bg-ink/40 p-4 backdrop-blur-sm"
                     @keydown.escape.window="addOpen = false"
                 >
-                    <div @click.outside="addOpen = false" class="w-full max-w-md rounded-3xl border border-line bg-armor2 p-6 shadow-2xl">
+                    <div @click.outside="addOpen = false" class="w-full max-w-md rounded-2xl border border-line bg-armor2 p-6 shadow-2xl">
                         <div class="mb-4 flex items-center justify-between">
                             <h2 class="text-lg font-bold text-ink">Добавить своё выражение</h2>
                             <button type="button" @click="addOpen = false" class="text-ink/40 hover:text-ink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12" /></svg></button>

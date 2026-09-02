@@ -4,7 +4,7 @@
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
                 <div class="mb-3 flex items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-sky shadow-soft">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand shadow-soft">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M6 6l2 3" /><path d="M18 6l-2 3" />
                             <ellipse cx="12" cy="13" rx="7" ry="8" />
@@ -63,7 +63,7 @@
 
         <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-6 text-sm text-ink/50 sm:flex-row">
             <p>&copy; {{ date('Y') }} Philip Education. Все права защищены.</p>
-            <p>Сделано с 💙 для тех, кто учит английский</p>
+            <p>Платформа для изучения английского языка</p>
         </div>
     </div>
 </footer>

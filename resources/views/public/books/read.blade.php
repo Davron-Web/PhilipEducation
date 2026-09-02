@@ -53,9 +53,9 @@
 
         {{-- Practice UI, shown only in sentence mode after each sentence --}}
         <div id="practiceBar" class="hidden mb-4 flex-wrap items-center justify-between gap-2 rounded-2xl border border-brand/30 bg-brand/5 px-4 py-3" role="status">
-            <span class="font-semibold text-ink">Ваша очередь 👇 — повторите предложение вслух</span>
+            <span class="font-semibold text-ink">Ваша очередь — повторите предложение вслух</span>
             <div class="flex gap-2">
-                <button type="button" id="repeatBtn" class="reader-chip">🔁 Повторить</button>
+                <button type="button" id="repeatBtn" class="reader-chip">Повторить</button>
                 <button type="button" id="nextSentenceBtn" class="reader-btn reader-btn-primary">▶ Дальше</button>
             </div>
         </div>

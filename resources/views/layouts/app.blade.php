@@ -26,10 +26,11 @@
         })();
     </script>
 
-    {{-- Шрифты: Outfit для заголовков (font-display), Inter для текста --}}
+    {{-- Шрифты: Manrope для заголовков (font-display) — строгий гротеск без
+         «мультяшных» скруглённых терминалов, Inter для текста --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     {{--
         Сборки через npm на этой машине нет, поэтому Tailwind и Alpine
@@ -47,7 +48,7 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        display: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        display: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
                     },
                     colors: {
                         ink: 'var(--pe-ink)',
@@ -61,11 +62,11 @@
                         sun: 'var(--pe-sun)',
                     },
                     borderRadius: {
-                        '4xl': '24px',
+                        '4xl': '20px',
                     },
                     boxShadow: {
-                        soft: '0 10px 30px -12px rgba(79, 70, 229, .18)',
-                        softLg: '0 20px 50px -20px rgba(79, 70, 229, .30)',
+                        soft: '0 6px 20px -10px rgba(15, 23, 42, .12)',
+                        softLg: '0 12px 32px -12px rgba(15, 23, 42, .16)',
                     },
                 },
             },
@@ -83,10 +84,10 @@
             --pe-armor2: #FFFFFF;
             --pe-surface2: #F1F5F9;
             --pe-line: #E2E8F0;
-            --pe-brand: #4F46E5;
-            --pe-sky: #06B6D4;
+            --pe-brand: #4338CA;
+            --pe-sky: #0E7490;
             --pe-skylight: #0891B2;
-            --pe-sun: #F97316;
+            --pe-sun: #B45309;
         }
 
         /* ---------- Тёмная тема: включается классом .dark на <html> ---------- */
@@ -97,9 +98,9 @@
             --pe-surface2: #182036;
             --pe-line: #232B45;
             --pe-brand: #6366F1;
-            --pe-sky: #22D3EE;
+            --pe-sky: #22B8CF;
             --pe-skylight: #2DD4BF;
-            --pe-sun: #FB923C;
+            --pe-sun: #D97706;
         }
 
         /* Плавное появление элементов при скролле (см. IntersectionObserver внизу файла) */
@@ -113,13 +114,13 @@
             transform: translateY(0);
         }
 
-        /* Подъём карточки + смена тени при наведении */
+        /* Лёгкий подъём карточки + смена тени при наведении (сдержанно, без «прыжка») */
         .card-lift {
-            transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s cubic-bezier(.22,1,.36,1), border-color .3s ease;
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
         }
         .card-lift:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px -20px rgba(79, 70, 229, .30);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -14px rgba(15, 23, 42, .22);
         }
 
         body { transition: background-color .3s ease, color .3s ease; }

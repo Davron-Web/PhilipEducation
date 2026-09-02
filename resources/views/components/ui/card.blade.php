@@ -10,7 +10,7 @@
 ])
 
 @php
-    $classes = 'relative rounded-3xl border border-line bg-armor2 p-6 shadow-soft'
+    $classes = 'relative rounded-2xl border border-line bg-armor2 p-6 shadow-soft'
         .($hover ? ' card-lift hover:border-brand/30' : '');
 @endphp
 

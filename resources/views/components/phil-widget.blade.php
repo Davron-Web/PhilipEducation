@@ -71,11 +71,11 @@
     #phil-toggle {
         display: flex; align-items: center; gap: 8px;
         height: 56px; padding: 0 18px 0 14px; border: none; border-radius: 999px; cursor: pointer;
-        background: linear-gradient(135deg, #4F46E5, #06B6D4);
-        color: #fff; box-shadow: 0 10px 30px rgba(79, 70, 229, .40);
+        background: #4338CA;
+        color: #fff; box-shadow: 0 10px 30px rgba(67, 56, 202, .40);
         transition: transform .15s ease, box-shadow .15s ease;
     }
-    #phil-toggle:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(79, 70, 229, .5); }
+    #phil-toggle:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(67, 56, 202, .5); }
     #phil-toggle svg { width: 26px; height: 26px; flex-shrink: 0; }
     #phil-badge { font-weight: 700; font-size: 14.5px; letter-spacing: .01em; }
 
@@ -95,7 +95,7 @@
 
     #phil-panel-header {
         display: flex; align-items: center; gap: 10px; padding: 14px 14px;
-        background: linear-gradient(135deg, #4F46E5, #06B6D4);
+        background: #4338CA;
         flex-shrink: 0;
     }
     #phil-avatar {
@@ -113,22 +113,22 @@
     #phil-context-pill {
         display: flex; align-items: center; gap: 6px; margin: 10px 14px 0;
         padding: 6px 6px 6px 12px; border-radius: 999px; flex-shrink: 0;
-        background: rgba(79, 70, 229, .1); border: 1px solid rgba(79, 70, 229, .25);
-        color: #4F46E5; font-size: 12px; font-weight: 600;
+        background: rgba(67, 56, 202, .1); border: 1px solid rgba(67, 56, 202, .25);
+        color: #4338CA; font-size: 12px; font-weight: 600;
     }
     html.dark #phil-context-pill { background: rgba(99, 102, 241, .15); border-color: rgba(99, 102, 241, .3); color: #A5B4FC; }
     #phil-context-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     #phil-context-clear { background: none; border: none; color: inherit; cursor: pointer; padding: 3px; border-radius: 999px; display: flex; flex-shrink: 0; opacity: .7; }
-    #phil-context-clear:hover { opacity: 1; background: rgba(79, 70, 229, .15); }
+    #phil-context-clear:hover { opacity: 1; background: rgba(67, 56, 202, .15); }
     #phil-context-clear svg { width: 12px; height: 12px; display: block; }
 
     #phil-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
     .phil-msg { padding: 10px 13px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; max-width: 88%; white-space: pre-wrap; word-break: break-word; }
-    .phil-msg.user { align-self: flex-end; background: #4F46E5; color: #fff; border-bottom-right-radius: 4px; }
+    .phil-msg.user { align-self: flex-end; background: #4338CA; color: #fff; border-bottom-right-radius: 4px; }
     .phil-msg.bot { align-self: flex-start; background: #F1F5F9; color: #0F172A; border-bottom-left-radius: 4px; }
     html.dark .phil-msg.bot { background: #182036; color: #E7E9F5; }
     .phil-msg.bot ul { margin: 4px 0; padding-left: 18px; }
-    .phil-msg.bot code { background: rgba(79,70,229,.12); padding: 1px 5px; border-radius: 5px; font-size: 12.5px; }
+    .phil-msg.bot code { background: rgba(67,56,202,.12); padding: 1px 5px; border-radius: 5px; font-size: 12.5px; }
     .phil-msg.bot br:last-child { display: none; }
     .phil-msg.hint { align-self: center; color: #94A3B8; font-size: 12px; text-align: center; background: none; }
 
@@ -139,11 +139,11 @@
         color: #0F172A; padding: 10px 12px; font-size: 13.5px; outline: none;
     }
     html.dark #phil-input { background: #182036; border-color: #232B45; color: #E7E9F5; }
-    #phil-input:focus { border-color: #4F46E5; }
+    #phil-input:focus { border-color: #4338CA; }
     #phil-input::placeholder { color: #94A3B8; }
     #phil-send {
         width: 40px; height: 40px; flex-shrink: 0; border: none; border-radius: 10px; cursor: pointer;
-        background: #4F46E5; color: #fff; display: flex; align-items: center; justify-content: center;
+        background: #4338CA; color: #fff; display: flex; align-items: center; justify-content: center;
     }
     #phil-send:hover { background: #4338CA; }
     #phil-send svg { width: 18px; height: 18px; }
@@ -151,7 +151,7 @@
     #phil-guest { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px; text-align: center; }
     #phil-guest p { margin: 0; font-size: 13.5px; color: #64748B; }
     html.dark #phil-guest p { color: #A5ADC7; }
-    #phil-guest a { background: #4F46E5; color: #fff; text-decoration: none; padding: 9px 20px; border-radius: 10px; font-size: 13.5px; font-weight: 600; }
+    #phil-guest a { background: #4338CA; color: #fff; text-decoration: none; padding: 9px 20px; border-radius: 10px; font-size: 13.5px; font-weight: 600; }
     #phil-guest a:hover { background: #4338CA; }
 
     @media (max-width: 480px) {
@@ -239,7 +239,7 @@
         activeContext = ctx && ctx.id ? ctx : null;
         if (!contextPill) return;
         if (activeContext) {
-            contextLabel.textContent = (activeContext.type === 'expression' ? '💬 ' : '📖 ') + activeContext.label;
+            contextLabel.textContent = activeContext.label;
             contextPill.hidden = false;
         } else {
             contextPill.hidden = true;
@@ -310,7 +310,7 @@
         if (state.greeted) return;
         state.greeted = true;
         saveState();
-        addMsg('hint', 'Привет! Я Phil 🤖 — спроси меня что-нибудь про английский язык.');
+        addMsg('hint', 'Привет! Я Phil — спроси меня что-нибудь про английский язык.');
     }
     toggleBtn.addEventListener('click', greet, { once: true });
 

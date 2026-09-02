@@ -12,7 +12,7 @@
         <div class="mb-8 flex flex-wrap items-end justify-between gap-4" data-reveal>
             <div>
                 <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">
-                    С возвращением, {{ explode(' ', auth()->user()->name)[0] }}! 👋
+                    С возвращением, {{ explode(' ', auth()->user()->name)[0] }}!
                 </h1>
                 <p class="mt-1 text-ink/60">Продолжим заниматься английским — вот что у вас сейчас.</p>
             </div>
@@ -20,7 +20,7 @@
             {{-- Streak --}}
             <div class="rounded-2xl border border-sun/30 bg-sun/10 px-4 py-3 text-sun">
                 <div class="flex items-center gap-2">
-                    <span class="text-2xl" aria-hidden="true">🔥</span>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c1 3-2 4-2 7a4 4 0 0 0 8 0c0-1-.4-2-1-3 2 1 3 3.5 3 6a7 7 0 1 1-14 0c0-4 2-6 3-7 1-1 2-2 3-3Z" /></svg>
                     <div class="leading-tight">
                         <p class="text-lg font-extrabold" x-data x-init="countUp($el, 0, {{ $stats['streak'] }}, 800)">0</p>
                         <p class="text-xs font-semibold uppercase tracking-wide text-sun/70">
@@ -79,10 +79,7 @@
                 </x-ui.card>
 
                 {{-- Продолжить урок --}}
-                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-armor via-brand to-sky p-8 text-white shadow-2xl shadow-brand/25" data-reveal>
-                    <div class="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl"></div>
-                    <div class="absolute -bottom-16 left-10 h-40 w-40 rounded-full bg-sun/20 blur-2xl"></div>
-
+                <div class="relative overflow-hidden rounded-2xl bg-brand p-8 text-white shadow-softLg" data-reveal>
                     <div class="relative">
                         <p class="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wide">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
@@ -99,7 +96,7 @@
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
                             </x-ui.button>
                         @else
-                            <h2 class="text-2xl font-extrabold sm:text-3xl">Все доступные уроки пройдены! 🎉</h2>
+                            <h2 class="text-2xl font-extrabold sm:text-3xl">Все доступные уроки пройдены!</h2>
                             <p class="mt-2 max-w-md text-white/75">Загляните в словарь или тесты, чтобы закрепить знания.</p>
                             <x-ui.button href="{{ route('words.index') }}" variant="accent" size="lg" class="mt-6">Повторить словарь</x-ui.button>
                         @endif
@@ -147,7 +144,7 @@
                             Выполнить задание
                         </x-ui.button>
                     @else
-                        <p class="text-sm text-ink/60">Вы уже сделали все доступные упражнения на сегодня. Отличная работа! 🎉</p>
+                        <p class="text-sm text-ink/60">Вы уже сделали все доступные упражнения на сегодня. Отличная работа!</p>
                     @endif
                 </x-ui.card>
             </div>

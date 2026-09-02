@@ -26,7 +26,7 @@
     <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8" aria-label="Основная навигация">
         {{-- Логотип --}}
         <a href="{{ auth()->check() ? route('user.dashboard') : url('/') }}" class="flex shrink-0 items-center gap-2 group">
-            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-sky shadow-soft transition-transform duration-300 group-hover:-rotate-6">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand shadow-soft">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 6l2 3" /><path d="M18 6l-2 3" />
                     <ellipse cx="12" cy="13" rx="7" ry="8" />
@@ -98,8 +98,9 @@
 
                 {{-- Streak: показываем только если контроллер прислал значение --}}
                 @isset($streak)
-                    <div class="hidden items-center gap-1 rounded-full bg-sun/10 border border-sun/30 px-3 py-1.5 text-sm font-bold text-sun sm:flex" title="Серия дней подряд">
-                        <span aria-hidden="true">🔥</span>{{ $streak }}
+                    <div class="hidden items-center gap-1.5 rounded-full bg-sun/10 border border-sun/25 px-3 py-1.5 text-sm font-bold text-sun sm:flex" title="Серия дней подряд">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c1 3-2 4-2 7a4 4 0 0 0 8 0c0-1-.4-2-1-3 2 1 3 3.5 3 6a7 7 0 1 1-14 0c0-4 2-6 3-7 1-1 2-2 3-3Z" /></svg>
+                        {{ $streak }}
                     </div>
                 @endisset
 
@@ -181,7 +182,7 @@
                 </button>
                 <a href="#how-it-works" class="rounded-lg px-4 py-2 text-sm font-semibold text-ink/70 transition hover:text-sky">Как это работает</a>
                 <a href="{{ route('login') }}" class="rounded-lg px-4 py-2 text-sm font-semibold text-ink/70 transition hover:text-sky">Войти</a>
-                <a href="{{ route('register') }}" class="rounded-xl bg-gradient-to-r from-brand to-sky px-5 py-2.5 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:shadow-softLg">
+                <a href="{{ route('register') }}" class="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-brand/90">
                     Начать бесплатно
                 </a>
             </div>
