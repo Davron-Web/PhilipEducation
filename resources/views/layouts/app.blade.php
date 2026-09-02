@@ -12,34 +12,60 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Philip Education">
 
-    {{-- Шрифты: Unbounded для заголовков (font-display), Manrope для текста --}}
+    {{-- Тема "Philip Bright": светлая по умолчанию, с переключателем на тёмную
+         (класс .dark на <html>). Скрипт ниже применяет сохранённую/системную
+         тему ДО отрисовки, чтобы не было мигания. --}}
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem('pe-theme'); } catch (e) {}
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved ? saved === 'dark' : prefersDark) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    {{-- Шрифты: Outfit для заголовков (font-display), Inter для текста --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     {{--
         Сборки через npm на этой машине нет, поэтому Tailwind и Alpine
-        подключены через CDN (без шага компиляции). Палитра — тема "Lingua
-        Arcana" (тёмное стекло + фиолетовый/циан-неон/золото), перенесённая
-        с гостевой главной на весь сайт. Держите в синхроне с tailwind.config.js.
+        подключены через CDN (без шага компиляции). Палитра — тема "Philip
+        Bright" (светлое стекло, индиго/бирюза/оранж, переключаемая тёмная
+        тема через класс .dark). Цвета Tailwind ссылаются на CSS-переменные
+        ниже, чтобы вся разметка сайта (bg-armor2, text-ink, text-sky...)
+        автоматически подхватывала обе темы без правки каждой страницы.
     --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        display: ['Unbounded', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        display: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'],
                     },
                     colors: {
-                        ink: '#EAF0F6',
-                        armor: '#1E222A',
-                        armor2: '#252B36',
-                        brand: '#7C3AED',
-                        sky: '#22D3EE',
-                        skylight: '#5EEAD4',
-                        sun: '#FFD700',
+                        ink: 'var(--pe-ink)',
+                        armor: 'var(--pe-armor)',
+                        armor2: 'var(--pe-armor2)',
+                        surface2: 'var(--pe-surface2)',
+                        line: 'var(--pe-line)',
+                        brand: 'var(--pe-brand)',
+                        sky: 'var(--pe-sky)',
+                        skylight: 'var(--pe-skylight)',
+                        sun: 'var(--pe-sun)',
+                    },
+                    borderRadius: {
+                        '4xl': '24px',
+                    },
+                    boxShadow: {
+                        soft: '0 10px 30px -12px rgba(79, 70, 229, .18)',
+                        softLg: '0 20px 50px -20px rgba(79, 70, 229, .30)',
                     },
                 },
             },
@@ -50,6 +76,32 @@
     <script src="{{ asset('assets/js/flashcard-deck.js') }}"></script>
 
     <style>
+        /* ---------- Цветовые токены: светлая тема (по умолчанию) ---------- */
+        :root {
+            --pe-ink: #0F172A;
+            --pe-armor: #F8FAFC;
+            --pe-armor2: #FFFFFF;
+            --pe-surface2: #F1F5F9;
+            --pe-line: #E2E8F0;
+            --pe-brand: #4F46E5;
+            --pe-sky: #06B6D4;
+            --pe-skylight: #0891B2;
+            --pe-sun: #F97316;
+        }
+
+        /* ---------- Тёмная тема: включается классом .dark на <html> ---------- */
+        html.dark {
+            --pe-ink: #E7E9F5;
+            --pe-armor: #0B1020;
+            --pe-armor2: #131A2E;
+            --pe-surface2: #182036;
+            --pe-line: #232B45;
+            --pe-brand: #6366F1;
+            --pe-sky: #22D3EE;
+            --pe-skylight: #2DD4BF;
+            --pe-sun: #FB923C;
+        }
+
         /* Плавное появление элементов при скролле (см. IntersectionObserver внизу файла) */
         [data-reveal] {
             opacity: 0;
@@ -61,9 +113,21 @@
             transform: translateY(0);
         }
 
+        /* Подъём карточки + смена тени при наведении */
+        .card-lift {
+            transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s cubic-bezier(.22,1,.36,1), border-color .3s ease;
+        }
+        .card-lift:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px -20px rgba(79, 70, 229, .30);
+        }
+
+        body { transition: background-color .3s ease, color .3s ease; }
+
         /* Уважаем предпочтение отключить анимации */
         @media (prefers-reduced-motion: reduce) {
             [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+            .card-lift { transition: none !important; }
             * { scroll-behavior: auto !important; }
         }
     </style>
@@ -71,15 +135,6 @@
     @stack('styles')
 </head>
 <body class="min-h-screen bg-armor font-sans text-ink antialiased">
-
-    {{-- ===================== АНИМИРОВАННЫЙ ФОН (тот же, что на гостевой главной) ===================== --}}
-    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-armor" aria-hidden="true">
-        <div class="absolute inset-0" style="background:
-            radial-gradient(700px 420px at 12% 8%, rgba(93,43,125,.35), transparent 60%),
-            radial-gradient(640px 420px at 88% 30%, rgba(0,229,255,.12), transparent 60%),
-            radial-gradient(520px 380px at 50% 100%, rgba(93,43,125,.22), transparent 65%);"></div>
-        <canvas id="bgParticleCanvas" class="absolute inset-0"></canvas>
-    </div>
 
     @include('layouts.partials.site-header')
 
@@ -199,41 +254,16 @@
                 }, { passive: true });
             }
 
-            // Фоновые частицы (та же анимация, что на гостевой главной)
-            var bgCanvas = document.getElementById('bgParticleCanvas');
-            if (bgCanvas && !prefersReduced) {
-                var bgCtx = bgCanvas.getContext('2d');
-                var bgSparks = [];
-                var bgSparkColors = ['0,255,255', '0,229,255', '77,238,234', '255,215,0', '138,75,184'];
-                function bgSizeCanvas() { bgCanvas.width = bgCanvas.offsetWidth; bgCanvas.height = bgCanvas.offsetHeight; }
-                function bgSeedSparks() {
-                    bgSparks = [];
-                    var amount = Math.min(70, Math.floor(bgCanvas.width / 22));
-                    for (var i = 0; i < amount; i++) {
-                        bgSparks.push({
-                            posX: Math.random() * bgCanvas.width, posY: Math.random() * bgCanvas.height,
-                            rad: Math.random() * 1.8 + .5, velY: -(Math.random() * .35 + .08), velX: (Math.random() - .5) * .25,
-                            col: bgSparkColors[Math.floor(Math.random() * bgSparkColors.length)], phase: Math.random() * Math.PI * 2
-                        });
-                    }
-                }
-                function bgDrawSparks(t) {
-                    bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-                    bgSparks.forEach(function (s) {
-                        s.posY += s.velY; s.posX += s.velX;
-                        if (s.posY < -6) { s.posY = bgCanvas.height + 6; s.posX = Math.random() * bgCanvas.width; }
-                        if (s.posX < -6) s.posX = bgCanvas.width + 6;
-                        if (s.posX > bgCanvas.width + 6) s.posX = -6;
-                        var tw = .35 + Math.abs(Math.sin(t / 900 + s.phase)) * .65;
-                        bgCtx.beginPath(); bgCtx.arc(s.posX, s.posY, s.rad, 0, Math.PI * 2);
-                        bgCtx.fillStyle = 'rgba(' + s.col + ',' + tw.toFixed(2) + ')';
-                        bgCtx.shadowColor = 'rgba(' + s.col + ',.9)'; bgCtx.shadowBlur = 8; bgCtx.fill();
-                    });
-                    requestAnimationFrame(bgDrawSparks);
-                }
-                bgSizeCanvas(); bgSeedSparks(); requestAnimationFrame(bgDrawSparks);
-                window.addEventListener('resize', function () { bgSizeCanvas(); bgSeedSparks(); });
-            }
+        });
+
+        // Переключатель светлой/тёмной темы (кнопка в шапке, см. site-header.blade.php)
+        document.addEventListener('DOMContentLoaded', function () {
+            var themeToggle = document.getElementById('themeToggle');
+            if (!themeToggle) return;
+            themeToggle.addEventListener('click', function () {
+                var isDark = document.documentElement.classList.toggle('dark');
+                try { localStorage.setItem('pe-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            });
         });
     </script>
 

@@ -62,11 +62,11 @@
     #phil-toggle {
         display: flex; align-items: center; gap: 8px;
         height: 56px; padding: 0 18px 0 14px; border: none; border-radius: 999px; cursor: pointer;
-        background: linear-gradient(135deg, #2563EB, #0022D9);
-        color: #fff; box-shadow: 0 10px 30px rgba(37, 99, 235, .45);
+        background: linear-gradient(135deg, #4F46E5, #06B6D4);
+        color: #fff; box-shadow: 0 10px 30px rgba(79, 70, 229, .40);
         transition: transform .15s ease, box-shadow .15s ease;
     }
-    #phil-toggle:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(37, 99, 235, .55); }
+    #phil-toggle:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(79, 70, 229, .5); }
     #phil-toggle svg { width: 26px; height: 26px; flex-shrink: 0; }
     #phil-badge { font-weight: 700; font-size: 14.5px; letter-spacing: .01em; }
 
@@ -76,57 +76,62 @@
         display: none;
         position: absolute; right: 0; bottom: 70px; width: 340px; max-width: calc(100vw - 40px);
         height: 480px; max-height: calc(100vh - 110px);
-        background: #0F172A; color: #E2E8F0; border-radius: 18px; overflow: hidden;
+        background: #FFFFFF; color: #0F172A; border-radius: 18px; overflow: hidden;
         flex-direction: column;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
-        border: 1px solid rgba(148, 163, 184, .15);
+        box-shadow: 0 20px 60px rgba(15, 23, 42, .18);
+        border: 1px solid #E2E8F0;
     }
+    html.dark #phil-panel { background: #131A2E; color: #E7E9F5; border-color: #232B45; box-shadow: 0 20px 60px rgba(0, 0, 0, .4); }
     #phil-widget.open #phil-panel { display: flex; }
 
     #phil-panel-header {
         display: flex; align-items: center; gap: 10px; padding: 14px 14px;
-        background: linear-gradient(135deg, #1D2B53, #0022D9);
+        background: linear-gradient(135deg, #4F46E5, #06B6D4);
         flex-shrink: 0;
     }
     #phil-avatar {
-        width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.15);
+        width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.2);
         display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     #phil-avatar svg { width: 22px; height: 22px; color: #fff; }
     #phil-title { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
     #phil-title strong { font-size: 15px; color: #fff; }
-    #phil-title span { font-size: 11.5px; color: rgba(255,255,255,.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    #phil-close { background: none; border: none; color: rgba(255,255,255,.8); cursor: pointer; padding: 4px; border-radius: 8px; flex-shrink: 0; }
-    #phil-close:hover { background: rgba(255,255,255,.12); color: #fff; }
+    #phil-title span { font-size: 11.5px; color: rgba(255,255,255,.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #phil-close { background: none; border: none; color: rgba(255,255,255,.85); cursor: pointer; padding: 4px; border-radius: 8px; flex-shrink: 0; }
+    #phil-close:hover { background: rgba(255,255,255,.15); color: #fff; }
     #phil-close svg { width: 18px; height: 18px; display: block; }
 
     #phil-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
     .phil-msg { padding: 10px 13px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; max-width: 88%; white-space: pre-wrap; word-break: break-word; }
-    .phil-msg.user { align-self: flex-end; background: #2563EB; color: #fff; border-bottom-right-radius: 4px; }
-    .phil-msg.bot { align-self: flex-start; background: #1E293B; color: #E2E8F0; border-bottom-left-radius: 4px; }
+    .phil-msg.user { align-self: flex-end; background: #4F46E5; color: #fff; border-bottom-right-radius: 4px; }
+    .phil-msg.bot { align-self: flex-start; background: #F1F5F9; color: #0F172A; border-bottom-left-radius: 4px; }
+    html.dark .phil-msg.bot { background: #182036; color: #E7E9F5; }
     .phil-msg.bot ul { margin: 4px 0; padding-left: 18px; }
-    .phil-msg.bot code { background: rgba(148,163,184,.18); padding: 1px 5px; border-radius: 5px; font-size: 12.5px; }
+    .phil-msg.bot code { background: rgba(79,70,229,.12); padding: 1px 5px; border-radius: 5px; font-size: 12.5px; }
     .phil-msg.bot br:last-child { display: none; }
     .phil-msg.hint { align-self: center; color: #94A3B8; font-size: 12px; text-align: center; background: none; }
 
-    #phil-inputrow { display: flex; gap: 8px; padding: 12px; border-top: 1px solid rgba(148,163,184,.15); flex-shrink: 0; }
+    #phil-inputrow { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #E2E8F0; flex-shrink: 0; }
+    html.dark #phil-inputrow { border-top-color: #232B45; }
     #phil-input {
-        flex: 1; min-width: 0; background: #1E293B; border: 1px solid rgba(148,163,184,.2); border-radius: 10px;
-        color: #fff; padding: 10px 12px; font-size: 13.5px; outline: none;
+        flex: 1; min-width: 0; background: #F1F5F9; border: 1px solid #E2E8F0; border-radius: 10px;
+        color: #0F172A; padding: 10px 12px; font-size: 13.5px; outline: none;
     }
-    #phil-input:focus { border-color: #2563EB; }
-    #phil-input::placeholder { color: #64748B; }
+    html.dark #phil-input { background: #182036; border-color: #232B45; color: #E7E9F5; }
+    #phil-input:focus { border-color: #4F46E5; }
+    #phil-input::placeholder { color: #94A3B8; }
     #phil-send {
         width: 40px; height: 40px; flex-shrink: 0; border: none; border-radius: 10px; cursor: pointer;
-        background: #2563EB; color: #fff; display: flex; align-items: center; justify-content: center;
+        background: #4F46E5; color: #fff; display: flex; align-items: center; justify-content: center;
     }
-    #phil-send:hover { background: #1D4ED8; }
+    #phil-send:hover { background: #4338CA; }
     #phil-send svg { width: 18px; height: 18px; }
 
     #phil-guest { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px; text-align: center; }
-    #phil-guest p { margin: 0; font-size: 13.5px; color: #CBD5E1; }
-    #phil-guest a { background: #2563EB; color: #fff; text-decoration: none; padding: 9px 20px; border-radius: 10px; font-size: 13.5px; font-weight: 600; }
-    #phil-guest a:hover { background: #1D4ED8; }
+    #phil-guest p { margin: 0; font-size: 13.5px; color: #64748B; }
+    html.dark #phil-guest p { color: #A5ADC7; }
+    #phil-guest a { background: #4F46E5; color: #fff; text-decoration: none; padding: 9px 20px; border-radius: 10px; font-size: 13.5px; font-weight: 600; }
+    #phil-guest a:hover { background: #4338CA; }
 
     @media (max-width: 480px) {
         #phil-widget { right: 12px; bottom: 12px; }

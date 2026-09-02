@@ -14,16 +14,16 @@
         'A1' => 'border border-sky/30 bg-sky/10 text-sky',
         'A2' => 'border border-skylight/30 bg-skylight/10 text-skylight',
         'B1' => 'border border-brand/40 bg-brand/10 text-brand',
-        'B2' => 'border border-brand/40 bg-brand/15 text-[#C4B5FD]',
+        'B2' => 'border border-brand/40 bg-brand/15 text-brand',
         'C1' => 'border border-sun/30 bg-sun/10 text-sun',
         'C2' => 'border border-sun/30 bg-sun/15 text-sun',
     ];
 
     $variants = [
-        'success' => 'border border-green-500/30 bg-green-500/10 text-green-400',
-        'danger' => 'border border-red-500/30 bg-red-500/10 text-red-400',
+        'success' => 'border border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400',
+        'danger' => 'border border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400',
         'accent' => 'border border-sun/30 bg-sun/10 text-sun',
-        'neutral' => 'border border-white/10 bg-white/5 text-ink/50',
+        'neutral' => 'border border-line bg-surface2 text-ink/50',
     ];
 
     if ($variant === 'level') {
