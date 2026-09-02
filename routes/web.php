@@ -39,6 +39,7 @@ use App\Http\Controllers\Public\Ielts\IeltsSpeakingController as PublicIeltsSpea
 use App\Http\Controllers\Public\System\NotificationController as PublicNotificationController;
 use App\Http\Controllers\Public\Test\TestController as PublicTestController;
 use App\Http\Controllers\Public\User\ProfileController as PublicProfileController;
+use App\Http\Controllers\Public\Vocabulary\ExpressionController as PublicExpressionController;
 use App\Http\Controllers\Public\Vocabulary\WordController as PublicWordController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
@@ -127,6 +128,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/', [PublicWordController::class, 'store'])->name('store');
         Route::get('/{word}', [PublicWordController::class, 'show'])->name('show');
         Route::post('/{word}/progress', [PublicWordController::class, 'markProgress'])->name('progress');
+    });
+
+    Route::prefix('expressions')->name('expressions.')->group(function () {
+        Route::get('/', [PublicExpressionController::class, 'index'])->name('index');
+        Route::post('/', [PublicExpressionController::class, 'store'])->name('store');
+        Route::get('/{expression}', [PublicExpressionController::class, 'show'])->name('show');
+        Route::post('/{expression}/progress', [PublicExpressionController::class, 'markProgress'])->name('progress');
     });
 
     Route::prefix('tests')->name('tests.')->group(function () {

@@ -5,6 +5,7 @@
         ['label' => 'Уроки', 'url' => route('lessons.index'), 'active' => request()->routeIs('lessons.*')],
         ['label' => 'Грамматика', 'url' => route('grammartopics.index'), 'active' => request()->routeIs('grammartopics.*')],
         ['label' => 'Словарь', 'url' => route('words.index'), 'active' => request()->routeIs('words.*')],
+        ['label' => 'Выражения', 'url' => route('expressions.index'), 'active' => request()->routeIs('expressions.*')],
         ['label' => 'Упражнения', 'url' => route('exercises.index'), 'active' => request()->routeIs('exercises.*')],
         ['label' => 'Тесты', 'url' => route('tests.index'), 'active' => request()->routeIs('tests.*')],
         ['label' => 'IELTS', 'url' => route('ielts.index'), 'active' => request()->routeIs('ielts.*')],

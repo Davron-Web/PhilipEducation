@@ -1,12 +1,12 @@
-{{-- Словарь. Без категории в URL — сетка карточек-тем, переход по клику
-     на карточку открывает список слов этой темы (список/карточки,
-     переворот 3D, «Знаю»/«Повторить»). Фото слов сознательно не
-     показываем. --}}
+{{-- Выражения (идиомы, фразовые глаголы, пословицы, коллокации). Точное
+     зеркало слов/index.blade.php: без категории в URL — сетка карточек-тем,
+     внутри темы — список/карточки с переворотом, «Знаю»/«Повторить».
+     Дополнительно: фильтр по типу и уровню, поиск по тексту. --}}
 @extends('layouts.app')
 
-@section('title', 'Словарь')
-@section('page_title', 'Словарь')
-@section('meta_description', 'Учите английские слова по темам: список и карточки с переворотом, для Philip Education.')
+@section('title', 'Выражения')
+@section('page_title', 'Выражения')
+@section('meta_description', 'Идиомы, фразовые глаголы, пословицы и коллокации английского языка — список и карточки с переворотом, для Philip Education.')
 
 @push('styles')
     <style>
@@ -34,13 +34,13 @@
         @if (! $selectedCategory)
             {{-- ===== Выбор темы (карточки) ===== --}}
             <div class="mb-8" data-reveal>
-                <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Словарь</h1>
-                <p class="mt-1 text-ink/60">Выберите тему, чтобы начать учить слова — всего {{ $categoryCounts->sum() }} слов в {{ $categoryCounts->count() }} темах.</p>
+                <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Выражения</h1>
+                <p class="mt-1 text-ink/60">Идиомы, фразовые глаголы, пословицы и коллокации — выберите тему, чтобы начать, всего {{ $categoryCounts->sum() }} выражений в {{ $categoryCounts->count() }} темах.</p>
             </div>
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <a
-                    href="{{ route('words.index', ['category' => 'all']) }}"
+                    href="{{ route('expressions.index', ['category' => 'all']) }}"
                     class="group flex items-center gap-3 rounded-2xl border border-white/60 bg-gradient-to-br from-brand to-sky p-5 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
                     data-reveal
                 >
@@ -48,14 +48,14 @@
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
                     </span>
                     <span>
-                        <span class="block font-bold">Все слова</span>
-                        <span class="block text-sm text-white/70">{{ $categoryCounts->sum() }} слов</span>
+                        <span class="block font-bold">Все выражения</span>
+                        <span class="block text-sm text-white/70">{{ $categoryCounts->sum() }} выражений</span>
                     </span>
                 </a>
 
                 @foreach ($categoryCounts as $cat => $count)
                     <a
-                        href="{{ route('words.index', ['category' => $cat]) }}"
+                        href="{{ route('expressions.index', ['category' => $cat]) }}"
                         class="group flex items-center gap-3 rounded-2xl border border-white/60 bg-gradient-to-br from-brand to-sky p-5 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
                         data-reveal
                     >
@@ -64,39 +64,39 @@
                         </span>
                         <span>
                             <span class="block font-bold">{{ $cat }}</span>
-                            <span class="block text-sm text-white/70">{{ $count }} {{ $count === 1 ? 'слово' : 'слов' }}</span>
+                            <span class="block text-sm text-white/70">{{ $count }} {{ $count === 1 ? 'выражение' : 'выражений' }}</span>
                         </span>
                     </a>
                 @endforeach
             </div>
         @else
-            {{-- ===== Список слов выбранной темы ===== --}}
+            {{-- ===== Список выражений выбранной темы ===== --}}
             @php
-                $flashcards = $words->map(fn ($w) => [
-                    'id' => $w->id,
-                    'word' => $w->word,
-                    'transcription' => $w->transcription,
-                    'translation' => $w->translations->pluck('translation')->join(', ') ?: '—',
-                    'learned' => in_array($w->id, $learnedWordIds, true),
+                $flashcards = $expressions->map(fn ($e) => [
+                    'id' => $e->id,
+                    'word' => $e->text,
+                    'transcription' => $e->transcription,
+                    'translation' => $e->translations->pluck('translation')->join(', ') ?: '—',
+                    'learned' => in_array($e->id, $learnedExpressionIds, true),
                 ])->values();
             @endphp
 
-            <div x-data="Object.assign(flashcardDeck({{ Js::from($flashcards) }}, '/words'), { mode: 'list', filter: 'all', addWordOpen: false })">
-                <a href="{{ route('words.index') }}" class="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-ink/60 transition hover:text-brand" data-reveal>
+            <div x-data="Object.assign(flashcardDeck({{ Js::from($flashcards) }}, '/expressions'), { mode: 'list', filter: 'all', addOpen: false })">
+                <a href="{{ route('expressions.index') }}" class="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-ink/60 transition hover:text-brand" data-reveal>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
                     Все темы
                 </a>
 
-                <div class="mb-8 flex flex-wrap items-end justify-between gap-4" data-reveal>
+                <div class="mb-6 flex flex-wrap items-end justify-between gap-4" data-reveal>
                     <div>
-                        <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">{{ $selectedCategory === 'all' ? 'Все слова' : $selectedCategory }}</h1>
-                        <p class="mt-1 text-ink/60">{{ $words->count() }} слов — {{ count($learnedWordIds) }} уже выучено.</p>
+                        <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">{{ $selectedCategory === 'all' ? 'Все выражения' : $selectedCategory }}</h1>
+                        <p class="mt-1 text-ink/60">{{ $expressions->count() }} выражений — {{ count($learnedExpressionIds) }} уже выучено.</p>
                     </div>
 
                     <div class="flex items-center gap-2">
-                        <x-ui.button variant="outline" size="sm" @click="addWordOpen = true">
+                        <x-ui.button variant="outline" size="sm" @click="addOpen = true">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14" /></svg>
-                            Добавить своё слово
+                            Добавить своё выражение
                         </x-ui.button>
 
                         <div class="flex rounded-xl border border-white/10 bg-armor2/70 p-1">
@@ -106,52 +106,92 @@
                     </div>
                 </div>
 
-                {{-- Фильтр по статусу --}}
+                {{-- Фильтр по типу, уровню, поиск — серверные (GET), сохраняют текущую тему --}}
+                <form method="GET" action="{{ route('expressions.index') }}" class="mb-4 flex flex-wrap items-center gap-2" data-reveal>
+                    <input type="hidden" name="category" value="{{ $selectedCategory }}">
+
+                    <a
+                        href="{{ route('expressions.index', ['category' => $selectedCategory]) }}"
+                        class="rounded-full px-4 py-1.5 text-sm font-bold transition {{ ! $selectedType ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5' }}"
+                    >Все типы</a>
+                    @foreach ($types as $typeKey => $typeLabel)
+                        <a
+                            href="{{ route('expressions.index', ['category' => $selectedCategory, 'type' => $typeKey, 'level' => $selectedLevel, 'search' => $search ?: null]) }}"
+                            class="rounded-full px-4 py-1.5 text-sm font-bold transition {{ $selectedType === $typeKey ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5' }}"
+                        >{{ $typeLabel }}</a>
+                    @endforeach
+
+                    <select name="level" onchange="this.form.submit()" class="rounded-full border border-white/10 bg-armor2/70 px-4 py-1.5 text-sm font-bold text-ink/70">
+                        <option value="">Любой уровень</option>
+                        @foreach (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as $level)
+                            <option value="{{ $level }}" @selected($selectedLevel === $level)>{{ $level }}</option>
+                        @endforeach
+                    </select>
+
+                    <input type="hidden" name="type" value="{{ $selectedType }}">
+                    <input
+                        type="search"
+                        name="search"
+                        value="{{ $search }}"
+                        placeholder="Поиск по тексту…"
+                        class="min-w-[180px] flex-1 rounded-full border border-white/10 bg-armor2/70 px-4 py-1.5 text-sm text-ink placeholder:text-ink/40 focus:border-brand/40 focus:outline-none"
+                    >
+                    <button type="submit" class="rounded-full bg-brand px-4 py-1.5 text-sm font-bold text-white transition hover:bg-brand/90">Найти</button>
+                </form>
+
+                {{-- Фильтр по статусу изучения (клиентский, Alpine) --}}
                 <div class="mb-8 flex flex-wrap gap-2" data-reveal>
-                    <button type="button" @click="filter = 'all'" :class="filter === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Все слова</button>
+                    <button type="button" @click="filter = 'all'" :class="filter === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Все выражения</button>
                     <button type="button" @click="filter = 'learned'" :class="filter === 'learned' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Выучено</button>
                     <button type="button" @click="filter = 'new'" :class="filter === 'new' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">На изучении</button>
                 </div>
 
-                @if ($words->isEmpty())
+                @if ($expressions->isEmpty())
                     <x-ui.card :hover="false" class="py-16 text-center">
-                        <p class="text-lg font-semibold text-ink">Слов пока нет</p>
-                        <p class="mt-1 text-ink/50">Добавьте своё первое слово кнопкой выше.</p>
+                        <p class="text-lg font-semibold text-ink">Выражений пока нет</p>
+                        <p class="mt-1 text-ink/50">Попробуйте изменить фильтры или добавьте своё первое выражение кнопкой выше.</p>
                     </x-ui.card>
                 @else
                     {{-- ===== Список ===== --}}
                     <div x-show="mode === 'list'" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                        @foreach ($words as $word)
-                            @php $isLearned = in_array($word->id, $learnedWordIds, true); @endphp
+                        @foreach ($expressions as $expression)
+                            @php $isLearned = in_array($expression->id, $learnedExpressionIds, true); @endphp
                             <div x-show="filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}">
                                 <a
-                                    href="{{ route('words.show', $word->id) }}"
+                                    href="{{ route('expressions.show', $expression->id) }}"
                                     class="group flex h-full flex-col rounded-2xl border border-white/10 bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
                                     data-reveal
                                 >
                                     <div class="mb-2 flex items-start justify-between gap-2">
                                         <div>
-                                            <h3 class="flex items-center gap-1.5 text-lg font-bold capitalize text-ink">
-                                                {{ $word->word }}
-                                                <x-speak-button :word="$word->word" :audio-url="$word->audio_url" />
+                                            <h3 class="flex items-center gap-1.5 text-lg font-bold text-ink">
+                                                {{ $expression->text }}
+                                                <x-speak-button :word="$expression->text" :audio-url="$expression->audio_url" />
                                             </h3>
-                                            @if ($word->transcription)
-                                                <span class="text-sm text-ink/40">/{{ $word->transcription }}/</span>
+                                            @if ($expression->transcription)
+                                                <span class="text-sm text-ink/40">/{{ $expression->transcription }}/</span>
                                             @endif
                                         </div>
                                         <x-ui.badge :variant="$isLearned ? 'success' : 'neutral'">{{ $isLearned ? 'Выучено' : 'Новое' }}</x-ui.badge>
                                     </div>
 
-                                    @if ($word->translations->isNotEmpty())
-                                        <p class="font-semibold text-brand">{{ $word->translations->pluck('translation')->join(', ') }}</p>
+                                    <div class="mb-1 flex items-center gap-2">
+                                        <x-ui.badge variant="accent">{{ $types[$expression->type] ?? $expression->type }}</x-ui.badge>
+                                        @if ($expression->level)
+                                            <x-ui.badge variant="level" :level="$expression->level" />
+                                        @endif
+                                    </div>
+
+                                    @if ($expression->translations->isNotEmpty())
+                                        <p class="font-semibold text-brand">{{ $expression->translations->pluck('translation')->join(', ') }}</p>
                                     @endif
 
-                                    @if ($word->example)
-                                        <p class="mt-2 flex-1 text-sm italic text-ink/50">&laquo;{{ $word->example }}&raquo;</p>
+                                    @if ($expression->example)
+                                        <p class="mt-2 flex-1 text-sm italic text-ink/50">&laquo;{{ $expression->example }}&raquo;</p>
                                     @endif
 
-                                    @if ($selectedCategory === 'all' && $word->category)
-                                        <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/10 border border-sun/30 px-2.5 py-0.5 text-[11px] font-bold text-sun">{{ $word->category }}</span>
+                                    @if ($selectedCategory === 'all' && $expression->category)
+                                        <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/10 border border-sun/30 px-2.5 py-0.5 text-[11px] font-bold text-sun">{{ $expression->category }}</span>
                                     @endif
                                 </a>
                             </div>
@@ -161,7 +201,7 @@
                     {{-- ===== Карточки (флеш-карты) ===== --}}
                     <div x-show="mode === 'cards'" style="display:none" x-cloak>
                         <template x-if="!current">
-                            <p class="py-16 text-center text-ink/50">В этом фильтре пока нет слов.</p>
+                            <p class="py-16 text-center text-ink/50">В этом фильтре пока нет выражений.</p>
                         </template>
 
                         <template x-if="current">
@@ -173,8 +213,8 @@
                                 >
                                     <div class="flip-card-inner h-full w-full">
                                         <div class="flip-card-face flex h-full flex-col items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-armor2 to-armor p-8 text-center shadow-2xl shadow-brand/10">
-                                            <p class="text-xs font-bold uppercase tracking-widest text-ink/40">Слово</p>
-                                            <p class="mt-3 flex items-center gap-2 text-3xl font-extrabold capitalize text-ink">
+                                            <p class="text-xs font-bold uppercase tracking-widest text-ink/40">Выражение</p>
+                                            <p class="mt-3 flex items-center gap-2 text-2xl font-extrabold text-ink">
                                                 <span x-text="current.word"></span>
                                                 <button
                                                     type="button"
@@ -212,25 +252,36 @@
                     </div>
                 @endif
 
-                {{-- ===== Модалка «Добавить своё слово» ===== --}}
+                {{-- ===== Модалка «Добавить своё выражение» ===== --}}
                 <div
-                    x-show="addWordOpen"
+                    x-show="addOpen"
                     style="display:none"
                     x-cloak
                     class="fixed inset-0 z-[60] flex items-center justify-center bg-ink/40 p-4 backdrop-blur-sm"
-                    @keydown.escape.window="addWordOpen = false"
+                    @keydown.escape.window="addOpen = false"
                 >
-                    <div @click.outside="addWordOpen = false" class="w-full max-w-md rounded-3xl border border-white/10 bg-armor2 p-6 shadow-2xl">
+                    <div @click.outside="addOpen = false" class="w-full max-w-md rounded-3xl border border-white/10 bg-armor2 p-6 shadow-2xl">
                         <div class="mb-4 flex items-center justify-between">
-                            <h2 class="text-lg font-bold text-ink">Добавить своё слово</h2>
-                            <button type="button" @click="addWordOpen = false" class="text-ink/40 hover:text-ink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12" /></svg></button>
+                            <h2 class="text-lg font-bold text-ink">Добавить своё выражение</h2>
+                            <button type="button" @click="addOpen = false" class="text-ink/40 hover:text-ink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12" /></svg></button>
                         </div>
-                        <form method="POST" action="{{ route('words.store') }}" class="space-y-4">
+                        <form method="POST" action="{{ route('expressions.store') }}" class="space-y-4">
                             @csrf
-                            <x-ui.input name="word" label="Слово (на английском)" placeholder="например, resilient" required />
-                            <x-ui.input name="translation" label="Перевод" placeholder="например, стойкий" required />
-                            <x-ui.input name="example" label="Пример предложения (необязательно)" placeholder="He stayed resilient through hard times." />
-                            <x-ui.button type="submit" variant="primary" class="w-full">Добавить слово</x-ui.button>
+                            <x-ui.input name="text" label="Выражение (на английском)" placeholder="например, break the ice" required />
+
+                            <div>
+                                <label class="mb-1 block text-sm font-semibold text-ink/70">Тип</label>
+                                <select name="type" required class="w-full rounded-xl border border-white/10 bg-armor2/70 px-4 py-2.5 text-ink">
+                                    @foreach ($types as $typeKey => $typeLabel)
+                                        <option value="{{ $typeKey }}">{{ $typeLabel }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <x-ui.input name="translation" label="Перевод" placeholder="например, растопить лёд" required />
+                            <x-ui.input name="meaning" label="Значение на английском (необязательно)" placeholder="To relieve tension in an awkward situation." />
+                            <x-ui.input name="example" label="Пример предложения (необязательно)" placeholder="He told a joke to break the ice." />
+                            <x-ui.button type="submit" variant="primary" class="w-full">Добавить выражение</x-ui.button>
                         </form>
                     </div>
                 </div>

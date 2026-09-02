@@ -47,6 +47,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="{{ asset('assets/js/pronounce.js') }}"></script>
+    <script src="{{ asset('assets/js/flashcard-deck.js') }}"></script>
 
     <style>
         /* Плавное появление элементов при скролле (см. IntersectionObserver внизу файла) */
