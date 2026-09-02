@@ -81,7 +81,7 @@
                 ])->values();
             @endphp
 
-            <div x-data="Object.assign(flashcardDeck({{ Js::from($flashcards) }}, '/expressions'), { mode: 'list', filter: 'all', addOpen: false })">
+            <div x-data="Object.assign(flashcardDeck({{ Js::from($flashcards) }}, '/expressions'), expressionQuiz({{ Js::from($flashcards) }}), { mode: 'list', filter: 'all', addOpen: false })">
                 <a href="{{ route('expressions.index') }}" class="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-ink/60 transition hover:text-brand" data-reveal>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
                     Все темы
@@ -99,9 +99,10 @@
                             Добавить своё выражение
                         </x-ui.button>
 
-                        <div class="flex rounded-xl border border-white/10 bg-armor2/70 p-1">
+                        <div class="flex rounded-xl border border-line bg-armor2/70 p-1">
                             <button type="button" @click="mode = 'list'" :class="mode === 'list' ? 'bg-brand text-white shadow' : 'text-ink/60'" class="rounded-lg px-3 py-1.5 text-sm font-bold transition">Список</button>
                             <button type="button" @click="mode = 'cards'; index = 0; flipped = false" :class="mode === 'cards' ? 'bg-brand text-white shadow' : 'text-ink/60'" class="rounded-lg px-3 py-1.5 text-sm font-bold transition">Карточки</button>
+                            <button type="button" @click="mode = 'quiz'; startQuiz()" :class="mode === 'quiz' ? 'bg-brand text-white shadow' : 'text-ink/60'" class="rounded-lg px-3 py-1.5 text-sm font-bold transition">Проверь себя</button>
                         </div>
                     </div>
                 </div>
@@ -112,16 +113,16 @@
 
                     <a
                         href="{{ route('expressions.index', ['category' => $selectedCategory]) }}"
-                        class="rounded-full px-4 py-1.5 text-sm font-bold transition {{ ! $selectedType ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5' }}"
+                        class="rounded-full px-4 py-1.5 text-sm font-bold transition {{ ! $selectedType ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-surface2' }}"
                     >Все типы</a>
                     @foreach ($types as $typeKey => $typeLabel)
                         <a
                             href="{{ route('expressions.index', ['category' => $selectedCategory, 'type' => $typeKey, 'level' => $selectedLevel, 'search' => $search ?: null]) }}"
-                            class="rounded-full px-4 py-1.5 text-sm font-bold transition {{ $selectedType === $typeKey ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5' }}"
+                            class="rounded-full px-4 py-1.5 text-sm font-bold transition {{ $selectedType === $typeKey ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-surface2' }}"
                         >{{ $typeLabel }}</a>
                     @endforeach
 
-                    <select name="level" onchange="this.form.submit()" class="rounded-full border border-white/10 bg-armor2/70 px-4 py-1.5 text-sm font-bold text-ink/70">
+                    <select name="level" onchange="this.form.submit()" class="rounded-full border border-line bg-armor2/70 px-4 py-1.5 text-sm font-bold text-ink/70">
                         <option value="">Любой уровень</option>
                         @foreach (['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as $level)
                             <option value="{{ $level }}" @selected($selectedLevel === $level)>{{ $level }}</option>
@@ -134,16 +135,16 @@
                         name="search"
                         value="{{ $search }}"
                         placeholder="Поиск по тексту…"
-                        class="min-w-[180px] flex-1 rounded-full border border-white/10 bg-armor2/70 px-4 py-1.5 text-sm text-ink placeholder:text-ink/40 focus:border-brand/40 focus:outline-none"
+                        class="min-w-[180px] flex-1 rounded-full border border-line bg-armor2/70 px-4 py-1.5 text-sm text-ink placeholder:text-ink/40 focus:border-brand/40 focus:outline-none"
                     >
                     <button type="submit" class="rounded-full bg-brand px-4 py-1.5 text-sm font-bold text-white transition hover:bg-brand/90">Найти</button>
                 </form>
 
                 {{-- Фильтр по статусу изучения (клиентский, Alpine) --}}
                 <div class="mb-8 flex flex-wrap gap-2" data-reveal>
-                    <button type="button" @click="filter = 'all'" :class="filter === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Все выражения</button>
-                    <button type="button" @click="filter = 'learned'" :class="filter === 'learned' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Выучено</button>
-                    <button type="button" @click="filter = 'new'" :class="filter === 'new' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">На изучении</button>
+                    <button type="button" @click="filter = 'all'" :class="filter === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-surface2'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Все выражения</button>
+                    <button type="button" @click="filter = 'learned'" :class="filter === 'learned' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-surface2'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">Выучено</button>
+                    <button type="button" @click="filter = 'new'" :class="filter === 'new' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-surface2'" class="rounded-full px-4 py-1.5 text-sm font-bold transition">На изучении</button>
                 </div>
 
                 @if ($expressions->isEmpty())
@@ -159,7 +160,7 @@
                             <div x-show="filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}">
                                 <a
                                     href="{{ route('expressions.show', $expression->id) }}"
-                                    class="group flex h-full flex-col rounded-2xl border border-white/10 bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
+                                    class="group flex h-full flex-col rounded-2xl border border-line bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
                                     data-reveal
                                 >
                                     <div class="mb-2 flex items-start justify-between gap-2">
@@ -212,7 +213,7 @@
                                     @click="flip()"
                                 >
                                     <div class="flip-card-inner h-full w-full">
-                                        <div class="flip-card-face flex h-full flex-col items-center justify-center rounded-3xl border border-white/10 bg-gradient-to-br from-armor2 to-armor p-8 text-center shadow-2xl shadow-brand/10">
+                                        <div class="flip-card-face flex h-full flex-col items-center justify-center rounded-3xl border border-line bg-gradient-to-br from-armor2 to-armor p-8 text-center shadow-2xl shadow-brand/10">
                                             <p class="text-xs font-bold uppercase tracking-widest text-ink/40">Выражение</p>
                                             <p class="mt-3 flex items-center gap-2 text-2xl font-extrabold text-ink">
                                                 <span x-text="current.word"></span>
@@ -250,6 +251,59 @@
                             </div>
                         </template>
                     </div>
+
+                    {{-- ===== Проверь себя (квиз) ===== --}}
+                    <div x-show="mode === 'quiz'" style="display:none" x-cloak>
+                        <template x-if="quizPool.length < 4">
+                            <p class="py-16 text-center text-ink/50">Нужно минимум 4 выражения с переводом, чтобы пройти квиз.</p>
+                        </template>
+
+                        <template x-if="quizPool.length >= 4 && quizQuestions.length && !quizDone">
+                            <div class="mx-auto max-w-lg" data-reveal>
+                                <div class="mb-4 flex items-center justify-between text-sm font-semibold text-ink/40">
+                                    <span x-text="(quizIndex + 1) + ' / ' + quizQuestions.length"></span>
+                                    <span x-text="'Правильно: ' + quizScore"></span>
+                                </div>
+
+                                <div class="rounded-3xl border border-line bg-armor2 p-8 text-center shadow-soft">
+                                    <p class="text-xs font-bold uppercase tracking-widest text-ink/40">Как переводится?</p>
+                                    <p class="mt-3 text-2xl font-extrabold text-ink" x-text="quizCurrent && quizCurrent.word"></p>
+
+                                    <div class="mt-6 grid gap-2.5">
+                                        <template x-for="option in (quizCurrent ? quizCurrent.options : [])" :key="option">
+                                            <button
+                                                type="button"
+                                                @click="answerQuiz(option)"
+                                                :disabled="quizAnswered"
+                                                :class="{
+                                                    'border-green-500 bg-green-500/10 text-green-600 dark:text-green-400': quizAnswered && option === quizCurrent.correct,
+                                                    'border-red-500 bg-red-500/10 text-red-600 dark:text-red-400': quizAnswered && option === quizSelected && option !== quizCurrent.correct,
+                                                    'border-line bg-armor text-ink/40': quizAnswered && option !== quizSelected && option !== quizCurrent.correct,
+                                                    'border-line bg-armor text-ink hover:border-brand/40 hover:bg-brand/5': !quizAnswered,
+                                                }"
+                                                class="rounded-xl border-2 px-4 py-3 text-left font-semibold transition"
+                                                x-text="option"
+                                            ></button>
+                                        </template>
+                                    </div>
+
+                                    <x-ui.button variant="primary" class="mt-6" x-show="quizAnswered" style="display:none" @click="nextQuiz()">
+                                        Далее
+                                    </x-ui.button>
+                                </div>
+                            </div>
+                        </template>
+
+                        <template x-if="quizPool.length >= 4 && quizDone">
+                            <div class="mx-auto max-w-md text-center" data-reveal>
+                                <div class="rounded-3xl border border-line bg-armor2 p-10 shadow-soft">
+                                    <p class="text-5xl font-extrabold text-brand" x-text="quizScore + ' / ' + quizQuestions.length"></p>
+                                    <p class="mt-2 text-ink/60">правильных ответов</p>
+                                    <x-ui.button variant="primary" class="mt-6" @click="startQuiz()">Пройти ещё раз</x-ui.button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
                 @endif
 
                 {{-- ===== Модалка «Добавить своё выражение» ===== --}}
@@ -260,7 +314,7 @@
                     class="fixed inset-0 z-[60] flex items-center justify-center bg-ink/40 p-4 backdrop-blur-sm"
                     @keydown.escape.window="addOpen = false"
                 >
-                    <div @click.outside="addOpen = false" class="w-full max-w-md rounded-3xl border border-white/10 bg-armor2 p-6 shadow-2xl">
+                    <div @click.outside="addOpen = false" class="w-full max-w-md rounded-3xl border border-line bg-armor2 p-6 shadow-2xl">
                         <div class="mb-4 flex items-center justify-between">
                             <h2 class="text-lg font-bold text-ink">Добавить своё выражение</h2>
                             <button type="button" @click="addOpen = false" class="text-ink/40 hover:text-ink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12" /></svg></button>
@@ -271,7 +325,7 @@
 
                             <div>
                                 <label class="mb-1 block text-sm font-semibold text-ink/70">Тип</label>
-                                <select name="type" required class="w-full rounded-xl border border-white/10 bg-armor2/70 px-4 py-2.5 text-ink">
+                                <select name="type" required class="w-full rounded-xl border border-line bg-armor2/70 px-4 py-2.5 text-ink">
                                     @foreach ($types as $typeKey => $typeLabel)
                                         <option value="{{ $typeKey }}">{{ $typeLabel }}</option>
                                     @endforeach

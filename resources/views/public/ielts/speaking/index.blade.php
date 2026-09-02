@@ -27,7 +27,7 @@
                 @foreach ($cards as $card)
                     <a
                         href="{{ route('ielts.speaking.show', $card) }}"
-                        class="group flex h-full flex-col rounded-2xl border border-white/10 bg-armor2/70 p-5 shadow-lg backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-sun/40 hover:shadow-2xl hover:shadow-sun/15"
+                        class="group flex h-full flex-col rounded-2xl border border-line bg-armor2/70 p-5 shadow-lg backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-sun/40 hover:shadow-2xl hover:shadow-sun/15"
                         data-reveal
                     >
                         @if ($card->topic)

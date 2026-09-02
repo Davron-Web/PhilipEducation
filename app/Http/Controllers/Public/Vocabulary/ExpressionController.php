@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public\Vocabulary;
 
 use App\Http\Controllers\Controller;
+use App\Models\User\UserExpression;
 use App\Models\Vocabulary\Expression;
 use App\Services\AchievementService;
 use Illuminate\Http\RedirectResponse;
@@ -111,6 +112,34 @@ class ExpressionController extends Controller
         }
 
         return back();
+    }
+
+    /**
+     * Записать результат ответа в мини-квизе «Проверь себя» (см.
+     * expressions/index.blade.php, режим quiz). В отличие от markProgress
+     * (который просто помечает «выучено»), здесь считаем правильные и
+     * неправильные ответы — поля correct_answers/wrong_answers уже были
+     * в user_expressions с самого начала, но раньше их никто не заполнял.
+     */
+    public function recordPractice(Request $request, Expression $expression)
+    {
+        $request->validate(['correct' => 'required|boolean']);
+
+        $pivot = UserExpression::firstOrNew([
+            'user_id' => Auth::id(),
+            'expression_id' => $expression->id,
+        ]);
+
+        if ($request->boolean('correct')) {
+            $pivot->correct_answers = ($pivot->correct_answers ?? 0) + 1;
+        } else {
+            $pivot->wrong_answers = ($pivot->wrong_answers ?? 0) + 1;
+        }
+        $pivot->learned = $pivot->learned ?? false;
+        $pivot->last_reviewed_at = now();
+        $pivot->save();
+
+        return response()->json(['ok' => true]);
     }
 
     /**

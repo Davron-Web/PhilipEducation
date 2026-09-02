@@ -136,6 +136,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/', [PublicExpressionController::class, 'store'])->name('store');
         Route::get('/{expression}', [PublicExpressionController::class, 'show'])->name('show');
         Route::post('/{expression}/progress', [PublicExpressionController::class, 'markProgress'])->name('progress');
+        Route::post('/{expression}/practice', [PublicExpressionController::class, 'recordPractice'])->name('practice');
     });
 
     Route::prefix('tests')->name('tests.')->group(function () {

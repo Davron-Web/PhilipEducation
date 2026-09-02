@@ -20,7 +20,7 @@
             @foreach ($task1 as $task)
                 <a
                     href="{{ route('ielts.writing.show', $task) }}"
-                    class="group flex h-full flex-col rounded-2xl border border-white/10 bg-armor2/70 p-5 shadow-lg backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-sky/40 hover:shadow-2xl hover:shadow-sky/15"
+                    class="group flex h-full flex-col rounded-2xl border border-line bg-armor2/70 p-5 shadow-lg backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-sky/40 hover:shadow-2xl hover:shadow-sky/15"
                     data-reveal
                 >
                     <div class="mb-2 flex items-center justify-between gap-2">
@@ -47,7 +47,7 @@
             @foreach ($task2 as $task)
                 <a
                     href="{{ route('ielts.writing.show', $task) }}"
-                    class="group flex h-full flex-col rounded-2xl border border-white/10 bg-armor2/70 p-5 shadow-lg backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-2xl hover:shadow-brand/15"
+                    class="group flex h-full flex-col rounded-2xl border border-line bg-armor2/70 p-5 shadow-lg backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-2xl hover:shadow-brand/15"
                     data-reveal
                 >
                     <div class="mb-2 flex items-center justify-between gap-2">

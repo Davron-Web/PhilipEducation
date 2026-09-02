@@ -15,7 +15,7 @@
         <div class="grid gap-5 sm:grid-cols-2">
             <a
                 href="{{ route('ielts.listening.index') }}"
-                class="group flex items-center gap-4 rounded-2xl border border-white/10 bg-gradient-to-br from-sky to-skylight p-6 text-armor shadow-lg shadow-sky/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+                class="group flex items-center gap-4 rounded-2xl border border-line bg-gradient-to-br from-sky to-skylight p-6 text-armor shadow-lg shadow-sky/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
                 data-reveal
             >
                 <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/25">
@@ -29,7 +29,7 @@
 
             <a
                 href="{{ route('ielts.reading.index') }}"
-                class="group flex items-center gap-4 rounded-2xl border border-white/10 bg-gradient-to-br from-skylight to-sky p-6 text-armor shadow-lg shadow-skylight/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+                class="group flex items-center gap-4 rounded-2xl border border-line bg-gradient-to-br from-skylight to-sky p-6 text-armor shadow-lg shadow-skylight/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
                 data-reveal
             >
                 <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/25">
@@ -43,7 +43,7 @@
 
             <a
                 href="{{ route('ielts.writing.index') }}"
-                class="group flex items-center gap-4 rounded-2xl border border-white/10 bg-gradient-to-br from-brand to-sky p-6 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+                class="group flex items-center gap-4 rounded-2xl border border-line bg-gradient-to-br from-brand to-sky p-6 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
                 data-reveal
             >
                 <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20">
@@ -57,7 +57,7 @@
 
             <a
                 href="{{ route('ielts.speaking.index') }}"
-                class="group flex items-center gap-4 rounded-2xl border border-white/10 bg-gradient-to-br from-sun to-amber-500 p-6 text-armor shadow-lg shadow-sun/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+                class="group flex items-center gap-4 rounded-2xl border border-line bg-gradient-to-br from-sun to-amber-500 p-6 text-armor shadow-lg shadow-sun/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
                 data-reveal
             >
                 <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/25">

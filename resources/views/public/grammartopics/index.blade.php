@@ -75,14 +75,14 @@
                             <button
                                 type="button"
                                 @click="level = 'all'"
-                                :class="level === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'"
+                                :class="level === 'all' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-surface2'"
                                 class="rounded-full px-4 py-1.5 text-sm font-bold transition"
                             >Все уровни</button>
                             @foreach ($levels as $code)
                                 <button
                                     type="button"
                                     @click="level = '{{ $code }}'"
-                                    :class="level === '{{ $code }}' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-white/5'"
+                                    :class="level === '{{ $code }}' ? 'bg-brand text-white shadow-md shadow-brand/25' : 'bg-armor2/70 text-ink/60 hover:bg-surface2'"
                                     class="rounded-full px-4 py-1.5 text-sm font-bold transition"
                                 >{{ $code }}</button>
                             @endforeach
@@ -95,7 +95,7 @@
                             <div x-show="level === 'all' || level === '{{ $code }}'">
                                 <a
                                     href="{{ route('grammartopics.show', $topic->id) }}"
-                                    class="group flex h-full flex-col rounded-2xl border border-white/10 bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
+                                    class="group flex h-full flex-col rounded-2xl border border-line bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
                                     data-reveal
                                 >
                                     <x-ui.badge variant="level" :level="$topic->level" class="mb-3 self-start" />

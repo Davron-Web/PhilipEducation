@@ -67,7 +67,7 @@
                 @foreach ($achievements as $achievement)
                     @php $isEarned = (bool) $earned->get($achievement->id); @endphp
                     <div
-                        class="flex flex-col items-center rounded-2xl border border-white/10 bg-armor2/70 p-6 text-center shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out {{ $isEarned ? 'hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15' : 'opacity-70' }}"
+                        class="flex flex-col items-center rounded-2xl border border-line bg-armor2/70 p-6 text-center shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out {{ $isEarned ? 'hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15' : 'opacity-70' }}"
                         data-reveal
                     >
                         <span

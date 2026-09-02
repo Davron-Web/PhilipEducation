@@ -46,7 +46,7 @@
                         name="answer_text"
                         x-model="text"
                         rows="12"
-                        class="w-full rounded-xl border-2 border-white/10 bg-armor2/60 px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-ink/30 backdrop-blur transition focus:border-sky focus:outline-none focus:ring-4 focus:ring-sky/15"
+                        class="w-full rounded-xl border-2 border-line bg-armor2/60 px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-ink/30 backdrop-blur transition focus:border-sky focus:outline-none focus:ring-4 focus:ring-sky/15"
                         placeholder="Начните писать здесь..."
                     >{{ old('answer_text') }}</textarea>
 
