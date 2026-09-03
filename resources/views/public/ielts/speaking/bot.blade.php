@@ -78,6 +78,11 @@
         <div class="flex justify-start" x-show="thinking" style="display:none">
             <div class="robo-bubble rounded-xl border border-line bg-armor2 px-4 py-2.5 text-sm text-ink/50">Robo думает…</div>
         </div>
+
+        {{-- Сбой показываем отдельной плашкой, а не репликой робота --}}
+        <div class="rounded-xl border border-sun/40 bg-sun/5 px-4 py-2.5 text-sm text-ink/70" x-show="error" style="display:none">
+            <span x-text="error"></span>
+        </div>
     </div>
 
     {{-- Управление --}}
@@ -184,6 +189,7 @@ function speakingBot() {
         listening: false,
         thinking: false,
         speaking: false,
+        error: '',
         report: null,
         supported: false,
         recognition: null,
@@ -264,11 +270,32 @@ function speakingBot() {
             var self = this;
             this.thinking = true;
             this.ask('/ielts/speaking/bot/reply', { history: [], level: this.level })
-                .then(function (data) {
-                    self.history.push({ role: 'bot', text: data.reply });
-                    self.say(data.reply);
-                })
+                .then(function (data) { self.receive(data); })
+                .catch(function () { self.fail(); })
                 .finally(function () { self.thinking = false; });
+        },
+
+        /**
+         * Ответ сервера. Сбой (квота, таймаут) — это не реплика робота: если
+         * положить её в историю, она уедет в контекст следующего запроса и в
+         * разбор ошибок, где ученик увидит разбор чужого текста.
+         */
+        receive: function (data) {
+            if (!data || data.error || !data.reply) {
+                this.fail(data && data.message);
+
+                return;
+            }
+
+            this.error = '';
+            this.history.push({ role: 'bot', text: data.reply });
+            this.scroll();
+            this.say(data.reply);
+        },
+
+        fail: function (message) {
+            this.error = message || 'Не удалось связаться с роботом. Попробуйте ещё раз через минуту.';
+            this.robot.setState('idle');
         },
 
         sendTyped: function () {
@@ -286,11 +313,8 @@ function speakingBot() {
             this.scroll();
 
             this.ask('/ielts/speaking/bot/reply', { history: this.history, level: this.level })
-                .then(function (data) {
-                    self.history.push({ role: 'bot', text: data.reply });
-                    self.scroll();
-                    self.say(data.reply);
-                })
+                .then(function (data) { self.receive(data); })
+                .catch(function () { self.fail(); })
                 .finally(function () { self.thinking = false; });
         },
 
@@ -335,6 +359,7 @@ function speakingBot() {
             this.history = [];
             this.unclear = [];
             this.report = null;
+            this.error = '';
             this.greet();
         },
 

@@ -69,7 +69,23 @@ it('stays usable when Gemini fails', function () use ($student) {
             'history' => [['role' => 'user', 'text' => 'hello']],
         ])
         ->assertOk()
-        ->assertJson(['error' => true]);
+        ->assertJson(['error' => true])
+        // Без reply: клиент кладёт reply в историю диалога, и текст сбоя
+        // уехал бы в контекст следующего запроса и в разбор ошибок.
+        ->assertJsonMissingPath('reply');
+});
+
+it('says plainly when the AI quota is exhausted', function () use ($student) {
+    $this->mock(GeminiService::class, function ($mock) {
+        $mock->shouldReceive('converse')->once()->andThrow(new RuntimeException('Gemini HTTP 429: quota'));
+    });
+
+    $this->actingAs($student())
+        ->postJson('/ielts/speaking/bot/reply', [
+            'history' => [['role' => 'user', 'text' => 'hello']],
+        ])
+        ->assertOk()
+        ->assertJsonPath('message', fn ($m) => str_contains($m, 'лимит'));
 });
 
 it('reports mistakes and unclear pronunciation after the conversation', function () use ($student) {

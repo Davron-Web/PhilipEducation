@@ -85,13 +85,13 @@ SYS;
             // иначе сбои Gemini выглядят как «бот молчит» без следов.
             Log::warning('Speaking bot reply failed: '.$e->getMessage());
 
-            // Исчерпанная квота — не «не расслышал»: пусть ученик знает, что
-            // дело не в его произношении и надо просто подождать.
-            $reply = str_contains($e->getMessage(), 'HTTP 429')
-                ? 'Too many requests right now. Please wait a moment and try again.'
-                : "Sorry, I didn't catch that. Could you say it again?";
+            // Отдаём именно ошибку, а не реплику: иначе текст сбоя попадёт
+            // в историю диалога и потом в разбор как слова робота.
+            $message = str_contains($e->getMessage(), 'HTTP 429')
+                ? 'Исчерпан дневной лимит запросов к ИИ. Разговор можно продолжить позже.'
+                : 'Робот сейчас не отвечает. Попробуйте ещё раз через минуту.';
 
-            return response()->json(['reply' => $reply, 'error' => true], 200);
+            return response()->json(['error' => true, 'message' => $message], 200);
         }
 
         return response()->json(['reply' => $reply ?: "Could you say that again?"]);

@@ -30,7 +30,9 @@ return [
 
     'gemini' => [
         'key' => env('GEMINI_API_KEY'),
-        'model' => env('GEMINI_MODEL', 'gemini-2.5-flash'),
+        // Flash-lite, а не flash: на бесплатном тарифе у gemini-3.6-flash всего
+        // 20 запросов в сутки на проект — этого не хватает даже одному ученику.
+        'model' => env('GEMINI_MODEL', 'gemini-3.5-flash-lite'),
     ],
 
     'slack' => [
