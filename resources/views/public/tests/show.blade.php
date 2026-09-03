@@ -37,32 +37,38 @@
                 <p class="text-ink/50">В этом тесте пока нет вопросов.</p>
             </x-ui.card>
         @else
-            <form data-test-quiz>
+            <form method="POST" action="{{ route('tests.submit', $test->id) }}" x-data="{ started: Date.now() }">
+                @csrf
+                {{-- Сколько времени занял тест — уходит в историю попыток. --}}
+                <input type="hidden" name="duration_seconds" x-bind:value="Math.round((Date.now() - started) / 1000)">
+
                 <x-ui.card :hover="false">
-                    <div class="mb-4 hidden rounded-xl px-4 py-3 text-sm font-semibold" data-quiz-result role="alert"></div>
-
                     @foreach ($test->questions as $question)
-                        <div class="mb-6 border-b border-line pb-6 last:border-0 last:pb-0" data-question>
-                            <p class="mb-3 font-semibold text-ink">{{ $loop->iteration }}. {{ $question->question }}</p>
+                        <div class="mb-6 border-b border-line pb-6 last:border-0 last:pb-0">
+                            <p class="mb-3 font-semibold text-ink">
+                                {{ $loop->iteration }}. {{ $question->question }}
+                                @if ($question->type === 'multiple_choice')
+                                    <span class="ml-1 text-xs font-normal text-ink/40">(несколько вариантов)</span>
+                                @endif
+                            </p>
 
-                            @if ($question->answers->isNotEmpty())
+                            @if ($question->answers->isNotEmpty() && $question->type !== 'text')
                                 <div class="space-y-2">
                                     @foreach ($question->answers as $answer)
-                                        <label for="answer-{{ $answer->id }}" class="flex cursor-pointer items-center gap-2.5 rounded-xl border border-line bg-armor px-4 py-2.5 text-sm text-ink transition hover:border-brand/40" data-quiz-option>
+                                        <label for="answer-{{ $answer->id }}" class="flex cursor-pointer items-center gap-2.5 rounded-xl border border-line bg-armor px-4 py-2.5 text-sm text-ink transition hover:border-brand/40">
                                             <input
                                                 class="h-4 w-4 accent-brand"
-                                                type="radio"
-                                                name="question-{{ $question->id }}"
+                                                type="{{ $question->type === 'multiple_choice' ? 'checkbox' : 'radio' }}"
+                                                name="answers[{{ $question->id }}]{{ $question->type === 'multiple_choice' ? '[]' : '' }}"
                                                 id="answer-{{ $answer->id }}"
-                                                data-correct="{{ $answer->is_correct ? 1 : 0 }}"
+                                                value="{{ $answer->id }}"
                                             >
                                             {{ $answer->answer }}
                                         </label>
                                     @endforeach
                                 </div>
                             @else
-                                <x-ui.input type="text" :name="'question-'.$question->id" placeholder="Ваш ответ…" disabled />
-                                <p class="mt-1.5 text-xs text-ink/40">Открытый вопрос — не проверяется автоматически.</p>
+                                <x-ui.input type="text" :name="'answers['.$question->id.']'" placeholder="Ваш ответ…" />
                             @endif
                         </div>
                     @endforeach

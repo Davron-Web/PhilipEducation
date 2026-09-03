@@ -149,6 +149,12 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    /** Попытки прохождения тестов — подробности с разбором ответов. */
+    public function testAttempts(): HasMany
+    {
+        return $this->hasMany(\App\Models\Test\TestAttempt::class);
+    }
+
     public function subscriptions(): HasMany
     {
         return $this->hasMany(\App\Models\Billing\Subscription::class);

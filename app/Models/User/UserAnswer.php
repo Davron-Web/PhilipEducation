@@ -25,7 +25,7 @@ class UserAnswer extends Model
 
     public function attempt(): BelongsTo
     {
-        return $this->belongsTo(TestAttempt::class);
+        return $this->belongsTo(TestAttempt::class, 'attempt_id');
     }
 
     public function question(): BelongsTo

@@ -30,7 +30,9 @@ it('lists only published tests, grouped by level', function () use ($user) {
 it('shows a test with its questions and answers', function () use ($user) {
     $lesson = Lesson::factory()->create();
     $test = Test::factory()->create(['lesson_id' => $lesson->id, 'is_published' => true]);
-    $question = TestQuestion::factory()->create(['test_id' => $test->id, 'question' => 'What is the past tense of "go"?']);
+    // Тип пришпилен: у вопросов типа text в test_answers лежит верный
+    // ответ, и шаблон намеренно его не показывает.
+    $question = TestQuestion::factory()->singleChoice()->create(['test_id' => $test->id, 'question' => 'What is the past tense of "go"?']);
     TestAnswer::factory()->create(['question_id' => $question->id, 'answer' => 'went', 'is_correct' => true]);
     TestAnswer::factory()->create(['question_id' => $question->id, 'answer' => 'goed', 'is_correct' => false]);
 

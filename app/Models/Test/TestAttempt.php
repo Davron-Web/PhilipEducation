@@ -43,6 +43,8 @@ class TestAttempt extends Model
 
     public function answers(): HasMany
     {
-        return $this->hasMany(UserAnswer::class);
+        // Внешний ключ в user_answers называется attempt_id, а не
+        // test_attempt_id, который Eloquent предположил бы сам.
+        return $this->hasMany(UserAnswer::class, 'attempt_id');
     }
 }

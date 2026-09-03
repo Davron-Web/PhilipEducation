@@ -185,6 +185,8 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('tests')->name('tests.')->group(function () {
         Route::get('/', [PublicTestController::class, 'index'])->name('index');
         Route::get('/{id}', [PublicTestController::class, 'show'])->name('show');
+        Route::post('/{id}/submit', [PublicTestController::class, 'submit'])->name('submit');
+        Route::get('/attempts/{attempt}', [PublicTestController::class, 'result'])->name('result');
     });
 
     Route::prefix('books')->name('books.')->middleware('subscribed:books')->group(function () {

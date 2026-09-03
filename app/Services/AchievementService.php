@@ -17,6 +17,9 @@ class AchievementService
         $count = match ($conditionType) {
             'words_learned' => $user->words()->wherePivot('learned', true)->count(),
             'expressions_learned' => $user->expressions()->wherePivot('learned', true)->count(),
+            // Считаем разные сданные тесты, а не число попыток: иначе одну
+            // и ту же лёгкую проверку можно было бы пройти пять раз подряд.
+            'tests_passed' => $user->results()->where('passed', true)->distinct()->count('test_id'),
             default => 0,
         };
 
