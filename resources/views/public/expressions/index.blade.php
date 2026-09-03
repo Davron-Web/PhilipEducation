@@ -50,14 +50,14 @@
                 };
             @endphp
 
-            <div class="mx-auto max-w-4xl space-y-5">
+            <div class="grid gap-5 sm:grid-cols-2">
                 <a
                     href="{{ route('expressions.index', ['category' => 'all']) }}"
                     class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                     data-reveal
                 >
-                    <div class="flex items-center justify-center bg-navy px-8 py-14 sm:py-16">
-                        <h2 class="text-center font-display text-2xl font-semibold leading-snug text-white sm:text-3xl">Все выражения</h2>
+                    <div class="flex items-center justify-center bg-navy px-6 py-12 sm:py-14">
+                        <h2 class="text-center font-display text-xl font-semibold leading-snug text-white sm:text-2xl">Все выражения</h2>
                     </div>
                     <div class="flex items-center justify-between gap-4 border-t border-line px-6 py-4">
                         <span class="inline-flex items-center gap-2 text-sm font-semibold text-ink/60">
@@ -77,8 +77,8 @@
                         class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                         data-reveal
                     >
-                        <div class="flex items-center justify-center bg-surface2 px-8 py-14 sm:py-16">
-                            <h2 class="text-center font-display text-2xl font-semibold leading-snug text-ink sm:text-3xl">{{ $cat }}</h2>
+                        <div class="flex items-center justify-center bg-surface2 px-6 py-12 sm:py-14">
+                            <h2 class="text-center font-display text-xl font-semibold leading-snug text-ink sm:text-2xl">{{ $cat }}</h2>
                         </div>
                         <div class="flex items-center justify-between gap-4 border-t border-line px-6 py-4">
                             <span class="inline-flex items-center gap-2 text-sm font-semibold text-ink/60">
