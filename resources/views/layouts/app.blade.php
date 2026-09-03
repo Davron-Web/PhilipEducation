@@ -26,19 +26,23 @@
         })();
     </script>
 
-    {{-- Шрифты: Manrope для заголовков (font-display) — строгий гротеск без
-         «мультяшных» скруглённых терминалов, Inter для текста --}}
+    {{-- Шрифты: Playfair Display для заголовков (font-display) — элегантная
+         антиква премиального дома, Inter для текста --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     {{--
         Сборки через npm на этой машине нет, поэтому Tailwind и Alpine
         подключены через CDN (без шага компиляции). Палитра — тема "Philip
-        Bright" (светлое стекло, индиго/бирюза/оранж, переключаемая тёмная
-        тема через класс .dark). Цвета Tailwind ссылаются на CSS-переменные
-        ниже, чтобы вся разметка сайта (bg-armor2, text-ink, text-sky...)
-        автоматически подхватывала обе темы без правки каждой страницы.
+        Elite" (тёмно-синий + золото, антиква в заголовках, переключаемая
+        тёмная тема через класс .dark). Цвета Tailwind ссылаются на
+        CSS-переменные ниже, чтобы вся разметка сайта (bg-armor2, text-ink,
+        text-sky...) автоматически подхватывала обе темы без правки каждой
+        страницы. Шкала скруглений сужена глобально (borderRadius ниже) —
+        так весь существующий rounded-xl/2xl/3xl в разметке сайта разом
+        становится «острым», в духе премиальных бутик-сайтов, без правки
+        каждого файла.
     --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -48,7 +52,7 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        display: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        display: ['"Playfair Display"', 'ui-serif', 'Georgia', 'serif'],
                     },
                     colors: {
                         ink: 'var(--pe-ink)',
@@ -60,13 +64,25 @@
                         sky: 'var(--pe-sky)',
                         skylight: 'var(--pe-skylight)',
                         sun: 'var(--pe-sun)',
+                        navy: 'var(--pe-navy)',
+                        navy2: 'var(--pe-navy2)',
+                        gold: 'var(--pe-gold)',
                     },
                     borderRadius: {
-                        '4xl': '20px',
+                        none: '0',
+                        sm: '2px',
+                        DEFAULT: '3px',
+                        md: '4px',
+                        lg: '5px',
+                        xl: '6px',
+                        '2xl': '8px',
+                        '3xl': '10px',
+                        '4xl': '12px',
+                        full: '9999px',
                     },
                     boxShadow: {
-                        soft: '0 6px 20px -10px rgba(15, 23, 42, .12)',
-                        softLg: '0 12px 32px -12px rgba(15, 23, 42, .16)',
+                        soft: '0 10px 30px -10px rgba(26, 26, 46, .18)',
+                        softLg: '0 20px 50px -15px rgba(26, 26, 46, .28)',
                     },
                 },
             },
@@ -79,28 +95,34 @@
     <style>
         /* ---------- Цветовые токены: светлая тема (по умолчанию) ---------- */
         :root {
-            --pe-ink: #0F172A;
-            --pe-armor: #F8FAFC;
+            --pe-ink: #2C3E50;
+            --pe-armor: #F8F9FA;
             --pe-armor2: #FFFFFF;
-            --pe-surface2: #F1F5F9;
-            --pe-line: #E2E8F0;
-            --pe-brand: #4338CA;
-            --pe-sky: #0E7490;
-            --pe-skylight: #0891B2;
-            --pe-sun: #B45309;
+            --pe-surface2: #F2EFE9;
+            --pe-line: #E6E2D8;
+            --pe-brand: #8A6D1F;
+            --pe-sky: #0F3460;
+            --pe-skylight: #1B4B7A;
+            --pe-sun: #A85C32;
+            --pe-navy: #1A1A2E;
+            --pe-navy2: #16213E;
+            --pe-gold: #C9A961;
         }
 
         /* ---------- Тёмная тема: включается классом .dark на <html> ---------- */
         html.dark {
-            --pe-ink: #E7E9F5;
-            --pe-armor: #0B1020;
-            --pe-armor2: #131A2E;
-            --pe-surface2: #182036;
-            --pe-line: #232B45;
-            --pe-brand: #6366F1;
-            --pe-sky: #22B8CF;
-            --pe-skylight: #2DD4BF;
-            --pe-sun: #D97706;
+            --pe-ink: #E8E6E0;
+            --pe-armor: #1A1A2E;
+            --pe-armor2: #16213E;
+            --pe-surface2: #1E2A47;
+            --pe-line: #2A3555;
+            --pe-brand: #D4AF37;
+            --pe-sky: #6E97C7;
+            --pe-skylight: #8FB4DE;
+            --pe-sun: #D98452;
+            --pe-navy: #1A1A2E;
+            --pe-navy2: #16213E;
+            --pe-gold: #D4AF37;
         }
 
         /* Плавное появление элементов при скролле (см. IntersectionObserver внизу файла) */
@@ -114,13 +136,13 @@
             transform: translateY(0);
         }
 
-        /* Лёгкий подъём карточки + смена тени при наведении (сдержанно, без «прыжка») */
+        /* Подъём карточки + смена тени при наведении — заметный, но не «прыжок» */
         .card-lift {
-            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+            transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
         }
         .card-lift:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px -14px rgba(15, 23, 42, .22);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 45px -18px rgba(26, 26, 46, .3);
         }
 
         body { transition: background-color .3s ease, color .3s ease; }

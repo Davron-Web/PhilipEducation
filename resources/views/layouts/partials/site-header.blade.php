@@ -19,23 +19,25 @@
 @endphp
 
 <header
-    x-data="{ mobileOpen: false, userMenuOpen: false, searchOpen: false }"
+    x-data="{ mobileOpen: false, userMenuOpen: false, searchOpen: false, scrolled: false }"
     @keydown.escape.window="mobileOpen = false; userMenuOpen = false; searchOpen = false"
-    class="sticky top-0 z-50 border-b border-line bg-armor2/80 backdrop-blur-xl"
+    @scroll.window="scrolled = window.scrollY > 40"
+    class="sticky top-0 z-50 bg-navy/95 backdrop-blur-xl transition-shadow"
+    :class="scrolled ? 'shadow-lg shadow-black/20' : ''"
 >
     <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8" aria-label="Основная навигация">
         {{-- Логотип --}}
         <a href="{{ auth()->check() ? route('user.dashboard') : url('/') }}" class="flex shrink-0 items-center gap-2 group">
-            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand shadow-soft">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <span class="flex h-9 w-9 items-center justify-center rounded bg-gold">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M6 6l2 3" /><path d="M18 6l-2 3" />
                     <ellipse cx="12" cy="13" rx="7" ry="8" />
-                    <circle cx="9" cy="12" r="1.4" fill="#fff" stroke="none" />
-                    <circle cx="15" cy="12" r="1.4" fill="#fff" stroke="none" />
+                    <circle cx="9" cy="12" r="1.4" fill="#1A1A2E" stroke="none" />
+                    <circle cx="15" cy="12" r="1.4" fill="#1A1A2E" stroke="none" />
                 </svg>
             </span>
-            <span class="hidden font-display text-base font-bold text-ink sm:block">
-                Philip Education
+            <span class="hidden font-display text-lg font-semibold text-white sm:block">
+                Philip <span class="text-gold">Education</span>
             </span>
         </a>
 
@@ -45,18 +47,18 @@
                 @foreach ($navItems as $item)
                     <a
                         href="{{ $item['url'] }}"
-                        class="whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold transition {{ $item['active'] ? 'bg-sky/10 text-sky' : 'text-ink/70 hover:bg-surface2 hover:text-sky' }}"
+                        class="whitespace-nowrap rounded px-2.5 py-2 text-sm font-medium transition {{ $item['active'] ? 'text-gold' : 'text-white/70 hover:text-gold' }}"
                     >{{ $item['label'] }}</a>
                 @endforeach
             </div>
 
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1">
                 {{-- Поиск --}}
                 <div class="relative hidden sm:block">
                     <button
                         type="button"
                         @click="searchOpen = !searchOpen"
-                        class="flex h-10 w-10 items-center justify-center rounded-full text-ink/60 transition hover:bg-surface2 hover:text-sky"
+                        class="flex h-10 w-10 items-center justify-center rounded text-white/60 transition hover:bg-white/10 hover:text-gold"
                         aria-label="Поиск"
                     >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
@@ -70,14 +72,14 @@
                         x-transition:leave="transition ease-in duration-150"
                         x-transition:leave-start="opacity-100 translate-y-0"
                         x-transition:leave-end="opacity-0 -translate-y-1"
-                        class="absolute right-0 top-12 w-72 rounded-2xl border border-line bg-armor2/90 p-2 shadow-xl shadow-ink/10 backdrop-blur-xl"
+                        class="absolute right-0 top-12 w-72 rounded border border-white/10 bg-navy2 p-2 shadow-xl"
                         style="display: none;"
                     >
                         {{-- Поиск пока без обработчика — раздел поиска ещё не реализован --}}
                         <input
                             type="search"
                             placeholder="Искать уроки, слова..."
-                            class="w-full rounded-xl border border-line bg-armor px-3 py-2 text-sm text-ink placeholder:text-ink/40 focus:border-sky focus:outline-none focus:ring-2 focus:ring-sky/20"
+                            class="w-full rounded border border-white/10 bg-navy px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20"
                         >
                     </div>
                 </div>
@@ -85,12 +87,12 @@
                 {{-- Уведомления --}}
                 <a
                     href="{{ route('notifications.index') }}"
-                    class="relative flex h-10 w-10 items-center justify-center rounded-full text-ink/60 transition hover:bg-surface2 hover:text-sky"
+                    class="relative flex h-10 w-10 items-center justify-center rounded text-white/60 transition hover:bg-white/10 hover:text-gold"
                     aria-label="Уведомления{{ $unreadCount > 0 ? " ({$unreadCount} непрочитано)" : '' }}"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                     @if ($unreadCount > 0)
-                        <span class="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-sun px-1 text-[10px] font-extrabold text-white">
+                        <span class="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[10px] font-extrabold text-navy">
                             {{ $unreadCount > 9 ? '9+' : $unreadCount }}
                         </span>
                     @endif
@@ -98,7 +100,7 @@
 
                 {{-- Streak: показываем только если контроллер прислал значение --}}
                 @isset($streak)
-                    <div class="hidden items-center gap-1.5 rounded-full bg-sun/10 border border-sun/25 px-3 py-1.5 text-sm font-bold text-sun sm:flex" title="Серия дней подряд">
+                    <div class="hidden items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-sm font-bold text-gold sm:flex" title="Серия дней подряд">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c1 3-2 4-2 7a4 4 0 0 0 8 0c0-1-.4-2-1-3 2 1 3 3.5 3 6a7 7 0 1 1-14 0c0-4 2-6 3-7 1-1 2-2 3-3Z" /></svg>
                         {{ $streak }}
                     </div>
@@ -109,7 +111,7 @@
                     type="button"
                     id="themeToggle"
                     aria-label="Переключить тему"
-                    class="flex h-10 w-10 items-center justify-center rounded-full text-ink/60 transition hover:bg-surface2 hover:text-sky"
+                    class="flex h-10 w-10 items-center justify-center rounded text-white/60 transition hover:bg-white/10 hover:text-gold"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="dark:hidden"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
@@ -120,12 +122,12 @@
                     <button
                         type="button"
                         @click="userMenuOpen = !userMenuOpen"
-                        class="flex items-center gap-2 rounded-full border border-line bg-armor2/70 py-1 pl-1 pr-2 transition hover:border-sky/40 hover:bg-armor2"
+                        class="flex items-center gap-2 rounded border border-white/10 py-1 pl-1 pr-2 transition hover:border-gold/40"
                     >
-                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand to-sky text-sm font-bold text-white">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-gold text-sm font-bold text-navy">
                             {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
                         </span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="hidden text-ink/50 sm:block"><path d="m6 9 6 6 6-6" /></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="hidden text-white/50 sm:block"><path d="m6 9 6 6 6-6" /></svg>
                     </button>
 
                     <div
@@ -137,20 +139,20 @@
                         x-transition:leave="transition ease-in duration-100"
                         x-transition:leave-start="opacity-100 scale-100"
                         x-transition:leave-end="opacity-0 scale-95"
-                        class="absolute right-0 top-12 w-56 origin-top-right overflow-hidden rounded-2xl border border-line bg-armor2/90 p-1.5 shadow-xl shadow-ink/10 backdrop-blur-xl"
+                        class="absolute right-0 top-12 w-56 origin-top-right overflow-hidden rounded border border-white/10 bg-navy2 p-1.5 shadow-xl"
                         style="display: none;"
                     >
                         <div class="px-3 py-2">
-                            <p class="truncate text-sm font-semibold text-ink">{{ auth()->user()->name }}</p>
-                            <p class="truncate text-xs text-ink/50">{{ auth()->user()->email }}</p>
+                            <p class="truncate text-sm font-semibold text-white">{{ auth()->user()->name }}</p>
+                            <p class="truncate text-xs text-white/50">{{ auth()->user()->email }}</p>
                         </div>
-                        <div class="my-1 h-px bg-ink/10"></div>
-                        <a href="{{ route('profiles.index') }}" class="block rounded-xl px-3 py-2 text-sm font-medium text-ink/80 hover:bg-surface2 hover:text-sky">Профиль</a>
-                        <a href="{{ route('profiles.edit') }}" class="block rounded-xl px-3 py-2 text-sm font-medium text-ink/80 hover:bg-surface2 hover:text-sky">Настройки</a>
-                        <div class="my-1 h-px bg-ink/10"></div>
+                        <div class="my-1 h-px bg-white/10"></div>
+                        <a href="{{ route('profiles.index') }}" class="block rounded px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-gold">Профиль</a>
+                        <a href="{{ route('profiles.edit') }}" class="block rounded px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-gold">Настройки</a>
+                        <div class="my-1 h-px bg-white/10"></div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="block w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-red-400 hover:bg-red-500/10">Выйти</button>
+                            <button type="submit" class="block w-full rounded px-3 py-2 text-left text-sm font-medium text-red-400 hover:bg-red-500/10">Выйти</button>
                         </form>
                     </div>
                 </div>
@@ -159,7 +161,7 @@
                 <button
                     type="button"
                     @click="mobileOpen = !mobileOpen"
-                    class="flex h-10 w-10 items-center justify-center rounded-full text-ink/70 hover:bg-surface2 xl:hidden"
+                    class="flex h-10 w-10 items-center justify-center rounded text-white/70 hover:bg-white/10 xl:hidden"
                     aria-label="Открыть меню"
                     :aria-expanded="mobileOpen"
                 >
@@ -175,14 +177,14 @@
                     type="button"
                     id="themeToggle"
                     aria-label="Переключить тему"
-                    class="flex h-10 w-10 items-center justify-center rounded-full text-ink/60 transition hover:bg-surface2 hover:text-sky"
+                    class="flex h-10 w-10 items-center justify-center rounded text-white/60 transition hover:bg-white/10 hover:text-gold"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="dark:hidden"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
                 </button>
-                <a href="#how-it-works" class="rounded-lg px-4 py-2 text-sm font-semibold text-ink/70 transition hover:text-sky">Как это работает</a>
-                <a href="{{ route('login') }}" class="rounded-lg px-4 py-2 text-sm font-semibold text-ink/70 transition hover:text-sky">Войти</a>
-                <a href="{{ route('register') }}" class="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-brand/90">
+                <a href="#how-it-works" class="rounded px-4 py-2 text-sm font-medium text-white/70 transition hover:text-gold">Как это работает</a>
+                <a href="{{ route('login') }}" class="rounded px-4 py-2 text-sm font-medium text-white/70 transition hover:text-gold">Войти</a>
+                <a href="{{ route('register') }}" class="rounded border-2 border-gold px-5 py-2 text-xs font-bold uppercase tracking-wider text-gold transition hover:bg-gold hover:text-navy">
                     Начать бесплатно
                 </a>
             </div>
@@ -190,7 +192,7 @@
             <button
                 type="button"
                 @click="mobileOpen = !mobileOpen"
-                class="flex h-10 w-10 items-center justify-center rounded-full text-ink/70 hover:bg-surface2 sm:hidden"
+                class="flex h-10 w-10 items-center justify-center rounded text-white/70 hover:bg-white/10 sm:hidden"
                 aria-label="Открыть меню"
                 :aria-expanded="mobileOpen"
             >
@@ -209,31 +211,31 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-2"
-        class="border-t border-line bg-armor2/95 backdrop-blur-xl xl:hidden"
+        class="border-t border-white/10 bg-navy2 xl:hidden"
         style="display: none;"
     >
         <div class="space-y-1 px-4 py-3">
             @auth
                 @foreach ($navItems as $item)
-                    <a href="{{ $item['url'] }}" class="block rounded-xl px-3 py-2.5 text-sm font-semibold {{ $item['active'] ? 'bg-sky/10 text-sky' : 'text-ink/80 hover:bg-surface2' }}">{{ $item['label'] }}</a>
+                    <a href="{{ $item['url'] }}" class="block rounded px-3 py-2.5 text-sm font-semibold {{ $item['active'] ? 'text-gold' : 'text-white/80 hover:bg-white/10' }}">{{ $item['label'] }}</a>
                 @endforeach
-                <div class="my-2 h-px bg-ink/10"></div>
-                <a href="{{ route('notifications.index') }}" class="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-surface2">
+                <div class="my-2 h-px bg-white/10"></div>
+                <a href="{{ route('notifications.index') }}" class="flex items-center justify-between rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">
                     Уведомления
                     @if ($unreadCount > 0)
-                        <span class="flex h-5 min-w-5 items-center justify-center rounded-full bg-sun px-1 text-[11px] font-extrabold text-white">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+                        <span class="flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[11px] font-extrabold text-navy">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
                     @endif
                 </a>
-                <a href="{{ route('profiles.index') }}" class="block rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-surface2">Профиль</a>
-                <a href="{{ route('profiles.edit') }}" class="block rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-surface2">Настройки</a>
+                <a href="{{ route('profiles.index') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">Профиль</a>
+                <a href="{{ route('profiles.edit') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">Настройки</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="block w-full rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-red-400 hover:bg-red-500/10">Выйти</button>
+                    <button type="submit" class="block w-full rounded px-3 py-2.5 text-left text-sm font-semibold text-red-400 hover:bg-red-500/10">Выйти</button>
                 </form>
             @else
-                <a href="#how-it-works" class="block rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-surface2">Как это работает</a>
-                <a href="{{ route('login') }}" class="block rounded-xl px-3 py-2.5 text-sm font-semibold text-ink/80 hover:bg-surface2">Войти</a>
-                <a href="{{ route('register') }}" class="block rounded-xl bg-gradient-to-r from-brand to-sky px-3 py-2.5 text-center text-sm font-bold text-white">Начать бесплатно</a>
+                <a href="#how-it-works" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">Как это работает</a>
+                <a href="{{ route('login') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">Войти</a>
+                <a href="{{ route('register') }}" class="block rounded border-2 border-gold px-3 py-2.5 text-center text-sm font-bold uppercase tracking-wide text-gold">Начать бесплатно</a>
             @endauth
         </div>
     </div>
