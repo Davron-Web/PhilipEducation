@@ -169,6 +169,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('words')->name('words.')->group(function () {
         Route::get('/', [PublicWordController::class, 'index'])->name('index');
+        // До /{word}: иначе 'review' будет принят за слово.
+        Route::get('/review', [PublicWordController::class, 'review'])->name('review');
+        Route::post('/{word}/review', [PublicWordController::class, 'reviewAnswer'])->name('review.answer');
         Route::post('/', [PublicWordController::class, 'store'])->name('store');
         Route::get('/{word}', [PublicWordController::class, 'show'])->name('show');
         Route::post('/{word}/progress', [PublicWordController::class, 'markProgress'])->name('progress');

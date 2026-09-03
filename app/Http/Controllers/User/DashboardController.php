@@ -8,6 +8,7 @@ use App\Models\Exercise\Exercise;
 use App\Models\Gamification\Achievement;
 use App\Models\System\Level;
 use App\Models\User;
+use App\Services\SpacedRepetitionService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,9 +17,10 @@ class DashboardController extends Controller
     /**
      * Display the user dashboard with progress stats.
      */
-    public function index()
+    public function index(SpacedRepetitionService $srs)
     {
         $user = Auth::user();
+        $wordsDue = $srs->dueCount($user);
 
         $lessonsCompleted = $user->progress()->where('is_completed', true)->count();
         $wordsLearned = $user->words()->wherePivot('learned', true)->count();
@@ -56,7 +58,7 @@ class DashboardController extends Controller
 
         $streakDays = $this->lastSevenDays($user);
 
-        return view('user.dashboard', compact('stats', 'nextLesson', 'dailyExercise', 'streakDays'));
+        return view('user.dashboard', compact('stats', 'nextLesson', 'dailyExercise', 'streakDays', 'wordsDue'));
     }
 
     /**

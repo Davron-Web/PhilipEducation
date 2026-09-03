@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Public\Vocabulary;
 
 use App\Http\Controllers\Controller;
+use App\Models\User\UserWord;
 use App\Models\Vocabulary\Word;
 use App\Services\AchievementService;
+use App\Services\SpacedRepetitionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +74,7 @@ class WordController extends Controller
      * Отметить слово как выученное/на повторении для текущего пользователя
      * (карточки в режиме флеш-карт).
      */
-    public function markProgress(Request $request, Word $word, AchievementService $achievements)
+    public function markProgress(Request $request, Word $word, AchievementService $achievements, SpacedRepetitionService $srs)
     {
         $request->validate(['learned' => 'required|boolean']);
 
@@ -84,6 +86,14 @@ class WordController extends Controller
         ]);
 
         if ($request->boolean('learned')) {
+            // Отмеченное «знаю» слово встаёт в очередь повторения, иначе
+            // оно исчезало бы из поля зрения навсегда.
+            $progress = UserWord::firstOrNew([
+                'user_id' => Auth::id(),
+                'word_id' => $word->id,
+            ]);
+            $srs->scheduleIfNew($progress);
+
             $achievements->checkAndAward(Auth::user(), 'words_learned');
         }
 
@@ -119,5 +129,50 @@ class WordController extends Controller
         Auth::user()->words()->syncWithoutDetaching([$word->id => ['learned' => false]]);
 
         return redirect()->route('words.index')->with('success', "Слово «{$word->word}» добавлено в словарь!");
+    }
+
+    /**
+     * Сессия повторения: слова, у которых подошёл срок.
+     */
+    public function review(SpacedRepetitionService $srs): View
+    {
+        $queue = $srs->dueQueue(Auth::user());
+        $dueCount = $srs->dueCount(Auth::user());
+
+        $cards = $queue->map(fn (UserWord $progress) => [
+            'word_id' => $progress->word_id,
+            'word' => $progress->word->word,
+            'transcription' => $progress->word->transcription,
+            'translation' => $progress->word->translations->pluck('translation')->join(', ') ?: '—',
+            'example' => $progress->word->example,
+        ])->values();
+
+        return view('public.words.review', compact('cards', 'dueCount'));
+    }
+
+    /**
+     * Ответ в сессии повторения — пересчитывает срок следующего показа.
+     */
+    public function reviewAnswer(Request $request, Word $word, SpacedRepetitionService $srs, AchievementService $achievements)
+    {
+        $request->validate(['remembered' => 'required|boolean']);
+
+        $progress = UserWord::firstOrNew([
+            'user_id' => Auth::id(),
+            'word_id' => $word->id,
+        ]);
+
+        $progress = $srs->review($progress, $request->boolean('remembered'));
+
+        if ($progress->learned) {
+            $achievements->checkAndAward(Auth::user(), 'words_learned');
+        }
+
+        return response()->json([
+            'ok' => true,
+            'interval_days' => $progress->interval_days,
+            'next_review_at' => $progress->next_review_at?->toIso8601String(),
+            'due_left' => $srs->dueCount(Auth::user()),
+        ]);
     }
 }
