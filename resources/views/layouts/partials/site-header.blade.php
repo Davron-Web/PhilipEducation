@@ -47,7 +47,7 @@
                 @foreach ($navItems as $item)
                     <a
                         href="{{ $item['url'] }}"
-                        class="whitespace-nowrap rounded px-2.5 py-2 text-sm font-medium transition {{ $item['active'] ? 'text-gold' : 'text-white/70 hover:text-gold' }}"
+                        class="whitespace-nowrap rounded px-2.5 py-2 text-sm font-semibold transition {{ $item['active'] ? 'text-gold' : 'text-white hover:text-gold' }}"
                     >{{ $item['label'] }}</a>
                 @endforeach
             </div>
@@ -58,7 +58,7 @@
                     <button
                         type="button"
                         @click="searchOpen = !searchOpen"
-                        class="flex h-10 w-10 items-center justify-center rounded text-white/60 transition hover:bg-white/10 hover:text-gold"
+                        class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                         aria-label="Поиск"
                     >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
@@ -87,7 +87,7 @@
                 {{-- Уведомления --}}
                 <a
                     href="{{ route('notifications.index') }}"
-                    class="relative flex h-10 w-10 items-center justify-center rounded text-white/60 transition hover:bg-white/10 hover:text-gold"
+                    class="relative flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                     aria-label="Уведомления{{ $unreadCount > 0 ? " ({$unreadCount} непрочитано)" : '' }}"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
@@ -111,7 +111,7 @@
                     type="button"
                     id="themeToggle"
                     aria-label="Переключить тему"
-                    class="flex h-10 w-10 items-center justify-center rounded text-white/60 transition hover:bg-white/10 hover:text-gold"
+                    class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="dark:hidden"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
@@ -161,7 +161,7 @@
                 <button
                     type="button"
                     @click="mobileOpen = !mobileOpen"
-                    class="flex h-10 w-10 items-center justify-center rounded text-white/70 hover:bg-white/10 xl:hidden"
+                    class="flex h-10 w-10 items-center justify-center rounded text-white/85 hover:bg-white/10 xl:hidden"
                     aria-label="Открыть меню"
                     :aria-expanded="mobileOpen"
                 >
@@ -177,13 +177,13 @@
                     type="button"
                     id="themeToggle"
                     aria-label="Переключить тему"
-                    class="flex h-10 w-10 items-center justify-center rounded text-white/60 transition hover:bg-white/10 hover:text-gold"
+                    class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="dark:hidden"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
                 </button>
-                <a href="#how-it-works" class="rounded px-4 py-2 text-sm font-medium text-white/70 transition hover:text-gold">Как это работает</a>
-                <a href="{{ route('login') }}" class="rounded px-4 py-2 text-sm font-medium text-white/70 transition hover:text-gold">Войти</a>
+                <a href="#how-it-works" class="rounded px-4 py-2 text-sm font-semibold text-white transition hover:text-gold">Как это работает</a>
+                <a href="{{ route('login') }}" class="rounded px-4 py-2 text-sm font-semibold text-white transition hover:text-gold">Войти</a>
                 <a href="{{ route('register') }}" class="rounded border-2 border-gold px-5 py-2 text-xs font-bold uppercase tracking-wider text-gold transition hover:bg-gold hover:text-navy">
                     Начать бесплатно
                 </a>
@@ -192,7 +192,7 @@
             <button
                 type="button"
                 @click="mobileOpen = !mobileOpen"
-                class="flex h-10 w-10 items-center justify-center rounded text-white/70 hover:bg-white/10 sm:hidden"
+                class="flex h-10 w-10 items-center justify-center rounded text-white/85 hover:bg-white/10 sm:hidden"
                 aria-label="Открыть меню"
                 :aria-expanded="mobileOpen"
             >
