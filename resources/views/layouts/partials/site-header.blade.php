@@ -2,30 +2,33 @@
      Для гостя показывает маркетинговые кнопки, для авторизованного — полное меню. --}}
 @php
     $navItems = [
-        ['label' => 'Уроки', 'url' => route('lessons.index'), 'active' => request()->routeIs('lessons.*')],
-        ['label' => 'Грамматика', 'url' => route('grammartopics.index'), 'active' => request()->routeIs('grammartopics.*')],
-        ['label' => 'Словарь', 'url' => route('words.index'), 'active' => request()->routeIs('words.*')],
-        ['label' => 'Выражения', 'url' => route('expressions.index'), 'active' => request()->routeIs('expressions.*')],
-        ['label' => 'Упражнения', 'url' => route('exercises.index'), 'active' => request()->routeIs('exercises.*')],
-        ['label' => 'Тесты', 'url' => route('tests.index'), 'active' => request()->routeIs('tests.*')],
-        ['label' => 'IELTS', 'url' => route('ielts.index'), 'active' => request()->routeIs('ielts.*')],
-        ['label' => 'Книги', 'url' => route('books.index'), 'active' => request()->routeIs('books.*')],
-        ['label' => 'Достижения', 'url' => route('achievements.index'), 'active' => request()->routeIs('achievements.*')],
+        ['label' => __('site.nav.lessons'), 'url' => route('lessons.index'), 'active' => request()->routeIs('lessons.*')],
+        ['label' => __('site.nav.grammar'), 'url' => route('grammartopics.index'), 'active' => request()->routeIs('grammartopics.*')],
+        ['label' => __('site.nav.vocabulary'), 'url' => route('words.index'), 'active' => request()->routeIs('words.*')],
+        ['label' => __('site.nav.expressions'), 'url' => route('expressions.index'), 'active' => request()->routeIs('expressions.*')],
+        ['label' => __('site.nav.exercises'), 'url' => route('exercises.index'), 'active' => request()->routeIs('exercises.*')],
+        ['label' => __('site.nav.tests'), 'url' => route('tests.index'), 'active' => request()->routeIs('tests.*')],
+        ['label' => __('site.nav.ielts'), 'url' => route('ielts.index'), 'active' => request()->routeIs('ielts.*')],
+        ['label' => __('site.nav.books'), 'url' => route('books.index'), 'active' => request()->routeIs('books.*')],
+        ['label' => __('site.nav.achievements'), 'url' => route('achievements.index'), 'active' => request()->routeIs('achievements.*')],
     ];
 
     $unreadCount = auth()->check()
         ? auth()->user()->notifications()->where('is_read', false)->count()
         : 0;
+
+    $locales = App\Http\Middleware\SetLocale::SUPPORTED;
+    $currentLocale = app()->getLocale();
 @endphp
 
 <header
-    x-data="{ mobileOpen: false, userMenuOpen: false, searchOpen: false, scrolled: false }"
-    @keydown.escape.window="mobileOpen = false; userMenuOpen = false; searchOpen = false"
+    x-data="{ mobileOpen: false, userMenuOpen: false, searchOpen: false, localeOpen: false, scrolled: false }"
+    @keydown.escape.window="mobileOpen = false; userMenuOpen = false; searchOpen = false; localeOpen = false"
     @scroll.window="scrolled = window.scrollY > 40"
     class="sticky top-0 z-50 bg-navy transition-shadow"
     :class="scrolled ? 'shadow-lg shadow-black/20' : ''"
 >
-    <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8" aria-label="Основная навигация">
+    <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8" aria-label="{{ __('site.nav.main') }}">
         {{-- Логотип --}}
         <a href="{{ auth()->check() ? route('user.dashboard') : url('/') }}" class="flex shrink-0 items-center gap-2 group">
             <span class="flex h-9 w-9 items-center justify-center rounded bg-gold">
@@ -59,7 +62,7 @@
                         type="button"
                         @click="searchOpen = !searchOpen"
                         class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
-                        aria-label="Поиск"
+                        aria-label="{{ __('site.header.search') }}"
                     >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
                     </button>
@@ -78,7 +81,7 @@
                         {{-- Поиск пока без обработчика — раздел поиска ещё не реализован --}}
                         <input
                             type="search"
-                            placeholder="Искать уроки, слова..."
+                            placeholder="{{ __('site.header.search_placeholder') }}"
                             class="w-full rounded border border-white/10 bg-navy px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20"
                         >
                     </div>
@@ -88,7 +91,7 @@
                 <a
                     href="{{ route('notifications.index') }}"
                     class="relative flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
-                    aria-label="Уведомления{{ $unreadCount > 0 ? " ({$unreadCount} непрочитано)" : '' }}"
+                    aria-label="{{ __('site.header.notifications') }}{{ $unreadCount > 0 ? ' ('.__('site.header.notifications_unread', ['count' => $unreadCount]).')' : '' }}"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
                     @if ($unreadCount > 0)
@@ -100,17 +103,19 @@
 
                 {{-- Streak: показываем только если контроллер прислал значение --}}
                 @isset($streak)
-                    <div class="hidden items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-sm font-bold text-gold sm:flex" title="Серия дней подряд">
+                    <div class="hidden items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-sm font-bold text-gold sm:flex" title="{{ __('site.header.streak_title') }}">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c1 3-2 4-2 7a4 4 0 0 0 8 0c0-1-.4-2-1-3 2 1 3 3.5 3 6a7 7 0 1 1-14 0c0-4 2-6 3-7 1-1 2-2 3-3Z" /></svg>
                         {{ $streak }}
                     </div>
                 @endisset
 
+                <x-locale-switcher :locales="$locales" :current="$currentLocale" />
+
                 {{-- Переключатель темы --}}
                 <button
                     type="button"
                     id="themeToggle"
-                    aria-label="Переключить тему"
+                    aria-label="{{ __('site.header.theme_toggle') }}"
                     class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
@@ -147,12 +152,12 @@
                             <p class="truncate text-xs text-white/50">{{ auth()->user()->email }}</p>
                         </div>
                         <div class="my-1 h-px bg-white/10"></div>
-                        <a href="{{ route('profiles.index') }}" class="block rounded px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-gold">Профиль</a>
-                        <a href="{{ route('profiles.edit') }}" class="block rounded px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-gold">Настройки</a>
+                        <a href="{{ route('profiles.index') }}" class="block rounded px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-gold">{{ __('site.header.profile') }}</a>
+                        <a href="{{ route('profiles.edit') }}" class="block rounded px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-gold">{{ __('site.header.settings') }}</a>
                         <div class="my-1 h-px bg-white/10"></div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="block w-full rounded px-3 py-2 text-left text-sm font-medium text-red-400 hover:bg-red-500/10">Выйти</button>
+                            <button type="submit" class="block w-full rounded px-3 py-2 text-left text-sm font-medium text-red-400 hover:bg-red-500/10">{{ __('site.header.logout') }}</button>
                         </form>
                     </div>
                 </div>
@@ -162,7 +167,7 @@
                     type="button"
                     @click="mobileOpen = !mobileOpen"
                     class="flex h-10 w-10 items-center justify-center rounded text-white/85 hover:bg-white/10 xl:hidden"
-                    aria-label="Открыть меню"
+                    aria-label="{{ __('site.header.open_menu') }}"
                     :aria-expanded="mobileOpen"
                 >
                     <svg x-show="!mobileOpen" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
@@ -172,20 +177,22 @@
         @else
             {{-- Гостевые кнопки --}}
             <div class="hidden items-center gap-2 sm:flex">
+                <x-locale-switcher :locales="$locales" :current="$currentLocale" />
+
                 {{-- Переключатель темы --}}
                 <button
                     type="button"
                     id="themeToggle"
-                    aria-label="Переключить тему"
+                    aria-label="{{ __('site.header.theme_toggle') }}"
                     class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="dark:hidden"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
                 </button>
-                <a href="#how-it-works" class="rounded px-4 py-2 text-sm font-semibold text-white transition hover:text-gold">Как это работает</a>
-                <a href="{{ route('login') }}" class="rounded px-4 py-2 text-sm font-semibold text-white transition hover:text-gold">Войти</a>
+                <a href="#how-it-works" class="rounded px-4 py-2 text-sm font-semibold text-white transition hover:text-gold">{{ __('site.header.how_it_works') }}</a>
+                <a href="{{ route('login') }}" class="rounded px-4 py-2 text-sm font-semibold text-white transition hover:text-gold">{{ __('site.header.login') }}</a>
                 <a href="{{ route('register') }}" class="rounded border-2 border-gold px-5 py-2 text-xs font-bold uppercase tracking-wider text-gold transition hover:bg-gold hover:text-navy">
-                    Начать бесплатно
+                    {{ __('site.header.start_free') }}
                 </a>
             </div>
 
@@ -193,7 +200,7 @@
                 type="button"
                 @click="mobileOpen = !mobileOpen"
                 class="flex h-10 w-10 items-center justify-center rounded text-white/85 hover:bg-white/10 sm:hidden"
-                aria-label="Открыть меню"
+                aria-label="{{ __('site.header.open_menu') }}"
                 :aria-expanded="mobileOpen"
             >
                 <svg x-show="!mobileOpen" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
@@ -221,21 +228,21 @@
                 @endforeach
                 <div class="my-2 h-px bg-white/10"></div>
                 <a href="{{ route('notifications.index') }}" class="flex items-center justify-between rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">
-                    Уведомления
+                    {{ __('site.header.notifications') }}
                     @if ($unreadCount > 0)
                         <span class="flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[11px] font-extrabold text-navy">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
                     @endif
                 </a>
-                <a href="{{ route('profiles.index') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">Профиль</a>
-                <a href="{{ route('profiles.edit') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">Настройки</a>
+                <a href="{{ route('profiles.index') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">{{ __('site.header.profile') }}</a>
+                <a href="{{ route('profiles.edit') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">{{ __('site.header.settings') }}</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="block w-full rounded px-3 py-2.5 text-left text-sm font-semibold text-red-400 hover:bg-red-500/10">Выйти</button>
+                    <button type="submit" class="block w-full rounded px-3 py-2.5 text-left text-sm font-semibold text-red-400 hover:bg-red-500/10">{{ __('site.header.logout') }}</button>
                 </form>
             @else
-                <a href="#how-it-works" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">Как это работает</a>
-                <a href="{{ route('login') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">Войти</a>
-                <a href="{{ route('register') }}" class="block rounded border-2 border-gold px-3 py-2.5 text-center text-sm font-bold uppercase tracking-wide text-gold">Начать бесплатно</a>
+                <a href="#how-it-works" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">{{ __('site.header.how_it_works') }}</a>
+                <a href="{{ route('login') }}" class="block rounded px-3 py-2.5 text-sm font-semibold text-white/80 hover:bg-white/10">{{ __('site.header.login') }}</a>
+                <a href="{{ route('register') }}" class="block rounded border-2 border-gold px-3 py-2.5 text-center text-sm font-bold uppercase tracking-wide text-gold">{{ __('site.header.start_free') }}</a>
             @endauth
         </div>
     </div>

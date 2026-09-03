@@ -44,6 +44,7 @@ use App\Http\Controllers\Public\Vocabulary\ExpressionController as PublicExpress
 use App\Http\Controllers\Public\Vocabulary\WordController as PublicWordController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Middleware\SetLocale;
 use App\Models\Content\Lesson;
 use App\Models\System\Level;
 use App\Models\User;
@@ -82,6 +83,19 @@ Route::get('/', function () {
 
     return view('public.home', compact('levels', 'totalLessons', 'totalWords', 'totalUsers'));
 })->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| Язык интерфейса
+|--------------------------------------------------------------------------
+*/
+Route::get('/locale/{locale}', function (string $locale) {
+    if (array_key_exists($locale, SetLocale::SUPPORTED)) {
+        session(['locale' => $locale]);
+    }
+
+    return back();
+})->name('locale.switch');
 
 /*
 |--------------------------------------------------------------------------

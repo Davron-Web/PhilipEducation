@@ -78,7 +78,10 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    // Сайт русскоязычный по умолчанию; переключается на en/tg через
+    // App\Http\Middleware\SetLocale. Fallback оставлен английским —
+    // из него берутся встроенные сообщения валидации Laravel.
+    'locale' => env('APP_LOCALE', 'ru'),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 

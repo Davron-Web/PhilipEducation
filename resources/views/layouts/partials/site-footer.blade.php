@@ -16,38 +16,38 @@
                     <span class="font-display text-lg font-semibold text-white">Philip <span class="text-gold">Education</span></span>
                 </div>
                 <p class="max-w-xs text-sm leading-relaxed text-white/60">
-                    Изучайте английский язык через уроки, упражнения и живую практику слов — от A1 до C1.
+                    {{ __('site.footer.tagline') }}
                 </p>
             </div>
 
             <div>
-                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-gold">Разделы</h3>
+                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-gold">{{ __('site.footer.sections') }}</h3>
                 <ul class="space-y-2 text-sm text-white/60">
-                    <li><a href="{{ route('lessons.index') }}" class="transition hover:text-gold">Уроки</a></li>
-                    <li><a href="{{ route('words.index') }}" class="transition hover:text-gold">Словарь</a></li>
-                    <li><a href="{{ route('grammartopics.index') }}" class="transition hover:text-gold">Грамматика</a></li>
-                    <li><a href="{{ route('tests.index') }}" class="transition hover:text-gold">Тесты</a></li>
-                    <li><a href="{{ route('books.index') }}" class="transition hover:text-gold">Книги</a></li>
+                    <li><a href="{{ route('lessons.index') }}" class="transition hover:text-gold">{{ __('site.nav.lessons') }}</a></li>
+                    <li><a href="{{ route('words.index') }}" class="transition hover:text-gold">{{ __('site.nav.vocabulary') }}</a></li>
+                    <li><a href="{{ route('grammartopics.index') }}" class="transition hover:text-gold">{{ __('site.nav.grammar') }}</a></li>
+                    <li><a href="{{ route('tests.index') }}" class="transition hover:text-gold">{{ __('site.nav.tests') }}</a></li>
+                    <li><a href="{{ route('books.index') }}" class="transition hover:text-gold">{{ __('site.nav.books') }}</a></li>
                 </ul>
             </div>
 
             <div>
-                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-gold">Платформа</h3>
+                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-gold">{{ __('site.footer.platform') }}</h3>
                 <ul class="space-y-2 text-sm text-white/60">
                     @guest
-                        <li><a href="{{ url('/') }}#how-it-works" class="transition hover:text-gold">Как это работает</a></li>
-                        <li><a href="{{ route('register') }}" class="transition hover:text-gold">Регистрация</a></li>
-                        <li><a href="{{ route('login') }}" class="transition hover:text-gold">Вход</a></li>
+                        <li><a href="{{ url('/') }}#how-it-works" class="transition hover:text-gold">{{ __('site.header.how_it_works') }}</a></li>
+                        <li><a href="{{ route('register') }}" class="transition hover:text-gold">{{ __('site.footer.registration') }}</a></li>
+                        <li><a href="{{ route('login') }}" class="transition hover:text-gold">{{ __('site.footer.login') }}</a></li>
                     @else
-                        <li><a href="{{ route('user.dashboard') }}" class="transition hover:text-gold">Личный кабинет</a></li>
-                        <li><a href="{{ route('achievements.index') }}" class="transition hover:text-gold">Достижения</a></li>
-                        <li><a href="{{ route('profiles.index') }}" class="transition hover:text-gold">Профиль</a></li>
+                        <li><a href="{{ route('user.dashboard') }}" class="transition hover:text-gold">{{ __('site.header.dashboard') }}</a></li>
+                        <li><a href="{{ route('achievements.index') }}" class="transition hover:text-gold">{{ __('site.nav.achievements') }}</a></li>
+                        <li><a href="{{ route('profiles.index') }}" class="transition hover:text-gold">{{ __('site.header.profile') }}</a></li>
                     @endguest
                 </ul>
             </div>
 
             <div>
-                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-gold">Мы в соцсетях</h3>
+                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-gold">{{ __('site.footer.social') }}</h3>
                 <div class="flex gap-2">
                     @foreach (['Telegram', 'Instagram', 'YouTube'] as $network)
                         <a
@@ -63,8 +63,8 @@
         </div>
 
         <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/40 sm:flex-row">
-            <p>&copy; {{ date('Y') }} Philip Education. Все права защищены.</p>
-            <p>Платформа для изучения английского языка</p>
+            <p>&copy; {{ date('Y') }} Philip Education. {{ __('site.footer.rights') }}</p>
+            <p>{{ __('site.footer.subtitle') }}</p>
         </div>
     </div>
 </footer>

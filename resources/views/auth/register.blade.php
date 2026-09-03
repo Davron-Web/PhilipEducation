@@ -5,10 +5,10 @@
 @section('meta_description', 'Зарегистрируйтесь в Philip Education бесплатно и начните изучать английский язык уже сегодня.')
 
 @section('content')
-    <x-auth.panel title="Начать бесплатно" subtitle="Создайте аккаунт и начните учить английский">
+    <x-auth.panel title="{{ __('site.auth.register_title') }}" subtitle="{{ __('site.auth.register_subtitle') }}">
         <x-slot:footer>
-            Уже есть аккаунт?
-            <a href="{{ route('login') }}" class="font-bold text-brand hover:underline">Войти</a>
+            {{ __('site.auth.have_account') }}
+            <a href="{{ route('login') }}" class="font-bold text-brand hover:underline">{{ __('site.auth.sign_in') }}</a>
         </x-slot:footer>
 
         @if ($errors->any() && !$errors->has(['name', 'email', 'password', 'password_confirmation']))
@@ -24,17 +24,17 @@
         <form method="POST" action="{{ route('register') }}" class="space-y-4">
             @csrf
 
-            <x-ui.input label="Имя" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Ваше имя" />
-            <x-ui.input label="Email" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="you@example.com" />
-            <x-ui.input label="Пароль" type="password" name="password" required autocomplete="new-password" placeholder="••••••••" />
-            <x-ui.input label="Подтверждение пароля" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••" />
+            <x-ui.input label="{{ __('site.auth.name') }}" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="{{ __('site.auth.name_placeholder') }}" />
+            <x-ui.input label="{{ __('site.auth.email') }}" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="you@example.com" />
+            <x-ui.input label="{{ __('site.auth.password') }}" type="password" name="password" required autocomplete="new-password" placeholder="••••••••" />
+            <x-ui.input label="{{ __('site.auth.password_confirm') }}" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••" />
 
             <label class="flex items-start gap-2 text-sm text-ink/70">
                 <input type="checkbox" name="terms" required class="mt-0.5 rounded border-ink/30 text-brand focus:ring-brand/30">
-                Я согласен с условиями использования
+                {{ __('site.auth.terms') }}
             </label>
 
-            <x-ui.button type="submit" variant="primary" class="w-full">Зарегистрироваться</x-ui.button>
+            <x-ui.button type="submit" variant="primary" class="w-full">{{ __('site.auth.sign_up') }}</x-ui.button>
         </form>
     </x-auth.panel>
 @endsection
