@@ -38,6 +38,7 @@ use App\Http\Controllers\Public\Ielts\IeltsHubController as PublicIeltsHubContro
 use App\Http\Controllers\Public\Ielts\IeltsListeningController as PublicIeltsListeningController;
 use App\Http\Controllers\Public\Ielts\IeltsReadingController as PublicIeltsReadingController;
 use App\Http\Controllers\Public\Ielts\IeltsSpeakingController as PublicIeltsSpeakingController;
+use App\Http\Controllers\Public\Ielts\SpeakingBotController;
 use App\Http\Controllers\Public\System\NotificationController as PublicNotificationController;
 use App\Http\Controllers\Public\Test\TestController as PublicTestController;
 use App\Http\Controllers\Public\User\ProfileController as PublicProfileController;
@@ -222,6 +223,14 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('speaking')->name('speaking.')->group(function () {
             Route::get('/', [PublicIeltsSpeakingController::class, 'index'])->name('index');
+
+            // Разговорный бот — до /{card}, иначе 'bot' примут за карточку.
+            Route::get('/bot', [SpeakingBotController::class, 'room'])->name('bot');
+            Route::post('/bot/reply', [SpeakingBotController::class, 'reply'])
+                ->middleware('throttle:40,1')->name('bot.reply');
+            Route::post('/bot/report', [SpeakingBotController::class, 'report'])
+                ->middleware('throttle:10,1')->name('bot.report');
+
             Route::get('/{card}', [PublicIeltsSpeakingController::class, 'show'])->name('show');
         });
     });
