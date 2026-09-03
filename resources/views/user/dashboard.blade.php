@@ -8,6 +8,9 @@
 @section('content')
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
+        {{-- Голосовое приветствие Phil --}}
+        <x-voice-greeting :stats="$stats" :next-lesson="$nextLesson" />
+
         {{-- Приветствие --}}
         <div class="mb-8 flex flex-wrap items-end justify-between gap-4" data-reveal>
             <div>
