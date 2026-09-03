@@ -117,6 +117,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('exercises')->name('exercises.')->group(function () {
         Route::get('/', [PublicExerciseController::class, 'index'])->name('index');
         Route::get('/{exercise}', [PublicExerciseController::class, 'show'])->name('show');
+        Route::post('/{exercise}/check', [PublicExerciseController::class, 'check'])->name('check');
     });
 
     Route::prefix('grammartopics')->name('grammartopics.')->group(function () {
