@@ -10,6 +10,8 @@
     звука до первого действия пользователя, поэтому если автозапуск не
     сработал — приветствие проговаривается при первом клике по странице,
     а кнопка «Прослушать» позволяет включить его вручную в любой момент.
+
+    Когда реплика дозвучала до конца, карточка плавно исчезает.
 --}}
 @props([
     'stats' => [],
@@ -178,6 +180,7 @@
     }
 
     var speaking = false;
+    var stoppedByUser = false;
 
     function setPlayingUi(isPlaying) {
         speaking = isPlaying;
@@ -185,13 +188,39 @@
     }
 
     function stop() {
+        stoppedByUser = true;
         window.speechSynthesis.cancel();
         setPlayingUi(false);
+    }
+
+    // Приветствие своё дело сделало — убираем карточку, чтобы она не
+    // занимала место в кабинете. Скрываем только после полностью
+    // прозвучавшей реплики: если ученик сам нажал «Остановить», карточка
+    // остаётся, чтобы можно было переслушать.
+    function dismiss() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            root.remove();
+            return;
+        }
+
+        root.style.overflow = 'hidden';
+        root.style.maxHeight = root.offsetHeight + 'px';
+        root.style.transition = 'opacity .45s ease, transform .45s ease, max-height .45s ease, margin-bottom .45s ease';
+
+        requestAnimationFrame(function () {
+            root.style.opacity = '0';
+            root.style.transform = 'translateY(-8px)';
+            root.style.maxHeight = '0px';
+            root.style.marginBottom = '0px';
+        });
+
+        setTimeout(function () { root.remove(); }, 550);
     }
 
     function speakAll() {
         if (speaking) { stop(); return; }
 
+        stoppedByUser = false;
         window.speechSynthesis.cancel();
         setPlayingUi(true);
 
@@ -205,7 +234,12 @@
             if (voice) utterance.voice = voice;
 
             if (index === lines.length - 1) {
-                utterance.onend = function () { setPlayingUi(false); };
+                utterance.onend = function () {
+                    setPlayingUi(false);
+                    // Chrome шлёт onend и на отменённые реплики, поэтому
+                    // ориентируемся на флаг ручной остановки.
+                    if (!stoppedByUser) setTimeout(dismiss, 700);
+                };
                 utterance.onerror = function () { setPlayingUi(false); };
             }
 
