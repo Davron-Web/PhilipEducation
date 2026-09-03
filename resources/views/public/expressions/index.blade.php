@@ -38,34 +38,58 @@
                 <p class="mt-1 text-ink/60">Идиомы, фразовые глаголы, пословицы и коллокации — выберите тему, чтобы начать, всего {{ $categoryCounts->sum() }} выражений в {{ $categoryCounts->count() }} темах.</p>
             </div>
 
-            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            @php
+                // 1 выражение / 2 выражения / 5 выражений
+                $exprPlural = function (int $n): string {
+                    $mod100 = $n % 100;
+                    $mod10 = $n % 10;
+                    if ($mod100 >= 11 && $mod100 <= 14) return 'выражений';
+                    if ($mod10 === 1) return 'выражение';
+                    if ($mod10 >= 2 && $mod10 <= 4) return 'выражения';
+                    return 'выражений';
+                };
+            @endphp
+
+            <div class="mx-auto max-w-4xl space-y-5">
                 <a
                     href="{{ route('expressions.index', ['category' => 'all']) }}"
-                    class="group flex items-center gap-3 rounded-2xl border border-white/60 bg-gradient-to-br from-brand to-sky p-5 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+                    class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                     data-reveal
                 >
-                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
-                    </span>
-                    <span>
-                        <span class="block font-bold">Все выражения</span>
-                        <span class="block text-sm text-white/70">{{ $categoryCounts->sum() }} выражений</span>
-                    </span>
+                    <div class="flex items-center justify-center bg-navy px-8 py-14 sm:py-16">
+                        <h2 class="text-center font-display text-2xl font-semibold leading-snug text-white sm:text-3xl">Все выражения</h2>
+                    </div>
+                    <div class="flex items-center justify-between gap-4 border-t border-line px-6 py-4">
+                        <span class="inline-flex items-center gap-2 text-sm font-semibold text-ink/60">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
+                            {{ $categoryCounts->sum() }} {{ $exprPlural($categoryCounts->sum()) }}
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand">
+                            Открыть
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition group-hover:translate-x-1"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                        </span>
+                    </div>
                 </a>
 
                 @foreach ($categoryCounts as $cat => $count)
                     <a
                         href="{{ route('expressions.index', ['category' => $cat]) }}"
-                        class="group flex items-center gap-3 rounded-2xl border border-white/60 bg-gradient-to-br from-brand to-sky p-5 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+                        class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                         data-reveal
                     >
-                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z" /><circle cx="7" cy="7" r="1.2" fill="currentColor" stroke="none" /></svg>
-                        </span>
-                        <span>
-                            <span class="block font-bold">{{ $cat }}</span>
-                            <span class="block text-sm text-white/70">{{ $count }} {{ $count === 1 ? 'выражение' : 'выражений' }}</span>
-                        </span>
+                        <div class="flex items-center justify-center bg-surface2 px-8 py-14 sm:py-16">
+                            <h2 class="text-center font-display text-2xl font-semibold leading-snug text-ink sm:text-3xl">{{ $cat }}</h2>
+                        </div>
+                        <div class="flex items-center justify-between gap-4 border-t border-line px-6 py-4">
+                            <span class="inline-flex items-center gap-2 text-sm font-semibold text-ink/60">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z" /><circle cx="7" cy="7" r="1.2" fill="currentColor" stroke="none" /></svg>
+                                {{ $count }} {{ $exprPlural($count) }}
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand">
+                                Открыть
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition group-hover:translate-x-1"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                            </span>
+                        </div>
                     </a>
                 @endforeach
             </div>
