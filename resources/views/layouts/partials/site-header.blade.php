@@ -22,7 +22,7 @@
     x-data="{ mobileOpen: false, userMenuOpen: false, searchOpen: false, scrolled: false }"
     @keydown.escape.window="mobileOpen = false; userMenuOpen = false; searchOpen = false"
     @scroll.window="scrolled = window.scrollY > 40"
-    class="sticky top-0 z-50 bg-navy/95 backdrop-blur-xl transition-shadow"
+    class="sticky top-0 z-50 bg-[#4C1D95]/95 backdrop-blur-xl transition-shadow"
     :class="scrolled ? 'shadow-lg shadow-black/20' : ''"
 >
     <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8" aria-label="Основная навигация">
@@ -72,14 +72,14 @@
                         x-transition:leave="transition ease-in duration-150"
                         x-transition:leave-start="opacity-100 translate-y-0"
                         x-transition:leave-end="opacity-0 -translate-y-1"
-                        class="absolute right-0 top-12 w-72 rounded border border-white/10 bg-navy2 p-2 shadow-xl"
+                        class="absolute right-0 top-12 w-72 rounded border border-white/10 bg-[#5B21B6] p-2 shadow-xl"
                         style="display: none;"
                     >
                         {{-- Поиск пока без обработчика — раздел поиска ещё не реализован --}}
                         <input
                             type="search"
                             placeholder="Искать уроки, слова..."
-                            class="w-full rounded border border-white/10 bg-navy px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20"
+                            class="w-full rounded border border-white/10 bg-[#4C1D95] px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20"
                         >
                     </div>
                 </div>
@@ -139,7 +139,7 @@
                         x-transition:leave="transition ease-in duration-100"
                         x-transition:leave-start="opacity-100 scale-100"
                         x-transition:leave-end="opacity-0 scale-95"
-                        class="absolute right-0 top-12 w-56 origin-top-right overflow-hidden rounded border border-white/10 bg-navy2 p-1.5 shadow-xl"
+                        class="absolute right-0 top-12 w-56 origin-top-right overflow-hidden rounded border border-white/10 bg-[#5B21B6] p-1.5 shadow-xl"
                         style="display: none;"
                     >
                         <div class="px-3 py-2">
@@ -211,7 +211,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-2"
-        class="border-t border-white/10 bg-navy2 xl:hidden"
+        class="border-t border-white/10 bg-[#5B21B6] xl:hidden"
         style="display: none;"
     >
         <div class="space-y-1 px-4 py-3">
