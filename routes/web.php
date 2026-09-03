@@ -44,6 +44,8 @@ use App\Http\Controllers\Public\Vocabulary\ExpressionController as PublicExpress
 use App\Http\Controllers\Public\Vocabulary\WordController as PublicWordController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\Billing\SandboxController;
+use App\Http\Controllers\Billing\SubscriptionController;
 use App\Http\Middleware\SetLocale;
 use App\Models\Content\Lesson;
 use App\Models\System\Level;
@@ -99,6 +101,31 @@ Route::get('/locale/{locale}', function (string $locale) {
 
 /*
 |--------------------------------------------------------------------------
+| Подписка и оплата
+|--------------------------------------------------------------------------
+*/
+Route::get('/plans', [SubscriptionController::class, 'plans'])->name('billing.plans');
+Route::get('/billing/return', [SubscriptionController::class, 'return'])->name('billing.return');
+
+// Вебхук приходит от банка, а не из браузера: без auth и без CSRF.
+Route::post('/billing/webhook', [SubscriptionController::class, 'webhook'])
+    ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class])
+    ->name('billing.webhook');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/billing/checkout/{plan}', [SubscriptionController::class, 'checkout'])->name('billing.checkout');
+    Route::post('/billing/cancel', [SubscriptionController::class, 'cancel'])->name('billing.cancel');
+});
+
+// Тестовая «страница банка» — только вне production.
+if (! app()->environment('production')) {
+    Route::get('/billing/sandbox/{payment}', [SandboxController::class, 'show'])
+        ->middleware('signed')->name('billing.sandbox');
+    Route::post('/billing/sandbox/{payment}', [SandboxController::class, 'pay'])->name('billing.sandbox.pay');
+}
+
+/*
+|--------------------------------------------------------------------------
 | Public Lessons & User Area
 |--------------------------------------------------------------------------
 */
@@ -118,8 +145,9 @@ Route::get('/dashboard', function () {
     return redirect()->route('user.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+// Каждый ответ Phil — платный запрос к Gemini, поэтому раздел под подпиской.
 Route::post('/assistant/chat', [AssistantController::class, 'chat'])
-    ->middleware(['auth', 'throttle:20,1'])
+    ->middleware(['auth', 'subscribed:phil', 'throttle:20,1'])
     ->name('assistant.chat');
 
 Route::middleware(['auth'])->group(function () {
@@ -159,13 +187,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}', [PublicTestController::class, 'show'])->name('show');
     });
 
-    Route::prefix('books')->name('books.')->group(function () {
+    Route::prefix('books')->name('books.')->middleware('subscribed:books')->group(function () {
         Route::get('/', [PublicBookController::class, 'index'])->name('index');
         Route::get('/{book}/read', [PublicBookController::class, 'read'])->name('read');
         Route::post('/{book}/progress', [PublicBookController::class, 'saveProgress'])->name('progress');
     });
 
-    Route::prefix('ielts')->name('ielts.')->group(function () {
+    Route::prefix('ielts')->name('ielts.')->middleware('subscribed:ielts')->group(function () {
         Route::get('/', [PublicIeltsHubController::class, 'index'])->name('index');
 
         Route::prefix('writing')->name('writing.')->group(function () {

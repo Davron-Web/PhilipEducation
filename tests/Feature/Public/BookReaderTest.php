@@ -4,7 +4,8 @@ use App\Models\Book\Book;
 use App\Models\Book\BookPage;
 use App\Models\User;
 
-$user = fn () => User::factory()->create();
+// Книги закрыты подпиской, поэтому тестовому пользователю её выдаём.
+$user = fn () => tap(User::factory()->create(), fn ($u) => giveSubscription($u));
 
 it('redirects guests away from the book list', function () {
     $this->get('/books')->assertRedirect('/login');

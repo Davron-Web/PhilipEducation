@@ -148,4 +148,61 @@ class User extends Authenticatable
             ->withPivot('current_page', 'completed_at')
             ->withTimestamps();
     }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(\App\Models\Billing\Subscription::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(\App\Models\Billing\Payment::class);
+    }
+
+    /**
+     * Действующая подписка (включая отменённую, но ещё не истёкшую —
+     * оплаченный период дорабатывает до конца).
+     */
+    public function activeSubscription(): ?\App\Models\Billing\Subscription
+    {
+        return $this->subscriptions()
+            ->whereIn('status', [
+                \App\Models\Billing\Subscription::STATUS_ACTIVE,
+                \App\Models\Billing\Subscription::STATUS_CANCELLED,
+            ])
+            ->where('ends_at', '>', now())
+            ->latest('ends_at')
+            ->first();
+    }
+
+    public function hasActiveSubscription(): bool
+    {
+        return $this->activeSubscription() !== null;
+    }
+
+    /**
+     * Доступен ли материал этого уровня. Уровни из payment.free_levels
+     * открыты всем; всё выше — по подписке. Материал без уровня считаем
+     * бесплатным: закрывать то, что не удалось классифицировать, хуже,
+     * чем показать лишнее.
+     */
+    public function canAccessLevel(?string $levelCode): bool
+    {
+        if ($levelCode === null || in_array($levelCode, config('payment.free_levels', []), true)) {
+            return true;
+        }
+
+        return $this->hasActiveSubscription();
+    }
+
+    /** Админам платные разделы открыты без подписки. */
+    public function canAccessPaidSection(string $section): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return ! in_array($section, config('payment.paid_sections', []), true)
+            || $this->hasActiveSubscription();
+    }
 }

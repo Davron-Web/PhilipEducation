@@ -36,6 +36,7 @@
                 <ul class="space-y-2 text-sm text-white/60">
                     @guest
                         <li><a href="{{ url('/') }}#how-it-works" class="transition hover:text-gold">{{ __('site.header.how_it_works') }}</a></li>
+                        <li><a href="{{ route('billing.plans') }}" class="transition hover:text-gold">{{ __('site.billing.nav') }}</a></li>
                         <li><a href="{{ route('register') }}" class="transition hover:text-gold">{{ __('site.footer.registration') }}</a></li>
                         <li><a href="{{ route('login') }}" class="transition hover:text-gold">{{ __('site.footer.login') }}</a></li>
                     @else

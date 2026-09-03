@@ -44,7 +44,28 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * Выдаёт пользователю активную подписку — нужно тестам разделов,
+ * закрытых платным доступом (книги, IELTS, Phil).
+ */
+function giveSubscription(App\Models\User $user, int $days = 30): App\Models\Billing\Subscription
 {
-    // ..
+    $plan = App\Models\Billing\Plan::firstOrCreate(
+        ['code' => 'test-plan'],
+        [
+            'name' => 'Тестовый тариф',
+            'duration_days' => 30,
+            'price_minor' => 1000,
+            'currency' => 'TJS',
+            'is_active' => true,
+            'sort_order' => 99,
+        ],
+    );
+
+    return $user->subscriptions()->create([
+        'plan_id' => $plan->id,
+        'status' => App\Models\Billing\Subscription::STATUS_ACTIVE,
+        'starts_at' => now(),
+        'ends_at' => now()->addDays($days),
+    ]);
 }

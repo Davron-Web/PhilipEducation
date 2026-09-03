@@ -4,7 +4,11 @@ use App\Models\User;
 use App\Models\User\Role;
 use App\Services\GeminiService;
 
-$student = fn () => User::factory()->create(['role_id' => Role::factory()->student()->create()->id]);
+// Phil закрыт подпиской, поэтому тестовому ученику её выдаём.
+$student = fn () => tap(
+    User::factory()->create(['role_id' => Role::factory()->student()->create()->id]),
+    fn ($user) => giveSubscription($user),
+);
 
 it('blocks guests from the assistant chat endpoint', function () {
     $this->postJson('/assistant/chat', ['question' => 'Hi'])->assertRedirect('/login');
