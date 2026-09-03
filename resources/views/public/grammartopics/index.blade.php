@@ -16,34 +16,58 @@
                 <p class="mt-1 text-ink/60">Выберите категорию — всего {{ $categoryCounts->sum() }} тем от базовых правил до продвинутых конструкций.</p>
             </div>
 
-            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            @php
+                // 1 тема / 2 темы / 5 тем
+                $topicsPlural = function (int $n): string {
+                    $mod100 = $n % 100;
+                    $mod10 = $n % 10;
+                    if ($mod100 >= 11 && $mod100 <= 14) return 'тем';
+                    if ($mod10 === 1) return 'тема';
+                    if ($mod10 >= 2 && $mod10 <= 4) return 'темы';
+                    return 'тем';
+                };
+            @endphp
+
+            <div class="grid gap-5 sm:grid-cols-2">
                 <a
                     href="{{ route('grammartopics.index', ['category' => 'all']) }}"
-                    class="group flex items-center gap-3 rounded-2xl border border-white/60 bg-gradient-to-br from-brand to-sky p-5 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+                    class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                     data-reveal
                 >
-                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
-                    </span>
-                    <span>
-                        <span class="block font-bold">Все темы</span>
-                        <span class="block text-sm text-white/70">{{ $categoryCounts->sum() }} тем</span>
-                    </span>
+                    <div class="flex items-center justify-center bg-navy px-6 py-12 sm:py-14">
+                        <h2 class="text-center font-display text-xl font-semibold leading-snug text-white sm:text-2xl">Все темы</h2>
+                    </div>
+                    <div class="flex items-center justify-between gap-4 border-t border-line px-6 py-4">
+                        <span class="inline-flex items-center gap-2 text-sm font-semibold text-ink/60">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
+                            {{ $categoryCounts->sum() }} {{ $topicsPlural($categoryCounts->sum()) }}
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand">
+                            {{ __('site.common.open') }}
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition group-hover:translate-x-1"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                        </span>
+                    </div>
                 </a>
 
                 @foreach ($categoryCounts as $cat => $count)
                     <a
                         href="{{ route('grammartopics.index', ['category' => $cat]) }}"
-                        class="group flex items-center gap-3 rounded-2xl border border-white/60 bg-gradient-to-br from-brand to-sky p-5 text-white shadow-lg shadow-brand/20 transition duration-300 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+                        class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                         data-reveal
                     >
-                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z" /></svg>
-                        </span>
-                        <span>
-                            <span class="block font-bold">{{ $cat }}</span>
-                            <span class="block text-sm text-white/70">{{ $count }} {{ $count === 1 ? 'тема' : 'тем' }}</span>
-                        </span>
+                        <div class="flex items-center justify-center bg-surface2 px-6 py-12 sm:py-14">
+                            <h2 class="text-center font-display text-xl font-semibold leading-snug text-ink sm:text-2xl">{{ $cat }}</h2>
+                        </div>
+                        <div class="flex items-center justify-between gap-4 border-t border-line px-6 py-4">
+                            <span class="inline-flex items-center gap-2 text-sm font-semibold text-ink/60">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z" /></svg>
+                                {{ $count }} {{ $topicsPlural($count) }}
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand">
+                                {{ __('site.common.open') }}
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition group-hover:translate-x-1"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                            </span>
+                        </div>
                     </a>
                 @endforeach
             </div>
