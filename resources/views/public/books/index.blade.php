@@ -21,16 +21,9 @@
                     @php
                         $currentPage = $readsByBook[$book->id] ?? null;
                         $isStarted = $currentPage !== null;
-                        $initials = mb_strtoupper(mb_substr($book->title, 0, 1));
                     @endphp
                     <div class="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft card-lift">
-                        @if ($book->cover_image)
-                            <img src="{{ $book->cover_image }}" alt="{{ $book->title }}" class="h-40 w-full object-cover">
-                        @else
-                            <div class="flex h-40 w-full items-center justify-center bg-gradient-to-br from-brand to-sky">
-                                <span class="text-4xl font-extrabold text-white">{{ $initials }}</span>
-                            </div>
-                        @endif
+                        <x-book-cover :book="$book" class="h-44 w-full" />
                         <div class="flex flex-1 flex-col p-5">
                             <div class="mb-2 flex items-center gap-2">
                                 <x-ui.badge variant="level" :level="$book->level" />
