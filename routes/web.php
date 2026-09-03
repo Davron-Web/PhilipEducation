@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\User\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\User\RoleController as AdminRoleController;
 use App\Http\Controllers\Admin\User\UserAchievementController as AdminUserAchievementController;
 use App\Http\Controllers\Admin\User\UserController as AdminUserController;
+use App\Http\Controllers\Admin\User\UserSubscriptionController as AdminUserSubscriptionController;
 use App\Http\Controllers\Admin\User\UserProgressController as AdminUserProgressController;
 use App\Http\Controllers\Admin\User\UserResultController as AdminUserResultController;
 use App\Http\Controllers\Admin\User\UserWordController as AdminUserWordController;
@@ -275,6 +276,10 @@ Route::middleware(['auth', 'role:admin|superadmin'])
 
         // Users & Roles
         Route::resource('user/users', AdminUserController::class)->names('user.users');
+
+        // Премиум в подарок — доступ без оплаты.
+        Route::post('user/users/{user}/premium', [AdminUserSubscriptionController::class, 'grant'])->name('user.users.premium.grant');
+        Route::delete('user/users/{user}/premium', [AdminUserSubscriptionController::class, 'revoke'])->name('user.users.premium.revoke');
         Route::resource('user/roles', AdminRoleController::class)->names('user.roles');
 
         // User Progress & Results

@@ -176,7 +176,9 @@ class User extends Authenticatable
                 \App\Models\Billing\Subscription::STATUS_ACTIVE,
                 \App\Models\Billing\Subscription::STATUS_CANCELLED,
             ])
-            ->where('ends_at', '>', now())
+            // ends_at = null — бессрочный доступ, выданный админом.
+            ->where(fn ($q) => $q->whereNull('ends_at')->orWhere('ends_at', '>', now()))
+            ->orderByRaw('ends_at IS NULL DESC')
             ->latest('ends_at')
             ->first();
     }

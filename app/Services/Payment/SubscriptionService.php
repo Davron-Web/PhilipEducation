@@ -90,11 +90,13 @@ class SubscriptionService
      */
     private function extendOrCreate(User $user, Plan $plan): Subscription
     {
-        $current = $user->subscriptions()
-            ->whereIn('status', [Subscription::STATUS_ACTIVE, Subscription::STATUS_CANCELLED])
-            ->where('ends_at', '>', now())
-            ->latest('ends_at')
-            ->first();
+        $current = $user->activeSubscription();
+
+        // Бессрочный доступ продлевать нечем — оставляем как есть.
+        // Оплата всё равно зафиксирована в payments.
+        if ($current && $current->isLifetime()) {
+            return $current;
+        }
 
         if ($current) {
             $current->update([
@@ -123,6 +125,56 @@ class SubscriptionService
     {
         $subscription->update([
             'status' => Subscription::STATUS_CANCELLED,
+            'cancelled_at' => now(),
+        ]);
+    }
+
+    /**
+     * Премиум в подарок от администратора — без оплаты.
+     *
+     * @param  int|null  $days  срок в днях; null — бессрочно
+     */
+    public function grant(User $user, ?int $days, ?User $grantedBy = null, ?string $note = null): Subscription
+    {
+        $current = $user->activeSubscription();
+
+        // Уже есть доступ — продлеваем его, а не заводим второй,
+        // иначе activeSubscription() выбирал бы из нескольких.
+        if ($current) {
+            $current->update([
+                'status' => Subscription::STATUS_ACTIVE,
+                'cancelled_at' => null,
+                'source' => Subscription::SOURCE_GIFT,
+                'granted_by' => $grantedBy?->id,
+                'note' => $note,
+                'ends_at' => $days === null
+                    ? null
+                    : ($current->ends_at ?? now())->copy()->addDays($days),
+            ]);
+
+            return $current;
+        }
+
+        return $user->subscriptions()->create([
+            'plan_id' => null,
+            'status' => Subscription::STATUS_ACTIVE,
+            'source' => Subscription::SOURCE_GIFT,
+            'granted_by' => $grantedBy?->id,
+            'note' => $note,
+            'starts_at' => now(),
+            'ends_at' => $days === null ? null : now()->addDays($days),
+        ]);
+    }
+
+    /**
+     * Отзыв подарка — в отличие от отмены, закрывает доступ сразу:
+     * денег за него не платили.
+     */
+    public function revoke(Subscription $subscription): void
+    {
+        $subscription->update([
+            'status' => Subscription::STATUS_EXPIRED,
+            'ends_at' => now(),
             'cancelled_at' => now(),
         ]);
     }

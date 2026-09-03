@@ -13,8 +13,13 @@ class Subscription extends Model
     public const STATUS_EXPIRED = 'expired';
     public const STATUS_CANCELLED = 'cancelled';
 
+    public const SOURCE_PAID = 'paid';
+
+    public const SOURCE_GIFT = 'gift';
+
     protected $fillable = [
         'user_id', 'plan_id', 'status', 'starts_at', 'ends_at', 'cancelled_at',
+        'source', 'granted_by', 'note',
     ];
 
     protected $casts = [
@@ -37,12 +42,23 @@ class Subscription extends Model
      * Подписка действует, если она активна и срок ещё не истёк.
      * Отменённая подписка продолжает действовать до конца оплаченного
      * периода — деньги за него уже получены.
+     *
+     * ends_at = null означает бессрочный доступ (подарок админа).
      */
     public function isActive(): bool
     {
         return in_array($this->status, [self::STATUS_ACTIVE, self::STATUS_CANCELLED], true)
-            && $this->ends_at !== null
-            && $this->ends_at->isFuture();
+            && ($this->ends_at === null || $this->ends_at->isFuture());
+    }
+
+    public function isLifetime(): bool
+    {
+        return $this->ends_at === null;
+    }
+
+    public function isGift(): bool
+    {
+        return $this->source === self::SOURCE_GIFT;
     }
 
     public function daysLeft(): int
