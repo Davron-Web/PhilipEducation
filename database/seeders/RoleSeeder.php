@@ -9,25 +9,17 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        Role::insert([
-            [
-                'name' => 'admin',
-                'description' => 'Administrator with full access',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'teacher',
-                'description' => 'Teacher with content management access',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'student',
-                'description' => 'Student with learning access',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        // firstOrCreate, а не insert: сидер запускается повторно вместе с
+        // DatabaseSeeder, и вставка плодила бы дубли ролей — а по имени роли
+        // определяются права, так что вторая строка «admin» ломает проверки.
+        $roles = [
+            'admin' => 'Administrator with full access',
+            'teacher' => 'Teacher with content management access',
+            'student' => 'Student with learning access',
+        ];
+
+        foreach ($roles as $name => $description) {
+            Role::firstOrCreate(['name' => $name], ['description' => $description]);
+        }
     }
 }

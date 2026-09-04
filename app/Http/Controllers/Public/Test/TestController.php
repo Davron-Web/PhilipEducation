@@ -69,7 +69,7 @@ class TestController extends Controller
         $attempt = TestAttempt::with(['test.questions.answers', 'answers'])->findOrFail($attempt);
 
         // Чужую попытку показывать нельзя — в ней ответы другого ученика.
-        abort_unless($attempt->user_id === Auth::id(), 403);
+        $this->authorize('view', $attempt);
 
         return view('public.tests.result', compact('attempt'));
     }

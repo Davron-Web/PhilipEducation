@@ -20,6 +20,7 @@ class SandboxController extends Controller
     public function show(Request $request, string $payment)
     {
         $payment = Payment::where('reference', $payment)->firstOrFail();
+        $this->authorize('view', $payment);
 
         return view('billing.sandbox', compact('payment'));
     }
@@ -27,6 +28,7 @@ class SandboxController extends Controller
     public function pay(Request $request, string $payment, SubscriptionService $subscriptions)
     {
         $payment = Payment::where('reference', $payment)->firstOrFail();
+        $this->authorize('pay', $payment);
 
         if ($request->boolean('success')) {
             $subscriptions->markPaid($payment, 'sandbox-'.$payment->reference, ['sandbox' => true]);

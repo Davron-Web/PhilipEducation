@@ -51,6 +51,11 @@ class ProfileController extends Controller
 
     public function show(Request $request, User $user): View|JsonResponse
     {
+        // Без этой проверки любой ученик читал чужой профиль, подставив id в
+        // адрес: HTML отдавал чужую статистику, а JSON — ещё и email вместе
+        // со всей историей обучения, результатами тестов и сертификатами.
+        $this->authorize('view', $user);
+
         $user->load(['role', 'level']);
         $stats = $this->statsFor($user);
 

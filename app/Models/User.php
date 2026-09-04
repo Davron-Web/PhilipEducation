@@ -66,6 +66,23 @@ class User extends Authenticatable
         return $this->hasRole('admin');
     }
 
+    public function isTeacher(): bool
+    {
+        return $this->hasRole('teacher');
+    }
+
+    /**
+     * Сотрудник платформы, а не ученик.
+     *
+     * Отдельный метод, чтобы права «видеть чужой прогресс» можно было выдать
+     * преподавателю, не раздавая ему доступ к админке: там проверка идёт по
+     * конкретной роли через RoleMiddleware.
+     */
+    public function isStaff(): bool
+    {
+        return $this->isAdmin() || $this->isTeacher();
+    }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
