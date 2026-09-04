@@ -52,6 +52,10 @@ class User extends Authenticatable
         'password' => 'hashed',
         'points' => 'integer',
         'is_active' => 'boolean',
+        // Без каста колонка приходит строкой, и любой ->diffInDays() по ней
+        // падает: даты нужны как объекты, а не как текст из базы.
+        'email_verified_at' => 'datetime',
+        'last_login_at' => 'datetime',
     ];
 
     /**

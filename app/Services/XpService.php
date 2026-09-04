@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Gamification\Title;
 use App\Models\User;
+use App\Notifications\TitleEarned;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
@@ -82,6 +83,7 @@ class XpService
 
         foreach ($qualifying as $title) {
             $user->titles()->attach($title->id, ['earned_at' => now()]);
+            $user->notify(new TitleEarned($title));
         }
     }
 

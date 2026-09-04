@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Gamification\Achievement;
 use App\Models\User;
+use App\Notifications\AchievementEarned;
 
 class AchievementService
 {
@@ -42,6 +43,7 @@ class AchievementService
             // Достижение само по себе даёт опыт — иначе колонка points
             // у достижений оставалась бы просто числом на карточке.
             $this->xp->award($user, 'achievement', $achievement->id, max(1, (int) $achievement->points));
+            $user->notify(new AchievementEarned($achievement));
         }
     }
 }

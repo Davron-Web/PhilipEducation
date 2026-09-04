@@ -3,6 +3,7 @@
 namespace App\Services\Payment;
 
 use App\Models\Billing\Invoice;
+use App\Notifications\PaymentSucceeded;
 use App\Models\Billing\Payment;
 use App\Models\Billing\Plan;
 use App\Models\Billing\Subscription;
@@ -68,7 +69,8 @@ class SubscriptionService
                 'subscription_id' => $subscription->id,
             ]);
 
-            $this->issueInvoice($payment->refresh(), $subscription);
+            $invoice = $this->issueInvoice($payment->refresh(), $subscription);
+            $payment->user->notify(new PaymentSucceeded($invoice));
 
             return $subscription;
         });
