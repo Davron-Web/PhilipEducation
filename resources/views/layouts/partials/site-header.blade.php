@@ -31,13 +31,8 @@
     <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8" aria-label="{{ __('site.nav.main') }}">
         {{-- Логотип --}}
         <a href="{{ auth()->check() ? route('user.dashboard') : url('/') }}" class="flex shrink-0 items-center gap-2 group">
-            <span class="flex h-9 w-9 items-center justify-center rounded bg-gold">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 6l2 3" /><path d="M18 6l-2 3" />
-                    <ellipse cx="12" cy="13" rx="7" ry="8" />
-                    <circle cx="9" cy="12" r="1.4" fill="#1A1A2E" stroke="none" />
-                    <circle cx="15" cy="12" r="1.4" fill="#1A1A2E" stroke="none" />
-                </svg>
+            <span class="flex h-9 w-9 items-center justify-center rounded bg-gold text-navy">
+                <x-owl-mark :size="20" />
             </span>
             <span class="hidden font-display text-lg font-semibold text-white sm:block">
                 Philip <span class="text-gold">Education</span>

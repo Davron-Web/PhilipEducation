@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             BookBatch2Seeder::class,
             IeltsTaskSeeder::class,
             IeltsPassageSeeder::class,
+            IeltsListeningBatch2Seeder::class,
             IeltsSpeakingCardSeeder::class,
         ]);
     }

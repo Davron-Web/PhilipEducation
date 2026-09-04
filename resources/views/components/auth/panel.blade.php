@@ -46,12 +46,7 @@
     <div class="auth-card w-full max-w-md">
         <div class="mb-8 text-center">
             <a href="{{ url('/') }}" class="inline-flex h-14 w-14 items-center justify-center rounded bg-gold text-navy shadow-soft">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 6l2 3" /><path d="M18 6l-2 3" />
-                    <ellipse cx="12" cy="13" rx="7" ry="8" />
-                    <circle cx="9" cy="12" r="1.4" fill="currentColor" stroke="none" />
-                    <circle cx="15" cy="12" r="1.4" fill="currentColor" stroke="none" />
-                </svg>
+                <x-owl-mark :size="28" />
             </a>
             <h1 class="mt-4 font-display text-2xl font-semibold text-ink">{{ $title }}</h1>
             @if ($subtitle)

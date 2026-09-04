@@ -5,13 +5,8 @@
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
                 <div class="mb-3 flex items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded bg-gold">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M6 6l2 3" /><path d="M18 6l-2 3" />
-                            <ellipse cx="12" cy="13" rx="7" ry="8" />
-                            <circle cx="9" cy="12" r="1.4" fill="#1A1A2E" stroke="none" />
-                            <circle cx="15" cy="12" r="1.4" fill="#1A1A2E" stroke="none" />
-                        </svg>
+                    <span class="flex h-9 w-9 items-center justify-center rounded bg-gold text-navy">
+                        <x-owl-mark :size="18" />
                     </span>
                     <span class="font-display text-lg font-semibold text-white">Philip <span class="text-gold">Education</span></span>
                 </div>

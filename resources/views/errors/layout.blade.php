@@ -26,7 +26,7 @@
 <div class="d-flex flex-column align-items-center justify-content-center text-center min-vh-100 px-3">
     <span class="d-inline-flex align-items-center justify-content-center rounded-4 text-white fw-bold ph-logo-mark mb-4"
           style="width: 4.5rem; height: 4.5rem; background: linear-gradient(135deg, #2563EB, #1d4ed8);">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l2 3"/><path d="M18 6l-2 3"/><ellipse cx="12" cy="13" rx="7" ry="8"/><circle cx="9" cy="12" r="2.2"/><circle cx="15" cy="12" r="2.2"/><circle cx="9" cy="12" r=".4" fill="#fff" stroke="none"/><circle cx="15" cy="12" r=".4" fill="#fff" stroke="none"/><path d="M11.3 14.5h1.4l-.7 1.2z" fill="#fff" stroke="none"/></svg>
+        <x-owl-mark :size="34" />
     </span>
 
     <div class="display-1 fw-bold ph-neon-grad-text mb-2">@yield('code')</div>
