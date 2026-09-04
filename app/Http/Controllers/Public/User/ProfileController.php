@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -71,7 +73,36 @@ class ProfileController extends Controller
     public function update(UpdateUserProfileRequest $request): RedirectResponse|JsonResponse
     {
         $user = Auth::user();
-        $user->update($request->validated());
+        $data = $request->safe()->only(['name', 'email']);
+
+        // Смена почты сбрасывает подтверждение и требует нового письма:
+        // иначе адрес, которым владеет кто-то другой, оставался бы
+        // «подтверждённым» и годился для восстановления пароля.
+        $emailChanged = $data['email'] !== $user->email;
+
+        if ($emailChanged) {
+            $data['email_verified_at'] = null;
+        }
+
+        if ($request->boolean('remove_avatar')) {
+            $this->deleteAvatar($user);
+            $data['avatar'] = null;
+        } elseif ($request->hasFile('avatar')) {
+            $this->deleteAvatar($user);
+            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        $user->forceFill($data)->save();
+
+        if ($emailChanged) {
+            // Сбой почтового провайдера не должен отменять сохранение профиля:
+            // адрес уже сменён, подтверждение можно запросить повторно.
+            try {
+                $user->sendEmailVerificationNotification();
+            } catch (\Throwable $e) {
+                Log::warning('Не удалось отправить письмо подтверждения: '.$e->getMessage());
+            }
+        }
 
         if ($request->wantsJson()) {
             return response()->json([
@@ -92,6 +123,13 @@ class ProfileController extends Controller
         ]);
     }
 
+    /** Удаляет прежний файл, чтобы в storage не копились осиротевшие аватары. */
+    private function deleteAvatar(User $user): void
+    {
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+    }
     /**
      * @return array{level: mixed, points: int, words_learned: int, lessons_completed: int, tests_passed: int, achievements_count: int, certificates_count: int}
      */

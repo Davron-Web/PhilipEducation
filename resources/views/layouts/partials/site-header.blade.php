@@ -124,8 +124,12 @@
                         @click="userMenuOpen = !userMenuOpen"
                         class="flex items-center gap-2 rounded border border-white/10 py-1 pl-1 pr-2 transition hover:border-gold/40"
                     >
-                        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-gold text-sm font-bold text-navy">
-                            {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                        <span class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-gold text-sm font-bold text-navy">
+                            @if (auth()->user()->avatarUrl())
+                                <img src="{{ auth()->user()->avatarUrl() }}" alt="" class="h-full w-full object-cover">
+                            @else
+                                {{ auth()->user()->initial() }}
+                            @endif
                         </span>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="hidden text-white/50 sm:block"><path d="m6 9 6 6 6-6" /></svg>
                     </button>

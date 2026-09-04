@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AiController;
+use App\Http\Controllers\ProfileController as BreezeProfileController;
 use App\Http\Controllers\Admin\Book\BookController as AdminBookController;
 use App\Http\Controllers\Admin\Certificate\CertificateController as AdminCertificateController;
 use App\Http\Controllers\Admin\Content\GrammarTopicController as AdminGrammarTopicController;
@@ -240,6 +241,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/edit', [PublicProfileController::class, 'edit'])->name('edit');
         Route::put('/', [PublicProfileController::class, 'update'])->name('update');
         Route::get('/stats', [PublicProfileController::class, 'stats'])->name('stats');
+
+        // Удаление аккаунта уже реализовано в контроллере Breeze — там верная
+        // последовательность: подтверждение паролем, выход, удаление, сброс
+        // сессии. Своя копия только добавила бы шанс что-то из этого забыть.
+        Route::delete('/', [BreezeProfileController::class, 'destroy'])->name('destroy');
+
         Route::get('/{user}', [PublicProfileController::class, 'show'])->name('show');
     });
 

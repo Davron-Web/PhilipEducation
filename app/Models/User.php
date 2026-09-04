@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -32,6 +33,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'avatar',
         'password',
         'role_id',
         'level_id',
@@ -64,6 +66,23 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->hasRole('admin');
+    }
+
+    /**
+     * Готовая ссылка на аватар или null, если он не загружен.
+     *
+     * Шаблоны не должны знать, на каком диске лежит файл: сегодня это
+     * локальный public, завтра может быть S3 — меняется только здесь.
+     */
+    public function avatarUrl(): ?string
+    {
+        return $this->avatar ? Storage::disk('public')->url($this->avatar) : null;
+    }
+
+    /** Инициал для запасного кружка, когда аватара нет. */
+    public function initial(): string
+    {
+        return mb_strtoupper(mb_substr($this->name ?: 'U', 0, 1));
     }
 
     public function isTeacher(): bool

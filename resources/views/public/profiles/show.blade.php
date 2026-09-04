@@ -8,8 +8,12 @@
     <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
         <x-ui.card :hover="false" class="mb-6">
             <div class="flex flex-wrap items-center gap-4">
-                <span class="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand to-sky text-2xl font-extrabold text-white">
-                    {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
+                <span class="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand to-sky text-2xl font-extrabold text-white">
+                    @if ($user->avatarUrl())
+                        <img src="{{ $user->avatarUrl() }}" alt="Аватар" class="h-full w-full object-cover">
+                    @else
+                        {{ $user->initial() }}
+                    @endif
                 </span>
                 <div>
                     <h1 class="text-lg font-extrabold text-ink">{{ $user->name }}</h1>
