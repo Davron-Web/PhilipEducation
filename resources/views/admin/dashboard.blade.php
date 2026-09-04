@@ -21,68 +21,6 @@
 @endpush
 
 @section('content')
-    @php
-        $safeCount = function (string $model): int {
-            if (! class_exists($model)) return 0;
-            try { return (int) $model::count(); } catch (\Throwable) { return 0; }
-        };
-        $months = ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
-
-        $usersCount = $safeCount(\App\Models\User::class);
-        $wordsCount = $safeCount(\App\Models\Vocabulary\Word::class);
-        $lessonsDone = (int) \App\Models\User\UserProgress::where('is_completed', true)->count();
-        $avgScore = (int) round(\App\Models\User\UserResult::avg('score') ?? 0);
-
-        $countByMonth = function (string $model, \Illuminate\Support\Carbon $since): array {
-            return $model::where('created_at', '>=', $since)
-                ->pluck('created_at')
-                ->countBy(fn ($date) => $date->month)
-                ->toArray();
-        };
-
-        $usersChart = array_fill(0, 8, 0);
-        $rows = $countByMonth(\App\Models\User::class, now()->subMonths(8));
-        for ($i = 0; $i < 8; $i++) {
-            $m = now()->subMonths(7 - $i)->month;
-            $usersChart[$i] = (int) ($rows[$m] ?? 0);
-        }
-        $usersLabels = [];
-        for ($i = 0; $i < 8; $i++) $usersLabels[] = $months[now()->subMonths(7 - $i)->month - 1];
-
-        $actLessons = array_fill(0, 4, 0);
-        $actTests = array_fill(0, 4, 0);
-        $l = $countByMonth(\App\Models\Content\Lesson::class, now()->subMonths(4));
-        $t = $countByMonth(\App\Models\User\UserResult::class, now()->subMonths(4));
-        for ($i = 0; $i < 4; $i++) {
-            $m = now()->subMonths(3 - $i)->month;
-            $actLessons[$i] = (int) ($l[$m] ?? 0);
-            $actTests[$i] = (int) ($t[$m] ?? 0);
-        }
-        $actLabels = [];
-        for ($i = 0; $i < 4; $i++) $actLabels[] = $months[now()->subMonths(3 - $i)->month - 1];
-
-        $testResultsChart = [0, 0, 0];
-        foreach (\App\Models\User\UserResult::all() as $r) {
-            $s = (int) ($r->score ?? 0);
-            if ($s >= 80) $testResultsChart[0]++;
-            elseif ($s >= 60) $testResultsChart[1]++;
-            else $testResultsChart[2]++;
-        }
-
-        $students = \App\Models\User::latest()->take(5)->get()->map(fn ($u) => [
-            'name' => $u->name ?? 'Гость', 'email' => $u->email ?? '—', 'date' => optional($u->created_at)->format('d.m.Y') ?? '—',
-        ]);
-
-        $lessons = \App\Models\Content\Lesson::with('level')->latest()->take(5)->get()->map(fn ($l) => [
-            'title' => $l->title, 'level' => optional($l->level)->name ?? '—', 'date' => optional($l->created_at)->format('d.m.Y') ?? '—',
-        ]);
-
-        $progress = \Illuminate\Support\Facades\DB::table('user_progress')
-            ->join('users', 'users.id', '=', 'user_progress.user_id')
-            ->join('lessons', 'lessons.id', '=', 'user_progress.lesson_id')
-            ->select('users.name as student', 'lessons.title as lesson', 'user_progress.progress_percent as value')
-            ->latest('user_progress.updated_at')->limit(5)->get();
-    @endphp
 
     <x-admin.page-header title="Панель управления" />
 
@@ -123,6 +61,18 @@
         <x-admin.stat-card color="yellow" :label="'Средний результат тестов'" :value="$avgScore . '%'"
             icon='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><polyline points="8.5 13.5 7 22 12 19 17 22 15.5 13.5"/></svg>' />
     </section>
+
+    <section class="stats-grid">
+        <x-admin.stat-card color="blue" label="Новых за 30 дней" :value="number_format($newUsers, 0, ',', ' ')"
+            icon='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>' />
+        <x-admin.stat-card color="blue" label="Активных за 30 дней" :value="number_format($activeUsers, 0, ',', ' ')"
+            icon='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>' />
+        <x-admin.stat-card color="yellow" label="PRO / FREE" :value="number_format($proUsers, 0, ',', ' ') . ' / ' . number_format($freeUsers, 0, ',', ' ')"
+            icon='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.6L22 9.3l-5 4.9 1.2 7.1L12 17.8l-6.2 3.5L7 14.2 2 9.3l7.1-.7L12 2z"/></svg>' />
+        <x-admin.stat-card color="yellow" label="Доход за месяц" :value="number_format($revenueMonth / 100, 0, ',', ' ') . ' ' . $currency"
+            icon='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' />
+    </section>
+
 
     <section class="charts-grid">
         <div class="card"><h3>Рост пользователей</h3><div class="chart-box"><canvas id="chartUsers"></canvas></div></div>

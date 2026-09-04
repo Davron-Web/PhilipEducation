@@ -5,6 +5,7 @@ namespace App\Models\Billing;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subscription extends Model
 {
@@ -45,6 +46,16 @@ class Subscription extends Model
      *
      * ends_at = null означает бессрочный доступ (подарок админа).
      */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     public function isActive(): bool
     {
         return in_array($this->status, [self::STATUS_ACTIVE, self::STATUS_CANCELLED], true)

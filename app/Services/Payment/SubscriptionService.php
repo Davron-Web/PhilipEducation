@@ -2,6 +2,7 @@
 
 namespace App\Services\Payment;
 
+use App\Models\Billing\Invoice;
 use App\Models\Billing\Payment;
 use App\Models\Billing\Plan;
 use App\Models\Billing\Subscription;
@@ -67,8 +68,33 @@ class SubscriptionService
                 'subscription_id' => $subscription->id,
             ]);
 
+            $this->issueInvoice($payment->refresh(), $subscription);
+
             return $subscription;
         });
+    }
+
+    /**
+     * Выписывает счёт по оплаченному платежу.
+     *
+     * firstOrCreate по payment_id: вебхук может прийти повторно, и второй
+     * счёт за ту же оплату сломал бы отчётность по доходу.
+     */
+    private function issueInvoice(Payment $payment, Subscription $subscription): Invoice
+    {
+        return Invoice::firstOrCreate(
+            ['payment_id' => $payment->id],
+            [
+                'number' => Invoice::numberFor($payment),
+                'user_id' => $payment->user_id,
+                'subscription_id' => $subscription->id,
+                'plan_name' => $payment->plan?->name ?? 'Подписка',
+                'amount_minor' => $payment->amount_minor,
+                'currency' => $payment->currency,
+                'status' => Invoice::STATUS_PAID,
+                'issued_at' => $payment->paid_at ?? now(),
+            ]
+        );
     }
 
     public function markFailed(Payment $payment, array $payload = []): void

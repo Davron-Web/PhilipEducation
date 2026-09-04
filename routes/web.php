@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AiController;
+use App\Http\Controllers\Admin\Billing\InvoiceController as AdminInvoiceController;
+use App\Http\Controllers\Admin\Billing\PaymentController as AdminPaymentController;
+use App\Http\Controllers\Admin\Billing\PlanController as AdminPlanController;
+use App\Http\Controllers\Admin\Billing\SubscriptionController as AdminBillingSubscriptionController;
+
 use App\Http\Controllers\ProfileController as BreezeProfileController;
 use App\Http\Controllers\Admin\Book\BookController as AdminBookController;
 use App\Http\Controllers\Admin\Certificate\CertificateController as AdminCertificateController;
@@ -308,6 +313,22 @@ Route::middleware(['auth', 'role:admin|superadmin'])
         // Gamification
         Route::resource('gamification/achievements', AdminAchievementController::class)->names('gamification.achievements');
         Route::resource('gamification/titles', AdminTitleController::class)->names('gamification.titles');
+
+        // Биллинг: тарифы правят, остальное только смотрят — платежи и счета
+        // отражают операции провайдера, руками их менять нельзя.
+        Route::resource('billing/plans', AdminPlanController::class)
+            ->except('show')
+            ->names('billing.plans');
+
+        Route::get('billing/subscriptions', [AdminBillingSubscriptionController::class, 'index'])->name('billing.subscriptions.index');
+        Route::get('billing/subscriptions/{subscription}', [AdminBillingSubscriptionController::class, 'show'])->name('billing.subscriptions.show');
+        Route::post('billing/subscriptions/{subscription}/cancel', [AdminBillingSubscriptionController::class, 'cancel'])->name('billing.subscriptions.cancel');
+
+        Route::get('billing/payments', [AdminPaymentController::class, 'index'])->name('billing.payments.index');
+        Route::get('billing/payments/{payment}', [AdminPaymentController::class, 'show'])->name('billing.payments.show');
+
+        Route::get('billing/invoices', [AdminInvoiceController::class, 'index'])->name('billing.invoices.index');
+        Route::get('billing/invoices/{invoice}', [AdminInvoiceController::class, 'show'])->name('billing.invoices.show');
         Route::resource('gamification/study-statistics', AdminStudyStatisticController::class)->names('gamification.studystatistics');
 
         // System
