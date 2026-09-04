@@ -8,6 +8,8 @@ use App\Models\Certificate\Certificate;
 use App\Models\Content\LessonComment;
 use App\Models\Gamification\Achievement;
 use App\Models\Gamification\StudyStatistic;
+use App\Models\Gamification\Title;
+use App\Models\Gamification\XpEvent;
 use App\Models\System\Level;
 use App\Models\System\Notification;
 use App\Models\User\Role;
@@ -146,6 +148,29 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(LessonComment::class);
+    }
+
+    public function xpEvents(): HasMany
+    {
+        return $this->hasMany(XpEvent::class);
+    }
+
+    public function titles(): BelongsToMany
+    {
+        return $this->belongsToMany(Title::class, 'user_titles')
+            ->withPivot('earned_at')
+            ->withTimestamps();
+    }
+
+    /**
+     * Текущее звание — самое старшее из полученных.
+     *
+     * Титулы не отбираются: пройденный порог остаётся в истории, а показывать
+     * имеет смысл только верхний.
+     */
+    public function currentTitle(): ?Title
+    {
+        return $this->titles()->orderByDesc('min_xp')->first();
     }
 
     public function certificates(): HasMany

@@ -7,6 +7,8 @@ use App\Models\User;
 
 class AchievementService
 {
+    public function __construct(private readonly XpService $xp) {}
+
     /**
      * Award every not-yet-earned achievement whose threshold for the given
      * condition type is now met by the user, based on their current learned
@@ -36,6 +38,10 @@ class AchievementService
 
         foreach ($qualifying as $achievement) {
             $user->achievements()->attach($achievement->id, ['earned_at' => now()]);
+
+            // Достижение само по себе даёт опыт — иначе колонка points
+            // у достижений оставалась бы просто числом на карточке.
+            $this->xp->award($user, 'achievement', $achievement->id, max(1, (int) $achievement->points));
         }
     }
 }

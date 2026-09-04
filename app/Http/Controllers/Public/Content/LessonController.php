@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public\Content;
 
 use App\Http\Controllers\Controller;
+use App\Services\XpService;
 use App\Models\Content\Lesson;
 use App\Models\System\Level;
 use App\Models\User\UserProgress;
@@ -53,7 +54,18 @@ class LessonController extends Controller
     /**
      * Mark a lesson as completed for the current user.
      */
-    public function complete(Request $request, $id): RedirectResponse
+    /**
+     * Сколько секунд ученик провёл на странице урока.
+     *
+     * Значение приходит из браузера, поэтому ему нельзя доверять: ограничиваем
+     * четырьмя часами, чтобы подделанное поле не испортило статистику.
+     */
+    private function secondsSpent(Request $request): int
+    {
+        return max(0, min((int) $request->input('seconds_spent', 0), 4 * 3600));
+    }
+
+    public function complete(Request $request, $id, XpService $xp): RedirectResponse
     {
         $user = Auth::user();
         if (! $user) {
@@ -70,8 +82,17 @@ class LessonController extends Controller
 
         UserProgress::updateOrCreate(
             ['user_id' => $user->id, 'lesson_id' => $lesson->id],
-            ['progress_percent' => 100, 'is_completed' => true, 'completed_at' => now()]
+            [
+                'progress_percent' => 100,
+                'is_completed' => true,
+                'completed_at' => now(),
+                // Время на уроке приходит со страницы; без него дашборд
+                // показывал бы 0 часов при реальной учёбе.
+                'time_spent' => $this->secondsSpent($request),
+            ]
         );
+
+        $xp->award($user, 'lesson', $lesson->id);
 
         return redirect()->route('public.lessons.show', $id)
             ->with('success', 'Lesson completed! Great work.');

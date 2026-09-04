@@ -7,6 +7,7 @@ use App\Models\User\UserWord;
 use App\Models\Vocabulary\Word;
 use App\Services\AchievementService;
 use App\Services\SpacedRepetitionService;
+use App\Services\XpService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,7 +75,7 @@ class WordController extends Controller
      * Отметить слово как выученное/на повторении для текущего пользователя
      * (карточки в режиме флеш-карт).
      */
-    public function markProgress(Request $request, Word $word, AchievementService $achievements, SpacedRepetitionService $srs)
+    public function markProgress(Request $request, Word $word, AchievementService $achievements, SpacedRepetitionService $srs, XpService $xp)
     {
         $request->validate(['learned' => 'required|boolean']);
 
@@ -95,6 +96,7 @@ class WordController extends Controller
             $srs->scheduleIfNew($progress);
 
             $achievements->checkAndAward(Auth::user(), 'words_learned');
+            $xp->award(Auth::user(), 'word', $word->id);
         }
 
         if ($request->wantsJson()) {
@@ -166,6 +168,7 @@ class WordController extends Controller
 
         if ($progress->learned) {
             $achievements->checkAndAward(Auth::user(), 'words_learned');
+            $xp->award(Auth::user(), 'word', $word->id);
         }
 
         return response()->json([

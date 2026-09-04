@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Exercise\ExerciseController as AdminExerciseController;
 use App\Http\Controllers\Admin\Exercise\ExerciseQuestionController as AdminExerciseQuestionController;
 use App\Http\Controllers\Admin\Gamification\AchievementController as AdminAchievementController;
+use App\Http\Controllers\Admin\Gamification\TitleController as AdminTitleController;
 use App\Http\Controllers\Admin\Gamification\StudyStatisticController as AdminStudyStatisticController;
 use App\Http\Controllers\Admin\System\LevelController as AdminLevelController;
 use App\Http\Controllers\Admin\System\NotificationController as AdminNotificationController;
@@ -306,6 +307,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])
 
         // Gamification
         Route::resource('gamification/achievements', AdminAchievementController::class)->names('gamification.achievements');
+        Route::resource('gamification/titles', AdminTitleController::class)->names('gamification.titles');
         Route::resource('gamification/study-statistics', AdminStudyStatisticController::class)->names('gamification.studystatistics');
 
         // System

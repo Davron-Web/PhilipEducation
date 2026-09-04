@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Content\Lesson;
 use App\Models\Exercise\Exercise;
 use App\Models\Gamification\Achievement;
+use App\Models\Gamification\Title;
 use App\Models\System\Level;
 use App\Models\User;
 use App\Services\SpacedRepetitionService;
@@ -40,7 +41,19 @@ class DashboardController extends Controller
             'achievements_total' => Achievement::count(),
             'hours_studied' => round($user->progress()->sum('time_spent') / 3600, 1),
             'streak' => $this->currentStreak($user),
+            'xp' => (int) $user->points,
         ];
+
+        $title = $user->currentTitle();
+
+        // Сколько осталось до следующего звания — прогресс виднее, чем голое
+        // число опыта.
+        $nextTitle = Title::where('is_active', true)
+            ->where('min_xp', '>', $user->points)
+            ->orderBy('min_xp')
+            ->first();
+
+        $recentXp = $user->xpEvents()->latest()->take(5)->get();
 
         $nextLesson = Lesson::where('is_published', true)
             ->whereDoesntHave('userProgress', function ($query) use ($user) {
@@ -58,7 +71,7 @@ class DashboardController extends Controller
 
         $streakDays = $this->lastSevenDays($user);
 
-        return view('user.dashboard', compact('stats', 'nextLesson', 'dailyExercise', 'streakDays', 'wordsDue'));
+        return view('user.dashboard', compact('stats', 'nextLesson', 'dailyExercise', 'streakDays', 'wordsDue', 'title', 'nextTitle', 'recentXp'));
     }
 
     /**

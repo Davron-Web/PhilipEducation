@@ -21,7 +21,10 @@ use Illuminate\Support\Facades\DB;
  */
 class TestGradingService
 {
-    public function __construct(private readonly AchievementService $achievements) {}
+    public function __construct(
+        private readonly AchievementService $achievements,
+        private readonly XpService $xp,
+    ) {}
 
     /**
      * @param  array<int|string, mixed>  $answers  ответы вида [question_id => значение]
@@ -81,6 +84,10 @@ class TestGradingService
 
             if ($passed) {
                 $this->achievements->checkAndAward($user, 'tests_passed');
+
+                // Опыт даётся за тест, а не за попытку: пересдача того же
+                // теста его не удваивает (уникальный ключ source + source_id).
+                $this->xp->award($user, 'test', $test->id);
             }
 
             return $attempt;

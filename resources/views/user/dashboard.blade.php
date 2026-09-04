@@ -20,6 +20,39 @@
                 <p class="mt-1 text-ink/60">Продолжим заниматься английским — вот что у вас сейчас.</p>
             </div>
 
+            <div class="flex flex-wrap items-stretch gap-3">
+
+            {{-- Опыт и звание --}}
+            <div class="rounded-2xl border border-brand/30 bg-brand/10 px-4 py-3 text-brand">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl leading-none">{{ $title?->icon ?? '🌱' }}</span>
+                    <div class="leading-tight">
+                        <p class="text-lg font-extrabold" x-data x-init="countUp($el, 0, {{ $stats['xp'] }}, 800)">0</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-brand/70">
+                            XP · {{ $title?->name ?? 'Новичок' }}
+                        </p>
+                    </div>
+                </div>
+
+                @if ($nextTitle)
+                    @php
+                        $from = $title?->min_xp ?? 0;
+                        $span = max(1, $nextTitle->min_xp - $from);
+                        $done = min(100, round((($stats['xp'] - $from) / $span) * 100));
+                    @endphp
+                    <div class="mt-2 w-40">
+                        <div class="h-1.5 overflow-hidden rounded-full bg-brand/20">
+                            <div class="h-full rounded-full bg-brand" style="width: {{ $done }}%"></div>
+                        </div>
+                        <p class="mt-1 text-[11px] font-semibold text-brand/70">
+                            До «{{ $nextTitle->name }}» — {{ number_format($nextTitle->min_xp - $stats['xp'], 0, ',', ' ') }} XP
+                        </p>
+                    </div>
+                @else
+                    <p class="mt-2 text-[11px] font-semibold text-brand/70">Высшее звание получено</p>
+                @endif
+            </div>
+
             {{-- Streak --}}
             <div class="rounded-2xl border border-sun/30 bg-sun/10 px-4 py-3 text-sun">
                 <div class="flex items-center gap-2">
@@ -41,6 +74,8 @@
                         </div>
                     @endforeach
                 </div>
+            </div>
+
             </div>
         </div>
 
