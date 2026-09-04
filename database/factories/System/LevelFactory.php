@@ -24,7 +24,9 @@ class LevelFactory extends Factory
             'C2' => 'Proficiency',
         ];
 
-        $code = fake()->unique()->randomElement($codes).'-'.fake()->unique()->numberBetween(1, 100000);
+        // unique() поверх списка из шести кодов исчерпывался на седьмом
+        // уровне — уникальность даёт числовой суффикс, а не сам выбор.
+        $code = fake()->randomElement($codes).'-'.fake()->unique()->numberBetween(1, 1000000);
         $baseCode = explode('-', $code)[0];
 
         return [

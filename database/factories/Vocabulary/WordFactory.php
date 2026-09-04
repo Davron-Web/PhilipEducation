@@ -20,7 +20,9 @@ class WordFactory extends Factory
                 null,
                 Lesson::factory(),
             ]),
-            'word' => fake()->unique()->word(),
+            // Словарь Faker невелик, и unique()->word() исчерпывается на
+            // паре десятков слов — уникальность обеспечивает суффикс.
+            'word' => fake()->word().'-'.fake()->unique()->numberBetween(1, 1000000),
             'transcription' => fake()->optional(0.7)->lexify('/?????/'),
             'audio_url' => fake()->optional(0.5)->url(),
             'image' => fake()->optional(0.5)->imageUrl(300, 300, 'words'),

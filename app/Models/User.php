@@ -39,6 +39,7 @@ class User extends Authenticatable
         'avatar',
         'password',
         'role_id',
+        'organization_id',
         'level_id',
         'points',
         'is_active',
@@ -107,6 +108,15 @@ class User extends Authenticatable
     public function isStaff(): bool
     {
         return $this->isAdmin() || $this->isTeacher();
+    }
+
+    /**
+     * Организация ученика. NULL — частное лицо, и это нормальный случай:
+     * платформа работает и без организаций.
+     */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
     }
 
     public function role(): BelongsTo

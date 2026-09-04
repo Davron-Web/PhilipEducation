@@ -67,6 +67,9 @@ use Illuminate\Support\Facades\Route;
 | Root (Публичная главная страница)
 |--------------------------------------------------------------------------
 */
+// Карта сайта — вне групп auth, её должен видеть поисковый робот.
+Route::get('/sitemap.xml', App\Http\Controllers\Public\System\SitemapController::class)->name('sitemap');
+
 Route::get('/', function () {
     if (auth()->check()) {
         if (auth()->user()->role_id == 1) {

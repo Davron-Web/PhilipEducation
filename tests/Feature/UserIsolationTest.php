@@ -100,3 +100,15 @@ it('не даёт оплатить чужой платёж в песочнице
 
     expect($payment->fresh()->status)->toBe('pending');
 });
+
+it('отдаёт карту сайта гостю', function () {
+    $response = $this->get('/sitemap.xml');
+
+    $response->assertOk()
+        ->assertHeader('Content-Type', 'application/xml')
+        ->assertSee('<urlset', escape: false);
+
+    // В карте не должно быть страниц, которые роботу отдадут редирект.
+    $response->assertDontSee('/lessons')
+        ->assertDontSee('/user/dashboard');
+});
