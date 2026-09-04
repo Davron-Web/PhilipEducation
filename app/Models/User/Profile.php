@@ -1,6 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
+
+// User лежит в App\Models, а этот класс — в App\Models\User,
+// поэтому импорт обязателен: иначе User::class указал бы сам на себя.
+use App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
