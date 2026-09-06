@@ -18,17 +18,26 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 /**
- * Generates 100 fake student accounts (email domain @example.com) with
+ * Generates fake student accounts (email domain @example.com) with
  * realistic learning activity: progress, test results, learned words,
  * achievements, and study statistics. Idempotent — safe to re-run;
  * only creates users that don't already exist (checked by email) and
  * processes them in batches of $batchSize per invocation.
+ *
+ * Размер набора и порции задаются переменными окружения FAKE_USERS_TOTAL
+ * и FAKE_USERS_BATCH (по умолчанию 100 и 10).
  */
 class FakeUsersSeeder extends Seeder
 {
-    private int $totalTarget = 100;
+    private int $totalTarget;
 
-    private int $batchSize = 10;
+    private int $batchSize;
+
+    public function __construct()
+    {
+        $this->totalTarget = (int) env('FAKE_USERS_TOTAL', 100);
+        $this->batchSize = (int) env('FAKE_USERS_BATCH', 10);
+    }
 
     private array $firstNames = [
         'Anna', 'Timur', 'Maria', 'John', 'Elena', 'Rustam', 'Sofia', 'David',
@@ -113,7 +122,7 @@ class FakeUsersSeeder extends Seeder
         $planned = [];
         $usedEmails = [];
         $recentCount = 0;
-        $maxRecent = 13;
+        $maxRecent = max(5, (int) round($this->totalTarget * 0.13));
 
         for ($i = 0; $i < $this->totalTarget; $i++) {
             $first = $this->firstNames[$i % count($this->firstNames)];
@@ -362,7 +371,12 @@ class FakeUsersSeeder extends Seeder
                         $totalPoints += Achievement::find($achievementIds[$title])?->points ?? 0;
                     }
                 }
-                User::where('id', $user->id)->update(['points' => $totalPoints]);
+                // last_login_at не заполнялся вовсе, и метрика «активные
+                // пользователи» в админке показывала почти ноль при 600 учениках.
+                User::where('id', $user->id)->update([
+                    'points' => $totalPoints,
+                    'last_login_at' => $lastActiveAt,
+                ]);
             });
         } catch (\Throwable $e) {
             $this->report['errors'][] = "{$planned['email']}: {$e->getMessage()}";
