@@ -80,9 +80,27 @@
 
         @if ($lesson->tests->isNotEmpty())
             <h2 class="mb-3 text-lg font-extrabold text-ink">Тесты по теме</h2>
-            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($lesson->tests as $test)
                     <x-test-card :test="$test" />
+                @endforeach
+            </div>
+        @endif
+
+        {{-- Видеоуроки — в самом низу: сначала теория и практика,
+             видео как дополнение к разобранному. --}}
+        @if ($lesson->publishedVideos->isNotEmpty())
+            <h2 id="lesson-videos" class="mb-1 flex items-center gap-2 text-lg font-extrabold text-ink scroll-mt-20">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand"><path d="m22 8-6 4 6 4V8Z" /><rect x="2" y="6" width="14" height="12" rx="2" /></svg>
+                Видеоуроки
+            </h2>
+            <p class="mb-4 text-sm text-ink/50">
+                {{ $lesson->publishedVideos->count() }} видео по теме урока
+            </p>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                @foreach ($lesson->publishedVideos as $video)
+                    <x-lesson-video :video="$video" />
                 @endforeach
             </div>
         @endif

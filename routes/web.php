@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Certificate\CertificateController as AdminCertifi
 use App\Http\Controllers\Admin\Content\GrammarTopicController as AdminGrammarTopicController;
 use App\Http\Controllers\Admin\Content\LessonContentController as AdminLessonContentController;
 use App\Http\Controllers\Admin\Content\LessonController as AdminLessonController;
+use App\Http\Controllers\Admin\Content\LessonVideoController as AdminLessonVideoController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Exercise\ExerciseController as AdminExerciseController;
 use App\Http\Controllers\Admin\Exercise\ExerciseQuestionController as AdminExerciseQuestionController;
@@ -287,6 +288,10 @@ Route::middleware(['auth', 'role:admin|superadmin'])
 
         // Content
         Route::resource('content/lessons', AdminLessonController::class)->names('content.lessons');
+        Route::resource('content/lesson-videos', AdminLessonVideoController::class)
+            ->parameters(['lesson-videos' => 'lessonvideo'])
+            ->except('show')
+            ->names('content.lessonvideos');
         Route::resource('content/grammartopics', AdminGrammarTopicController::class)->names('content.grammartopics');
         Route::resource('content/lessoncontents', AdminLessonContentController::class)->names('content.lessoncontents');
 

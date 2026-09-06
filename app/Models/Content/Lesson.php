@@ -40,6 +40,19 @@ class Lesson extends Model
         return $this->belongsTo(GrammarTopic::class);
     }
 
+    /** Видеоуроки по теме — показываются внизу страницы урока. */
+    public function videos(): HasMany
+    {
+        return $this->hasMany(LessonVideo::class)
+            ->orderBy('sort_order')
+            ->orderBy('id');
+    }
+
+    public function publishedVideos(): HasMany
+    {
+        return $this->videos()->where('is_published', true);
+    }
+
     public function contents(): HasMany
     {
         return $this->hasMany(LessonContent::class);

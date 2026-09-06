@@ -43,7 +43,7 @@ class LessonController extends Controller
     {
         $lesson = Lesson::with(['level', 'contents' => function ($query) {
             $query->orderBy('order_number');
-        }, 'words.translations', 'tests'])->findOrFail($id);
+        }, 'words.translations', 'tests', 'publishedVideos'])->findOrFail($id);
 
         $progress = Auth::check()
             ? Auth::user()->progress()->where('lesson_id', $lesson->id)->first()
