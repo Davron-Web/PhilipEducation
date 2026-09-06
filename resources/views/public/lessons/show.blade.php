@@ -69,14 +69,6 @@
             </div>
         @endif
 
-        @if ($lesson->words->isNotEmpty())
-            <h2 class="mb-3 text-lg font-extrabold text-ink">Слова из урока</h2>
-            <div class="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach ($lesson->words as $word)
-                    <x-word-card :word="$word" :learned="false" />
-                @endforeach
-            </div>
-        @endif
 
         @if ($lesson->tests->isNotEmpty())
             <h2 class="mb-3 text-lg font-extrabold text-ink">Тесты по теме</h2>
