@@ -14,6 +14,7 @@ class TestAnswer extends Model
         'question_id',
         'answer',
         'is_correct',
+        'sort_order',
     ];
 
     protected $casts = [

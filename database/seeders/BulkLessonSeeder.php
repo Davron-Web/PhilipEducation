@@ -275,10 +275,7 @@ class BulkLessonSeeder extends Seeder
                 'type' => 'single_choice',
                 'points' => 1,
             ]);
-            TestAnswer::create(['question_id' => $question->id, 'answer' => $tg['correct'], 'is_correct' => true]);
-            foreach ($tg['wrong'] as $wrong) {
-                TestAnswer::create(['question_id' => $question->id, 'answer' => $wrong, 'is_correct' => false]);
-            }
+            $this->storeAnswers($question->id, $tg['correct'], $tg['wrong']);
             $this->report['questions']++;
         }
 
@@ -302,11 +299,33 @@ class BulkLessonSeeder extends Seeder
                 'type' => 'single_choice',
                 'points' => 1,
             ]);
-            TestAnswer::create(['question_id' => $question->id, 'answer' => $v['ru'], 'is_correct' => true]);
-            foreach ($others as $wrong) {
-                TestAnswer::create(['question_id' => $question->id, 'answer' => $wrong, 'is_correct' => false]);
-            }
+            $this->storeAnswers($question->id, $v['ru'], $others->all());
             $this->report['questions']++;
+        }
+    }
+
+    /**
+     * Сохраняет варианты ответа в перемешанном порядке.
+     *
+     * Раньше правильный вставлялся первым, а варианты показывались в порядке
+     * id — в итоге ответом почти всегда был вариант А, и тест проходился
+     * угадыванием. Позиция задаётся sort_order, id при этом не трогаются:
+     * на них ссылаются попытки учеников.
+     *
+     * @param  array<int, string>  $wrong
+     */
+    private function storeAnswers(int $questionId, string $correct, array $wrong): void
+    {
+        $options = array_merge([[$correct, true]], array_map(fn ($text) => [$text, false], $wrong));
+        shuffle($options);
+
+        foreach ($options as $position => [$text, $isCorrect]) {
+            TestAnswer::create([
+                'question_id' => $questionId,
+                'answer' => $text,
+                'is_correct' => $isCorrect,
+                'sort_order' => $position,
+            ]);
         }
     }
 

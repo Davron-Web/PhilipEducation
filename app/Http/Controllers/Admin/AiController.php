@@ -127,11 +127,21 @@ class AiController extends Controller
 
                         $correctIndex = (int) ($q['correct'] ?? 0);
 
+                        // Модель охотно ставит правильный вариант первым,
+                        // поэтому порядок показа задаём сами — иначе тест
+                        // проходится выбором варианта А не глядя.
+                        $prepared = [];
                         foreach ($options as $index => $optionText) {
+                            $prepared[] = [$optionText, $index === $correctIndex];
+                        }
+                        shuffle($prepared);
+
+                        foreach ($prepared as $position => [$optionText, $isCorrect]) {
                             TestAnswer::create([
                                 'question_id' => $testQuestion->id,
                                 'answer' => $optionText,
-                                'is_correct' => $index === $correctIndex,
+                                'is_correct' => $isCorrect,
+                                'sort_order' => $position,
                             ]);
                         }
                     }

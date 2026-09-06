@@ -51,7 +51,11 @@ class TestQuestion extends Model
 
     public function answers(): HasMany
     {
-        return $this->hasMany(TestAnswer::class, 'question_id');
+        // Порядок по sort_order, а не по id: раньше варианты шли в порядке
+        // вставки, и правильный, вставленный первым, всегда был вариантом А.
+        return $this->hasMany(TestAnswer::class, 'question_id')
+            ->orderBy('sort_order')
+            ->orderBy('id');
     }
 
     public function userAnswers(): HasMany
