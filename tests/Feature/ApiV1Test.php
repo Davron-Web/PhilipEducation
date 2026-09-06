@@ -15,6 +15,9 @@ function apiStudent(): User
         'role_id' => Role::factory()->student()->create()->id,
         'password' => bcrypt('secret-password'),
         'points' => 0,
+        // Фабрика ставит is_active случайно (boolean(90)), а вход отключённым
+        // аккаунтам закрыт — без этого тест падал примерно раз из десяти.
+        'is_active' => true,
     ]);
 }
 
