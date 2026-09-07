@@ -37,8 +37,8 @@ it('регистрирует с настоящим доменом и шлёт п
     $this->post('/register', [
         'name' => 'Новый ученик',
         'email' => 'new.student.check@gmail.com',
-        'password' => 'Password123!',
-        'password_confirmation' => 'Password123!',
+        'password' => 'Tr0ubad0ur-x91k',
+        'password_confirmation' => 'Tr0ubad0ur-x91k',
     ])->assertRedirect();
 
     $user = User::where('email', 'new.student.check@gmail.com')->firstOrFail();
@@ -86,8 +86,8 @@ it('отклоняет несуществующий домен понятным 
     $this->post('/register', [
         'name' => 'Кто-то',
         'email' => 'user@nonexistent-domain-zzz999123.com',
-        'password' => 'Password123!',
-        'password_confirmation' => 'Password123!',
+        'password' => 'Tr0ubad0ur-x91k',
+        'password_confirmation' => 'Tr0ubad0ur-x91k',
     ])->assertSessionHasErrors(['email' => 'Такой почтовый домен не существует. Проверьте адрес — возможно, опечатка в части после «@».']);
 
     expect(User::where('email', 'like', '%zzz999123%')->exists())->toBeFalse();
@@ -97,8 +97,8 @@ it('отклоняет одноразовую почту', function () {
     $this->post('/register', [
         'name' => 'Кто-то',
         'email' => 'throwaway@mailinator.com',
-        'password' => 'Password123!',
-        'password_confirmation' => 'Password123!',
+        'password' => 'Tr0ubad0ur-x91k',
+        'password_confirmation' => 'Tr0ubad0ur-x91k',
     ])->assertSessionHasErrors('email');
 
     expect(User::where('email', 'throwaway@mailinator.com')->exists())->toBeFalse();
@@ -109,8 +109,8 @@ it('отклоняет поддомен одноразового сервиса'
     $this->post('/register', [
         'name' => 'Кто-то',
         'email' => 'a@team.mailinator.com',
-        'password' => 'Password123!',
-        'password_confirmation' => 'Password123!',
+        'password' => 'Tr0ubad0ur-x91k',
+        'password_confirmation' => 'Tr0ubad0ur-x91k',
     ])->assertSessionHasErrors('email');
 });
 
@@ -121,8 +121,8 @@ it('берёт список одноразовых доменов из конф�
     $this->post('/register', [
         'name' => 'Кто-то',
         'email' => 'someone@gmail.com',
-        'password' => 'Password123!',
-        'password_confirmation' => 'Password123!',
+        'password' => 'Tr0ubad0ur-x91k',
+        'password_confirmation' => 'Tr0ubad0ur-x91k',
     ])->assertSessionHasErrors('email');
 });
 

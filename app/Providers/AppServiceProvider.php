@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,21 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
 
         $this->configureVerificationEmail();
+        $this->configurePasswordRules();
+    }
+
+    /**
+     * Требования к паролю — одни и те же везде: регистрация, смена пароля,
+     * восстановление, создание пользователя админом.
+     *
+     * uncompromised() сверяет пароль со списком утечек через Have I Been
+     * Pwned, отправляя только первые пять символов хеша — сам пароль наружу
+     * не уходит. Если сервис недоступен, правило пропускает пароль: запирать
+     * регистрацию из-за чужого сбоя хуже, чем пропустить слабый пароль.
+     */
+    private function configurePasswordRules(): void
+    {
+        Password::defaults(fn () => Password::min(8)->uncompromised());
     }
 
     /**

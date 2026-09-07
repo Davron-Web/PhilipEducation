@@ -12,8 +12,8 @@ test('new users can register', function () {
         // Не example.com: у него «null MX» (RFC 7505), домен официально
         // не принимает почту, и правило email:rfc,dns его отклоняет.
         'email' => 'tests.users@gmail.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
+        'password' => 'Tr0ubad0ur-x91k',
+        'password_confirmation' => 'Tr0ubad0ur-x91k',
     ]);
 
     $this->assertAuthenticated();
