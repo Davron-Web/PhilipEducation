@@ -22,7 +22,7 @@
 @endphp
 
 <header
-    x-data="{ mobileOpen: false, userMenuOpen: false, searchOpen: false, localeOpen: false, scrolled: false }"
+    x-data="siteHeader()"
     @keydown.escape.window="mobileOpen = false; userMenuOpen = false; searchOpen = false; localeOpen = false"
     @scroll.window="scrolled = window.scrollY > 40"
     class="sticky top-0 z-50 bg-navy transition-shadow"
@@ -73,12 +73,48 @@
                         class="absolute right-0 top-12 w-72 rounded border border-white/10 bg-navy2 p-2 shadow-xl"
                         style="display: none;"
                     >
-                        {{-- Поиск пока без обработчика — раздел поиска ещё не реализован --}}
-                        <input
-                            type="search"
-                            placeholder="{{ __('site.header.search_placeholder') }}"
-                            class="w-full rounded border border-white/10 bg-navy px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20"
-                        >
+                        <form method="GET" action="{{ route('search') }}" @submit="if (!q.trim()) $event.preventDefault()">
+                            <input
+                                type="search"
+                                name="q"
+                                x-model="q"
+                                @input.debounce.250ms="suggest()"
+                                x-ref="searchInput"
+                                autocomplete="off"
+                                placeholder="{{ __('site.header.search_placeholder') }}"
+                                class="w-full rounded border border-white/10 bg-navy px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20"
+                            >
+                        </form>
+
+                        {{-- Подсказки: приходят по мере ввода, но только с двух
+                             символов — по одному находится половина сайта. --}}
+                        <div x-show="q.trim().length >= 2" class="mt-2 max-h-80 overflow-y-auto" style="display:none">
+                            <template x-if="loading">
+                                <p class="px-2 py-3 text-xs text-white/40">Ищу…</p>
+                            </template>
+
+                            <template x-if="!loading && total === 0">
+                                <p class="px-2 py-3 text-xs text-white/40">Ничего не нашлось</p>
+                            </template>
+
+                            <template x-for="(items, group) in results" :key="group">
+                                <div class="mb-1">
+                                    <p class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white/30" x-text="groupLabel(group)"></p>
+                                    <template x-for="item in items" :key="item.url">
+                                        <a :href="item.url" class="block rounded px-2 py-1.5 transition hover:bg-white/10">
+                                            <span class="block truncate text-sm text-white" x-text="item.title"></span>
+                                            <span class="block truncate text-xs text-white/40" x-text="item.subtitle"></span>
+                                        </a>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <a
+                                x-show="total > 0"
+                                :href="'{{ route('search') }}?q=' + encodeURIComponent(q)"
+                                class="mt-1 block rounded px-2 py-2 text-center text-xs font-bold uppercase tracking-wider text-gold hover:bg-white/10"
+                            >Показать все результаты</a>
+                        </div>
                     </div>
                 </div>
 
@@ -247,3 +283,72 @@
         </div>
     </div>
 </header>
+
+@push('scripts')
+<script>
+function siteHeader() {
+    return {
+        mobileOpen: false,
+        userMenuOpen: false,
+        searchOpen: false,
+        localeOpen: false,
+        scrolled: false,
+
+        // ---- Поиск ----
+        q: '',
+        results: {},
+        total: 0,
+        loading: false,
+        requestId: 0,
+
+        suggest: function () {
+            var term = this.q.trim();
+
+            if (term.length < 2) {
+                this.results = {};
+                this.total = 0;
+                this.loading = false;
+
+                return;
+            }
+
+            var self = this;
+            // Каждый ответ помечаем номером запроса: печатают быстрее, чем
+            // отвечает сервер, и без этого более старый ответ мог прийти
+            // последним и затереть подсказки к уже набранному слову.
+            var id = ++this.requestId;
+            this.loading = true;
+
+            fetch('{{ route('search.suggest') }}?q=' + encodeURIComponent(term), {
+                headers: { 'Accept': 'application/json' },
+            })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (id !== self.requestId) return;
+                    self.results = data.groups || {};
+                    self.total = data.total || 0;
+                })
+                .catch(function () {
+                    if (id !== self.requestId) return;
+                    self.results = {};
+                    self.total = 0;
+                })
+                .finally(function () {
+                    if (id === self.requestId) self.loading = false;
+                });
+        },
+
+        groupLabel: function (key) {
+            return {
+                lessons: 'Уроки',
+                grammar: 'Грамматика',
+                words: 'Словарь',
+                expressions: 'Выражения',
+                books: 'Книги',
+                tests: 'Тесты',
+            }[key] || key;
+        },
+    };
+}
+</script>
+@endpush

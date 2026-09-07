@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AiController;
+use App\Http\Controllers\Public\Search\SearchController as PublicSearchController;
 use App\Http\Controllers\Admin\Billing\InvoiceController as AdminInvoiceController;
 use App\Http\Controllers\Admin\Billing\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\Billing\PlanController as AdminPlanController;
@@ -259,6 +260,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/{user}', [PublicProfileController::class, 'show'])->name('show');
     });
+
+    // Поиск по материалам. suggest ограничен по частоте: он вызывается
+    // на каждое нажатие клавиши в строке поиска.
+    Route::get('/search', [PublicSearchController::class, 'index'])->name('search');
+    Route::get('/search/suggest', [PublicSearchController::class, 'suggest'])
+        ->middleware('throttle:60,1')->name('search.suggest');
 
     Route::get('/achievements', [PublicAchievementController::class, 'index'])->name('achievements.index');
 
