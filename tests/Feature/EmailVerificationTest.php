@@ -178,7 +178,9 @@ it('не даёт слать письма чаще раза в минуту', fu
     $user = unverifiedStudent();
 
     $this->actingAs($user)->post('/email/verification-notification')->assertRedirect();
-    $this->actingAs($user)->post('/email/verification-notification')->assertStatus(429);
+    $this->actingAs($user)->post('/email/verification-notification')
+        ->assertRedirect()
+        ->assertSessionHas('resend-wait');
 
     // Иначе форму «отправить ещё раз» можно нажимать подряд и рассылать
     // письма с нашего SMTP.

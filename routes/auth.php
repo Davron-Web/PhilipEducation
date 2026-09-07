@@ -59,10 +59,11 @@ Route::middleware('auth')->group(function () {
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
 
-    // Не чаще раза в минуту: без этого форму «отправить ещё раз» можно
-    // нажимать подряд и рассылать письма с нашего SMTP.
+    // Ограничение раз в минуту живёт в самом контроллере: middleware
+    // throttle отдавал страницу 429 вместо понятного сообщения со сроком.
+    // Здесь оставлен только грубый предохранитель от шквала запросов.
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:1,1')
+        ->middleware('throttle:20,1')
         ->name('verification.send');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])

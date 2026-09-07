@@ -93,7 +93,13 @@ it('ограничивает повторную отправку одним ра
     $user = codeStudent();
 
     $this->actingAs($user)->post('/email/verification-notification')->assertRedirect();
-    $this->actingAs($user)->post('/email/verification-notification')->assertStatus(429);
+
+    // Второе нажатие возвращает на ту же страницу со сроком ожидания,
+    // а не страницу «429 Слишком много запросов»: из неё не понять,
+    // что произошло и сколько ждать.
+    $this->actingAs($user)->post('/email/verification-notification')
+        ->assertRedirect()
+        ->assertSessionHas('resend-wait');
 
     Notification::assertSentToTimes($user, VerifyEmailWithCode::class, 1);
 });

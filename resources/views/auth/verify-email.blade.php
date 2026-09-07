@@ -8,6 +8,12 @@
 @section('content')
     <x-auth.panel title="Подтвердите почту" subtitle="Введите код из письма">
 
+        @if (session('resend-wait'))
+            <div class="mb-4 rounded-xl border border-sun/40 bg-sun/10 px-4 py-3 text-sm font-semibold text-sun">
+                Новый код можно запросить через {{ session('resend-wait') }} с — предыдущий ещё действует.
+            </div>
+        @endif
+
         @if (session('status') === 'verification-link-sent')
             <div class="mb-4 rounded-xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm font-semibold text-green-700 dark:text-green-400">
                 Новый код отправлен. Проверьте почту.
