@@ -99,7 +99,7 @@
 
                             <template x-for="(items, group) in results" :key="group">
                                 <div class="mb-1">
-                                    <p class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white/30" x-text="groupLabel(group)"></p>
+                                    <p class="px-2 py-1 text-xs font-bold uppercase tracking-wider text-white/40" x-text="groupLabel(group)"></p>
                                     <template x-for="item in items" :key="item.url">
                                         <a :href="item.url" class="block rounded px-2 py-1.5 transition hover:bg-white/10">
                                             <span class="block truncate text-sm text-white" x-text="item.title"></span>

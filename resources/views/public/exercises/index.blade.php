@@ -35,7 +35,7 @@
                         <div class="mt-5 space-y-1 border-t border-line pt-4">
                             @foreach ($levelExercises as $exercise)
                                 <a href="{{ route('exercises.show', $exercise->id) }}" class="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition hover:bg-surface2">
-                                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-line text-[10px] font-bold text-ink/40 transition group-hover:border-brand group-hover:text-brand">{{ $loop->iteration }}</span>
+                                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-line text-xs font-bold text-ink/40 transition group-hover:border-brand group-hover:text-brand">{{ $loop->iteration }}</span>
                                     <span class="flex-1 font-semibold text-ink transition group-hover:text-brand">{{ $exercise->title }}</span>
                                     <span class="text-xs font-bold text-ink/40">{{ $exercise->questions_count }} вопр.</span>
                                 </a>

@@ -86,7 +86,7 @@
                             <p class="flex items-center gap-2 font-semibold text-ink">
                                 {{ app(App\Services\TopicStatsService::class)->label($row['topic']) }}
                                 @if ($row['is_weak'])
-                                    <span class="rounded-full bg-red-500/10 px-2 py-0.5 text-[11px] font-bold text-red-500">слабая</span>
+                                    <span class="rounded-full bg-red-500/10 px-2 py-0.5 text-xs font-bold text-red-500">слабая</span>
                                 @endif
                             </p>
                             <div class="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-surface2">

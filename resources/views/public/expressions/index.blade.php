@@ -216,7 +216,7 @@
                                     @endif
 
                                     @if ($selectedCategory === 'all' && $expression->category)
-                                        <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/10 border border-sun/30 px-2.5 py-0.5 text-[11px] font-bold text-sun">{{ $expression->category }}</span>
+                                        <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/10 border border-sun/30 px-2.5 py-0.5 text-xs font-bold text-sun">{{ $expression->category }}</span>
                                     @endif
                                 </a>
                             </div>

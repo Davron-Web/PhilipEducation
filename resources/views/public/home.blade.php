@@ -68,8 +68,8 @@
             <div class="relative hidden lg:block" data-reveal>
                 <div class="overflow-hidden rounded-2xl border border-line bg-armor2 shadow-2xl">
                     <div class="flex items-center justify-between border-b border-line px-6 py-4">
-                        <p class="text-[11px] font-bold uppercase tracking-wider text-ink/40">{{ __('site.home.word_of_day') }}</p>
-                        <span class="rounded bg-gold px-2 py-0.5 text-[11px] font-bold text-navy">B1</span>
+                        <p class="text-xs font-bold uppercase tracking-wider text-ink/40">{{ __('site.home.word_of_day') }}</p>
+                        <span class="rounded bg-gold px-2 py-0.5 text-xs font-bold text-navy">B1</span>
                     </div>
                     <div class="px-6 py-6">
                         <p class="font-display text-3xl font-semibold text-ink">resilient</p>
@@ -149,9 +149,9 @@
                     <div data-reveal class="card-lift overflow-hidden rounded-2xl border border-line shadow-soft">
                         <div class="relative bg-navy px-6 py-8">
                             @if ($level['code'] === 'B1')
-                                <span class="absolute right-5 top-5 rounded bg-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-navy">{{ __('site.home.levels_popular') }}</span>
+                                <span class="absolute right-5 top-5 rounded bg-gold px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-navy">{{ __('site.home.levels_popular') }}</span>
                             @endif
-                            <span class="inline-block rounded bg-gold/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-gold">{{ $level['code'] }}</span>
+                            <span class="inline-block rounded bg-gold/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gold">{{ $level['code'] }}</span>
                             <h3 class="mt-4 font-display text-[22px] font-semibold text-white">{{ $level['name'] }}</h3>
                             <p class="mt-1 text-[13px] text-white/50">{{ $level['lessons_count'] }} {{ $level['lessons_count'] === 1 ? 'урок' : 'уроков' }}</p>
                         </div>
@@ -210,13 +210,13 @@
                 <div class="flip-card mx-auto h-56 w-72 cursor-pointer" id="homeFlashcard" data-reveal>
                     <div class="flip-card-inner h-full w-full">
                         <div class="flip-face flex h-full flex-col items-center justify-center rounded-2xl border border-line bg-armor2 p-6 text-center shadow-softLg">
-                            <p class="text-[11px] font-bold uppercase tracking-widest text-ink/40">{{ __('site.home.flip_word') }}</p>
+                            <p class="text-xs font-bold uppercase tracking-widest text-ink/40">{{ __('site.home.flip_word') }}</p>
                             <p class="mt-3 font-display text-[25px] font-semibold text-ink">wanderlust</p>
                             <p class="mt-1 font-mono text-[13px] text-sky">/ˈwɒndəlʌst/</p>
                             <p class="mt-5 text-[12px] text-ink/40">{{ __('site.home.flip_hint') }}</p>
                         </div>
                         <div class="flip-face flip-back flex h-full flex-col items-center justify-center rounded-2xl bg-navy p-6 text-center text-white shadow-softLg">
-                            <p class="text-[11px] font-bold uppercase tracking-widest text-gold">{{ __('site.home.flip_translation') }}</p>
+                            <p class="text-xs font-bold uppercase tracking-widest text-gold">{{ __('site.home.flip_translation') }}</p>
                             <p class="mt-3 font-display text-[23px] font-semibold">{{ __('site.glossary.wanderlust') }}</p>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div data-reveal class="grid items-center gap-10 rounded-2xl border border-line bg-armor p-8 shadow-soft sm:p-12 lg:grid-cols-2">
                 <div>
-                    <span class="inline-flex items-center gap-2 rounded-full bg-brand/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wider text-brand">{{ __('site.home.phil_badge') }}</span>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-brand/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-brand">{{ __('site.home.phil_badge') }}</span>
                     <h2 class="mt-4 font-display text-[26px] font-semibold text-ink sm:text-[32px]">{{ __("site.home.phil_title_1") }} <span class="text-brand">Phil</span></h2>
                     <p class="mt-3 max-w-md text-[15.5px] leading-relaxed text-ink/60">{{ __('site.home.phil_text') }}</p>
                 </div>

@@ -99,7 +99,7 @@
                                     <span>{{ $option->answer }}</span>
 
                                     @if ($wasChosen)
-                                        <span class="ml-auto text-[11px] font-bold uppercase tracking-wider opacity-70">ваш выбор</span>
+                                        <span class="ml-auto text-xs font-bold uppercase tracking-wider opacity-70">ваш выбор</span>
                                     @endif
                                 </div>
                             @endforeach

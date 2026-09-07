@@ -66,10 +66,10 @@
                         </div>
 
                         @if (is_null($word->lesson_id))
-                            <span class="shrink-0 rounded-full bg-sky/10 px-2.5 py-0.5 text-[11px] font-bold text-sky">своё</span>
+                            <span class="shrink-0 rounded-full bg-sky/10 px-2.5 py-0.5 text-xs font-bold text-sky">своё</span>
                         @endif
 
-                        <span class="shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold {{ $word->pivot->learned ? 'bg-green-500/10 text-green-600 dark:text-green-400' : 'bg-sun/10 text-sun' }}">
+                        <span class="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold {{ $word->pivot->learned ? 'bg-green-500/10 text-green-600 dark:text-green-400' : 'bg-sun/10 text-sun' }}">
                             {{ $word->pivot->learned ? 'выучено' : 'учу' }}
                         </span>
                     </div>

@@ -105,7 +105,7 @@
     #phil-avatar svg { width: 22px; height: 22px; color: #C9A961; }
     #phil-title { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
     #phil-title strong { font-size: 15px; color: #C9A961; font-family: 'Playfair Display', serif; }
-    #phil-title span { font-size: 11.5px; color: rgba(255,255,255,.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #phil-title span { font-size: 12px; color: rgba(255,255,255,.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     #phil-close { background: none; border: none; color: rgba(255,255,255,.7); cursor: pointer; padding: 4px; border-radius: 4px; flex-shrink: 0; }
     #phil-close:hover { background: rgba(255,255,255,.1); color: #C9A961; }
     #phil-close svg { width: 18px; height: 18px; display: block; }

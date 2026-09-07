@@ -67,7 +67,7 @@
                     <div class="rev-card h-72 cursor-pointer" :class="{ 'is-flipped': flipped }" @click="flipped = !flipped">
                         <div class="rev-inner h-full w-full">
                             <div class="rev-face flex h-full flex-col items-center justify-center rounded-2xl border border-line bg-armor2 p-8 text-center shadow-softLg">
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-ink/40">{{ __('site.home.flip_word') }}</p>
+                                <p class="text-xs font-bold uppercase tracking-widest text-ink/40">{{ __('site.home.flip_word') }}</p>
                                 <p class="mt-3 flex items-center gap-2 font-display text-3xl font-semibold text-ink">
                                     <span x-text="current.word"></span>
                                     <button
@@ -84,7 +84,7 @@
                             </div>
 
                             <div class="rev-face rev-back flex h-full flex-col items-center justify-center rounded-2xl bg-navy p-8 text-center shadow-softLg">
-                                <p class="text-[11px] font-bold uppercase tracking-widest text-gold">{{ __('site.home.flip_translation') }}</p>
+                                <p class="text-xs font-bold uppercase tracking-widest text-gold">{{ __('site.home.flip_translation') }}</p>
                                 <p class="mt-3 font-display text-2xl font-semibold text-white" x-text="current.translation"></p>
                                 <p class="mt-4 text-sm italic text-white/50" x-show="current.example" x-text="'«' + current.example + '»'"></p>
                             </div>
