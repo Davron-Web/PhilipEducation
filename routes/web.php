@@ -144,9 +144,11 @@ if (! app()->environment('production')) {
 | Public Lessons & User Area
 |--------------------------------------------------------------------------
 */
-Route::get('/public/lessons', [PublicLessonController::class, 'index'])->name('public.lessons.index');
-Route::get('/public/lessons/{id}', [PublicLessonController::class, 'show'])->name('public.lessons.show');
-Route::middleware('auth')->post('/public/lessons/{id}/complete', [PublicLessonController::class, 'complete'])->name('public.lessons.complete');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/public/lessons', [PublicLessonController::class, 'index'])->name('public.lessons.index');
+    Route::get('/public/lessons/{id}', [PublicLessonController::class, 'show'])->name('public.lessons.show');
+});
+Route::middleware(['auth', 'verified'])->post('/public/lessons/{id}/complete', [PublicLessonController::class, 'complete'])->name('public.lessons.complete');
 
 Route::get('/user/dashboard', [UserDashboardController::class, 'index'])
     ->middleware(['auth'])
@@ -166,7 +168,8 @@ Route::post('/assistant/chat', [AssistantController::class, 'chat'])
     ->name('assistant.chat');
 
 Route::middleware(['auth'])->group(function () {
-    Route::prefix('lessons')->name('lessons.')->group(function () {
+    // Уроки, словарь и тесты — только после подтверждения почты.
+    Route::prefix('lessons')->name('lessons.')->middleware('verified')->group(function () {
         Route::get('/', [PublicLessonController::class, 'index'])->name('index');
         Route::get('/{id}', [PublicLessonController::class, 'show'])->name('show');
     });
@@ -182,7 +185,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{topic}', [PublicGrammarTopicController::class, 'show'])->name('show');
     });
 
-    Route::prefix('words')->name('words.')->group(function () {
+    Route::prefix('words')->name('words.')->middleware('verified')->group(function () {
         Route::get('/', [PublicWordController::class, 'index'])->name('index');
         // До /{word}: иначе 'review' будет принят за слово.
         Route::get('/review', [PublicWordController::class, 'review'])->name('review');
@@ -202,7 +205,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/{expression}/practice', [PublicExpressionController::class, 'recordPractice'])->name('practice');
     });
 
-    Route::prefix('tests')->name('tests.')->group(function () {
+    Route::prefix('tests')->name('tests.')->middleware('verified')->group(function () {
         Route::get('/', [PublicTestController::class, 'index'])->name('index');
         Route::get('/{id}', [PublicTestController::class, 'show'])->name('show');
         Route::post('/{id}/submit', [PublicTestController::class, 'submit'])->name('submit');

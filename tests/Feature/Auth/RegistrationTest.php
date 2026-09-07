@@ -9,7 +9,9 @@ test('registration screen can be rendered', function () {
 test('new users can register', function () {
     $response = $this->post('/register', [
         'name' => 'tests users',
-        'email' => 'test@example.com',
+        // Не example.com: у него «null MX» (RFC 7505), домен официально
+        // не принимает почту, и правило email:rfc,dns его отклоняет.
+        'email' => 'tests.users@gmail.com',
         'password' => 'password',
         'password_confirmation' => 'password',
     ]);
