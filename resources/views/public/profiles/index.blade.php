@@ -65,5 +65,41 @@
                 </div>
             </x-ui.card>
         </div>
+
+        {{-- Статистика ошибок по темам --}}
+        @if ($topicStats->isNotEmpty())
+            <h2 class="mb-1 mt-10 font-display text-lg font-semibold text-ink">Темы в тестах</h2>
+            <p class="mb-4 text-sm text-ink/50">
+                Доля верных ответов по каждой теме. Тема отмечена как слабая при
+                {{ (int) (App\Services\TopicStatsService::WEAK_THRESHOLD * 100) }}% верных и ниже —
+                и не раньше, чем накопится {{ App\Services\TopicStatsService::MIN_ANSWERS }} ответа.
+            </p>
+
+            <div class="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-armor2">
+                @foreach ($topicStats as $row)
+                    @php $percent = (int) round($row['accuracy'] * 100); @endphp
+                    <div class="flex items-center gap-4 px-5 py-3">
+                        <div class="min-w-0 flex-1">
+                            <p class="flex items-center gap-2 font-semibold text-ink">
+                                {{ app(App\Services\TopicStatsService::class)->label($row['topic']) }}
+                                @if ($row['is_weak'])
+                                    <span class="rounded-full bg-red-500/10 px-2 py-0.5 text-[11px] font-bold text-red-500">слабая</span>
+                                @endif
+                            </p>
+                            <div class="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-surface2">
+                                <div
+                                    class="h-full rounded-full {{ $row['is_weak'] ? 'bg-red-500' : 'bg-green-500' }}"
+                                    style="width: {{ max($percent, 2) }}%"
+                                ></div>
+                            </div>
+                        </div>
+                        <div class="shrink-0 text-right">
+                            <p class="font-bold text-ink" style="font-variant-numeric: tabular-nums">{{ $percent }}%</p>
+                            <p class="text-xs text-ink/40">{{ $row['correct'] }} из {{ $row['total'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 @endsection

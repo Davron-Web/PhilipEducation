@@ -7,6 +7,7 @@ use App\Http\Requests\Public\User\UpdateUserProfileRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use App\Services\TopicStatsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -40,8 +41,9 @@ class ProfileController extends Controller
     {
         $user = Auth::user()->load(['role', 'level']);
         $stats = $this->statsFor($user);
+        $topicStats = app(TopicStatsService::class)->forUser($user);
 
-        return view('public.profiles.index', compact('user', 'stats'));
+        return view('public.profiles.index', compact('user', 'stats', 'topicStats'));
     }
 
     public function edit(): View
