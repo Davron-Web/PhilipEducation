@@ -33,6 +33,17 @@
             </div>
 
             <div class="form-group">
+                <label class="form-label">Тема</label>
+                <input type="text" name="topic" class="form-input" value="{{ old('topic', $testquestion->topic ?? '') }}" placeholder="present-simple" maxlength="80">
+                <div class="form-hint">Латиницей через дефис. По теме считается статистика ошибок ученика.</div>
+            </div>
+
+            <div class="form-group full">
+                <label class="form-label">Объяснение</label>
+                <textarea name="explanation" class="form-textarea" rows="3" placeholder="Почему правильный ответ именно такой">{{ old('explanation', $testquestion->explanation ?? '') }}</textarea>
+                <div class="form-hint">Показывается ученику только после неверного ответа.</div>
+            </div>
+            <div class="form-group">
                 <label class="form-label">Баллы *</label>
                 <input type="number" name="points" class="form-input" value="{{ old('points', 1) }}" min="1" required>
             </div>

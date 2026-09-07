@@ -123,6 +123,11 @@ class AiController extends Controller
                             'question' => $q['question'],
                             'type' => 'single_choice',
                             'points' => 1,
+                            // Тему и объяснение модель присылает вместе с вопросом;
+                            // если не прислала — оставляем пустыми, тему потом
+                            // проставит QuestionTopicSeeder.
+                            'topic' => $this->cleanTopic($q['topic'] ?? null),
+                            'explanation' => $q['explanation'] ?? null,
                         ]);
 
                         $correctIndex = (int) ($q['correct'] ?? 0);
@@ -203,5 +208,17 @@ class AiController extends Controller
             str_contains((string) $levelLabel, 'C1'), str_contains((string) $levelLabel, 'C2') => 9,
             default => 3,
         };
+    }
+
+    /**
+     * Приводит тему от модели к нашему формату: латиница через дефис.
+     * Всё, что не укладывается, отбрасываем — мусорная тема испортит
+     * статистику ошибок сильнее, чем её отсутствие.
+     */
+    private function cleanTopic(?string $topic): ?string
+    {
+        $topic = \Illuminate\Support\Str::slug((string) $topic);
+
+        return $topic !== '' ? \Illuminate\Support\Str::limit($topic, 80, '') : null;
     }
 }

@@ -17,6 +17,8 @@ class UpdateTestQuestionRequest extends FormRequest
             'test_id' => ['sometimes', 'integer', 'exists:tests,id'],
             'question' => ['sometimes', 'string'],
             'type' => ['nullable', 'string', 'in:single_choice,multiple_choice,text'],
+            'topic' => ['nullable', 'string', 'max:80', 'regex:/^[a-z0-9-]+$/'],
+            'explanation' => ['nullable', 'string', 'max:2000'],
             'points' => ['nullable', 'integer', 'min:1'],
         ];
     }

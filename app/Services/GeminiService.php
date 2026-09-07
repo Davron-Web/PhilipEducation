@@ -89,9 +89,11 @@ class GeminiService
   "lesson": {"title": "название урока", "level": "Beginner A1|Elementary A2|Intermediate B1", "theory": "объяснение темы на русском с примерами на английском"},
   "words": [{"word": "слово на английском", "translation": "перевод на русском"}],
   "exercises": [{"title": "название упражнения", "questions": [{"question": "задание", "answer": "правильный ответ"}]}],
-  "test": {"title": "Тест: тема", "questions": [{"question": "вопрос", "options": ["вариант1","вариант2","вариант3","вариант4"], "correct": 0}]}
+  "test": {"title": "Тест: тема", "questions": [{"question": "вопрос", "options": ["вариант1","вариант2","вариант3","вариант4"], "correct": 0, "topic": "present-simple", "explanation": "почему верен именно этот вариант, на русском"}]}
 }
 Требования: 6 слов, 2 упражнения по 3 вопроса, тест из 5 вопросов, "correct" — индекс правильного варианта (с 0).
+"topic" — короткий код темы латиницей через дефис (present-simple, articles, phrasal-verbs).
+"explanation" — 1-2 предложения на русском: почему верен этот вариант. Ученик видит его только после ошибки.
 PROMPT;
 
         $raw = trim($this->ask($prompt, json: true));

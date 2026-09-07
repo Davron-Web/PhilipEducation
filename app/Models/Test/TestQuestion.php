@@ -16,6 +16,7 @@ class TestQuestion extends Model
         'test_id',
         'question',
         'topic',
+        'explanation',
         'type',
         'points',
     ];

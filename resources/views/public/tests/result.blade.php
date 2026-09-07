@@ -105,6 +105,15 @@
                             @endforeach
                         </div>
                     @endif
+
+                    {{-- Объяснение показываем только там, где ученик ошибся:
+                         после верного ответа оно лишь удлиняет разбор. --}}
+                    @if (! $isCorrect && $question->explanation)
+                        <div class="mt-3 flex gap-2.5 rounded-lg border border-brand/25 bg-brand/5 p-3">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-brand"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z" /></svg>
+                            <p class="text-sm leading-relaxed text-ink/75">{{ $question->explanation }}</p>
+                        </div>
+                    @endif
                 </x-ui.card>
             @endforeach
         </div>
