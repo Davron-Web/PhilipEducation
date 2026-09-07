@@ -17,6 +17,8 @@ use App\Models\User\UserProgress;
 use App\Models\User\UserResult;
 use App\Models\Vocabulary\Expression;
 use App\Models\Vocabulary\Word;
+use App\Notifications\VerifyEmailWithCode;
+use App\Services\EmailVerificationCodeService;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -83,6 +85,21 @@ class User extends Authenticatable implements MustVerifyEmail
      * Шаблоны не должны знать, на каком диске лежит файл: сегодня это
      * локальный public, завтра может быть S3 — меняется только здесь.
      */
+    /**
+     * Отправка письма с подтверждением.
+     *
+     * Переопределено, чтобы код выдавался ровно там же, где отправляется
+     * письмо: и при регистрации, и при повторной отправке, и при смене
+     * адреса в настройках — иначе легко получить письмо с кодом, которого
+     * нет в базе, или наоборот.
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        $code = app(EmailVerificationCodeService::class)->issue($this);
+
+        $this->notify(new VerifyEmailWithCode($code));
+    }
+
     public function avatarUrl(): ?string
     {
         return $this->avatar ? Storage::disk('public')->url($this->avatar) : null;

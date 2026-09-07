@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\User\Role;
 use App\Models\Vocabulary\Word;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Notifications\VerifyEmailWithCode;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
@@ -45,12 +45,12 @@ it('регистрирует с настоящим доменом и шлёт п
 
     expect($user->hasVerifiedEmail())->toBeFalse();
 
-    Notification::assertSentTo($user, VerifyEmail::class, function ($notification) use ($user) {
+    Notification::assertSentTo($user, VerifyEmailWithCode::class, function ($notification) use ($user) {
         $mail = $notification->toMail($user);
 
         return str_contains($mail->subject, config('app.name'))
-            && str_contains($mail->subject, 'подтвердите')
-            && str_contains(implode(' ', $mail->introLines), 'зарегистрировались');
+            && str_contains($mail->subject, 'код подтверждения')
+            && str_contains(implode(' ', $mail->introLines), 'Введите этот код');
     });
 });
 
@@ -151,7 +151,7 @@ it('не пускает неподтверждённого и объясняет
         ->get(route('verification.notice'))
         ->assertOk()
         ->assertSee('Подтвердите почту')
-        ->assertSee('Отправить письмо ещё раз');
+        ->assertSee('Отправить новый код');
 });
 
 it('закрывает и запасной путь /public/lessons', function () {
@@ -182,5 +182,5 @@ it('не даёт слать письма чаще раза в минуту', fu
 
     // Иначе форму «отправить ещё раз» можно нажимать подряд и рассылать
     // письма с нашего SMTP.
-    Notification::assertSentToTimes($user, VerifyEmail::class, 1);
+    Notification::assertSentToTimes($user, VerifyEmailWithCode::class, 1);
 });

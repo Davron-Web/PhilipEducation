@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\EmailVerificationCodeController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -46,6 +47,13 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
+
+    // Подтверждение кодом. Ограничение частоты — сверх лимита попыток на
+    // сам код: тот сгорает после пяти ошибок, а throttle не даёт молотить
+    // запросами, запрашивая новый код между попытками.
+    Route::post('verify-email/code', [EmailVerificationCodeController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('verification.code');
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
