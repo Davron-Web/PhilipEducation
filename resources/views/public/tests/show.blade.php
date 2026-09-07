@@ -77,9 +77,12 @@
                             @if ($question->answers->isNotEmpty() && $question->type !== 'text')
                                 <div class="space-y-2">
                                     @foreach ($question->answers as $answer)
-                                        <label for="answer-{{ $answer->id }}" class="flex cursor-pointer items-center gap-2.5 rounded-xl border border-line bg-armor px-4 py-2.5 text-sm text-ink transition hover:border-brand/40">
+                                        {{-- min-h-12 = 48px: по вариантам нажимают десятки раз подряд, и
+                                             прежние 42px на телефоне давали промахи. Нажимается
+                                             вся строка — input лежит внутри label. --}}
+                                        <label for="answer-{{ $answer->id }}" class="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-line bg-armor px-4 py-3 text-sm text-ink transition hover:border-brand/40 has-[:checked]:border-brand has-[:checked]:bg-brand/5">
                                             <input
-                                                class="h-4 w-4 accent-brand"
+                                                class="h-5 w-5 shrink-0 accent-brand"
                                                 type="{{ $question->type === 'multiple_choice' ? 'checkbox' : 'radio' }}"
                                                 name="answers[{{ $question->id }}]{{ $question->type === 'multiple_choice' ? '[]' : '' }}"
                                                 id="answer-{{ $answer->id }}"
