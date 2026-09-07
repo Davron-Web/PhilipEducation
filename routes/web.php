@@ -185,6 +185,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [PublicWordController::class, 'index'])->name('index');
         // До /{word}: иначе 'review' будет принят за слово.
         Route::get('/review', [PublicWordController::class, 'review'])->name('review');
+        // Личный словарь — тоже до /{word}.
+        Route::get('/my', [PublicWordController::class, 'mine'])->name('mine');
         Route::post('/{word}/review', [PublicWordController::class, 'reviewAnswer'])->name('review.answer');
         Route::post('/', [PublicWordController::class, 'store'])->name('store');
         Route::get('/{word}', [PublicWordController::class, 'show'])->name('show');

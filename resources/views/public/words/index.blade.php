@@ -33,9 +33,16 @@
 
         @if (! $selectedCategory)
             {{-- ===== Выбор темы (карточки) ===== --}}
-            <div class="mb-8" data-reveal>
-                <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Словарь</h1>
-                <p class="mt-1 text-ink/60">Выберите тему, чтобы начать учить слова — всего {{ $categoryCounts->sum() }} слов в {{ $categoryCounts->count() }} темах.</p>
+            <div class="mb-8 flex flex-wrap items-end justify-between gap-4" data-reveal>
+                <div>
+                    <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Словарь</h1>
+                    <p class="mt-1 text-ink/60">Выберите тему, чтобы начать учить слова — всего {{ $categoryCounts->sum() }} слов в {{ $categoryCounts->count() }} темах.</p>
+                </div>
+
+                <x-ui.button :href="route('words.mine')" variant="outline">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z" /></svg>
+                    Мой словарь
+                </x-ui.button>
             </div>
 
             @php

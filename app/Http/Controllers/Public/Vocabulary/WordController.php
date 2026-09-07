@@ -110,6 +110,44 @@ class WordController extends Controller
      * Добавить своё слово в словарь (без привязки к уроку) и сразу
      * сохранить его перевод.
      */
+    /**
+     * Личный словарь: слова, которые ученик учит или добавил сам.
+     *
+     * Отдельно от общего списка: там 2168 слов курса, а здесь только те,
+     * что человек взял себе — с ними он и работает.
+     */
+    public function mine(Request $request): View
+    {
+        $filter = $request->query('filter', 'all');
+
+        // Переводы грузим сразу: без этого на каждое слово в списке
+        // уходил бы отдельный запрос.
+        $query = Auth::user()->words()->with('translations');
+
+        // Условия ставим напрямую, а не через when(): у belongsToMany
+        // when() передаёт в замыкание Eloquent-билдер, и wherePivot внутри
+        // него молча не применяет условие к сводной таблице — список
+        // получался пустым без единой ошибки.
+        match ($filter) {
+            'learned' => $query->wherePivot('learned', true),
+            'learning' => $query->wherePivot('learned', false),
+            // Свои слова не привязаны к уроку — по этому их и отличаем.
+            'own' => $query->whereNull('words.lesson_id'),
+            default => null,
+        };
+
+        $words = $query->orderBy('words.word')->paginate(30)->withQueryString();
+
+        $counts = [
+            'all' => Auth::user()->words()->count(),
+            'learning' => Auth::user()->words()->wherePivot('learned', false)->count(),
+            'learned' => Auth::user()->words()->wherePivot('learned', true)->count(),
+            'own' => Auth::user()->words()->whereNull('words.lesson_id')->count(),
+        ];
+
+        return view('public.words.mine', compact('words', 'counts', 'filter'));
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
