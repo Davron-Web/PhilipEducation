@@ -13,7 +13,7 @@
     <button
         type="button"
         @click="localeOpen = !localeOpen"
-        class="flex h-10 items-center gap-1.5 rounded px-2.5 text-white/85 transition hover:bg-white/10 hover:text-gold"
+        class="flex h-11 items-center gap-1.5 rounded px-2.5 text-white/85 transition hover:bg-white/10 hover:text-gold"
         :aria-expanded="localeOpen"
         aria-label="{{ __('site.header.language') }}"
     >

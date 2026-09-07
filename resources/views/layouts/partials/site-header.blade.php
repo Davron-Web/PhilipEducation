@@ -30,7 +30,7 @@
 >
     <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8" aria-label="{{ __('site.nav.main') }}">
         {{-- Логотип --}}
-        <a href="{{ auth()->check() ? route('user.dashboard') : url('/') }}" class="flex shrink-0 items-center gap-2 group">
+        <a href="{{ auth()->check() ? route('user.dashboard') : url('/') }}" class="flex h-11 min-w-11 shrink-0 items-center gap-2 group">
             <span class="flex h-9 w-9 items-center justify-center rounded bg-gold text-navy">
                 <x-owl-mark :size="20" />
             </span>
@@ -56,7 +56,7 @@
                     <button
                         type="button"
                         @click="searchOpen = !searchOpen"
-                        class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
+                        class="flex h-11 w-11 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                         aria-label="{{ __('site.header.search') }}"
                     >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
@@ -121,7 +121,7 @@
                 {{-- Уведомления --}}
                 <a
                     href="{{ route('notifications.index') }}"
-                    class="relative flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
+                    class="relative flex h-11 w-11 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                     aria-label="{{ __('site.header.notifications') }}{{ $unreadCount > 0 ? ' ('.__('site.header.notifications_unread', ['count' => $unreadCount]).')' : '' }}"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
@@ -147,7 +147,7 @@
                     type="button"
                     id="themeToggle"
                     aria-label="{{ __('site.header.theme_toggle') }}"
-                    class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
+                    class="flex h-11 w-11 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="dark:hidden"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
@@ -158,7 +158,7 @@
                     <button
                         type="button"
                         @click="userMenuOpen = !userMenuOpen"
-                        class="flex items-center gap-2 rounded border border-white/10 py-1 pl-1 pr-2 transition hover:border-gold/40"
+                        class="flex h-11 items-center gap-2 rounded border border-white/10 py-1 pl-1 pr-2 transition hover:border-gold/40"
                     >
                         <span class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-gold text-sm font-bold text-navy">
                             @if (auth()->user()->avatarUrl())
@@ -201,7 +201,7 @@
                 <button
                     type="button"
                     @click="mobileOpen = !mobileOpen"
-                    class="flex h-10 w-10 items-center justify-center rounded text-white/85 hover:bg-white/10 xl:hidden"
+                    class="flex h-11 w-11 items-center justify-center rounded text-white/85 hover:bg-white/10 xl:hidden"
                     aria-label="{{ __('site.header.open_menu') }}"
                     :aria-expanded="mobileOpen"
                 >
@@ -219,7 +219,7 @@
                     type="button"
                     id="themeToggle"
                     aria-label="{{ __('site.header.theme_toggle') }}"
-                    class="flex h-10 w-10 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
+                    class="flex h-11 w-11 items-center justify-center rounded text-white/85 transition hover:bg-white/10 hover:text-gold"
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="dark:hidden"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
@@ -235,7 +235,7 @@
             <button
                 type="button"
                 @click="mobileOpen = !mobileOpen"
-                class="flex h-10 w-10 items-center justify-center rounded text-white/85 hover:bg-white/10 sm:hidden"
+                class="flex h-11 w-11 items-center justify-center rounded text-white/85 hover:bg-white/10 sm:hidden"
                 aria-label="{{ __('site.header.open_menu') }}"
                 :aria-expanded="mobileOpen"
             >
