@@ -68,7 +68,10 @@
 
         {{-- Статистика ошибок по темам --}}
         @if ($topicStats->isNotEmpty())
-            <h2 class="mb-1 mt-10 font-display text-lg font-semibold text-ink">Темы в тестах</h2>
+            <div class="mt-10 flex flex-wrap items-end justify-between gap-3">
+                <h2 class="mb-1 font-display text-lg font-semibold text-ink">Темы в тестах</h2>
+                <a href="{{ route('progress.map') }}" class="mb-1 text-sm font-bold text-brand hover:underline">Карта прогресса →</a>
+            </div>
             <p class="mb-4 text-sm text-ink/50">
                 Доля верных ответов по каждой теме. Тема отмечена как слабая при
                 {{ (int) (App\Services\TopicStatsService::WEAK_THRESHOLD * 100) }}% верных и ниже —

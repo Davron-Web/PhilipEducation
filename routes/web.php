@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AiController;
+use App\Http\Controllers\Public\Progress\ProgressMapController;
 use App\Http\Controllers\Public\Search\SearchController as PublicSearchController;
 use App\Http\Controllers\Admin\Billing\InvoiceController as AdminInvoiceController;
 use App\Http\Controllers\Admin\Billing\PaymentController as AdminPaymentController;
@@ -273,6 +274,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/search', [PublicSearchController::class, 'index'])->name('search');
     Route::get('/search/suggest', [PublicSearchController::class, 'suggest'])
         ->middleware('throttle:60,1')->name('search.suggest');
+
+    Route::get('/progress', ProgressMapController::class)->name('progress.map');
 
     Route::get('/achievements', [PublicAchievementController::class, 'index'])->name('achievements.index');
 

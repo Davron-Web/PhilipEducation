@@ -37,6 +37,7 @@
                     @else
                         <li><a href="{{ route('user.dashboard') }}" class="transition hover:text-gold">{{ __('site.header.dashboard') }}</a></li>
                         <li><a href="{{ route('achievements.index') }}" class="transition hover:text-gold">{{ __('site.nav.achievements') }}</a></li>
+                        <li><a href="{{ route('progress.map') }}" class="transition hover:text-gold">Карта прогресса</a></li>
                         <li><a href="{{ route('profiles.index') }}" class="transition hover:text-gold">{{ __('site.header.profile') }}</a></li>
                     @endguest
                 </ul>
