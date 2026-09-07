@@ -205,6 +205,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [PublicTestController::class, 'index'])->name('index');
         Route::get('/{id}', [PublicTestController::class, 'show'])->name('show');
         Route::post('/{id}/submit', [PublicTestController::class, 'submit'])->name('submit');
+        // Автосохранение: страница шлёт ответы по мере их выбора.
+        Route::post('/{id}/draft', [PublicTestController::class, 'saveDraft'])
+            ->middleware('throttle:60,1')->name('draft.save');
+        Route::delete('/{id}/draft', [PublicTestController::class, 'discardDraft'])->name('draft.discard');
+
         Route::get('/attempts/{attempt}', [PublicTestController::class, 'result'])->name('result');
     });
 

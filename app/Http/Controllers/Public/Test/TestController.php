@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Public\Test;
 use App\Http\Controllers\Controller;
 use App\Models\Test\Test;
 use App\Models\Test\TestAttempt;
+use App\Models\Test\TestDraft;
 use App\Services\TestGradingService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -36,7 +39,46 @@ class TestController extends Controller
     {
         $test = Test::with(['lesson.level', 'questions.answers'])->findOrFail($id);
 
-        return view('public.tests.show', compact('test'));
+        // Незаконченная попытка этого ученика — подставим его прежние ответы.
+        $draft = TestDraft::where('user_id', Auth::id())
+            ->where('test_id', $test->id)
+            ->first();
+
+        return view('public.tests.show', compact('test', 'draft'));
+    }
+
+    /**
+     * Сохраняет незавершённый тест.
+     *
+     * Вызывается со страницы теста по мере ответов, поэтому отвечает пустым
+     * 204: показывать тут нечего, а лишний JSON только гоняет данные.
+     */
+    public function saveDraft(Request $request, $id): Response
+    {
+        $test = Test::where('is_published', true)->findOrFail($id);
+
+        $data = $request->validate([
+            'answers' => 'present|array',
+            'seconds_spent' => 'nullable|integer|min:0|max:86400',
+        ]);
+
+        TestDraft::updateOrCreate(
+            ['user_id' => Auth::id(), 'test_id' => $test->id],
+            [
+                'answers' => $data['answers'],
+                'seconds_spent' => $data['seconds_spent'] ?? 0,
+            ]
+        );
+
+        return response()->noContent();
+    }
+
+    /** Начать тест заново, отбросив сохранённые ответы. */
+    public function discardDraft($id): RedirectResponse
+    {
+        TestDraft::where('user_id', Auth::id())->where('test_id', $id)->delete();
+
+        return redirect()->route('tests.show', $id);
     }
 
     /**
@@ -57,6 +99,9 @@ class TestController extends Controller
             $data['answers'],
             $data['duration_seconds'] ?? null,
         );
+
+        // Тест отправлен — черновику больше незачем существовать.
+        TestDraft::where('user_id', Auth::id())->where('test_id', $test->id)->delete();
 
         return redirect()->route('tests.result', $attempt->id);
     }

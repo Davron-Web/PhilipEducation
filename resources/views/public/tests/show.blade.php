@@ -37,10 +37,32 @@
                 <p class="text-ink/50">В этом тесте пока нет вопросов.</p>
             </x-ui.card>
         @else
-            <form method="POST" action="{{ route('tests.submit', $test->id) }}" x-data="{ started: Date.now() }">
+            @php $saved = $draft?->answers ?? []; @endphp
+
+            @if ($draft && $draft->answeredCount() > 0)
+                <div class="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sun/30 bg-sun/5 px-5 py-3.5">
+                    <p class="text-sm text-ink/70">
+                        Вы уже отвечали на этот тест — {{ $draft->answeredCount() }} из {{ $test->questions->count() }}.
+                        Ответы восстановлены.
+                    </p>
+                    <form method="POST" action="{{ route('tests.draft.discard', $test->id) }}">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="text-xs font-bold uppercase tracking-wider text-ink/50 underline hover:text-brand">
+                            Начать заново
+                        </button>
+                    </form>
+                </div>
+            @endif
+
+            <form
+                method="POST"
+                action="{{ route('tests.submit', $test->id) }}"
+                x-data="testForm({{ (int) ($draft?->seconds_spent ?? 0) }}, '{{ route('tests.draft.save', $test->id) }}')"
+                @change="saveDraft()"
+            >
                 @csrf
                 {{-- Сколько времени занял тест — уходит в историю попыток. --}}
-                <input type="hidden" name="duration_seconds" x-bind:value="Math.round((Date.now() - started) / 1000)">
+                <input type="hidden" name="duration_seconds" x-bind:value="elapsed()">
 
                 <x-ui.card :hover="false">
                     @foreach ($test->questions as $question)
@@ -62,13 +84,14 @@
                                                 name="answers[{{ $question->id }}]{{ $question->type === 'multiple_choice' ? '[]' : '' }}"
                                                 id="answer-{{ $answer->id }}"
                                                 value="{{ $answer->id }}"
+                                                @checked(in_array((string) $answer->id, (array) ($saved[$question->id] ?? []), true) || (string) ($saved[$question->id] ?? null) === (string) $answer->id)
                                             >
                                             {{ $answer->answer }}
                                         </label>
                                     @endforeach
                                 </div>
                             @else
-                                <x-ui.input type="text" :name="'answers['.$question->id.']'" placeholder="Ваш ответ…" />
+                                <x-ui.input type="text" :name="'answers['.$question->id.']'" :value="is_string($saved[$question->id] ?? null) ? $saved[$question->id] : ''" placeholder="Ваш ответ…" />
                             @endif
                         </div>
                     @endforeach
@@ -82,3 +105,59 @@
         @endif
     </div>
 @endsection
+
+@push('scripts')
+<script>
+function testForm(alreadySpent, draftUrl) {
+    return {
+        started: Date.now(),
+        alreadySpent: alreadySpent,
+        saving: false,
+        pending: false,
+
+        // Время копится между заходами: вернувшийся ученик не должен
+        // выглядеть так, будто прошёл тест за минуту.
+        elapsed: function () {
+            return this.alreadySpent + Math.round((Date.now() - this.started) / 1000);
+        },
+
+        saveDraft: function () {
+            // Пока запрос в пути, следующий не шлём — просто отметим, что
+            // нужно повторить: иначе быстрые клики дают очередь запросов.
+            if (this.saving) {
+                this.pending = true;
+
+                return;
+            }
+
+            var self = this;
+            this.saving = true;
+
+            var form = this.$el;
+            var data = new FormData(form);
+            data.delete('_token');
+            data.delete('duration_seconds');
+            data.append('seconds_spent', this.elapsed());
+
+            fetch(draftUrl, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                },
+                body: data,
+            })
+                .catch(function () { /* черновик — не то, ради чего стоит тревожить ученика */ })
+                .finally(function () {
+                    self.saving = false;
+
+                    if (self.pending) {
+                        self.pending = false;
+                        self.saveDraft();
+                    }
+                });
+        },
+    };
+}
+</script>
+@endpush
