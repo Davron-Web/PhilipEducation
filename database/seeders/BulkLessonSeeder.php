@@ -42,7 +42,7 @@ class BulkLessonSeeder extends Seeder
         }
 
         $this->command?->info(sprintf(
-            'BulkLessonSeeder: +%d lessons, +%d words, +%d exercises, +%d questions, +%d tests',
+            class_basename(static::class).': +%d lessons, +%d words, +%d exercises, +%d questions, +%d tests',
             $this->report['lessons'],
             $this->report['words'],
             $this->report['exercises'],
@@ -344,7 +344,8 @@ class BulkLessonSeeder extends Seeder
     /**
      * @return array<int, array<string, mixed>>
      */
-    private function topics(): array
+    /** @return array<int, array<string, mixed>> */
+    protected function topics(): array
     {
         return array_merge(
             $this->topicsA1(),
