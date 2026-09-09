@@ -77,14 +77,11 @@ class ProfileController extends Controller
         $user = Auth::user();
         $data = $request->safe()->only(['name', 'email']);
 
-        // Смена почты сбрасывает подтверждение и требует нового письма:
-        // иначе адрес, которым владеет кто-то другой, оставался бы
-        // «подтверждённым» и годился для восстановления пароля.
-        $emailChanged = $data['email'] !== $user->email;
-
-        if ($emailChanged) {
-            $data['email_verified_at'] = null;
-        }
+        // Подтверждение почты отключено, поэтому смена адреса больше не
+        // сбрасывает email_verified_at и не шлёт письмо: иначе человек
+        // остался бы с неподтверждённым адресом навсегда — подтвердить
+        // его сейчас нечем. Домен проверяется правилом email:rfc,dns при
+        // сохранении, и выдуманный адрес сюда не пройдёт.
 
         if ($request->boolean('remove_avatar')) {
             $this->deleteAvatar($user);
@@ -96,15 +93,6 @@ class ProfileController extends Controller
 
         $user->forceFill($data)->save();
 
-        if ($emailChanged) {
-            // Сбой почтового провайдера не должен отменять сохранение профиля:
-            // адрес уже сменён, подтверждение можно запросить повторно.
-            try {
-                $user->sendEmailVerificationNotification();
-            } catch (\Throwable $e) {
-                Log::warning('Не удалось отправить письмо подтверждения: '.$e->getMessage());
-            }
-        }
 
         if ($request->wantsJson()) {
             return response()->json([

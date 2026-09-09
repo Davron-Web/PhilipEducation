@@ -29,7 +29,7 @@ test('profile information can be updated', function () {
         ->actingAs($user)
         ->put('/profiles', [
             'name' => 'Test User Updated',
-            'email' => 'updated@example.com',
+            'email' => 'updated.address@gmail.com',
         ]);
 
     $response
@@ -39,7 +39,7 @@ test('profile information can be updated', function () {
     $user->refresh();
 
     $this->assertSame('Test User Updated', $user->name);
-    $this->assertSame('updated@example.com', $user->email);
+    $this->assertSame('updated.address@gmail.com', $user->email);
 });
 
 test('profile update requires a valid email', function () {

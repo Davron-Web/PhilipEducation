@@ -5,8 +5,6 @@
 @section('page_description', 'Manage your profile and security')
 
 @section('content')
-    <form method="POST" action="{{ route('verification.send') }}" id="resend-verification" class="hidden">@csrf</form>
-
     <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         @if (session('status') === 'password-updated')
             <div x-data="{ show: true }" x-show="show" class="mb-6 flex items-center justify-between gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm font-semibold text-green-600 dark:text-green-400">
@@ -80,18 +78,6 @@
                         <x-ui.input label="Полное имя" name="name" value="{{ old('name', $user->name) }}" required />
                         <x-ui.input label="Email" type="email" name="email" value="{{ old('email', $user->email) }}" required />
 
-                        @if (! $user->hasVerifiedEmail())
-                            <p class="text-xs font-semibold text-sun">
-                                Адрес не подтверждён.
-                                <button type="submit" form="resend-verification" class="underline hover:text-brand">Отправить письмо со ссылкой</button>
-                            </p>
-                        @endif
-
-                        @if (session('status') === 'verification-link-sent')
-                            <p class="text-xs font-semibold text-green-600 dark:text-green-400">
-                                Письмо со ссылкой отправлено на {{ $user->email }}.
-                            </p>
-                        @endif
 
                         <x-ui.button type="submit">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" /></svg>

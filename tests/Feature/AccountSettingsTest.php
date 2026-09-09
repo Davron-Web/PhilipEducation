@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 it('загружает аватар и сохраняет путь к файлу', function () {
     Storage::fake('public');
-    $user = User::factory()->create(['email' => 'me@example.com']);
+    $user = User::factory()->create(['email' => 'me.profile@gmail.com']);
 
     $this->actingAs($user)
         ->put('/profiles', [
@@ -82,34 +82,37 @@ it('убирает аватар по галочке', function () {
     Storage::disk('public')->assertMissing($path);
 });
 
-it('сбрасывает подтверждение при смене почты', function () {
+it('меняет адрес и не запирает пользователя', function () {
     $user = User::factory()->create([
-        'email' => 'old@example.com',
+        'email' => 'old.address@gmail.com',
         'email_verified_at' => now(),
     ]);
 
     $this->actingAs($user)->put('/profiles', [
         'name' => $user->name,
-        'email' => 'new@example.com',
+        'email' => 'new.address@gmail.com',
     ]);
 
     $user->refresh();
 
-    // Иначе чужой адрес оставался бы «подтверждённым» и годился
-    // для восстановления пароля.
-    expect($user->email)->toBe('new@example.com')
-        ->and($user->email_verified_at)->toBeNull();
+    // Подтверждение почты отключено, поэтому смена адреса больше не
+    // сбрасывает email_verified_at: сбросить его сейчас значило бы
+    // отправить человека на страницу, которой нет.
+    expect($user->email)->toBe('new.address@gmail.com')
+        ->and($user->email_verified_at)->not->toBeNull();
+
+    $this->actingAs($user)->get('/lessons')->assertOk();
 });
 
 it('не сбрасывает подтверждение, когда почта не менялась', function () {
     $user = User::factory()->create([
-        'email' => 'same@example.com',
+        'email' => 'same.profile@gmail.com',
         'email_verified_at' => now(),
     ]);
 
     $this->actingAs($user)->put('/profiles', [
         'name' => 'Новое имя',
-        'email' => 'same@example.com',
+        'email' => 'same.profile@gmail.com',
     ]);
 
     expect($user->fresh()->email_verified_at)->not->toBeNull();

@@ -24,13 +24,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -92,6 +91,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * письмо: и при регистрации, и при повторной отправке, и при смене
      * адреса в настройках — иначе легко получить письмо с кодом, которого
      * нет в базе, или наоборот.
+     */
+    /**
+     * Отправка кода подтверждения.
+     *
+     * Подтверждение почты сейчас отключено: контракт MustVerifyEmail с
+     * модели снят, поэтому Laravel этот метод не зовёт, и сам по себе он
+     * не вызывается ниоткуда. Механизм оставлен целиком — сервис, таблица
+     * кодов, письмо — чтобы включить обратно после переезда на хостинг,
+     * где почта будет настроена нормально.
      */
     public function sendEmailVerificationNotification(): void
     {

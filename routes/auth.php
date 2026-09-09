@@ -2,14 +2,10 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\Auth\EmailVerificationCodeController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -45,26 +41,16 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
-
-    // Подтверждение кодом. Ограничение частоты — сверх лимита попыток на
-    // сам код: тот сгорает после пяти ошибок, а throttle не даёт молотить
-    // запросами, запрашивая новый код между попытками.
-    Route::post('verify-email/code', [EmailVerificationCodeController::class, 'store'])
-        ->middleware('throttle:10,1')
-        ->name('verification.code');
-
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
-
-    // Ограничение раз в минуту живёт в самом контроллере: middleware
-    // throttle отдавал страницу 429 вместо понятного сообщения со сроком.
-    // Здесь оставлен только грубый предохранитель от шквала запросов.
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:20,1')
-        ->name('verification.send');
+    /*
+     * Подтверждение почты отключено — маршруты сняты.
+     *
+     * Механизм не удалён: контроллеры, сервис кодов, письмо и таблица
+     * email_verification_codes остались на месте. Чтобы включить обратно,
+     * нужно вернуть сюда четыре маршрута, добавить модели User контракт
+     * MustVerifyEmail и middleware 'verified' на разделы уроков, словаря
+     * и тестов. Ждём переезда на хостинг, где почта настроена с SPF и
+     * DKIM: сейчас письма с локальной машины уходят в спам Gmail.
+     */
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
         ->name('password.confirm');
