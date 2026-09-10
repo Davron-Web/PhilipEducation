@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
             IeltsPassageSeeder::class,
             IeltsListeningBatch2Seeder::class,
             IeltsSpeakingCardSeeder::class,
+            IeltsBatch3Seeder::class,
         ]);
     }
 }
