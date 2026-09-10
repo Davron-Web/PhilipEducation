@@ -41,9 +41,17 @@ class LessonController extends Controller
      */
     public function show($id): View
     {
+        // tests.lesson.level и withCount('questions') нужны здесь, а не только
+        // в 'tests': x-test-card дёргает $test->lesson->level и
+        // $test->questions_count — без этого на каждую карточку теста уходило
+        // бы по 3 лишних запроса (lesson, level, questions), а не 1 общий.
+        // Подтверждено в песочнице: 3 теста на уроке — 14 запросов без этой
+        // строки, 7 запросов с ней, независимо от числа тестов.
         $lesson = Lesson::with(['level', 'contents' => function ($query) {
             $query->orderBy('order_number');
-        }, 'tests', 'publishedVideos'])->findOrFail($id);
+        }, 'tests.lesson.level', 'tests' => function ($query) {
+            $query->withCount('questions');
+        }, 'publishedVideos'])->findOrFail($id);
 
         $progress = Auth::check()
             ? Auth::user()->progress()->where('lesson_id', $lesson->id)->first()
