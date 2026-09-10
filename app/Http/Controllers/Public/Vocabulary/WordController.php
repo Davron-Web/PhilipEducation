@@ -24,7 +24,10 @@ class WordController extends Controller
      */
     public function index(Request $request): View
     {
-        $allWords = Word::with(['translations', 'lesson'])->orderBy('word')->orderBy('id')->get();
+        // lesson здесь не грузим: этот список (words/index.blade.php) его не
+        // использует — только translations. Карточка отдельного слова
+        // (show(), ниже) lesson показывает, там with('lesson') и остаётся.
+        $allWords = Word::with('translations')->orderBy('word')->orderBy('id')->get();
 
         $words = $allWords->unique(fn ($word) => Str::lower($word->word))->values();
 
