@@ -39,7 +39,15 @@ class DatabaseSeeder extends Seeder
             CertificateSeeder::class,
             BookSeeder::class,
             BookBatch2Seeder::class,
+            // Была не зарегистрирована вовсе: LessonBatch2Seeder наследует
+            // BulkLessonSeeder только ради buildLessonFromTopic(), но
+            // переопределяет topics() целиком, без parent::topics() — так
+            // 100 тем базового сидера (A1-C1) существовали только в коде,
+            // а на чистой базе никогда не создавались. Обнаружено
+            // migrate:fresh --seed на отдельной тестовой БД.
+            BulkLessonSeeder::class,
             LessonBatch2Seeder::class,
+            LessonAiDraftSeeder::class,
             TitleSeeder::class,
             IeltsTaskSeeder::class,
             IeltsPassageSeeder::class,
