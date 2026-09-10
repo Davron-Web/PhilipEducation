@@ -15,7 +15,10 @@
 
         <x-ui.card :hover="false">
             <div class="mb-3 flex flex-wrap items-center gap-2">
-                <span class="inline-flex items-center gap-1 rounded-full bg-{{ $task->type === 'writing_task1' ? 'sky' : 'brand' }}/10 px-2.5 py-0.5 text-xs font-bold uppercase text-{{ $task->type === 'writing_task1' ? 'sky' : 'brand' }}">
+                {{-- Классы записаны целиком в обеих ветках. Склейку вида
+                     bg-{{ ... }}/10 сборщик Tailwind не видит: он ищет в файле
+                     готовые строки, а имя класса собирается только в браузере. --}}
+                <span class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold uppercase {{ $task->type === 'writing_task1' ? 'bg-sky/10 text-sky' : 'bg-brand/10 text-brand' }}">
                     {{ $task->type === 'writing_task1' ? 'Writing Task 1' : 'Writing Task 2' }}
                 </span>
                 <span class="text-xs font-semibold text-ink/40">Минимум {{ $task->min_words }} слов</span>

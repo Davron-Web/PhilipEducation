@@ -1,1 +1,7 @@
-/* Legacy entry point for the default Laravel welcome page (unrouted). */
+/* Точка входа стилей сайта. Tailwind собирается по tailwind.config.js:
+   палитра на CSS-переменных, суженная шкала скруглений, свои тени.
+   Токены --pe-* и правила поверх утилит живут в layouts/app.blade.php. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

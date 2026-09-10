@@ -33,61 +33,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     {{--
-        Сборки через npm на этой машине нет, поэтому Tailwind и Alpine
-        подключены через CDN (без шага компиляции). Палитра — тема "Philip
-        Elite" (тёмно-синий + золото, антиква в заголовках, переключаемая
-        тёмная тема через класс .dark). Цвета Tailwind ссылаются на
-        CSS-переменные ниже, чтобы вся разметка сайта (bg-armor2, text-ink,
-        text-sky...) автоматически подхватывала обе темы без правки каждой
-        страницы. Шкала скруглений сужена глобально (borderRadius ниже) —
-        так весь существующий rounded-xl/2xl/3xl в разметке сайта разом
-        становится «острым», в духе премиальных бутик-сайтов, без правки
-        каждого файла.
+        Tailwind собирается локально (npm run build) по tailwind.config.js —
+        там же палитра, шкала скруглений и тени. Раньше здесь висел Play CDN,
+        который компилировал стили в браузере ученика на каждой загрузке и
+        делал сайт зависимым от стороннего домена.
+
+        Тема «Philip Elite»: тёмно-синий с золотом, антиква в заголовках,
+        переключаемая тёмная тема через класс .dark. Цвета Tailwind ссылаются
+        на CSS-переменные ниже, поэтому обе темы работают без правки разметки.
+
+        Ссылка на собранный CSS стоит ДО <style> ниже: инлайновые правила
+        должны перекрывать утилиты — так же, как это было с CDN.
     --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        display: ['"Playfair Display"', 'ui-serif', 'Georgia', 'serif'],
-                    },
-                    colors: {
-                        ink: 'var(--pe-ink)',
-                        armor: 'var(--pe-armor)',
-                        armor2: 'var(--pe-armor2)',
-                        surface2: 'var(--pe-surface2)',
-                        line: 'var(--pe-line)',
-                        brand: 'var(--pe-brand)',
-                        sky: 'var(--pe-sky)',
-                        skylight: 'var(--pe-skylight)',
-                        sun: 'var(--pe-sun)',
-                        navy: 'var(--pe-navy)',
-                        navy2: 'var(--pe-navy2)',
-                        gold: 'var(--pe-gold)',
-                    },
-                    borderRadius: {
-                        none: '0',
-                        sm: '2px',
-                        DEFAULT: '3px',
-                        md: '4px',
-                        lg: '5px',
-                        xl: '6px',
-                        '2xl': '8px',
-                        '3xl': '10px',
-                        '4xl': '12px',
-                        full: '9999px',
-                    },
-                    boxShadow: {
-                        soft: '0 10px 30px -10px rgba(26, 26, 46, .18)',
-                        softLg: '0 20px 50px -15px rgba(26, 26, 46, .28)',
-                    },
-                },
-            },
-        };
-    </script>
+    @vite(['resources/css/app.css'])
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="{{ asset('assets/js/pronounce.js') }}"></script>
     <script src="{{ asset('assets/js/flashcard-deck.js') }}"></script>
