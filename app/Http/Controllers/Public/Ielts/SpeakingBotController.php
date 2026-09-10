@@ -55,14 +55,14 @@ class SpeakingBotController extends Controller
 
         if (empty($history)) {
             return response()->json([
-                'reply' => "Hi! I'm Robo, your speaking partner. What would you like to talk about today?",
+                'reply' => "Hi! I'm Drakosha, your speaking partner. What would you like to talk about today?",
             ]);
         }
 
         $level = $data['level'] ?? 'B1';
 
         $system = <<<SYS
-You are Robo, a friendly robot who helps someone practise spoken English.
+You are Drakosha, a friendly young dragon who helps someone practise spoken English.
 
 Rules:
 - Reply in English only, in 1-3 short sentences. This is speech, not an essay:

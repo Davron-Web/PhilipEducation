@@ -29,7 +29,7 @@ it('greets without calling Gemini when the history is empty', function () use ($
     $this->actingAs($student())
         ->postJson('/ielts/speaking/bot/reply', ['history' => [], 'level' => 'B1'])
         ->assertOk()
-        ->assertJsonPath('reply', fn ($reply) => str_contains($reply, 'Robo'));
+        ->assertJsonPath('reply', fn ($reply) => str_contains($reply, 'Drakosha'));
 });
 
 it('passes the dialogue history to Gemini and returns the reply', function () use ($student) {
