@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('passed');
             $table->integer('duration_seconds')->nullable();
             $table->timestamp('started_at');
-            $table->timestamp('finished_at');
+            $table->timestamp('finished_at')->nullable();
             $table->timestamps();
         });
     }

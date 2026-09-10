@@ -384,7 +384,10 @@ function speakingBot() {
 }
 
 /**
- * Робот из примитивов Three.js: голова, глаза, антенна, «рот»-полоска.
+ * Робот из примитивов Three.js: круглая голова вместо плоской «коробки»,
+ * улыбка-дуга, глаза-«капли» с морганием, кольца-ореол вокруг головы
+ * (вместо торчавших по бокам цилиндров-«ушей») и мягкая подсветка на
+ * canvas-текстуре — без единого внешнего файла.
  * Состояния меняют анимацию — так видно, слушает он, думает или говорит.
  */
 function buildRobot(container) {
@@ -396,55 +399,125 @@ function buildRobot(container) {
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
-    camera.position.set(0, 0.15, 4.9);
+    camera.position.set(0, 0.1, 5.4);
 
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
-    var key = new THREE.DirectionalLight(0xc9a961, 1.1);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    var key = new THREE.DirectionalLight(0xc9a961, 1.3);
     key.position.set(3, 4, 5);
     scene.add(key);
+    var fill = new THREE.DirectionalLight(0x6e97c7, 0.6);
+    fill.position.set(-4, -1, 3);
+    scene.add(fill);
+    var rim = new THREE.DirectionalLight(0xc9a961, 0.8);
+    rim.position.set(-2, 3, -4);
+    scene.add(rim);
+
+    // Мягкое золотистое свечение позади и под роботом — рисуем радиальный
+    // градиент на canvas и используем как текстуру, без внешних картинок.
+    function glowTexture(inner, outer) {
+        var c = document.createElement('canvas');
+        c.width = c.height = 256;
+        var ctx = c.getContext('2d');
+        var g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+        g.addColorStop(0, inner);
+        g.addColorStop(1, outer);
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, 256, 256);
+        return new THREE.CanvasTexture(c);
+    }
+    var backGlow = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: glowTexture('rgba(201,169,97,0.35)', 'rgba(201,169,97,0)'),
+        transparent: true,
+        depthWrite: false,
+    }));
+    backGlow.scale.set(6, 6, 1);
+    backGlow.position.set(0, 0.2, -1.5);
+    scene.add(backGlow);
+
+    var groundGlow = new THREE.Mesh(
+        new THREE.CircleGeometry(1.6, 32),
+        new THREE.MeshBasicMaterial({
+            map: glowTexture('rgba(201,169,97,0.45)', 'rgba(201,169,97,0)'),
+            transparent: true,
+            depthWrite: false,
+        })
+    );
+    groundGlow.rotation.x = -Math.PI / 2;
+    groundGlow.position.y = -1.7;
+    scene.add(groundGlow);
 
     var robot = new THREE.Group();
     scene.add(robot);
 
-    var bodyMat = new THREE.MeshStandardMaterial({ color: 0x2a3555, metalness: 0.35, roughness: 0.45 });
-    var goldMat = new THREE.MeshStandardMaterial({ color: 0xc9a961, metalness: 0.6, roughness: 0.3 });
-    var eyeMat = new THREE.MeshStandardMaterial({ color: 0xf5f0e8, emissive: 0x8899cc, emissiveIntensity: 0.5 });
+    var headMat = new THREE.MeshPhysicalMaterial({ color: 0x242c4a, metalness: 0.3, roughness: 0.32, clearcoat: 0.7, clearcoatRoughness: 0.25 });
+    var goldMat = new THREE.MeshStandardMaterial({ color: 0xc9a961, metalness: 0.75, roughness: 0.22 });
+    var haloMat = new THREE.MeshStandardMaterial({ color: 0xc9a961, metalness: 0.4, roughness: 0.15, emissive: 0xc9a961, emissiveIntensity: 0.35 });
+    var eyeMat = new THREE.MeshStandardMaterial({ color: 0xf7ecd2, emissive: 0xc9a961, emissiveIntensity: 0.7, roughness: 0.3 });
+    var mouthMat = new THREE.MeshStandardMaterial({ color: 0xc9a961, emissive: 0xc9a961, emissiveIntensity: 0.45, metalness: 0.5, roughness: 0.3 });
 
-    var head = new THREE.Mesh(new THREE.BoxGeometry(2.6, 2.1, 2.1), bodyMat);
+    // Голова — сфера, чуть вытянутая и приплюснутая спереди назад: мягче
+    // и дружелюбнее плоского параллелепипеда, что был раньше.
+    var head = new THREE.Mesh(new THREE.SphereGeometry(1.15, 48, 48), headMat);
+    head.scale.set(1, 1.08, 0.94);
     robot.add(head);
 
-    var leftEye = new THREE.Mesh(new THREE.SphereGeometry(0.3, 24, 24), eyeMat);
-    leftEye.position.set(-0.62, 0.32, 1.06);
+    // Глаза — сплюснутые сферы (мягкий овал), а не жёсткие шарики.
+    var leftEye = new THREE.Mesh(new THREE.SphereGeometry(0.2, 24, 24), eyeMat);
+    leftEye.scale.set(1, 1.3, 0.4);
+    leftEye.position.set(-0.44, 0.14, 1.0);
     var rightEye = leftEye.clone();
-    rightEye.position.x = 0.62;
+    rightEye.position.x = 0.44;
     robot.add(leftEye, rightEye);
 
-    var mouth = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.12, 0.1), goldMat);
-    mouth.position.set(0, -0.5, 1.06);
+    // Рот — дуга (часть тора): читается как улыбка, а не как прямая
+    // полоска, которая раньше просто растягивалась по вертикали.
+    var mouth = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.045, 12, 32, Math.PI * 0.85), mouthMat);
+    mouth.position.set(0, -0.32, 0.98);
+    mouth.rotation.z = Math.PI + (Math.PI - Math.PI * 0.85) / 2;
     robot.add(mouth);
 
-    var antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.7, 12), goldMat);
-    antenna.position.set(0, 1.4, 0);
+    // Антенна с гранёным «самоцветом» на конце вместо простого шарика.
+    var antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 0.55, 12), goldMat);
+    antenna.position.set(0, 1.52, 0);
     robot.add(antenna);
 
-    var bulb = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 20), goldMat);
-    bulb.position.set(0, 1.8, 0);
-    robot.add(bulb);
+    var gem = new THREE.Mesh(new THREE.IcosahedronGeometry(0.13, 0), goldMat);
+    gem.position.set(0, 1.85, 0);
+    robot.add(gem);
 
-    var ear = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.3, 16), goldMat);
-    ear.rotation.z = Math.PI / 2;
-    ear.position.set(-1.4, 0, 0);
-    var ear2 = ear.clone();
-    ear2.position.x = 1.4;
-    robot.add(ear, ear2);
+    // Ореол вместо «ушей»: два наклонных кольца вращаются вокруг головы —
+    // премиальный акцент ИИ-ассистента вместо торчавших по бокам цилиндров.
+    var halo = new THREE.Mesh(new THREE.TorusGeometry(1.55, 0.02, 8, 64), haloMat);
+    halo.rotation.x = Math.PI / 2.35;
+    halo.rotation.y = 0.3;
+    robot.add(halo);
+
+    var halo2 = new THREE.Mesh(new THREE.TorusGeometry(1.7, 0.012, 8, 64), haloMat);
+    halo2.rotation.x = Math.PI / 2.6;
+    halo2.rotation.y = -0.4;
+    robot.add(halo2);
+
+    // Кольца прослушивания — расширяются от головы и гаснут, как звуковые
+    // волны от микрофона. Видны только в состоянии listening.
+    var soundRings = [];
+    for (var i = 0; i < 3; i++) {
+        var ring = new THREE.Mesh(
+            new THREE.RingGeometry(1, 1.03, 48),
+            new THREE.MeshBasicMaterial({ color: 0xc9a961, transparent: true, opacity: 0, side: THREE.DoubleSide })
+        );
+        ring.position.z = 1.0;
+        robot.add(ring);
+        soundRings.push(ring);
+    }
 
     var state = 'idle';
     var clock = new THREE.Clock();
+    var blinkAt = 2 + Math.random() * 2;
 
     function resize() {
         if (!container.clientWidth) return;
@@ -462,28 +535,64 @@ function buildRobot(container) {
 
         if (!reduced) {
             robot.position.y = Math.sin(t * 1.4) * 0.06;
-            robot.rotation.y = Math.sin(t * 0.6) * 0.18;
+            robot.rotation.y = Math.sin(t * 0.55) * 0.16;
+            var breathe = 1 + Math.sin(t * 1.1) * 0.012;
+            head.scale.set(breathe, 1.08 * breathe, 0.94 * breathe);
+        }
+
+        halo.rotation.z = t * 0.35;
+        halo2.rotation.z = -t * 0.5;
+
+        // Моргание — раз в 2-4 секунды, если не думаем и не слушаем.
+        if (state === 'idle' || state === 'speaking') {
+            if (t > blinkAt) {
+                var phase = t - blinkAt;
+                var blink = phase < 0.12 ? 1 - phase / 0.12 : (phase < 0.2 ? (phase - 0.12) / 0.08 : 1);
+                leftEye.scale.y = rightEye.scale.y = 1.3 * Math.max(0.08, blink);
+                if (phase > 0.24) blinkAt = t + 2 + Math.random() * 2.5;
+            }
+        } else {
+            leftEye.scale.y = rightEye.scale.y = 1.3;
         }
 
         if (state === 'speaking') {
-            // «Рот» пульсирует в такт речи.
-            mouth.scale.y = 1 + Math.abs(Math.sin(t * 14)) * 6;
-            bulb.material.emissive = new THREE.Color(0x000000);
+            // «Рот» пульсирует в такт речи вместо резкого растяжения полоски.
+            var wave = Math.abs(Math.sin(t * 11)) * 0.5 + Math.abs(Math.sin(t * 17)) * 0.3;
+            mouth.scale.set(1 + wave * 0.25, 1 + wave * 0.35, 1);
+            mouthMat.emissiveIntensity = 0.45 + wave * 0.6;
+            leftEye.material.emissiveIntensity = rightEye.material.emissiveIntensity = 0.7;
+            soundRings.forEach(function (r) { r.material.opacity = 0; });
         } else {
-            mouth.scale.y = 1;
+            mouth.scale.set(1, 1, 1);
+            mouthMat.emissiveIntensity = 0.45;
         }
 
         if (state === 'listening') {
-            var pulse = 0.6 + Math.abs(Math.sin(t * 3)) * 0.8;
+            var pulse = 0.7 + Math.abs(Math.sin(t * 3)) * 0.6;
             leftEye.material.emissiveIntensity = pulse;
             rightEye.material.emissiveIntensity = pulse;
-        } else if (state === 'thinking') {
-            robot.rotation.y = Math.sin(t * 3) * 0.3;
-            leftEye.material.emissiveIntensity = 0.3;
-            rightEye.material.emissiveIntensity = 0.3;
+            halo.rotation.z = t * 1.4;
+            halo2.rotation.z = -t * 1.8;
+
+            soundRings.forEach(function (r, i) {
+                var cycle = ((t * 0.6 + i / soundRings.length) % 1);
+                var s = 1 + cycle * 1.1;
+                r.scale.set(s, s, 1);
+                r.material.opacity = Math.max(0, 0.5 * (1 - cycle));
+            });
+        } else if (state !== 'speaking') {
+            soundRings.forEach(function (r) { r.material.opacity = 0; });
+        }
+
+        if (state === 'thinking') {
+            robot.rotation.z = Math.sin(t * 2.2) * 0.09;
+            leftEye.material.emissiveIntensity = rightEye.material.emissiveIntensity = 0.35;
+            halo.rotation.z = t * 0.9;
         } else {
-            leftEye.material.emissiveIntensity = 0.5;
-            rightEye.material.emissiveIntensity = 0.5;
+            robot.rotation.z *= 0.9;
+            if (state !== 'listening' && state !== 'speaking') {
+                leftEye.material.emissiveIntensity = rightEye.material.emissiveIntensity = 0.55;
+            }
         }
 
         renderer.render(scene, camera);
