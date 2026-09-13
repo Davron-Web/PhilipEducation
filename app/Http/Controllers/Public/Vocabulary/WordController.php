@@ -196,7 +196,7 @@ class WordController extends Controller
     /**
      * Ответ в сессии повторения — пересчитывает срок следующего показа.
      */
-    public function reviewAnswer(Request $request, Word $word, SpacedRepetitionService $srs, AchievementService $achievements)
+    public function reviewAnswer(Request $request, Word $word, SpacedRepetitionService $srs, AchievementService $achievements, XpService $xp)
     {
         $request->validate(['remembered' => 'required|boolean']);
 
