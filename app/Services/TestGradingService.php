@@ -23,6 +23,7 @@ class TestGradingService
 {
     public function __construct(
         private readonly AchievementService $achievements,
+        private readonly CertificateService $certificates,
         private readonly XpService $xp,
     ) {}
 
@@ -84,6 +85,7 @@ class TestGradingService
 
             if ($passed) {
                 $this->achievements->checkAndAward($user, 'tests_passed');
+                $this->certificates->checkAndIssue($user);
 
                 // Опыт даётся за тест, а не за попытку: пересдача того же
                 // теста его не удваивает (уникальный ключ source + source_id).

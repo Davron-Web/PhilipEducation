@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\LessonResource;
 use App\Models\Content\Lesson;
+use App\Services\AchievementService;
+use App\Services\CertificateService;
 use App\Services\LevelProgressService;
 use App\Services\XpService;
 use Illuminate\Http\JsonResponse;
@@ -45,7 +47,7 @@ class LessonController extends Controller
         return new LessonResource($lesson->load('level'));
     }
 
-    public function complete(Request $request, Lesson $lesson, XpService $xp, LevelProgressService $levels): JsonResponse
+    public function complete(Request $request, Lesson $lesson, XpService $xp, LevelProgressService $levels, AchievementService $achievements, CertificateService $certificates): JsonResponse
     {
         abort_unless($lesson->is_published, 404);
 
@@ -71,6 +73,9 @@ class LessonController extends Controller
 
         $awarded = $xp->award($user, 'lesson', $lesson->id);
         $levels->checkAfterLesson($user, $lesson);
+        $achievements->checkAndAward($user, 'lessons_completed');
+        $achievements->checkAndAward($user, 'streak_days');
+        $certificates->checkAndIssue($user);
 
         return response()->json([
             'message' => 'Урок отмечен пройденным',

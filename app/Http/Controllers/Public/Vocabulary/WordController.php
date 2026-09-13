@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Public\Vocabulary;
 
 use App\Http\Controllers\Controller;
 use App\Models\User\UserWord;
+use App\Models\Vocabulary\Collection;
 use App\Models\Vocabulary\Word;
 use App\Services\AchievementService;
+use App\Services\CertificateService;
 use App\Services\SpacedRepetitionService;
 use App\Services\XpService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -57,7 +60,39 @@ class WordController extends Controller
             $words = $words->filter(fn ($word) => $word->category === $selectedCategory)->values();
         }
 
-        return view('public.words.index', compact('words', 'learnedWordIds', 'categoryCounts', 'selectedCategory'));
+        // Хаб («По уровням» / «По темам» / «Для экзаменов») считаем только
+        // для лендинга (без ?category) — старая ветка со списком слов темы
+        // его не использует и не должна тратить на него запросы.
+        $collectionGroups = null;
+        $collectionLearnedCounts = [];
+
+        if (! $selectedCategory) {
+            $collectionGroups = Collection::published()
+                ->withCount('words')
+                ->orderBy('sort_order')
+                ->orderBy('title_ru')
+                ->get()
+                ->groupBy('type');
+
+            if (Auth::check()) {
+                $collectionLearnedCounts = DB::table('collection_word')
+                    ->join('user_words', 'user_words.word_id', '=', 'collection_word.word_id')
+                    ->where('user_words.user_id', Auth::id())
+                    ->where('user_words.learned', true)
+                    ->groupBy('collection_word.collection_id')
+                    ->selectRaw('collection_word.collection_id as collection_id, count(distinct collection_word.word_id) as learned_count')
+                    ->pluck('learned_count', 'collection_id');
+            }
+        }
+
+        return view('public.words.index', compact(
+            'words',
+            'learnedWordIds',
+            'categoryCounts',
+            'selectedCategory',
+            'collectionGroups',
+            'collectionLearnedCounts'
+        ));
     }
 
     /**
@@ -65,7 +100,7 @@ class WordController extends Controller
      */
     public function show($id): View
     {
-        $word = Word::with(['translations', 'lesson'])->findOrFail($id);
+        $word = Word::with(['translations', 'lesson', 'collections'])->findOrFail($id);
 
         $isLearned = Auth::check()
             ? Auth::user()->words()->wherePivot('learned', true)->where('words.id', $id)->exists()
@@ -75,10 +110,36 @@ class WordController extends Controller
     }
 
     /**
+     * Записать результат ответа в мини-квизе «Тест» на странице коллекции
+     * (см. public/assets/js/flashcard-deck.js, wordQuiz()) — зеркало
+     * ExpressionController::recordPractice().
+     */
+    public function recordPractice(Request $request, Word $word)
+    {
+        $request->validate(['correct' => 'required|boolean']);
+
+        $pivot = UserWord::firstOrNew([
+            'user_id' => Auth::id(),
+            'word_id' => $word->id,
+        ]);
+
+        if ($request->boolean('correct')) {
+            $pivot->correct_answers = ($pivot->correct_answers ?? 0) + 1;
+        } else {
+            $pivot->wrong_answers = ($pivot->wrong_answers ?? 0) + 1;
+        }
+        $pivot->learned = $pivot->learned ?? false;
+        $pivot->last_reviewed_at = now();
+        $pivot->save();
+
+        return response()->json(['ok' => true]);
+    }
+
+    /**
      * Отметить слово как выученное/на повторении для текущего пользователя
      * (карточки в режиме флеш-карт).
      */
-    public function markProgress(Request $request, Word $word, AchievementService $achievements, SpacedRepetitionService $srs, XpService $xp)
+    public function markProgress(Request $request, Word $word, AchievementService $achievements, CertificateService $certificates, SpacedRepetitionService $srs, XpService $xp)
     {
         $request->validate(['learned' => 'required|boolean']);
 
@@ -99,6 +160,7 @@ class WordController extends Controller
             $srs->scheduleIfNew($progress);
 
             $achievements->checkAndAward(Auth::user(), 'words_learned');
+            $certificates->checkAndIssue(Auth::user());
             $xp->award(Auth::user(), 'word', $word->id);
         }
 
@@ -196,7 +258,7 @@ class WordController extends Controller
     /**
      * Ответ в сессии повторения — пересчитывает срок следующего показа.
      */
-    public function reviewAnswer(Request $request, Word $word, SpacedRepetitionService $srs, AchievementService $achievements, XpService $xp)
+    public function reviewAnswer(Request $request, Word $word, SpacedRepetitionService $srs, AchievementService $achievements, CertificateService $certificates, XpService $xp)
     {
         $request->validate(['remembered' => 'required|boolean']);
 
@@ -209,6 +271,7 @@ class WordController extends Controller
 
         if ($progress->learned) {
             $achievements->checkAndAward(Auth::user(), 'words_learned');
+            $certificates->checkAndIssue(Auth::user());
             $xp->award(Auth::user(), 'word', $word->id);
         }
 

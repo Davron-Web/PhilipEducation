@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Public\Content;
 
 use App\Http\Controllers\Controller;
+use App\Services\AchievementService;
+use App\Services\CertificateService;
 use App\Services\LevelProgressService;
 use App\Services\XpService;
 use App\Models\Content\Lesson;
@@ -74,7 +76,7 @@ class LessonController extends Controller
         return max(0, min((int) $request->input('seconds_spent', 0), 4 * 3600));
     }
 
-    public function complete(Request $request, $id, XpService $xp, LevelProgressService $levels): RedirectResponse
+    public function complete(Request $request, $id, XpService $xp, LevelProgressService $levels, AchievementService $achievements, CertificateService $certificates): RedirectResponse
     {
         $user = Auth::user();
         if (! $user) {
@@ -103,6 +105,9 @@ class LessonController extends Controller
 
         $xp->award($user, 'lesson', $lesson->id);
         $levels->checkAfterLesson($user, $lesson);
+        $achievements->checkAndAward($user, 'lessons_completed');
+        $achievements->checkAndAward($user, 'streak_days');
+        $certificates->checkAndIssue($user);
 
         return redirect()->route('public.lessons.show', $id)
             ->with('success', 'Lesson completed! Great work.');
