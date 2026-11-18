@@ -15,6 +15,8 @@
         ['title' => 'Уровни', 'route' => 'admin.system.levels.index', 'icon' => '<path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/>'],
         ['title' => 'Содержание урока', 'route' => 'admin.content.lessoncontents.index', 'icon' => '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>'],
         ['title' => 'Достижения', 'route' => 'admin.gamification.achievements.index', 'icon' => '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>'],
+        ['title' => 'Чат: сообщения', 'route' => 'admin.chat.messages.index', 'icon' => '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'],
+        ['title' => 'Чат: жалобы', 'route' => 'admin.chat.reports.index', 'icon' => '<path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/>'],
         ['title' => 'Тарифы', 'route' => 'admin.billing.plans.index', 'icon' => '<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>'],
         ['title' => 'Подписки', 'route' => 'admin.billing.subscriptions.index', 'icon' => '<path d="M21 12a9 9 0 1 1-6.2-8.6"/><polyline points="21 3 21 9 15 9"/>'],
         ['title' => 'Платежи', 'route' => 'admin.billing.payments.index', 'icon' => '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'],
@@ -36,7 +38,7 @@
 
 <aside class="sidebar" id="sidebar">
     <a href="{{ route('admin.dashboard') }}" class="logo">
-        <span class="bolt ph-logo-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l2 3"/><path d="M18 6l-2 3"/><ellipse cx="12" cy="13" rx="7" ry="8"/><circle cx="9" cy="12" r="2.2"/><circle cx="15" cy="12" r="2.2"/><circle cx="9" cy="12" r=".4" fill="#fff" stroke="none"/><circle cx="15" cy="12" r=".4" fill="#fff" stroke="none"/><path d="M11.3 14.5h1.4l-.7 1.2z" fill="#fff" stroke="none"/></svg></span>
+        <span class="bolt ph-logo-mark"><x-logo :size="26" :text="false" /></span>
         <div><b>Philip<br>Education</b><small>панель управления</small></div>
     </a>
 

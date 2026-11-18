@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\Billing\SubscriptionController as AdminBillingSub
 use App\Http\Controllers\ProfileController as BreezeProfileController;
 use App\Http\Controllers\Admin\Book\BookController as AdminBookController;
 use App\Http\Controllers\Admin\Certificate\CertificateController as AdminCertificateController;
+use App\Http\Controllers\Admin\Chat\MessageController as AdminChatMessageController;
+use App\Http\Controllers\Admin\Chat\ReportController as AdminChatReportController;
 use App\Http\Controllers\Admin\Content\GrammarTopicController as AdminGrammarTopicController;
 use App\Http\Controllers\Admin\Content\LessonContentController as AdminLessonContentController;
 use App\Http\Controllers\Admin\Content\LessonController as AdminLessonController;
@@ -34,24 +36,31 @@ use App\Http\Controllers\Admin\User\UserSubscriptionController as AdminUserSubsc
 use App\Http\Controllers\Admin\User\UserProgressController as AdminUserProgressController;
 use App\Http\Controllers\Admin\User\UserResultController as AdminUserResultController;
 use App\Http\Controllers\Admin\User\UserWordController as AdminUserWordController;
+use App\Http\Controllers\Admin\Vocabulary\CollectionController as AdminCollectionController;
 use App\Http\Controllers\Admin\Vocabulary\ExpressionController as AdminExpressionController;
 use App\Http\Controllers\Admin\Vocabulary\WordController as AdminWordController;
 use App\Http\Controllers\Admin\Vocabulary\WordTranslationController as AdminWordTranslationController;
 use App\Http\Controllers\AssistantController;
+use App\Http\Controllers\Public\Chat\ChatController;
 use App\Http\Controllers\Public\Book\BookController as PublicBookController;
 use App\Http\Controllers\Public\Content\GrammarTopicController as PublicGrammarTopicController;
 use App\Http\Controllers\Public\Content\LessonController as PublicLessonController;
 use App\Http\Controllers\Public\Exercise\ExerciseController as PublicExerciseController;
 use App\Http\Controllers\Public\Gamification\AchievementController as PublicAchievementController;
+use App\Http\Controllers\Public\Gamification\LeaderboardController;
+use App\Http\Controllers\Public\Gamification\CertificateDownloadController;
 use App\Http\Controllers\Public\Ielts\IeltsController as PublicIeltsController;
 use App\Http\Controllers\Public\Ielts\IeltsHubController as PublicIeltsHubController;
 use App\Http\Controllers\Public\Ielts\IeltsListeningController as PublicIeltsListeningController;
 use App\Http\Controllers\Public\Ielts\IeltsReadingController as PublicIeltsReadingController;
 use App\Http\Controllers\Public\Ielts\IeltsSpeakingController as PublicIeltsSpeakingController;
 use App\Http\Controllers\Public\Ielts\SpeakingBotController;
+use App\Http\Controllers\Public\LevelCheck\LevelCheckController;
+use App\Http\Controllers\Public\Placement\PlacementController;
 use App\Http\Controllers\Public\System\NotificationController as PublicNotificationController;
 use App\Http\Controllers\Public\Test\TestController as PublicTestController;
 use App\Http\Controllers\Public\User\ProfileController as PublicProfileController;
+use App\Http\Controllers\Public\Vocabulary\CollectionController as PublicCollectionController;
 use App\Http\Controllers\Public\Vocabulary\ExpressionController as PublicExpressionController;
 use App\Http\Controllers\Public\Vocabulary\WordController as PublicWordController;
 use App\Http\Controllers\ThemeController;
@@ -90,7 +99,6 @@ Route::get('/', function () {
         ->map(fn ($level) => [
             'code' => $level->code,
             'name' => $level->name,
-            'description' => $level->description ?: 'Материалы уровня '.$level->code.'.',
             'lessons_count' => Lesson::where('level_id', $level->id)->where('is_published', true)->count(),
         ]);
 
@@ -98,7 +106,15 @@ Route::get('/', function () {
     $totalWords = Word::count();
     $totalUsers = User::count();
 
-    return view('public.home', compact('levels', 'totalLessons', 'totalWords', 'totalUsers'));
+    // Те же три активных платных плана и тот же порядок, что и на
+    // публичной странице тарифов (Billing\SubscriptionController::plans())
+    // — раньше здесь брался только один, самый длинный план, и блок
+    // на главной расходился с /plans.
+    $plans = \App\Models\Billing\Plan::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    return view('public.home', compact('levels', 'totalLessons', 'totalWords', 'totalUsers', 'plans'));
 })->name('home');
 
 /*
@@ -186,14 +202,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('words')->name('words.')->group(function () {
         Route::get('/', [PublicWordController::class, 'index'])->name('index');
-        // До /{word}: иначе 'review' будет принят за слово.
+        // До /{word}: иначе 'review'/'collections' будут приняты за слово.
         Route::get('/review', [PublicWordController::class, 'review'])->name('review');
         // Личный словарь — тоже до /{word}.
         Route::get('/my', [PublicWordController::class, 'mine'])->name('mine');
+        Route::get('/collections/{collection:slug}', [PublicCollectionController::class, 'show'])->name('collections.show');
         Route::post('/{word}/review', [PublicWordController::class, 'reviewAnswer'])->name('review.answer');
         Route::post('/', [PublicWordController::class, 'store'])->name('store');
         Route::get('/{word}', [PublicWordController::class, 'show'])->name('show');
         Route::post('/{word}/progress', [PublicWordController::class, 'markProgress'])->name('progress');
+        Route::post('/{word}/practice', [PublicWordController::class, 'recordPractice'])->name('practice');
     });
 
     Route::prefix('expressions')->name('expressions.')->group(function () {
@@ -206,6 +224,33 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('tests')->name('tests.')->group(function () {
         Route::get('/', [PublicTestController::class, 'index'])->name('index');
+
+        // Тест на определение уровня: 50 вопросов A1-C2 за один проход,
+        // результат проставляется в users.level_id — см. PlacementGradingService.
+        // Раньше жил на /placement/*, теперь часть раздела «Тесты» (см.
+        // редиректы со старых адресов ниже). Регистрируем ДО /{id} — иначе
+        // '/tests/placement' будет принят за tests.show с id='placement'
+        // (тот же приём, что и у 'До /{word}' в маршрутах словаря).
+        Route::prefix('placement')->name('placement.')->group(function () {
+            Route::get('/', [PlacementController::class, 'intro'])->name('intro');
+            Route::post('/start', [PlacementController::class, 'start'])->name('start');
+            Route::get('/{attempt}', [PlacementController::class, 'show'])->name('show');
+            Route::post('/{attempt}/submit', [PlacementController::class, 'submit'])->name('submit');
+            Route::get('/{attempt}/result', [PlacementController::class, 'result'])->name('result');
+        });
+
+        // Быстрая неофициальная оценка уровня по тексту через собственную
+        // ML-модель (ml/) — в отличие от placement выше, не трогает
+        // users.level_id. Тоже регистрируем ДО /{id} по той же причине.
+        Route::prefix('level-check')->name('level-check.')->group(function () {
+            Route::get('/', [LevelCheckController::class, 'index'])->name('index');
+            // Обращается к локальному ML-сервису — не мгновенно и не бесплатно
+            // по времени ответа, поэтому ограничиваем частоту, как bot.reply.
+            Route::post('/', [LevelCheckController::class, 'check'])
+                ->middleware('throttle:20,1')->name('check');
+            Route::get('/{levelCheck}', [LevelCheckController::class, 'result'])->name('result');
+        });
+
         Route::get('/{id}', [PublicTestController::class, 'show'])->name('show');
         Route::post('/{id}/submit', [PublicTestController::class, 'submit'])->name('submit');
         // Автосохранение: страница шлёт ответы по мере их выбора.
@@ -215,6 +260,15 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/attempts/{attempt}', [PublicTestController::class, 'result'])->name('result');
     });
+
+    // Обратная совместимость: раздел переехал на /tests/placement/*.
+    // GET — обычный 301; POST — 307, чтобы метод и тело запроса не терялись
+    // (302/301 на POST браузеры молча превращают в GET).
+    Route::get('/placement', fn () => redirect()->route('tests.placement.intro', [], 301));
+    Route::post('/placement/start', fn () => redirect()->route('tests.placement.start', [], 307));
+    Route::get('/placement/{attempt}', fn ($attempt) => redirect()->route('tests.placement.show', $attempt, 301));
+    Route::post('/placement/{attempt}/submit', fn ($attempt) => redirect()->route('tests.placement.submit', $attempt, 307));
+    Route::get('/placement/{attempt}/result', fn ($attempt) => redirect()->route('tests.placement.result', $attempt, 301));
 
     Route::prefix('books')->name('books.')->middleware('subscribed:books')->group(function () {
         Route::get('/', [PublicBookController::class, 'index'])->name('index');
@@ -261,6 +315,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [PublicProfileController::class, 'index'])->name('index');
         Route::get('/edit', [PublicProfileController::class, 'edit'])->name('edit');
         Route::put('/', [PublicProfileController::class, 'update'])->name('update');
+        Route::patch('/avatar', [PublicProfileController::class, 'updateAvatar'])->name('avatar.update');
         Route::get('/stats', [PublicProfileController::class, 'stats'])->name('stats');
 
         // Удаление аккаунта уже реализовано в контроллере Breeze — там верная
@@ -280,11 +335,30 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/progress', ProgressMapController::class)->name('progress.map');
 
     Route::get('/achievements', [PublicAchievementController::class, 'index'])->name('achievements.index');
+    Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard.index');
+    Route::get('/certificates/{certificate}/download', CertificateDownloadController::class)->name('certificates.download');
 
     Route::prefix('notifications')->name('notifications.')->group(function () {
         Route::get('/', [PublicNotificationController::class, 'index'])->name('index');
         Route::get('/{notification}', [PublicNotificationController::class, 'show'])->name('show');
         Route::post('/mark-all-read', [PublicNotificationController::class, 'markAllRead'])->name('markAllRead');
+    });
+
+    // Общий чат: одна комната на всех, поэтому без id в URL. throttle:5,1
+    // на отправке — весь рейт-лимит сообщений держится на встроенной
+    // мидлвари Laravel (обёртка над RateLimiter), отдельный именованный
+    // лимитер не заводим, в проекте так нигде и не делается.
+    Route::prefix('chat')->name('chat.')->group(function () {
+        Route::get('/', [ChatController::class, 'index'])->name('index');
+        // JSON-версия того же бутстрапа, что и index() — нужна выезжающей
+        // панели чата (x-chat-drawer), которая подгружает историю по
+        // fetch() при первом открытии на ЛЮБОЙ странице сайта.
+        Route::get('/messages/initial', [ChatController::class, 'initial'])->name('messages.initial');
+        Route::get('/messages', [ChatController::class, 'poll'])->name('messages.poll');
+        Route::get('/messages/before', [ChatController::class, 'loadMore'])->name('messages.before');
+        Route::post('/messages', [ChatController::class, 'store'])->name('messages.store')->middleware('throttle:5,1');
+        Route::post('/messages/{message}/report', [ChatController::class, 'report'])->name('messages.report');
+        Route::delete('/messages/{message}', [ChatController::class, 'destroy'])->name('messages.destroy');
     });
 });
 
@@ -318,6 +392,10 @@ Route::middleware(['auth', 'role:admin|superadmin'])
         Route::resource('vocabulary/words', AdminWordController::class)->names('vocabulary.words');
         Route::resource('vocabulary/word-translations', AdminWordTranslationController::class)->names('vocabulary.wordtranslations');
         Route::resource('vocabulary/expressions', AdminExpressionController::class)->names('vocabulary.expressions');
+        Route::resource('vocabulary/collections', AdminCollectionController::class)->names('vocabulary.collections');
+        Route::post('vocabulary/collections/{collection}/words', [AdminCollectionController::class, 'attachWords'])->name('vocabulary.collections.words.attach');
+        Route::delete('vocabulary/collections/{collection}/words/{word}', [AdminCollectionController::class, 'detachWord'])->name('vocabulary.collections.words.detach');
+        Route::post('vocabulary/collections/{collection}/words/reorder', [AdminCollectionController::class, 'reorderWords'])->name('vocabulary.collections.words.reorder');
 
         // Exercise
         Route::resource('exercise/exercises', AdminExerciseController::class)->names('exercise.exercises');
@@ -336,6 +414,13 @@ Route::middleware(['auth', 'role:admin|superadmin'])
         Route::resource('user/userprogress', AdminUserProgressController::class)->names('user.userprogresses');
         Route::resource('user/userresults', AdminUserResultController::class)->names('user.userresults');
         Route::resource('user/userwords', AdminUserWordController::class)->names('user.userwords');
+
+        // Общий чат: модерация — список сообщений (с удалением) и жалоб,
+        // плюс бан/разбан автора прямо из этих экранов.
+        Route::resource('chat/messages', AdminChatMessageController::class)->only(['index', 'destroy'])->names('chat.messages');
+        Route::post('chat/users/{user}/ban', [AdminChatMessageController::class, 'banUser'])->name('chat.users.ban');
+        Route::post('chat/users/{user}/unban', [AdminChatMessageController::class, 'unbanUser'])->name('chat.users.unban');
+        Route::resource('chat/reports', AdminChatReportController::class)->only(['index', 'destroy'])->names('chat.reports');
 
         // Gamification
         Route::resource('gamification/achievements', AdminAchievementController::class)->names('gamification.achievements');
@@ -378,7 +463,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])
         // Admin Profile
         Route::get('profile', [AdminProfileController::class, 'show'])->name('profile.show');
         Route::get('profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
-        Route::put('profile', [AdminProfileController::class, 'update'])->name('profile.update');
+            Route::put('profile', [AdminProfileController::class, 'update'])->name('profile.update');
 
         // AI (исправлено имя маршрута на 'ai' вместо 'ai.index')
         Route::get('ai', [AiController::class, 'index'])->name('ai');

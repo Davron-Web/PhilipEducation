@@ -1,0 +1,154 @@
+{
+  "best_config": "C_complexity_balanced",
+  "validation_metrics": {
+    "config": "C_complexity_balanced",
+    "accuracy": 0.45095168374816985,
+    "macro_f1": 0.37660313561756714,
+    "adjacent_accuracy": 0.9370424597364568,
+    "quadratic_weighted_kappa": 0.7129707339413055,
+    "recall_A1": 0.15,
+    "recall_C2": 0.1044776119402985
+  },
+  "validation_macro_f1": 0.37660313561756714,
+  "levels": [
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C1",
+    "C2"
+  ],
+  "sklearn_pipeline": "FeatureUnion(tfidf[, complexity->StandardScaler]) + LogisticRegression",
+  "test_metrics": {
+    "accuracy": 0.4417808219178082,
+    "macro_f1": 0.3283332334876526,
+    "adjacent_accuracy": 0.9308219178082192,
+    "quadratic_weighted_kappa": 0.6795374018975318,
+    "recall_A1": 0.0,
+    "recall_C2": 0.09722222222222222
+  },
+  "test_accuracy": 0.4417808219178082,
+  "test_macro_f1": 0.3283332334876526,
+  "test_adjacent_accuracy": 0.9308219178082192,
+  "test_quadratic_weighted_kappa": 0.6795374018975318,
+  "majority_baseline": {
+    "class": "B2",
+    "accuracy": 0.31438356164383563,
+    "macro_f1": 0.07972902553413236,
+    "adjacent_accuracy": 0.8171232876712329,
+    "quadratic_weighted_kappa": 0.0,
+    "recall_A1": 0.0,
+    "recall_C2": 0.0
+  },
+  "test_report": {
+    "A1": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 37.0
+    },
+    "A2": {
+      "precision": 0.3148148148148148,
+      "recall": 0.8607594936708861,
+      "f1-score": 0.4610169491525424,
+      "support": 158.0
+    },
+    "B1": {
+      "precision": 0.5238095238095238,
+      "recall": 0.4625228519195612,
+      "f1-score": 0.4912621359223301,
+      "support": 547.0
+    },
+    "B2": {
+      "precision": 0.5595667870036101,
+      "recall": 0.33769063180827885,
+      "f1-score": 0.421195652173913,
+      "support": 459.0
+    },
+    "C1": {
+      "precision": 0.36293436293436293,
+      "recall": 0.5026737967914439,
+      "f1-score": 0.42152466367713004,
+      "support": 187.0
+    },
+    "C2": {
+      "precision": 0.875,
+      "recall": 0.09722222222222222,
+      "f1-score": 0.175,
+      "support": 72.0
+    },
+    "accuracy": 0.4417808219178082,
+    "macro avg": {
+      "precision": 0.43935424809371854,
+      "recall": 0.3768114994020653,
+      "f1-score": 0.3283332334876526,
+      "support": 1460.0
+    },
+    "weighted avg": {
+      "precision": 0.4958728981972145,
+      "recall": 0.4417808219178082,
+      "f1-score": 0.42898286491168885,
+      "support": 1460.0
+    }
+  },
+  "range_rule": {
+    "k": 0.6,
+    "description": "Диапазон из двух соседних уровней, если P(более вероятного соседа) >= k * P(лучшего уровня); иначе один уровень.",
+    "validation_selection": [
+      {
+        "k": 0.3,
+        "range_share": 0.8038067349926794,
+        "coverage": 0.7518301610541728,
+        "coverage_A1": 0.2,
+        "coverage_C2": 0.23880597014925373,
+        "n_A1": 40,
+        "n_C2": 67
+      },
+      {
+        "k": 0.4,
+        "range_share": 0.719619326500732,
+        "coverage": 0.7225475841874085,
+        "coverage_A1": 0.175,
+        "coverage_C2": 0.1791044776119403,
+        "n_A1": 40,
+        "n_C2": 67
+      },
+      {
+        "k": 0.5,
+        "range_share": 0.6076134699853587,
+        "coverage": 0.6859443631039531,
+        "coverage_A1": 0.15,
+        "coverage_C2": 0.14925373134328357,
+        "n_A1": 40,
+        "n_C2": 67
+      },
+      {
+        "k": 0.6,
+        "range_share": 0.47218155197657397,
+        "coverage": 0.6464128843338214,
+        "coverage_A1": 0.15,
+        "coverage_C2": 0.14925373134328357,
+        "n_A1": 40,
+        "n_C2": 67
+      },
+      {
+        "k": 0.7,
+        "range_share": 0.3645680819912152,
+        "coverage": 0.6002928257686676,
+        "coverage_A1": 0.15,
+        "coverage_C2": 0.14925373134328357,
+        "n_A1": 40,
+        "n_C2": 67
+      }
+    ],
+    "test_check": {
+      "k": 0.6,
+      "range_share": 0.5075342465753425,
+      "coverage": 0.6424657534246575,
+      "coverage_A1": 0.0,
+      "coverage_C2": 0.2222222222222222,
+      "n_A1": 37,
+      "n_C2": 72
+    }
+  }
+}

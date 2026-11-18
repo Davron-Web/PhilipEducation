@@ -20,7 +20,9 @@ use App\Models\Vocabulary\Word;
 use App\Notifications\VerifyEmailWithCode;
 use App\Services\EmailVerificationCodeService;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,6 +39,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
+        'name_latin',
         'email',
         'avatar',
         'password',
@@ -45,6 +48,10 @@ class User extends Authenticatable
         'level_id',
         'points',
         'is_active',
+        'chat_banned_until',
+        'show_in_leaderboard',
+        'is_bot',
+        'lang',
     ];
 
     protected $hidden = [
@@ -56,10 +63,14 @@ class User extends Authenticatable
         'password' => 'hashed',
         'points' => 'integer',
         'is_active' => 'boolean',
+        'show_in_leaderboard' => 'boolean',
+        'is_bot' => 'boolean',
         // Без каста колонка приходит строкой, и любой ->diffInDays() по ней
         // падает: даты нужны как объекты, а не как текст из базы.
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
+        'previous_login_at' => 'datetime',
+        'chat_banned_until' => 'datetime',
     ];
 
     /**
@@ -76,6 +87,12 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->hasRole('admin');
+    }
+
+    /** Забанен ли сейчас в общем чате — дата в прошлом или null считаются "не забанен". */
+    public function isChatBanned(): bool
+    {
+        return $this->chat_banned_until !== null && $this->chat_banned_until->isFuture();
     }
 
     /**
@@ -108,15 +125,117 @@ class User extends Authenticatable
         $this->notify(new VerifyEmailWithCode($code));
     }
 
-    public function avatarUrl(): ?string
+    /**
+     * URL аватара — всегда что-то реальное, никогда пустой кружок.
+     *
+     * users.avatar хранит одно из трёх:
+     * 1) имя файла из готового набора (config('avatars.files'), выбрано в
+     *    настройках профиля или назначено при регистрации/ботам) —
+     *    отдаём из public/avatars напрямую;
+     * 2) путь старого файла, загруженного вручную ДО того, как загрузку
+     *    убрали в пользу галереи (см. историю ProfileController) — такие
+     *    продолжают работать, просто выбрать новый такой же нельзя;
+     * 3) null/что угодно нераспознанное (включая старые внешние ссылки,
+     *    если они где-то остались) — тогда детерминированно, по id,
+     *    подставляем один из готового набора: один и тот же пользователь
+     *    всегда получает одну и ту же заглушку, а не случайную на каждый
+     *    рендер.
+     *
+     * asset(), а не Storage::disk('public')->url(): последний берёт хост
+     * статически из config('filesystems.disks.public.url'), вычисленного
+     * один раз из APP_URL при загрузке конфига — не из хоста текущего
+     * запроса. Если APP_URL не совпадает с тем, как реально открывают сайт
+     * (типичная ситуация в локальной среде вроде OSPanel), получался URL
+     * на чужой хост/порт. asset() берёт хост из самого запроса.
+     */
+    protected function avatarUrl(): Attribute
     {
-        return $this->avatar ? Storage::disk('public')->url($this->avatar) : null;
+        return Attribute::make(
+            get: function () {
+                $gallery = config('avatars.files', []);
+
+                if ($this->avatar && in_array($this->avatar, $gallery, true)) {
+                    return asset('avatars/'.$this->avatar);
+                }
+
+                // Старый загруженный вручную файл — проверяем, что он
+                // физически ещё на диске, иначе это будет битая картинка.
+                if ($this->avatar
+                    && ! str_starts_with($this->avatar, 'http://')
+                    && ! str_starts_with($this->avatar, 'https://')
+                    && Storage::disk('public')->exists($this->avatar)) {
+                    return asset('storage/'.$this->avatar);
+                }
+
+                if (empty($gallery)) {
+                    return null;
+                }
+
+                return asset('avatars/'.$gallery[$this->id % count($gallery)]);
+            },
+        );
     }
 
-    /** Инициал для запасного кружка, когда аватара нет. */
+    /** Инициал для запасного кружка — используется, только если набор аватаров вообще пуст. */
     public function initial(): string
     {
         return mb_strtoupper(mb_substr($this->name ?: 'U', 0, 1));
+    }
+
+    /**
+     * Случайное имя файла из готового набора — для регистрации нового
+     * пользователя и для ботов (UserFactory::bot()), чтобы у них сразу
+     * было что-то осмысленное в users.avatar, а не только вычисленный на
+     * лету запасной вариант в avatarUrl().
+     */
+    public static function randomAvatarFilename(): ?string
+    {
+        $gallery = config('avatars.files', []);
+
+        return $gallery ? $gallery[array_rand($gallery)] : null;
+    }
+
+    /**
+     * Сколько уроков реально завершено — единая точка правды: раньше этот
+     * же запрос был отдельно продублирован в DashboardController::index()
+     * и ProfileController::statsFor(), теперь оба зовут этот метод.
+     */
+    public function completedLessonsCount(): int
+    {
+        return $this->progress()->where('is_completed', true)->count();
+    }
+
+    /**
+     * Число дней подряд (включая сегодня, либо вчера — если сегодня ученик
+     * ещё не успел позаниматься), в которые был завершён хотя бы один урок.
+     * Перенесено из DashboardController::currentStreak() без изменения
+     * логики — нужно было в двух местах (дашборд и достижения), поэтому
+     * теперь это метод модели, а не приватный метод одного контроллера.
+     */
+    public function currentStreak(): int
+    {
+        $completedDates = $this->progress()
+            ->whereNotNull('completed_at')
+            ->pluck('completed_at')
+            ->map(fn ($date) => $date->toDateString())
+            ->unique();
+
+        if ($completedDates->isEmpty()) {
+            return 0;
+        }
+
+        $cursor = now()->toDateString();
+        if (! $completedDates->contains($cursor)) {
+            $cursor = now()->subDay()->toDateString();
+        }
+
+        $streak = 0;
+        while ($completedDates->contains($cursor)) {
+            $streak++;
+            $cursor = Carbon::parse($cursor)->subDay()->toDateString();
+        }
+
+        return $streak;
     }
 
     public function isTeacher(): bool

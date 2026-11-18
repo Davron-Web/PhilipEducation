@@ -1,0 +1,9 @@
+# Зависимости для ml/. Специально минимальный список — в этом окружении
+# интернет отдаёт ~25 КБ/с на любой CDN (см. ml/README.md), поэтому лишние
+# библиотеки стоят реальных минут ожидания:
+#   - pyarrow не нужен — датасет скачивается через JSON API (fetch_dataset.py)
+#   - matplotlib не нужен — confusion matrix рисуется как SVG (confusion_svg.py)
+#   - fastapi/uvicorn не нужны — сервис на http.server (service/serve.py)
+pandas
+scikit-learn
+joblib

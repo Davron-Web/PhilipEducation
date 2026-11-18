@@ -19,6 +19,7 @@
                 'phrasal_verb' => 'Фразовый глагол',
                 'proverb' => 'Пословица',
                 'collocation' => 'Коллокация',
+                'linking_word' => 'Связующее слово',
             ];
         @endphp
 
@@ -35,11 +36,17 @@
 
                     <div class="mt-2 flex flex-wrap items-center gap-2">
                         <x-ui.badge variant="accent">{{ $types[$expression->type] ?? $expression->type }}</x-ui.badge>
+                        @if ($expression->register)
+                            <x-ui.badge variant="register" :register="$expression->register" />
+                        @endif
                         @if ($expression->level)
                             <x-ui.badge variant="level" :level="$expression->level" />
                         @endif
                         @if ($expression->category)
                             <span class="inline-flex w-fit items-center rounded-full bg-sun/10 border border-sun/30 px-2.5 py-0.5 text-xs font-bold text-sun">{{ $expression->category }}</span>
+                        @endif
+                        @if ($expression->subcategory)
+                            <span class="inline-flex w-fit items-center rounded-full bg-brand/10 border border-brand/30 px-2.5 py-0.5 text-xs font-bold text-brand">{{ __('site.expressions.linking_subgroups.'.$expression->subcategory) }}</span>
                         @endif
                     </div>
                 </div>
@@ -77,13 +84,18 @@
                     <h2 class="mb-2 text-sm font-bold uppercase tracking-wide text-ink/40">Перевод</h2>
                     <ul class="space-y-2">
                         @foreach ($expression->translations as $translation)
-                            <li class="flex items-center justify-between rounded-xl bg-brand/5 px-4 py-2.5">
-                                <span class="font-semibold text-ink">{{ $translation->translation }}</span>
-                                <span class="text-xs font-bold uppercase text-ink/40">{{ $translation->language }}</span>
+                            <li class="rounded-xl bg-brand/5 px-4 py-2.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-semibold text-ink">{{ $translation->translation }}</span>
+                                    <span class="text-xs font-bold uppercase text-ink/40">{{ $translation->language }}</span>
+                                </div>
+                                @if ($translation->definition)
+                                    <p class="mt-1 text-sm text-ink/50">{{ $translation->definition }}</p>
+                                @endif
+                                @if ($translation->example)
+                                    <p class="mt-1 text-sm italic text-ink/60">&laquo;{{ $translation->example }}&raquo;</p>
+                                @endif
                             </li>
-                            @if ($translation->definition)
-                                <li class="px-4 text-sm text-ink/50">{{ $translation->definition }}</li>
-                            @endif
                         @endforeach
                     </ul>
                 </div>

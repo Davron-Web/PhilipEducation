@@ -18,7 +18,7 @@ it('opens the conversation room for a subscribed student', function () use ($stu
     $this->actingAs($student())
         ->get('/ielts/speaking/bot')
         ->assertOk()
-        ->assertSee('Разговор с роботом');
+        ->assertSee('Разговор с Филом');
 });
 
 it('greets without calling Gemini when the history is empty', function () use ($student) {
@@ -29,7 +29,7 @@ it('greets without calling Gemini when the history is empty', function () use ($
     $this->actingAs($student())
         ->postJson('/ielts/speaking/bot/reply', ['history' => [], 'level' => 'B1'])
         ->assertOk()
-        ->assertJsonPath('reply', fn ($reply) => str_contains($reply, 'Drakosha'));
+        ->assertJsonPath('reply', fn ($reply) => str_contains($reply, 'Phil'));
 });
 
 it('passes the dialogue history to Gemini and returns the reply', function () use ($student) {

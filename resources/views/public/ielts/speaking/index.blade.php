@@ -24,14 +24,14 @@
             data-reveal
         >
             <span class="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold">
-                {{-- Дракоша в наушниках, тем же стилем обводки, что и другие
+                {{-- Значок в наушниках, тем же стилем обводки, что и другие
                      иконки на странице: без заливки, точки-глаза — нулевые
                      отрезки с круглым концом. --}}
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.5" r="6.5" /><path d="M9 11.2h.01M15 11.2h.01" /><path d="M9.5 16.3q2.5 2 5 0" /><path d="M6 8.5Q12 3 18 8.5" /><circle cx="5.8" cy="12.5" r="2.3" /><circle cx="18.2" cy="12.5" r="2.3" /></svg>
             </span>
             <div class="flex-1">
-                <h2 class="font-display text-xl font-semibold text-white">Разговор с роботом</h2>
-                <p class="mt-1 text-sm text-white/60">Говорите вслух — Дракоша слушает, отвечает голосом и в конце показывает ошибки.</p>
+                <h2 class="font-display text-xl font-semibold text-white">{{ __('site.speaking.page_title') }}</h2>
+                <p class="mt-1 text-sm text-white/60">Говорите вслух — {{ __('site.speaking.mascot_name') }} слушает, отвечает голосом и в конце показывает ошибки.</p>
             </div>
             <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold">
                 Начать

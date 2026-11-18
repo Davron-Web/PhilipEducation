@@ -17,7 +17,11 @@
     открывает тот же макет крупнее в модалке.
 --}}
 @php
-    $displayName = $earned ? ($recipientName ?: 'Your Name') : 'Your Name';
+    // Имя — настоящее в обоих состояниях: человек должен видеть свой
+    // собственный будущий сертификат, а не абстрактную заглушку. Только
+    // номер и дата у неполученных остаются заглушками — они действительно
+    // ещё не существуют, в отличие от имени.
+    $displayName = $recipientName ?: 'Your Name';
     $displayNumber = $earned ? ($certificateNumber ?: '—') : 'CERT-XX-XXXX';
     $displayDateLabel = $earned
         ? ($issuedAt ? \Illuminate\Support\Carbon::parse($issuedAt)->translatedFormat('d M Y') : '—')
@@ -43,13 +47,15 @@
         }
         .cert-preview-overlay {
             position: absolute;
-            inset: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 1.5rem;
-            background: linear-gradient(180deg, rgba(11, 31, 58, .18), rgba(11, 31, 58, .58));
+            padding: 1.75rem 1rem .625rem;
+            background: linear-gradient(0deg, rgba(11, 31, 58, .75), rgba(11, 31, 58, 0));
         }
         .earned-card .cert-preview-frame { transition: box-shadow .3s ease; }
         .earned-card:hover .cert-preview-frame { box-shadow: 0 0 34px 4px color-mix(in srgb, var(--pe-brand) 40%, transparent); }
@@ -88,8 +94,11 @@
         </div>
 
         @unless ($earned)
+            {{-- У нижнего края, не по центру: раньше плашка перекрывала
+                 "This certifies that" и заголовок — теперь читается как
+                 подпись под сертификатом, а не поверх него. --}}
             <div class="cert-preview-overlay">
-                <span class="rounded-lg px-4 py-2 text-sm font-bold text-white" style="background-color: color-mix(in srgb, var(--pe-navy) 70%, transparent); backdrop-filter: blur(2px);">Complete the level to unlock</span>
+                <span class="text-sm font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,.5)]">Complete the level to unlock</span>
             </div>
         @endunless
     </div>

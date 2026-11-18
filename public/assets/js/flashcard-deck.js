@@ -1,3 +1,20 @@
+// Словарь/Выражения комбинируют несколько таких фабрик в одном x-data через
+// Object.assign(flashcardDeck(...), quizDeck(...), {mode: 'list'}) — но
+// Object.assign копирует значение геттера (get current(), get quizCurrent())
+// ОДИН РАЗ в момент слияния, а не сам геттер: получившееся свойство
+// застывает на исходном null навсегда, сколько бы раз ни менялись
+// quizQuestions/index дальше. Внешне это выглядит как «Тест»/«Карточки»
+// открываются, но вопрос/карточка так и не появляется. mergeAlpineData()
+// копирует дескрипторы свойств (Object.getOwnPropertyDescriptors), поэтому
+// геттеры остаются живыми геттерами и на итоговом объекте.
+function mergeAlpineData() {
+    var target = {};
+    for (var i = 0; i < arguments.length; i++) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(arguments[i]));
+    }
+    return target;
+}
+
 // Общая Alpine.js фабрика для режима флеш-карточек (Словарь и Выражения).
 // progressEndpoint — базовый URL для отметки прогресса, например '/words'
 // или '/expressions'; итоговый запрос уходит на `${progressEndpoint}/{id}/progress`.
@@ -43,11 +60,11 @@ function flashcardDeck(cards, progressEndpoint) {
     };
 }
 
-// Alpine-фабрика для режима «Проверь себя» (квиз с вариантами перевода),
-// сейчас используется только на странице Выражений. items — те же карточки,
-// что и у flashcardDeck (id/word/translation); практика пишется в БД через
-// POST /expressions/{id}/practice.
-function expressionQuiz(items) {
+// Общая Alpine-фабрика для режима «Проверь себя» / «Тест» (квиз с
+// вариантами перевода) — используется на страницах Выражений и коллекций
+// Словаря. items — те же карточки, что и у flashcardDeck (id/word/
+// translation); прогресс пишется в БД через POST `${progressEndpoint}/{id}/practice`.
+function quizDeck(items, progressEndpoint) {
     return {
         quizPool: items,
         quizQuestions: [],
@@ -92,7 +109,7 @@ function expressionQuiz(items) {
             var correct = option === this.quizCurrent.correct;
             if (correct) this.quizScore++;
 
-            fetch('/expressions/' + this.quizCurrent.id + '/practice', {
+            fetch(progressEndpoint + '/' + this.quizCurrent.id + '/practice', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -112,4 +129,15 @@ function expressionQuiz(items) {
             }
         },
     };
+}
+
+// Тонкие обёртки над quizDeck() с уже подставленным эндпоинтом — старые
+// шаблоны (expressions/index.blade.php) вызывают expressionQuiz(items) без
+// второго аргумента, менять разметку там не нужно.
+function expressionQuiz(items) {
+    return quizDeck(items, '/expressions');
+}
+
+function wordQuiz(items) {
+    return quizDeck(items, '/words');
 }

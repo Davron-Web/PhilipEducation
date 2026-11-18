@@ -5,10 +5,7 @@
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
                 <div class="mb-3 flex items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded bg-gold text-navy">
-                        <x-owl-mark :size="18" />
-                    </span>
-                    <span class="font-display text-lg font-semibold text-white">Philip <span class="text-gold">Education</span></span>
+                    <x-logo :size="36" />
                 </div>
                 <p class="max-w-xs text-sm leading-relaxed text-white/60">
                     {{ __('site.footer.tagline') }}
@@ -46,13 +43,24 @@
             <div>
                 <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-gold">{{ __('site.footer.social') }}</h3>
                 <div class="flex gap-2">
-                    @foreach (['Telegram', 'Instagram', 'YouTube'] as $network)
+                    @php
+                        // Иконки — не текст: соцсети узнаются по форме значка,
+                        // а не по первой букве названия ("T" ничего не говорит
+                        // про Telegram). currentColor — та же заливка/обводка
+                        // подхватывает и обычный цвет, и hover-инверсию ниже.
+                        $socialIcons = [
+                            'Telegram' => '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.665 3.717 2.935 10.65c-1.21.484-1.203 1.157-.219 1.457l4.53 1.414 10.5-6.63c.494-.303.946-.14.574.192l-8.5 7.676-.324 4.607c.47 0 .674-.215.935-.47l2.244-2.18 4.66 3.44c.858.474 1.475.23 1.69-.795l3.06-14.43c.313-1.26-.472-1.83-1.42-1.415Z"/></svg>',
+                            'Instagram' => '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+                            'YouTube' => '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor" stroke="none"/></svg>',
+                        ];
+                    @endphp
+                    @foreach ($socialIcons as $network => $icon)
                         <a
                             href="#"
                             class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/60 transition hover:-translate-y-0.5 hover:border-gold hover:bg-gold hover:text-navy"
                             aria-label="{{ $network }}"
                         >
-                            <span class="text-xs font-bold">{{ mb_substr($network, 0, 1) }}</span>
+                            {!! $icon !!}
                         </a>
                     @endforeach
                 </div>
@@ -63,5 +71,10 @@
             <p>&copy; {{ date('Y') }} Philip Education. {{ __('site.footer.rights') }}</p>
             <p>{{ __('site.footer.subtitle') }}</p>
         </div>
+
+        {{-- Обязательное условие бесплатной лицензии Flaticon на иконку
+             маскота (public/images/panda.png) — атрибуция должна быть
+             видна на сайте, где иконка используется. --}}
+        <p class="mt-3 text-center text-xs text-white/25 sm:text-left">Icon by Icongeek26 from Flaticon</p>
     </div>
 </footer>

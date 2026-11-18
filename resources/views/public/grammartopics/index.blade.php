@@ -31,7 +31,7 @@
             <div class="grid gap-5 sm:grid-cols-2">
                 <a
                     href="{{ route('grammartopics.index', ['category' => 'all']) }}"
-                    class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
+                    class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[var(--pe-brand)] before:to-[var(--pe-sky)] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                     data-reveal
                 >
                     <div class="flex items-center justify-center bg-navy px-6 py-12 sm:py-14">
@@ -52,7 +52,7 @@
                 @foreach ($categoryCounts as $cat => $count)
                     <a
                         href="{{ route('grammartopics.index', ['category' => $cat]) }}"
-                        class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
+                        class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[var(--pe-brand)] before:to-[var(--pe-sky)] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                         data-reveal
                     >
                         <div class="flex items-center justify-center bg-surface2 px-6 py-12 sm:py-14">

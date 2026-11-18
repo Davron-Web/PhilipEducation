@@ -19,8 +19,15 @@ class GeminiService
         $this->model = config('services.gemini.model');
     }
 
-    /** Универсальный запрос к Gemini */
-    public function ask(string $prompt, ?string $system = null, bool $json = false): string
+    /**
+     * Универсальный запрос к Gemini.
+     *
+     * $maxOutputTokens — необязательный, по умолчанию не передаётся вообще
+     * (как и раньше): нужен только там, где ответ обязан быть коротким
+     * (например, приветствие Phil на дашборде — см. PhilGreetingService),
+     * и не влияет на существующих вызывающих.
+     */
+    public function ask(string $prompt, ?string $system = null, bool $json = false, ?int $maxOutputTokens = null): string
     {
         $payload = [
             'contents' => [['role' => 'user', 'parts' => [['text' => $prompt]]]],
@@ -29,11 +36,17 @@ class GeminiService
         if ($system) {
             $payload['system_instruction'] = ['parts' => [['text' => $system]]];
         }
+
+        $generationConfig = [];
         if ($json) {
-            $payload['generationConfig'] = [
-                'response_mime_type' => 'application/json',
-                'temperature' => 0.7,
-            ];
+            $generationConfig['response_mime_type'] = 'application/json';
+            $generationConfig['temperature'] = 0.7;
+        }
+        if ($maxOutputTokens) {
+            $generationConfig['maxOutputTokens'] = $maxOutputTokens;
+        }
+        if ($generationConfig) {
+            $payload['generationConfig'] = $generationConfig;
         }
 
         return $this->generate($payload, 90)->json('candidates.0.content.parts.0.text', '');
@@ -105,6 +118,36 @@ PROMPT;
         }
 
         return $data;
+    }
+
+    /**
+     * Пакет слов по теме для пополнения общего словаря (не привязаны к
+     * уроку) — используется для массового добавления слов, в отличие от
+     * generateLessonPack(), которая даёт только 6 слов без транскрипции
+     * и примера, как часть целого урока.
+     *
+     * @return array<int, array{word: string, transcription: string, translation: string, example: string}>
+     */
+    public function generateVocabularyBatch(string $topic, string $levelLabel, int $count): array
+    {
+        $prompt = <<<PROMPT
+Сгенерируй {$count} РАЗНЫХ английских слов по теме "{$topic}" для уровня {$levelLabel} (CEFR).
+Верни СТРОГО JSON-массив, без markdown, без пояснений вне JSON:
+[{"word": "слово на английском", "transcription": "IPA-транскрипция без слэшей", "translation": "перевод на русском (одно основное значение, не предложение)", "example": "одно простое предложение на английском с этим словом"}]
+
+Требования: только реальные, употребимые слова уровня {$levelLabel}, без повторов, не длиннее двух слов (без длинных фразовых оборотов). "example" обязательно должен содержать само слово.
+PROMPT;
+
+        $raw = trim($this->ask($prompt, json: true, maxOutputTokens: 4000));
+        $raw = preg_replace(['/^```(json)?/u', '/```$/u'], '', $raw);
+
+        $data = json_decode($raw, true);
+
+        if (! is_array($data)) {
+            throw new \RuntimeException('Не удалось распарсить пакет слов от Gemini');
+        }
+
+        return array_values(array_filter($data, fn ($row) => is_array($row) && ! empty($row['word'])));
     }
 
     /** Ответ на вопрос ученика */

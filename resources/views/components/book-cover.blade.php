@@ -91,7 +91,7 @@
         {{-- Тонкая рамка, как на переплёте --}}
         <rect x="14" y="14" width="372" height="152" fill="none" stroke="{{ $palette['accent'] }}" stroke-opacity="0.35" />
 
-        <g text-anchor="middle" font-family="'Playfair Display', Georgia, serif">
+        <g text-anchor="middle" font-family="'Unbounded', Georgia, sans-serif">
             @foreach ($lines as $i => $line)
                 <text
                     x="200"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Public\User\UpdateUserAvatarRequest;
 use App\Http\Requests\Public\User\UpdateUserProfileRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -75,7 +76,10 @@ class ProfileController extends Controller
     public function update(UpdateUserProfileRequest $request): RedirectResponse|JsonResponse
     {
         $user = Auth::user();
-        $data = $request->safe()->only(['name', 'email']);
+        $data = $request->safe()->only(['name', 'name_latin', 'email']);
+        // Непроставленный чекбокс браузер вообще не отправляет, поэтому
+        // boolean() с явным false по умолчанию — то, что нужно.
+        $data['show_in_leaderboard'] = $request->boolean('show_in_leaderboard');
 
         // Подтверждение почты отключено, поэтому смена адреса больше не
         // сбрасывает email_verified_at и не шлёт письмо: иначе человек
@@ -83,16 +87,7 @@ class ProfileController extends Controller
         // его сейчас нечем. Домен проверяется правилом email:rfc,dns при
         // сохранении, и выдуманный адрес сюда не пройдёт.
 
-        if ($request->boolean('remove_avatar')) {
-            $this->deleteAvatar($user);
-            $data['avatar'] = null;
-        } elseif ($request->hasFile('avatar')) {
-            $this->deleteAvatar($user);
-            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
-        }
-
         $user->forceFill($data)->save();
-
 
         if ($request->wantsJson()) {
             return response()->json([
@@ -104,6 +99,30 @@ class ProfileController extends Controller
         return redirect()->route('profiles.edit')->with('success', 'Profile updated successfully.');
     }
 
+    /**
+     * Выбор аватара из готового набора (галерея в настройках профиля) —
+     * отдельная форма/маршрут от update(): один клик по картинке сохраняет
+     * сразу, без остальных полей профиля рядом.
+     */
+    public function updateAvatar(UpdateUserAvatarRequest $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        // Если раньше был загружен вручную настоящий файл (старая функция,
+        // сейчас убрана из UI) — подчищаем его, иначе в storage копятся
+        // файлы, на которые больше никто не ссылается.
+        if ($user->avatar
+            && ! str_starts_with($user->avatar, 'http://')
+            && ! str_starts_with($user->avatar, 'https://')
+            && ! in_array($user->avatar, config('avatars.files', []), true)) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        $user->forceFill(['avatar' => $request->avatar])->save();
+
+        return redirect()->route('profiles.edit')->with('success', 'Аватар обновлён.');
+    }
+
     public function stats(): JsonResponse
     {
         $user = Auth::user();
@@ -113,13 +132,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /** Удаляет прежний файл, чтобы в storage не копились осиротевшие аватары. */
-    private function deleteAvatar(User $user): void
-    {
-        if ($user->avatar) {
-            Storage::disk('public')->delete($user->avatar);
-        }
-    }
     /**
      * @return array{level: mixed, points: int, words_learned: int, lessons_completed: int, tests_passed: int, achievements_count: int, certificates_count: int}
      */
@@ -129,7 +141,7 @@ class ProfileController extends Controller
             'level' => $user->level,
             'points' => $user->points,
             'words_learned' => $user->words()->count(),
-            'lessons_completed' => $user->progress()->where('is_completed', true)->count(),
+            'lessons_completed' => $user->completedLessonsCount(),
             'tests_passed' => $user->results()->where('passed', true)->count(),
             'achievements_count' => $user->achievements()->count(),
             'certificates_count' => $user->certificates()->count(),

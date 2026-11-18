@@ -46,8 +46,8 @@
                 </a>
             </div>
         </div>
-        <div class="ph-admin-hero-owl">
-            <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l2 3"/><path d="M18 6l-2 3"/><ellipse cx="12" cy="13" rx="7" ry="8"/><circle cx="9" cy="12" r="2.2"/><circle cx="15" cy="12" r="2.2"/><circle cx="9" cy="12" r=".4" fill="#fff" stroke="none"/><circle cx="15" cy="12" r=".4" fill="#fff" stroke="none"/><path d="M11.3 14.5h1.4l-.7 1.2z" fill="#fff" stroke="none"/></svg>
+        <div class="ph-admin-hero-mascot">
+            <x-mascot :size="72" class="ph-hero-mascot-icon" />
         </div>
     </section>
 
@@ -90,7 +90,13 @@
                     <tr>
                         <td>
                             <div class="cell-user">
-                                <span class="avatar-circle avatar-sm">{{ strtoupper(mb_substr($s['name'], 0, 1)) }}</span>
+                                <span class="avatar-circle avatar-sm" style="overflow: hidden;">
+                                    @if ($s['avatar_url'])
+                                        <img src="{{ $s['avatar_url'] }}" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                    @else
+                                        {{ strtoupper(mb_substr($s['name'], 0, 1)) }}
+                                    @endif
+                                </span>
                                 {{ $s['name'] }}
                             </div>
                         </td>

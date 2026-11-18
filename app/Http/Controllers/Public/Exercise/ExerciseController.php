@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public\Exercise;
 use App\Http\Controllers\Controller;
 use App\Models\Exercise\Exercise;
 use App\Models\Exercise\UserExerciseAnswer;
+use App\Services\XpService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -23,7 +24,7 @@ class ExerciseController extends Controller
     public function index(): View
     {
         // Sorted by the parent lesson's level (A1, A2, B1... sorts correctly
-        // as a plain string) so exercises form one continuous study path,
+        // as a plain string) so exercises form one contin                                 uous study path,
         // matching the lessons list.
         $exercises = Exercise::with('lesson.level')->withCount('questions')->orderBy('id')->get()
             ->sortBy(fn ($exercise) => optional(optional($exercise->lesson)->level)->code ?? 'zzz')
@@ -32,6 +33,7 @@ class ExerciseController extends Controller
         return view('public.exercises.index', compact('exercises'));
     }
 
+    
     /**
      * Display the specified exercise with its practice questions.
      */
@@ -49,7 +51,7 @@ class ExerciseController extends Controller
      * накопилось много неверных ответов по теме (уроку) этого
      * упражнения, предложить пройти сам урок ещё раз.
      */
-    public function check(Request $request, Exercise $exercise)
+    public function check(Request $request, Exercise $exercise, XpService $xp)
     {
         $exercise->load(['questions', 'lesson']);
 
@@ -81,6 +83,11 @@ class ExerciseController extends Controller
                 'correct_answer' => $question->correct_answer,
             ];
         }
+
+        // Одна и та же пара (user_id, 'exercise', id) в xp_events уникальна,
+        // поэтому повторная проверка того же упражнения второй раз очки не
+        // добавляет — как и с уже начисляемым XP за слова в WordController.
+        $xp->award(Auth::user(), 'exercise', $exercise->id);
 
         $suggestLesson = null;
 

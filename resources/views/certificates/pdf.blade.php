@@ -16,16 +16,54 @@
     вокруг него, поэтому все цвета здесь — литералы, а не --pe-* токены.
 
     Параметры: levelCode, levelName, recipientName, certificateNumber,
-    issuedAtLabel (уже отформатированная строка даты или заглушка).
+    issuedAtLabel (уже отформатированная строка даты или заглушка), isPdf
+    (по умолчанию false — на странице шрифты подключены через Google Fonts
+    в layouts/app.blade.php; DomPDF рендерит вне браузера и их не видит,
+    а CSS var() он тоже не поддерживает, поэтому переключаем сами строки
+    font-family через PHP, а не через переменную). DejaVu Sans — тот
+    единственный шрифт, который встроен в сам dompdf/dompdf и всегда
+    доступен без явного подключения файлов, и у него есть кириллица:
+    без него имя на кириллице без name_latin превратилось бы в PDF
+    в квадраты-заглушки вместо букв.
 --}}
+@php
+    $isPdf = $isPdf ?? false;
+    $fontDisplay = $isPdf ? "'DejaVu Sans', sans-serif" : "'Unbounded', ui-sans-serif, system-ui, sans-serif";
+    $fontBody = $isPdf ? "'DejaVu Sans', sans-serif" : "'Manrope', ui-sans-serif, system-ui, sans-serif";
+@endphp
 @once
     <style>
+        {{-- DomPDF не понимает inset и плохо ведёт себя с flex внутри
+             position:absolute (проверено: без этого блока рамка съезжала,
+             контент не центрировался и уходил на вторую страницу) —
+             класс .cert-doc--pdf переопределяет только раскладку, ниже,
+             тем же селекторам, что и обычная (браузерная) версия. --}}
+        @if ($isPdf)
+            {{-- DomPDF по умолчанию добавляет свои отступы страницы поверх
+             размера бумаги из setPaper() — без обнуления здесь холст 1122×794
+             не помещался в фактическую печатную область и уезжал на вторую
+             страницу, даже когда сам контент был меньше 794px в высоту. --}}
+            @page {
+                size: 1122px 794px;
+                margin: 0;
+            }
+            @font-face {
+                font-family: 'DejaVu Sans';
+                font-weight: normal;
+                src: url('file://{{ str_replace('\\', '/', resource_path('fonts/DejaVuSans.ttf')) }}');
+            }
+            @font-face {
+                font-family: 'DejaVu Sans';
+                font-weight: bold;
+                src: url('file://{{ str_replace('\\', '/', resource_path('fonts/DejaVuSans-Bold.ttf')) }}');
+            }
+        @endif
         .cert-doc {
             position: relative;
             width: 1122px;
             height: 794px;
             background: linear-gradient(135deg, #fbf7ec, #f3ecd8);
-            font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+            font-family: {!! $fontBody !!};
             color: #241f14;
         }
         .cert-doc__corner {
@@ -77,10 +115,10 @@
             margin: 0 0 14px;
         }
         .cert-doc__level {
-            font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
+            font-family: {!! $fontDisplay !!};
             font-size: 64px;
             line-height: 1;
-            font-weight: 800;
+            font-weight: 700;
             color: #1e3a8a;
             margin: 0;
         }
@@ -98,7 +136,7 @@
         .cert-doc__name {
             display: inline-block;
             min-width: 420px;
-            font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
+            font-family: {!! $fontDisplay !!};
             font-size: 40px;
             font-weight: 700;
             color: #241f14;
@@ -138,7 +176,7 @@
             color: #241f14;
         }
         .cert-doc__signature {
-            font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
+            font-family: {!! $fontDisplay !!};
             color: #1e3a8a;
         }
         .cert-doc__foot-label {
@@ -148,10 +186,59 @@
             text-transform: uppercase;
             color: #a3966b;
         }
+
+        {{-- Раскладка для DomPDF: без flex/inset, только то, что рендерер
+             умеет надёжно — position с явными top/left/right/bottom,
+             text-align для центрирования текста и display:table для
+             трёх колонок подвала (table в PDF-движках — самая
+             предсказуемая раскладка, ещё с добраузерных времён). --}}
+        .cert-doc--pdf {
+            overflow: hidden;
+        }
+        .cert-doc--pdf .cert-doc__frame {
+            inset: auto;
+            top: 34px;
+            left: 34px;
+            right: 34px;
+            width: 1054px;
+            height: 726px;
+            display: block;
+            padding: 60px 90px 0;
+        }
+        .cert-doc--pdf .cert-doc__frame::before {
+            inset: auto;
+            top: 10px;
+            left: 10px;
+            width: 1034px;
+            height: 706px;
+        }
+        .cert-doc--pdf .cert-doc__seal {
+            display: block;
+            margin: 0 auto 18px;
+            text-align: center;
+            line-height: 64px;
+        }
+        .cert-doc--pdf .cert-doc__footer {
+            {{-- position:absolute + table оказался хрупким в DomPDF (left+
+                 right+width одновременно — над-ограниченный набор, движок
+                 схлопывал колонки) — проще держать подвал в потоке и
+                 отодвинуть его вниз отступом, благо описание всегда
+                 короткое и высота над ним предсказуема. --}}
+            position: static;
+            display: table;
+            width: 874px;
+            margin-top: 95px;
+            table-layout: fixed;
+        }
+        .cert-doc--pdf .cert-doc__foot-col {
+            display: table-cell;
+            text-align: center;
+            vertical-align: bottom;
+        }
     </style>
 @endonce
 
-<div class="cert-doc">
+<div class="cert-doc{{ $isPdf ? ' cert-doc--pdf' : '' }}">
     <span class="cert-doc__corner cert-doc__corner--tl"></span>
     <span class="cert-doc__corner cert-doc__corner--tr"></span>
     <span class="cert-doc__corner cert-doc__corner--bl"></span>

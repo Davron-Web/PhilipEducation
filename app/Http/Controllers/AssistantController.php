@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Vocabulary\Expression;
 use App\Models\Vocabulary\Word;
-use App\Services\GeminiService;
+use App\Services\PhilAssistantService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class AssistantController extends Controller
 {
-    public function __construct(protected GeminiService $gemini) {}
+    public function __construct(protected PhilAssistantService $assistant) {}
 
     public function chat(Request $request)
     {
@@ -17,10 +18,24 @@ class AssistantController extends Controller
             'question' => 'required|string|max:2000',
             'context_type' => 'nullable|in:word,expression',
             'context_id' => 'nullable|integer',
+            // Последние реплики диалога — фронт шлёт их из sessionStorage
+            // (см. phil-widget.blade.php), нужны для правила "короткая
+            // реплика без языка -> язык предыдущего сообщения".
+            'history' => 'nullable|array|max:20',
+            'history.*.role' => 'required|in:user,bot',
+            'history.*.text' => 'required|string|max:2000',
         ]);
 
         try {
-            $answer = $this->gemini->answerQuestion($request->question, $this->buildContext($request));
+            $answer = $this->assistant->reply(
+                history: $request->input('history', []),
+                question: $request->question,
+                context: $this->buildContext($request),
+                // App::getLocale() уже учитывает session('locale') — её
+                // выставляет SetLocale (bootstrap/app.php, глобальный
+                // middleware), поэтому отдельно лезть в сессию не нужно.
+                fallbackLocale: App::getLocale(),
+            );
         } catch (\Throwable $e) {
             return response()->json(['answer' => 'Ошибка: '.$e->getMessage()], 500);
         }

@@ -86,4 +86,40 @@ class UserFactory extends Factory
             'is_active' => true,
         ]);
     }
+
+    /**
+     * Фейковый пользователь для наполнения общего чата (см. ChatBotSeeder,
+     * команда chat:bots). $lang — закреплённый язык бота ('tg' или 'ru');
+     * не передан — выбирается случайно. Имя — из пула СВОЕГО языка
+     * (config/chat_bots.php: tg-имена таджикские, ru-имена русские), не
+     * fake()->name(): последний даёт случайные англо-русские имена
+     * вперемешку, а тут имя должно соответствовать языку, на котором бот
+     * реально пишет. avatar — сразу имя файла из готового набора
+     * (User::randomAvatarFilename()), а не null: у ботов реального фото
+     * никогда не будет, ждать нечего.
+     */
+    public function bot(?string $lang = null): static
+    {
+        return $this->state(function () use ($lang) {
+            $lang ??= fake()->randomElement(['tg', 'ru']);
+            $names = config("chat_bots.names.{$lang}");
+            $isMale = fake()->boolean();
+
+            $first = fake()->randomElement($isMale ? $names['male_first'] : $names['female_first']);
+            $last = fake()->randomElement($isMale ? $names['surname_male'] : $names['surname_female']);
+            $name = "{$first} {$last}";
+
+            return [
+                'name' => $name,
+                // Обычная роль "student", не Role::factory(): иначе каждый
+                // бот тянул бы за собой отдельную случайную роль в БД.
+                'role_id' => Role::where('name', 'student')->value('id'),
+                'is_bot' => true,
+                'lang' => $lang,
+                'is_active' => true,
+                'avatar' => User::randomAvatarFilename(),
+                'points' => fake()->numberBetween(0, 400),
+            ];
+        });
+    }
 }

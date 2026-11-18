@@ -64,13 +64,9 @@ canvas.ph-snow {
 .sidebar-nav .nav-link i { transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
 .sidebar-nav .nav-link:hover i { transform: scale(1.15) rotate(-4deg); }
 
-/* ---- 3. Logo mark: gentle blink ---------------------------------------- */
-.ph-logo-mark svg circle { transform-origin: center; animation: ph-blink 5.5s ease-in-out infinite; }
-.ph-logo-mark svg circle:nth-of-type(2) { animation-delay: .04s; }
-@keyframes ph-blink {
-    0%, 92%, 100% { transform: scaleY(1); }
-    95% { transform: scaleY(.15); }
-}
+/* ---- 3. Логотип теперь растровая панда через mask-image (x-mascot), не
+   отрисованные вручную <circle> глаза — правило ph-blink было мёртвым кодом
+   с момента замены совы на панду, убрано. --------------------------------- */
 
 /* ---- 4. Cards & buttons: a touch more lift ----------------------------- */
 .card-hover:hover {

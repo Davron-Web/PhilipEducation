@@ -64,6 +64,10 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $studentRole->id,
+            // Случайный аватар из готового набора сразу при регистрации —
+            // чтобы нигде не было пустого кружка с одной буквой ещё до
+            // того, как человек дойдёт до настроек профиля.
+            'avatar' => User::randomAvatarFilename(),
         ]);
 
         event(new Registered($user));

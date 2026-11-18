@@ -20,6 +20,10 @@ class UpdateUserProfileRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            // Только латиница (плюс пробелы/дефис/апостроф для имён вида
+            // "O'Brien-Smith") — поле специально для сертификата, кириллица
+            // в нём саму задачу не решает.
+            'name_latin' => ['nullable', 'string', 'max:255', 'regex:/^[a-zA-Z\'\-\s]+$/'],
             'email' => [
                 'required',
                 'string',
@@ -32,10 +36,10 @@ class UpdateUserProfileRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
                 new NotDisposableEmail,
             ],
-            // 2 МБ и только растровые форматы: аватар показывается кружком
-            // 40-64 px, большего разрешения от него не нужно.
-            'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            'remove_avatar' => ['nullable', 'boolean'],
+            // Аватар — отдельная форма (UpdateUserAvatarRequest, галерея
+            // готовых картинок), не часть этой формы: загрузки файла для
+            // аватара в профиле больше нет.
+            'show_in_leaderboard' => ['nullable', 'boolean'],
         ];
     }
 
@@ -46,8 +50,7 @@ class UpdateUserProfileRequest extends FormRequest
             'email.email' => 'Такой почтовый домен не существует. Проверьте адрес — возможно, опечатка в части после «@».',
             'email.unique' => 'Этот адрес уже занят другим аккаунтом.',
             'email.lowercase' => 'Введите адрес строчными буквами.',
-            'avatar.image' => 'Загрузите изображение: JPG, PNG или WebP.',
-            'avatar.max' => 'Файл больше 2 МБ — выберите фото поменьше.',
+            'name_latin.regex' => 'Только латинские буквы (без цифр и кириллицы).',
         ];
     }
 }

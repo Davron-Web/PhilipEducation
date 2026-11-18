@@ -221,7 +221,7 @@
                             :level-code="$cert['code']"
                             :level-name="$cert['name']"
                             :earned="$cert['is_earned']"
-                            :recipient-name="$cert['is_earned'] ? auth()->user()->name : null"
+                            :recipient-name="$certificateName"
                             :certificate-number="$cert['is_earned'] ? $cert['certificate']->certificate_number : null"
                             :issued-at="$cert['is_earned'] ? $cert['certificate']->issued_at : null"
                         />
@@ -252,11 +252,17 @@
                             {{-- Скачивание PDF и публичная проверка — следующие этапы,
                                  кнопки пока намеренно неактивны, а не ведут в никуда. --}}
                             <div class="mt-auto flex gap-2 pt-5">
-                                <x-ui.button variant="outline" class="flex-1" disabled>Download PDF</x-ui.button>
+                                <x-ui.button variant="outline" class="flex-1" :href="route('certificates.download', $certificate)">Download PDF</x-ui.button>
                                 <x-ui.button variant="outline" class="flex-1" disabled>Share</x-ui.button>
                             </div>
                         @else
-                            <div class="mt-5 space-y-4 text-left">
+                            @if ($certificateNeedsLatinHint)
+                                <p class="mt-3 text-xs text-ink/40">
+                                    Укажите имя латиницей в <a href="{{ route('profiles.edit') }}" class="font-semibold text-brand underline decoration-brand/30 underline-offset-2 hover:decoration-brand">профиле</a>, чтобы оно корректно отобразилось в сертификате.
+                                </p>
+                            @endif
+
+                            <div class="{{ $certificateNeedsLatinHint ? 'mt-4' : 'mt-5' }} space-y-4 pb-1 text-left">
                                 <div>
                                     <div class="flex items-center justify-between text-xs font-semibold text-ink/50">
                                         <span class="{{ $cert['lessons']['complete'] ? 'text-brand' : '' }}">Уроки{{ $cert['lessons']['complete'] ? ' ✓' : '' }}</span>
@@ -286,10 +292,6 @@
                                         <div class="h-full rounded-full bg-brand" data-fill-width="{{ $cert['words']['percent'] }}"></div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="mt-auto pt-5">
-                                <span class="text-xs font-semibold text-ink/30">Ещё не получен</span>
                             </div>
                         @endif
                     </div>

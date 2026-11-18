@@ -1,13 +1,14 @@
-{{-- Разговорная практика с ботом: 3D-робот, распознавание речи, ответ
-     голосом и разбор ошибок после разговора.
+{{-- Разговорная практика с Филом: жёлтый смайлик в тюбетейке (тот же
+     персонаж, что и AI-ассистент Phil в виджете внизу справа),
+     распознавание речи, ответ голосом и разбор ошибок после разговора.
 
-     Робот собран из примитивов Three.js, а не загружается моделью —
-     так страница не тянет внешние ассеты и работает офлайн-дружелюбно.
-     Распознавание речи — Web Speech API, он есть в Chrome/Edge; в других
-     браузерах показываем честное предупреждение вместо неработающей кнопки. --}}
+     Маскот — inline-SVG + CSS-анимация (components/phil-mascot.blade.php),
+     без внешних библиотек. Распознавание речи — Web Speech API, он есть
+     в Chrome/Edge; в других браузерах показываем честное предупреждение
+     вместо неработающей кнопки. --}}
 @extends('layouts.app')
 
-@section('title', 'Разговор с роботом')
+@section('title', __('site.speaking.page_title'))
 @section('page_title', 'Speaking')
 
 @push('styles')
@@ -28,8 +29,8 @@
     </a>
 
     <div class="mb-6">
-        <h1 class="font-display text-3xl font-semibold text-ink">Разговор с роботом</h1>
-        <p class="mt-1 text-ink/60">Говорите вслух по-английски — Дракоша слушает, отвечает и в конце разберёт ошибки.</p>
+        <h1 class="font-display text-3xl font-semibold text-ink">{{ __('site.speaking.page_title') }}</h1>
+        <p class="mt-1 text-ink/60">Говорите вслух по-английски — {{ __('site.speaking.mascot_name') }} слушает, отвечает и в конце разберёт ошибки.</p>
     </div>
 
     {{-- Браузер не поддерживает распознавание --}}
@@ -45,7 +46,7 @@
 
     {{-- Маскот --}}
     <div class="overflow-hidden rounded-2xl border border-line bg-navy shadow-soft">
-        <div id="robo-stage"><x-dragon-mascot id="dragon-mascot" /></div>
+        <div id="robo-stage"><x-phil-mascot id="phil-mascot" /></div>
         <div class="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 px-5 py-3">
             <p class="text-sm font-semibold text-white/80" x-text="statusText"></p>
             <div class="flex items-center gap-2">
@@ -75,7 +76,7 @@
         </template>
 
         <div class="flex justify-start" x-show="thinking" style="display:none">
-            <div class="robo-bubble rounded-xl border border-line bg-armor2 px-4 py-2.5 text-sm text-ink/50">Дракоша думает…</div>
+            <div class="robo-bubble rounded-xl border border-line bg-armor2 px-4 py-2.5 text-sm text-ink/50">{{ __('site.speaking.mascot_name') }} думает…</div>
         </div>
 
         {{-- Сбой показываем отдельной плашкой, а не репликой робота --}}
@@ -177,6 +178,8 @@
 
 @push('scripts')
 <script>
+var MASCOT_NAME = @js(__('site.speaking.mascot_name'));
+
 function speakingBot() {
     return {
         history: [],
@@ -195,14 +198,14 @@ function speakingBot() {
 
         get statusText() {
             if (this.report) return 'Разговор завершён';
-            if (this.thinking) return 'Дракоша думает…';
-            if (this.speaking) return 'Дракоша говорит';
+            if (this.thinking) return MASCOT_NAME + ' думает…';
+            if (this.speaking) return MASCOT_NAME + ' говорит';
             if (this.listening) return 'Слушаю вас…';
             return 'Нажмите «Говорить» и скажите что-нибудь по-английски';
         },
 
         init: function () {
-            this.robot = initDragon(document.getElementById('robo-stage'));
+            this.robot = initPhilMascot(document.getElementById('robo-stage'));
             this.setupRecognition();
             this.greet();
         },
@@ -382,12 +385,12 @@ function speakingBot() {
 }
 
 /**
- * Включает CSS-анимацию маскота (см. components/dragon-mascot.blade.php):
+ * Включает CSS-анимацию маскота (см. components/phil-mascot.blade.php):
  * вся анимация решается через [data-state="…"] в CSS, здесь только
  * переключается атрибут на корневом элементе компонента.
  */
-function initDragon(container) {
-    var el = container ? container.querySelector(".dragon-mascot") : null;
+function initPhilMascot(container) {
+    var el = container ? container.querySelector(".phil-mascot") : null;
 
     return {
         setState: function (next) { if (el) el.setAttribute("data-state", next); },

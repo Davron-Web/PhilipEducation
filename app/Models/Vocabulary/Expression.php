@@ -26,6 +26,8 @@ class Expression extends Model
         'literal_translation',
         'difficulty',
         'category',
+        'subcategory',
+        'register',
         'level_id',
         'base_verb',
         'particle',

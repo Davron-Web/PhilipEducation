@@ -42,6 +42,13 @@ class Word extends Model
         return $this->hasMany(WordTranslation::class);
     }
 
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class, 'collection_word')
+            ->withPivot('sort_order')
+            ->withTimestamps();
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_words')

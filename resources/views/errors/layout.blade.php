@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('code') — Philip Education</title>
 
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet">
 
@@ -24,9 +29,9 @@
 </div>
 
 <div class="d-flex flex-column align-items-center justify-content-center text-center min-vh-100 px-3">
-    <span class="d-inline-flex align-items-center justify-content-center rounded-4 text-white fw-bold ph-logo-mark mb-4"
+    <span class="d-inline-flex align-items-center justify-content-center rounded-4 ph-logo-mark mb-4"
           style="width: 4.5rem; height: 4.5rem; background: linear-gradient(135deg, #2563EB, #1d4ed8);">
-        <x-owl-mark :size="34" />
+        <x-logo :size="48" :text="false" />
     </span>
 
     <div class="display-1 fw-bold ph-neon-grad-text mb-2">@yield('code')</div>

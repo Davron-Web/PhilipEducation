@@ -18,7 +18,7 @@
     ];
 
     $variants = [
-        'primary' => 'bg-gradient-to-br from-[#C9A961] to-[#D4AF37] text-navy shadow-soft hover:-translate-y-0.5 hover:shadow-softLg',
+        'primary' => 'bg-gradient-to-br from-[var(--pe-brand)] to-[var(--pe-sky)] text-white shadow-soft hover:-translate-y-0.5 hover:shadow-softLg',
         'accent' => 'bg-sun text-white shadow-soft hover:-translate-y-0.5 hover:shadow-softLg',
         'outline' => 'border-2 border-line bg-armor2 text-ink hover:border-brand/50 hover:bg-surface2',
         'ghost' => 'text-ink/70 hover:bg-surface2 hover:text-brand',

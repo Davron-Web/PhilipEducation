@@ -156,6 +156,7 @@ class DashboardController extends Controller
                 'name' => $u->name ?? 'Гость',
                 'email' => $u->email ?? '—',
                 'date' => $u->created_at?->format('d.m.Y') ?? '—',
+                'avatar_url' => $u->avatar_url,
             ]),
 
             'lessons' => Lesson::with('level')->latest()->take(5)->get()->map(fn (Lesson $l) => [

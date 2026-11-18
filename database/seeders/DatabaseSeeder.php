@@ -25,11 +25,14 @@ class DatabaseSeeder extends Seeder
             VocabularyBatch4Seeder::class,
             VocabularyBatch5Seeder::class,
             ExpressionSeeder::class,
+            LinkingWordSeeder::class,
+            LevelCollectionSeeder::class,
             TestSeeder::class,
             TestQuestionSeeder::class,
             TestAnswerSeeder::class,
             AchievementSeeder::class,
             AchievementBatch2Seeder::class,
+            AchievementBackfillSeeder::class,
             UserAchievementSeeder::class,
             UserProgressSeeder::class,
             UserWordSeeder::class,
@@ -54,6 +57,9 @@ class DatabaseSeeder extends Seeder
             IeltsListeningBatch2Seeder::class,
             IeltsSpeakingCardSeeder::class,
             IeltsBatch3Seeder::class,
+            PlacementQuestionSeeder::class,
+            ChatBotSeeder::class,
+            DialogueSeeder::class,
         ]);
     }
 }

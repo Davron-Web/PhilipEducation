@@ -12,6 +12,16 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Philip Education">
 
+    {{-- Фавикон — тот же значок, что и в шапке (public/images/logo-icon.svg,
+         x-logo). SVG — основной вариант (векторный, чёткий на любом
+         разрешении), PNG/ICO ниже — запасной вариант для браузеров без
+         поддержки SVG-фавиконок. Все перерендерены из одного SVG. --}}
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+
     {{-- Тема "Philip Bright": светлая по умолчанию, с переключателем на тёмную
          (класс .dark на <html>). Скрипт ниже применяет сохранённую/системную
          тему ДО отрисовки, чтобы не было мигания. --}}
@@ -26,11 +36,13 @@
         })();
     </script>
 
-    {{-- Шрифты: Playfair Display для заголовков (font-display) — элегантная
-         антиква премиального дома, Inter для текста --}}
+    {{-- Шрифты: Unbounded для заголовков (font-display), Manrope для текста —
+         у Manrope есть кириллица (проверено: диапазон U+0400-045F в исходном
+         @font-face), поэтому русский и таджикский текст не проваливается на
+         системный шрифт. --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     {{--
         Tailwind собирается локально (npm run build) по tailwind.config.js —
@@ -51,40 +63,99 @@
     <script src="{{ asset('assets/js/flashcard-deck.js') }}"></script>
 
     <style>
-        /* ---------- Цветовые токены: светлая тема (по умолчанию) ---------- */
+        /* ---------- Цветовые токены: светлая тема (по умолчанию) ----------
+           Новая палитра (заменяет тёмно-синий+золото на тёмно-синий+голубой,
+           без тёплых акцентов — задача была явно убрать золото, а не
+           подмешать его к новому синему). --pe-navy/--pe-navy2/--pe-sky и
+           --pe-gold сделаны неизменными между темами (как было раньше у
+           navy/navy2) — --pe-gold теперь равен --pe-sky: роль «яркого
+           акцента» осталась, сам акцент — больше не золотой. --pe-skylight/
+           --pe-sun — соседние по тону остановки из голубого градиента шкалы
+           CEFR на главной, а не рандомные цвета, чтобы вся палитра читалась
+           как одна согласованная лестница синего. */
         :root {
-            --pe-ink: #2C3E50;
-            --pe-armor: #F8F9FA;
+            --pe-ink: #142033;
+            --pe-armor: #F5F8FC;
             --pe-armor2: #FFFFFF;
-            --pe-surface2: #F2EFE9;
-            --pe-line: #E6E2D8;
-            --pe-brand: #8A6D1F;
-            --pe-sky: #0F3460;
-            --pe-skylight: #1B4B7A;
-            --pe-sun: #A85C32;
-            --pe-navy: #1A1A2E;
-            --pe-navy2: #16213E;
-            --pe-gold: #C9A961;
+            --pe-surface2: #EDF2F9;
+            --pe-line: #E1E8F1;
+            --pe-brand: #1E3A8A;
+            --pe-sky: #2FA8E0;
+            --pe-skylight: #8FC2EF;
+            --pe-sun: #5FA6E6;
+            --pe-navy: #0B1F3A;
+            --pe-navy2: #152A63;
+            --pe-gold: #2FA8E0;
+
+            /* Каналы R G B без функции-обёртки — только для tailwind.config.js
+               (colors.*: 'rgb(var(--pe-X-rgb) / <alpha-value>)'), чтобы
+               bg-ink/50 и подобные классы с дробной прозрачностью реально
+               попадали в собранный CSS: Tailwind не умеет накладывать
+               альфа-канал на var(), которая уже сама по себе целый цвет
+               (#hex) — только на «сырые» каналы через rgb(... / N). Сами
+               --pe-X (сверху) не трогаем и не убираем — от них напрямую
+               зависят дашборд (--accent + color-mix()), phil-widget,
+               phil-mascot и градиенты на нескольких страницах; дублируем
+               значения, а не заменяем. */
+            --pe-ink-rgb: 20 32 51;
+            --pe-armor-rgb: 245 248 252;
+            --pe-armor2-rgb: 255 255 255;
+            --pe-surface2-rgb: 237 242 249;
+            --pe-line-rgb: 225 232 241;
+            --pe-brand-rgb: 30 58 138;
+            --pe-sky-rgb: 47 168 224;
+            --pe-skylight-rgb: 143 194 239;
+            --pe-sun-rgb: 95 166 230;
+            --pe-navy-rgb: 11 31 58;
+            --pe-navy2-rgb: 21 42 99;
+            --pe-gold-rgb: 47 168 224;
+
+            /* Маскот — красная панда (components/mascot.blade.php), заменил
+               прежнюю сову. Цвета бренда, а не UI-токены — одинаковые в
+               обеих темах намеренно (как --pe-navy/--pe-gold выше): значок
+               одного и того же зверя не должен перекрашиваться вместе с
+               интерфейсом вокруг него. */
+            --pe-mascot-red: #E0662B;
+            --pe-mascot-red-deep: #D9622C;
+            --pe-mascot-cream: #FFFFFF;
+            --pe-mascot-dark: #3A2820;
         }
 
         /* ---------- Тёмная тема: включается классом .dark на <html> ---------- */
         html.dark {
-            --pe-ink: #E8E6E0;
-            --pe-armor: #1A1A2E;
-            --pe-armor2: #16213E;
-            --pe-surface2: #1E2A47;
-            --pe-line: #2A3555;
-            --pe-brand: #D4AF37;
-            --pe-sky: #6E97C7;
-            --pe-skylight: #8FB4DE;
-            --pe-sun: #D98452;
-            --pe-navy: #1A1A2E;
-            --pe-navy2: #16213E;
-            --pe-gold: #D4AF37;
+            --pe-ink: #E7EEF7;
+            --pe-armor: #0B1F3A;
+            --pe-armor2: #152A63;
+            --pe-surface2: #1B3A66;
+            --pe-line: #2A4570;
+            --pe-brand: #5FA6E6;
+            --pe-sky: #2FA8E0;
+            --pe-skylight: #BEDBF7;
+            --pe-sun: #8FC2EF;
+            --pe-navy: #0B1F3A;
+            --pe-navy2: #152A63;
+
+            --pe-ink-rgb: 231 238 247;
+            --pe-armor-rgb: 11 31 58;
+            --pe-armor2-rgb: 21 42 99;
+            --pe-surface2-rgb: 27 58 102;
+            --pe-line-rgb: 42 69 112;
+            --pe-brand-rgb: 95 166 230;
+            --pe-sky-rgb: 47 168 224;
+            --pe-skylight-rgb: 190 219 247;
+            --pe-sun-rgb: 143 194 239;
+            --pe-navy-rgb: 11 31 58;
+            --pe-navy2-rgb: 21 42 99;
+            --pe-gold: #2FA8E0;
+            --pe-gold-rgb: 47 168 224;
         }
 
-        /* Плавное появление элементов при скролле (см. IntersectionObserver внизу файла) */
-        [data-reveal] {
+        /* Плавное появление элементов при скролле (см. IntersectionObserver внизу файла).
+           Скрывающее opacity:0 включено ТОЛЬКО классом .js-reveal, который
+           навешивает сам скрипт реализации — если JS не выполнился (ошибка,
+           заблокирован, не успел загрузиться), класса не будет и контент
+           останется видимым по умолчанию, а не спрячется навсегда. */
+        .js-reveal [data-reveal] {
             opacity: 0;
             transform: translateY(24px);
             transition: opacity .5s ease-out, transform .5s ease-out;
@@ -92,6 +163,13 @@
         [data-reveal].is-visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Прогресс-бар, который заполняется при попадании в зону видимости
+           (см. IntersectionObserver внизу файла) — стартует с 0% ширины. */
+        [data-fill-width] {
+            width: 0%;
+            transition: width 1s ease-out;
         }
 
         /* Подъём карточки + смена тени при наведении — заметный, но не «прыжок» */
@@ -108,6 +186,7 @@
         /* Уважаем предпочтение отключить анимации */
         @media (prefers-reduced-motion: reduce) {
             [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+            [data-fill-width] { transition: none !important; }
             .card-lift { transition: none !important; }
             * { scroll-behavior: auto !important; }
         }
@@ -158,6 +237,15 @@
 
     <x-phil-widget />
 
+    {{-- Общий чат гостям недоступен вообще (маршруты chat.* — за auth-
+         мидлварью), поэтому и панель для них не рендерим: иначе вкладка
+         была бы видна, а бутстрап-запрос при открытии просто ловил бы
+         редирект на логин. --}}
+    @auth
+        <x-chat-drawer />
+        <script src="{{ asset('assets/js/chat.js') }}"></script>
+    @endauth
+
     <script>
         // Анимация нарастания числа — используется на статистике/дашборде:
         // x-data x-init="countUp($el, 0, 42, 900)"
@@ -186,16 +274,48 @@
                 return;
             }
 
-            var observer = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+            // Класс, включающий opacity:0 в CSS, навешиваем только теперь,
+            // когда мы уже точно знаем, что дальше сможем всё раскрыть —
+            // это и есть фолбэк на случай падения скрипта (см. .js-reveal
+            // в <style> выше): без этой строки ничего не прячется вообще.
+            document.documentElement.classList.add('js-reveal');
 
-            targets.forEach(function (el) { observer.observe(el); });
+            // То, что уже видно в первом экране, раскрываем сразу по
+            // таймеру-каскаду, а не ждём IntersectionObserver — на
+            // страницах с несколькими ОЧЕНЬ высокими блоками (например,
+            // /exercises: все упражнения уровня в одной карточке на тысячи
+            // пикселей) видимая при загрузке часть карточки может не
+            // набрать порог threshold: 0.12 от её полной высоты, и колбэк
+            // не срабатывает до скролла — баг был именно в этом, а не в
+            // самом IntersectionObserver. Ниже сгиба поведение прежнее.
+            var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            var immediate = [];
+            var deferred = [];
+            targets.forEach(function (el) {
+                var rect = el.getBoundingClientRect();
+                if (rect.top < viewportHeight && rect.bottom > 0) {
+                    immediate.push(el);
+                } else {
+                    deferred.push(el);
+                }
+            });
+
+            immediate.forEach(function (el, i) {
+                setTimeout(function () { el.classList.add('is-visible'); }, i * 60);
+            });
+
+            if (deferred.length) {
+                var observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+                deferred.forEach(function (el) { observer.observe(el); });
+            }
 
             // Счётчики с анимацией нарастания: <span data-counter data-target="120">
             var counters = document.querySelectorAll('[data-counter]');
@@ -224,6 +344,26 @@
                         });
                     }, { threshold: 0.4 });
                     counters.forEach(function (el) { counterObserver.observe(el); });
+                }
+            }
+
+            // Прогресс-бары, заполняющиеся при попадании в область видимости:
+            // <div data-fill-width="72"></div> — ширина в процентах (0-100),
+            // сама полоска красится/оформляется классами на месте использования.
+            var fillBars = document.querySelectorAll('[data-fill-width]');
+            if (fillBars.length) {
+                if (prefersReduced || !('IntersectionObserver' in window)) {
+                    fillBars.forEach(function (el) { el.style.width = (el.dataset.fillWidth || 0) + '%'; });
+                } else {
+                    var fillObserver = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (entry) {
+                            if (!entry.isIntersecting) return;
+                            fillObserver.unobserve(entry.target);
+                            var el = entry.target;
+                            requestAnimationFrame(function () { el.style.width = (el.dataset.fillWidth || 0) + '%'; });
+                        });
+                    }, { threshold: 0.4 });
+                    fillBars.forEach(function (el) { fillObserver.observe(el); });
                 }
             }
 

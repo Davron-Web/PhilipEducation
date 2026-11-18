@@ -53,16 +53,23 @@ class SpeakingBotController extends Controller
         $data = $validator->validated();
         $history = array_slice($data['history'], -self::HISTORY_LIMIT);
 
+        // Промпт для Gemini всегда на английском независимо от локали сайта
+        // (см. правило ниже "Reply in English only"), поэтому имя маскота
+        // берём принудительно из английской версии lang-файла, а не из
+        // текущей локали — иначе в ru/tg-локали сюда попала бы кириллица
+        // «Фил» посреди английской инструкции.
+        $mascotName = trans('site.speaking.mascot_name', [], 'en');
+
         if (empty($history)) {
             return response()->json([
-                'reply' => "Hi! I'm Drakosha, your speaking partner. What would you like to talk about today?",
+                'reply' => "Hi! I'm {$mascotName}, your speaking partner. What would you like to talk about today?",
             ]);
         }
 
         $level = $data['level'] ?? 'B1';
 
         $system = <<<SYS
-You are Drakosha, a friendly young dragon who helps someone practise spoken English.
+You are {$mascotName}, a friendly assistant wearing a Tajik tubeteika who helps someone practise spoken English.
 
 Rules:
 - Reply in English only, in 1-3 short sentences. This is speech, not an essay:

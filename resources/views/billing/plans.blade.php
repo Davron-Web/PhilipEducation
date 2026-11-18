@@ -10,7 +10,7 @@
         <div class="mx-auto max-w-2xl text-center" data-reveal>
             <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand">{{ __('site.billing.nav') }}</p>
             <h1 class="mt-3 font-display text-[32px] font-semibold text-ink sm:text-[38px]">{{ __('site.billing.title') }}</h1>
-            <div class="mx-auto mt-4 h-[3px] w-14 bg-gradient-to-r from-[#C9A961] to-[#A78BFA]"></div>
+            <div class="mx-auto mt-4 h-[3px] w-14 bg-gradient-to-r from-[var(--pe-brand)] to-[var(--pe-sky)]"></div>
             <p class="mt-4 text-[16px] text-ink/60">{{ __('site.billing.subtitle') }}</p>
         </div>
 

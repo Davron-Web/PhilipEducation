@@ -22,62 +22,66 @@
             <div>
                 <x-ui.card :hover="false">
                     <h2 class="mb-4 flex items-center gap-2 text-base font-bold text-ink">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-5-5L5 21" /></svg>
+                        Аватар
+                    </h2>
+                    <p class="mb-4 text-sm text-ink/60">Выберите аватар из набора — сохраняется сразу по клику, без отдельной кнопки.</p>
+
+                    <div class="grid grid-cols-4 gap-3 sm:grid-cols-6 lg:grid-cols-8">
+                        @foreach (config('avatars.files', []) as $filename)
+                            <form method="POST" action="{{ route('profiles.avatar.update') }}">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="avatar" value="{{ $filename }}">
+                                <button
+                                    type="submit"
+                                    aria-label="Выбрать этот аватар"
+                                    class="block aspect-square w-full overflow-hidden rounded-full border-[3px] transition hover:scale-105 hover:border-brand/60 {{ $user->avatar === $filename ? 'border-brand' : 'border-transparent' }}"
+                                >
+                                    <img src="{{ asset('avatars/'.$filename) }}" alt="" class="h-full w-full object-cover" loading="lazy">
+                                </button>
+                            </form>
+                        @endforeach
+                    </div>
+
+                    @error('avatar')
+                        <p class="mt-3 text-xs font-semibold text-red-500">{{ $message }}</p>
+                    @enderror
+                </x-ui.card>
+
+                <x-ui.card :hover="false" class="mt-6">
+                    <h2 class="mb-4 flex items-center gap-2 text-base font-bold text-ink">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21a8 8 0 0 0-16 0" /><circle cx="12" cy="7" r="4" /></svg>
                         Данные профиля
                     </h2>
 
-                    <form method="POST" action="{{ route('profiles.update') }}" class="space-y-4" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('profiles.update') }}" class="space-y-4">
                         @csrf
                         @method('PUT')
 
-                        {{-- Аватар. Превью подменяется до отправки, чтобы было
-                             видно, что выбран нужный файл. --}}
-                        <div class="flex items-center gap-4" x-data="{ preview: null }">
-                            <span class="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand to-sky text-xl font-extrabold text-white">
-                                <template x-if="preview">
-                                    <img :src="preview" alt="" class="h-full w-full object-cover">
-                                </template>
-                                <template x-if="!preview">
-                                    <span>
-                                        @if ($user->avatarUrl())
-                                            <img src="{{ $user->avatarUrl() }}" alt="Аватар" class="absolute inset-0 h-full w-full object-cover">
-                                        @else
-                                            {{ $user->initial() }}
-                                        @endif
-                                    </span>
-                                </template>
-                            </span>
+                        <x-ui.input label="Полное имя" name="name" value="{{ old('name', $user->name) }}" required />
 
-                            <div class="min-w-0">
-                                <label class="inline-flex cursor-pointer items-center gap-2 rounded border-2 border-line bg-armor2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-ink transition hover:border-brand/50 hover:bg-surface2">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m17 8-5-5-5 5" /><path d="M12 3v12" /></svg>
-                                    Выбрать фото
-                                    <input
-                                        type="file"
-                                        name="avatar"
-                                        accept="image/jpeg,image/png,image/webp"
-                                        class="hidden"
-                                        @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : null"
-                                    >
-                                </label>
-                                <p class="mt-1.5 text-xs text-ink/50">JPG, PNG или WebP, до 2 МБ.</p>
-
-                                @if ($user->avatar)
-                                    <label class="mt-2 flex items-center gap-2 text-xs font-semibold text-ink/60">
-                                        <input type="checkbox" name="remove_avatar" value="1" class="accent-brand">
-                                        Удалить текущее фото
-                                    </label>
-                                @endif
-
-                                @error('avatar')
-                                    <p class="mt-1.5 text-xs font-semibold text-red-500">{{ $message }}</p>
-                                @enderror
-                            </div>
+                        <div>
+                            <x-ui.input label="Имя латиницей (для сертификата)" name="name_latin" value="{{ old('name_latin', $user->name_latin) }}" placeholder="Ivan Petrov" />
+                            <p class="mt-1.5 text-xs text-ink/50">Если оставить пустым, сертификат покажет обычное имя выше — латиница просто выглядит уместнее на документе на английском.</p>
+                            @error('name_latin')
+                                <p class="mt-1.5 text-xs font-semibold text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <x-ui.input label="Полное имя" name="name" value="{{ old('name', $user->name) }}" required />
                         <x-ui.input label="Email" type="email" name="email" value="{{ old('email', $user->email) }}" required />
 
+                        <label class="flex items-center gap-2 text-sm text-ink/70">
+                            <input
+                                type="checkbox"
+                                name="show_in_leaderboard"
+                                value="1"
+                                class="accent-brand"
+                                @checked(old('show_in_leaderboard', $user->show_in_leaderboard))
+                            >
+                            Показывать меня в рейтинге «Лидеры»
+                        </label>
+                        <p class="-mt-2 text-xs text-ink/50">Если выключить, вы пропадёте из общего списка, но своё место всё равно сможете увидеть.</p>
 
                         <x-ui.button type="submit">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" /></svg>
@@ -164,8 +168,8 @@
             <div>
                 <x-ui.card :hover="false" class="text-center">
                     <span class="mx-auto mb-3 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand to-sky text-xl font-extrabold text-white">
-                        @if ($user->avatarUrl())
-                            <img src="{{ $user->avatarUrl() }}" alt="Аватар" class="h-full w-full object-cover">
+                        @if ($user->avatar_url)
+                            <img src="{{ $user->avatar_url }}" alt="Аватар" class="h-full w-full object-cover">
                         @else
                             {{ $user->initial() }}
                         @endif

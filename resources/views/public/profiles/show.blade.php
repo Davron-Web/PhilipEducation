@@ -9,8 +9,8 @@
         <x-ui.card :hover="false" class="mb-6">
             <div class="flex flex-wrap items-center gap-4">
                 <span class="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand to-sky text-2xl font-extrabold text-white">
-                    @if ($user->avatarUrl())
-                        <img src="{{ $user->avatarUrl() }}" alt="Аватар" class="h-full w-full object-cover">
+                    @if ($user->avatar_url)
+                        <img src="{{ $user->avatar_url }}" alt="Аватар" class="h-full w-full object-cover">
                     @else
                         {{ $user->initial() }}
                     @endif

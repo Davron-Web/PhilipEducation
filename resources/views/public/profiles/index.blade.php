@@ -9,8 +9,8 @@
         <x-ui.card :hover="false" class="mb-6">
             <div class="flex flex-wrap items-center gap-4">
                 <span class="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand to-sky text-2xl font-extrabold text-white">
-                    @if ($user->avatarUrl())
-                        <img src="{{ $user->avatarUrl() }}" alt="Аватар" class="h-full w-full object-cover">
+                    @if ($user->avatar_url)
+                        <img src="{{ $user->avatar_url }}" alt="Аватар" class="h-full w-full object-cover">
                     @else
                         {{ $user->initial() }}
                     @endif
@@ -21,8 +21,9 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 7 10 6 10-6" /></svg>
                         {{ $user->email }}
                     </p>
-                    <div class="mt-2">
+                    <div class="mt-2 flex items-center gap-2">
                         <x-ui.badge variant="level" :level="$user->level" />
+                        <a href="{{ route('tests.placement.intro') }}" class="text-xs font-bold text-brand hover:underline">Пересдать тест</a>
                     </div>
                 </div>
                 <div class="flex gap-2">

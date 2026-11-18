@@ -58,6 +58,19 @@
                 </div>
             @endif
 
+            @if ($word->collections->isNotEmpty())
+                <div class="mt-6">
+                    <h2 class="mb-2 text-sm font-bold uppercase tracking-wide text-ink/40">{{ __('site.vocabulary_collections.belongs_to_collections') }}</h2>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($word->collections as $wordCollection)
+                            <a href="{{ route('words.collections.show', $wordCollection->slug) }}" class="inline-flex items-center rounded-full border border-brand/30 bg-brand/5 px-3 py-1 text-sm font-semibold text-brand transition hover:bg-brand/10">
+                                {{ $wordCollection->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             @if ($word->lesson)
                 <x-ui.button href="{{ route('lessons.show', $word->lesson->id) }}" variant="outline" class="mt-6">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z" /></svg>

@@ -9,7 +9,7 @@
 @section('content')
     <div
         class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"
-        x-data="{ search: '', level: 'all' }"
+        x-data="{ search: '', level: new URLSearchParams(window.location.search).get('level') || 'all' }"
     >
         <div class="mb-8" data-reveal>
             <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Каталог уроков</h1>

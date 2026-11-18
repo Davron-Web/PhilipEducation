@@ -5,11 +5,14 @@
    blue design system (already has nav shimmer, breathing icons, etc.).
    ===================================================================== */
 
-.ph-logo-mark svg circle { transform-origin: center; animation: ph-blink 5.5s ease-in-out infinite; }
-.ph-logo-mark svg circle:nth-of-type(2) { animation-delay: .04s; }
-@keyframes ph-blink {
-    0%, 92%, 100% { transform: scaleY(1); }
-    95% { transform: scaleY(.15); }
+/* Логотип в сайдбаре — буквы "PH", не маскот (маскот остаётся только как
+   аватар "Фила"-ассистента, например в hero-баннере дашборда ниже). .bolt
+   уже центрирует содержимое (admin.css), тут только размер шрифта — свой
+   шрифт не задаём, наследуется обычный Inter админки. */
+.ph-logo-mark {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: -.02em;
 }
 
 /* ---- Dashboard hero: night-sky aurora + snow, admin flavour ---------- */
@@ -41,14 +44,14 @@
     border-color: rgba(255,255,255,.3) !important;
 }
 .ph-admin-hero-ghost.btn-ghost:hover { background: rgba(255,255,255,.2) !important; }
-.ph-admin-hero-owl {
+.ph-admin-hero-mascot {
     position: relative; z-index: 2; flex-shrink: 0;
     width: 150px; height: 150px; border-radius: 50%;
     background: rgba(255,255,255,.10);
     display: flex; align-items: center; justify-content: center;
-    animation: ph-owl-float 4.5s ease-in-out infinite;
+    animation: ph-mascot-float 4.5s ease-in-out infinite;
 }
-@keyframes ph-owl-float {
+@keyframes ph-mascot-float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-6px); }
 }
@@ -86,13 +89,12 @@ canvas.ph-snow {
 
 @media (max-width: 720px) {
     .ph-admin-hero { flex-direction: column; align-items: flex-start; padding: 24px; }
-    .ph-admin-hero-owl { width: 96px; height: 96px; }
-    .ph-admin-hero-owl svg { width: 48px; height: 48px; }
+    .ph-admin-hero-mascot { width: 96px; height: 96px; }
+    .ph-admin-hero-mascot .ph-hero-mascot-icon { width: 48px !important; height: 48px !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ph-logo-mark svg circle,
-    .ph-admin-hero-owl,
+    .ph-admin-hero-mascot,
     .ph-aurora-a,
     .ph-aurora-b {
         animation: none !important;

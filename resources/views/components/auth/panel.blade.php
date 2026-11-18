@@ -16,37 +16,38 @@
 
 <div id="auth-stage" class="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden px-4 py-16">
 
-    {{-- Сова-курьер --}}
+    {{-- Панда-курьер: та же анимация и разметка, что были у совы-курьера,
+         перекрашены в --pe-mascot-* — форму не перерисовывали заново. --}}
     <div class="auth-owl pointer-events-none absolute left-1/2 top-[12%] z-20" aria-hidden="true">
         <svg width="76" height="76" viewBox="0 0 64 64" fill="none">
             {{-- крылья --}}
-            <path class="auth-owl-wing auth-owl-wing-l" d="M16 30 C 4 33, 2 46, 10 53 C 15 48, 17 38, 16 30 Z" fill="#2E2E4E" stroke="#C9A961" stroke-width="1.2" />
-            <path class="auth-owl-wing auth-owl-wing-r" d="M48 30 C 60 33, 62 46, 54 53 C 49 48, 47 38, 48 30 Z" fill="#2E2E4E" stroke="#C9A961" stroke-width="1.2" />
+            <path class="auth-owl-wing auth-owl-wing-l" d="M16 30 C 4 33, 2 46, 10 53 C 15 48, 17 38, 16 30 Z" fill="var(--pe-mascot-red-deep)" stroke="var(--pe-mascot-dark)" stroke-width="1.2" />
+            <path class="auth-owl-wing auth-owl-wing-r" d="M48 30 C 60 33, 62 46, 54 53 C 49 48, 47 38, 48 30 Z" fill="var(--pe-mascot-red-deep)" stroke="var(--pe-mascot-dark)" stroke-width="1.2" />
 
             {{-- уши --}}
-            <path d="M19 21 L15 9 L27 16 Z" fill="#1A1A2E" stroke="#C9A961" stroke-width="1.2" stroke-linejoin="round" />
-            <path d="M45 21 L49 9 L37 16 Z" fill="#1A1A2E" stroke="#C9A961" stroke-width="1.2" stroke-linejoin="round" />
+            <path d="M19 21 L15 9 L27 16 Z" fill="var(--pe-mascot-red)" stroke="var(--pe-mascot-dark)" stroke-width="1.2" stroke-linejoin="round" />
+            <path d="M45 21 L49 9 L37 16 Z" fill="var(--pe-mascot-red)" stroke="var(--pe-mascot-dark)" stroke-width="1.2" stroke-linejoin="round" />
 
             {{-- туловище --}}
-            <ellipse cx="32" cy="37" rx="17" ry="19" fill="#1A1A2E" stroke="#C9A961" stroke-width="1.4" />
-            <ellipse cx="32" cy="42" rx="9.5" ry="12" fill="#252540" />
+            <ellipse cx="32" cy="37" rx="17" ry="19" fill="var(--pe-mascot-red)" stroke="var(--pe-mascot-dark)" stroke-width="1.4" />
+            <ellipse cx="32" cy="42" rx="9.5" ry="12" fill="var(--pe-mascot-cream)" />
 
             {{-- глаза --}}
-            <circle cx="25" cy="32" r="7" fill="#F5F0E8" />
-            <circle cx="39" cy="32" r="7" fill="#F5F0E8" />
-            <circle class="auth-owl-pupil" cx="25" cy="32" r="3.1" fill="#1A1A2E" />
-            <circle class="auth-owl-pupil" cx="39" cy="32" r="3.1" fill="#1A1A2E" />
+            <circle cx="25" cy="32" r="7" fill="var(--pe-mascot-cream)" />
+            <circle cx="39" cy="32" r="7" fill="var(--pe-mascot-cream)" />
+            <circle class="auth-owl-pupil" cx="25" cy="32" r="3.1" fill="var(--pe-mascot-dark)" />
+            <circle class="auth-owl-pupil" cx="39" cy="32" r="3.1" fill="var(--pe-mascot-dark)" />
 
-            {{-- клюв и лапы --}}
-            <path d="M32 37 l-3.2 4.4 h6.4 Z" fill="#C9A961" />
-            <path d="M27 55 v4 M32 56 v4 M37 55 v4" stroke="#C9A961" stroke-width="1.6" stroke-linecap="round" />
+            {{-- нос и лапы --}}
+            <path d="M32 37 l-3.2 4.4 h6.4 Z" fill="var(--pe-mascot-dark)" />
+            <path d="M27 55 v4 M32 56 v4 M37 55 v4" stroke="var(--pe-mascot-dark)" stroke-width="1.6" stroke-linecap="round" />
         </svg>
     </div>
 
     <div class="auth-card w-full max-w-md">
         <div class="mb-8 text-center">
-            <a href="{{ url('/') }}" class="inline-flex h-14 w-14 items-center justify-center rounded bg-gold text-navy shadow-soft">
-                <x-owl-mark :size="28" />
+            <a href="{{ url('/') }}" class="inline-flex items-center justify-center">
+                <x-logo :size="56" :text="false" />
             </a>
             <h1 class="mt-4 font-display text-2xl font-semibold text-ink">{{ $title }}</h1>
             @if ($subtitle)

@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('placement_answers', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('placement_attempt_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('placement_question_id')->constrained();
+            // Нет ответа — вопрос пропустили; option_id пуст, is_correct=false.
+            $table->foreignId('placement_option_id')->nullable()->constrained('placement_options');
+            $table->boolean('is_correct')->default(false);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('placement_answers');
+    }
+};

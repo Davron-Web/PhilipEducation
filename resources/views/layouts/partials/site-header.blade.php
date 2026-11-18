@@ -11,6 +11,10 @@
         ['label' => __('site.nav.ielts'), 'url' => route('ielts.index'), 'active' => request()->routeIs('ielts.*')],
         ['label' => __('site.nav.books'), 'url' => route('books.index'), 'active' => request()->routeIs('books.*')],
         ['label' => __('site.nav.achievements'), 'url' => route('achievements.index'), 'active' => request()->routeIs('achievements.*')],
+        ['label' => __('site.nav.leaderboard'), 'url' => route('leaderboard.index'), 'active' => request()->routeIs('leaderboard.*')],
+        // Чат убран из меню — теперь выезжающая панель слева (см.
+        // x-chat-drawer в layouts/app.blade.php), а не отдельная страница.
+        // Страница /chat (chat.index) осталась рабочей по прямой ссылке.
     ];
 
     $unreadCount = auth()->check()
@@ -31,12 +35,7 @@
     <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8" aria-label="{{ __('site.nav.main') }}">
         {{-- Логотип --}}
         <a href="{{ auth()->check() ? route('user.dashboard') : url('/') }}" class="flex h-11 min-w-11 shrink-0 items-center gap-2 group">
-            <span class="flex h-9 w-9 items-center justify-center rounded bg-gold text-navy">
-                <x-owl-mark :size="20" />
-            </span>
-            <span class="hidden font-display text-lg font-semibold text-white sm:block">
-                Philip <span class="text-gold">Education</span>
-            </span>
+            <x-logo :size="36" text-class="hidden font-display text-lg font-semibold text-white sm:block" />
         </a>
 
         @auth
@@ -161,8 +160,8 @@
                         class="flex h-11 items-center gap-2 rounded border border-white/10 py-1 pl-1 pr-2 transition hover:border-gold/40"
                     >
                         <span class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-gold text-sm font-bold text-navy">
-                            @if (auth()->user()->avatarUrl())
-                                <img src="{{ auth()->user()->avatarUrl() }}" alt="" class="h-full w-full object-cover">
+                            @if (auth()->user()->avatar_url)
+                                <img src="{{ auth()->user()->avatar_url }}" alt="" class="h-full w-full object-cover">
                             @else
                                 {{ auth()->user()->initial() }}
                             @endif

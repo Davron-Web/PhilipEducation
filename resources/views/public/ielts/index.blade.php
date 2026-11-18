@@ -12,6 +12,40 @@
             <p class="mt-1 text-ink/60">Пишите ответы прямо на сайте — Phil (Gemini) выставит band score и разберёт ошибки по критериям IELTS.</p>
         </div>
 
+        {{-- Связующие слова: ссылка на подборку + короткое правило про Lexical Resource --}}
+        <div class="mb-10 grid gap-5 lg:grid-cols-2" data-reveal>
+            <a
+                href="{{ route('expressions.index', ['category' => 'Связующие слова']) }}"
+                class="card-lift group flex flex-col justify-between gap-4 rounded-2xl border border-line bg-navy p-6 shadow-soft sm:flex-row sm:items-center"
+            >
+                <div class="flex items-start gap-4">
+                    <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5" /><path d="M15 17h5a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-5" /><path d="M9 12h6" /></svg>
+                    </span>
+                    <div>
+                        <h2 class="font-display text-lg font-semibold text-white">{{ __('site.ielts_writing.linking_cta_title') }}</h2>
+                        <p class="mt-1 text-sm text-white/60">{{ __('site.ielts_writing.linking_cta_text') }}</p>
+                    </div>
+                </div>
+                <span class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider text-gold">
+                    {{ __('site.ielts_writing.linking_cta_button') }}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition group-hover:translate-x-1"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                </span>
+            </a>
+
+            <div class="rounded-2xl border border-line bg-armor2/70 p-6 shadow-soft">
+                <h2 class="text-sm font-bold uppercase tracking-wide text-ink/50">{{ __('site.ielts_writing.linking_rule_title') }}</h2>
+                <p class="mt-2 flex items-start gap-2 text-sm text-ink/70">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mt-0.5 shrink-0 text-green-600 dark:text-green-400"><path d="M20 6 9 17l-5-5" /></svg>
+                    {{ __('site.ielts_writing.linking_rule_good') }}
+                </p>
+                <p class="mt-2 flex items-start gap-2 text-sm text-ink/70">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mt-0.5 shrink-0 text-red-500"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                    {{ __('site.ielts_writing.linking_rule_bad') }}
+                </p>
+            </div>
+        </div>
+
         <div class="mb-4" data-reveal>
             <h2 class="text-xl font-extrabold text-ink">Task 1 — описание графика</h2>
             <p class="text-sm text-ink/50">Минимум 150 слов. Опишите данные графика/таблицы своими словами.</p>

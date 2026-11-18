@@ -35,6 +35,12 @@ return [
         'model' => env('GEMINI_MODEL', 'gemini-3.5-flash-lite'),
     ],
 
+    // Собственная модель CEFR (ml/), не внешний AI API — см. ml/README.md.
+    // Локальный Python-процесс (ml/service/serve.py), а не облачный сервис.
+    'cefr_predictor' => [
+        'url' => env('CEFR_PREDICTOR_URL', 'http://127.0.0.1:8008'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

@@ -2,9 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Chat\ChatMessage;
+use App\Models\LevelCheck\LevelCheck;
+use App\Policies\Chat\ChatMessagePolicy;
+use App\Policies\LevelCheck\LevelCheckPolicy;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +34,17 @@ class AppServiceProvider extends ServiceProvider
         $this->configureVerificationEmail();
         $this->configurePasswordRules();
         $this->configureUrlScheme();
+
+        // ChatMessage лежит в App\Models\Chat, а не прямо в App\Models —
+        // угадывание политики по неймспейсу для вложенных моделей нигде
+        // в проекте не проверено (единственная существующая политика,
+        // UserPolicy, лежит без вложенности), поэтому не полагаемся на
+        // автообнаружение и регистрируем явно.
+        Gate::policy(ChatMessage::class, ChatMessagePolicy::class);
+
+        // Тот же случай вложенной модели — не полагаемся на автообнаружение,
+        // регистрируем явно (см. комментарий выше про ChatMessage).
+        Gate::policy(LevelCheck::class, LevelCheckPolicy::class);
     }
 
     /**

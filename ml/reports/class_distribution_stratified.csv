@@ -1,0 +1,4 @@
+split,A1,A2,B1,B2,C1,C2
+stratified_train,87,889,2313,2331,1221,161
+stratified_validation,19,191,496,500,261,34
+stratified_test,18,191,496,499,262,35

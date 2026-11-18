@@ -104,6 +104,10 @@ class LessonController extends Controller
         );
 
         $xp->award($user, 'lesson', $lesson->id);
+        // Раз в календарный день, а не раз за урок — source_id это дата,
+        // а не id урока, и уникальный индекс (user_id, source, source_id)
+        // в xp_events сам не даёт начислить второй раз за тот же день.
+        $xp->award($user, 'streak', (int) now()->format('Ymd'), XpService::REWARDS['streak']);
         $levels->checkAfterLesson($user, $lesson);
         $achievements->checkAndAward($user, 'lessons_completed');
         $achievements->checkAndAward($user, 'streak_days');

@@ -10,6 +10,12 @@
             'phrasal_verb' => 'Фразовый глагол',
             'proverb' => 'Пословица',
             'collocation' => 'Коллокация',
+            'linking_word' => 'Связующее слово',
+        ];
+        $registers = [
+            'formal' => 'Formal',
+            'neutral' => 'Neutral',
+            'informal' => 'Informal',
         ];
     @endphp
 
@@ -48,6 +54,19 @@
             <div class="form-group">
                 <label class="form-label">Категория</label>
                 <input type="text" name="category" class="form-input" placeholder="Например: Идиомы" value="{{ old('category') }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Подкатегория (slug, для связующих слов)</label>
+                <input type="text" name="subcategory" class="form-input" placeholder="intro / addition / contrast / examples / cause_effect / conclusion" value="{{ old('subcategory') }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Регистр</label>
+                <select name="register" class="form-select">
+                    <option value="">—</option>
+                    @foreach($registers as $key => $label)
+                        <option value="{{ $key }}" {{ old('register') === $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <label class="form-label">Сложность (1–5)</label>

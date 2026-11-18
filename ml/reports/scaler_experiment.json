@@ -1,0 +1,6 @@
+{
+  "note": "Разовый диагностический прогон при исправлении ConvergenceWarning (см. results.md, раздел «Исправление ConvergenceWarning»). Не часть обычного пайплайна — train_baseline.py эту конфигурацию не использует, StandardScaler в финальный пайплайн не попал.",
+  "config": "C_tfidf_plus_complexity + StandardScaler(with_mean=False) + max_iter=5000",
+  "validation_accuracy": 0.389,
+  "validation_macro_f1": 0.284
+}

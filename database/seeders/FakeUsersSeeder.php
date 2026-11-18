@@ -10,8 +10,10 @@ use App\Models\User\Role;
 use App\Models\User\UserAchievement;
 use App\Models\User\UserProgress;
 use App\Models\User\UserResult;
+use App\Services\XpService;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -33,7 +35,7 @@ class FakeUsersSeeder extends Seeder
 
     private int $batchSize;
 
-    public function __construct()
+    public function __construct(private readonly XpService $xpService)
     {
         $this->totalTarget = (int) env('FAKE_USERS_TOTAL', 100);
         $this->batchSize = (int) env('FAKE_USERS_BATCH', 10);
@@ -206,6 +208,15 @@ class FakeUsersSeeder extends Seeder
                 $timeSpentTotal = 0;
                 $testsPassedTotal = 0;
 
+                // Для начисления опыта через XpService: id тестов, которые в
+                // итоге сданы (по одному разу — повторная сдача того же
+                // теста опыт не удваивает, как и в боевом коде), и сколько
+                // слов выучено в каждом уроке (одно агрегированное начисление
+                // на урок, а не по слову — иначе на «продвинутого» ученика
+                // выходили бы сотни отдельных начислений).
+                $passedTestIds = [];
+                $wordsLearnedByLesson = [];
+
                 foreach ($completedLessons as $index => $lesson) {
                     $fraction = ($index + 1) / max(1, $completedLessons->count() + $inProgressCount);
                     $activityAt = $planned['created_at']->copy()->addMinutes((int) round($totalSpan * $fraction))
@@ -255,6 +266,7 @@ class FakeUsersSeeder extends Seeder
                         $this->report['results']++;
                         if ($passed) {
                             $testsPassedTotal++;
+                            $passedTestIds[$test->id] = true;
                         }
 
                         if (! $passed && $hasRetryBudget && ! $usedRetry) {
@@ -276,11 +288,13 @@ class FakeUsersSeeder extends Seeder
                             ]);
                             $this->report['results']++;
                             $testsPassedTotal++;
+                            $passedTestIds[$test->id] = true;
                         }
                     }
 
                     if ($lesson->words->isNotEmpty()) {
                         $wordRows = [];
+                        $learnedInLesson = 0;
                         foreach ($lesson->words as $word) {
                             $learned = (random_int(1, 100) <= random_int(50, 90));
                             $correct = $learned ? random_int(3, 10) : random_int(0, 3);
@@ -299,12 +313,17 @@ class FakeUsersSeeder extends Seeder
 
                             if ($learned) {
                                 $wordsLearnedTotal++;
+                                $learnedInLesson++;
                             }
                         }
 
                         if (! empty($wordRows)) {
                             DB::table('user_words')->insert($wordRows);
                             $this->report['words'] += count($wordRows);
+                        }
+
+                        if ($learnedInLesson > 0) {
+                            $wordsLearnedByLesson[$lesson->id] = $learnedInLesson;
                         }
                     }
                 }
@@ -365,22 +384,114 @@ class FakeUsersSeeder extends Seeder
                     $this->report['skipped_tables'][] = 'study_statistics';
                 }
 
-                $totalPoints = 0;
-                foreach ($achievementMilestones as $title => $earned) {
-                    if ($earned && isset($achievementIds[$title])) {
-                        $totalPoints += Achievement::find($achievementIds[$title])?->points ?? 0;
-                    }
-                }
                 // last_login_at не заполнялся вовсе, и метрика «активные
                 // пользователи» в админке показывала почти ноль при 600 учениках.
-                User::where('id', $user->id)->update([
-                    'points' => $totalPoints,
-                    'last_login_at' => $lastActiveAt,
-                ]);
+                User::where('id', $user->id)->update(['last_login_at' => $lastActiveAt]);
+
+                // points раньше писались в обход журнала — фейковые ученики
+                // существовали только в рейтинге «за всё время» (он единственный
+                // читает users.points напрямую) и не попадали в «неделя»/«месяц»
+                // (те построены на xp_events). Теперь начисление идёт через
+                // XpService::award(), как и для настоящих учеников — сумма
+                // xp_events для пользователя равна его users.points по построению
+                // (award() инкрементирует points тем же числом, что пишет в журнал).
+                $this->awardFakeActivityXp(
+                    $user,
+                    $planned,
+                    $completedLessons,
+                    $passedTestIds,
+                    $wordsLearnedByLesson,
+                    $achievementMilestones,
+                    $achievementIds
+                );
             });
         } catch (\Throwable $e) {
             $this->report['errors'][] = "{$planned['email']}: {$e->getMessage()}";
         }
+    }
+
+    /**
+     * Начисляет опыт за уже сгенерированную активность пользователя через
+     * XpService — по одному начислению на пройденный урок, на сданный тест
+     * (уникально — id теста тот же, что и в бою, задваивания при пересдаче
+     * не будет) и на достижение, плюс агрегированное начисление за слова,
+     * выученные в каждом уроке.
+     *
+     * Даты начислений — случайные в пределах последних 60 дней, а не даты
+     * самих уроков/тестов (которые для «старых» аккаунтов могут уходить на
+     * полгода назад): иначе периоды «неделя» и «месяц» рейтинга опять были
+     * бы пустыми почти для всех фейковых учеников.
+     *
+     * @param  array{created_at: Carbon}  $planned
+     * @param  Collection<int, \App\Models\Content\Lesson>  $completedLessons
+     * @param  array<int, true>  $passedTestIds  id теста => true
+     * @param  array<int, int>  $wordsLearnedByLesson  id урока => сколько слов выучено
+     * @param  array<string, bool>  $achievementMilestones  название достижения => заработано ли
+     * @param  Collection<string, int>  $achievementIds  название достижения => id
+     */
+    private function awardFakeActivityXp(
+        User $user,
+        array $planned,
+        Collection $completedLessons,
+        array $passedTestIds,
+        array $wordsLearnedByLesson,
+        array $achievementMilestones,
+        Collection $achievementIds
+    ): void {
+        $windowFloor = now()->subDays(60);
+        $windowStart = $planned['created_at']->gt($windowFloor) ? $planned['created_at']->copy() : $windowFloor->copy();
+        $windowEnd = now();
+
+        foreach ($completedLessons as $lesson) {
+            $this->awardFakeXp($user, 'lesson', $lesson->id, null, $windowStart, $windowEnd);
+        }
+
+        foreach (array_keys($passedTestIds) as $testId) {
+            $this->awardFakeXp($user, 'test', $testId, null, $windowStart, $windowEnd);
+        }
+
+        foreach ($wordsLearnedByLesson as $lessonId => $learnedCount) {
+            $this->awardFakeXp($user, 'word', $lessonId, $learnedCount * XpService::REWARDS['word'], $windowStart, $windowEnd);
+        }
+
+        foreach ($achievementMilestones as $title => $earned) {
+            if (! $earned || ! isset($achievementIds[$title])) {
+                continue;
+            }
+
+            $achievementId = $achievementIds[$title];
+            $points = Achievement::find($achievementId)?->points;
+
+            $this->awardFakeXp($user, 'achievement', $achievementId, $points > 0 ? $points : null, $windowStart, $windowEnd);
+        }
+    }
+
+    /** Начисляет через XpService и сразу переносит начисление на случайную дату в заданном окне. */
+    private function awardFakeXp(User $user, string $source, int $sourceId, ?int $amount, Carbon $windowStart, Carbon $windowEnd): void
+    {
+        $granted = $this->xpService->award($user, $source, $sourceId, $amount);
+
+        if ($granted === 0) {
+            return;
+        }
+
+        DB::table('xp_events')
+            ->where('user_id', $user->id)
+            ->where('source', $source)
+            ->where('source_id', $sourceId)
+            ->update([
+                'created_at' => $this->randomDateBetween($windowStart, $windowEnd),
+                'updated_at' => now(),
+            ]);
+    }
+
+    private function randomDateBetween(Carbon $start, Carbon $end): Carbon
+    {
+        if ($start->gte($end)) {
+            return $end->copy();
+        }
+
+        return $start->copy()->addSeconds(random_int(0, (int) $start->diffInSeconds($end)));
     }
 
     private function rollScore(): int

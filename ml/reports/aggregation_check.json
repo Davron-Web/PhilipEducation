@@ -1,0 +1,46 @@
+{
+  "regression_check": {
+    "n_total": 1460,
+    "n_multi_sentence_rows": 5,
+    "n_mismatches": 3,
+    "mismatch_rate": 0.002054794520547945
+  },
+  "pseudo_text_comparison": {
+    "n_pseudo_texts": 361,
+    "accuracy_whole_chunk": 0.06925207756232687,
+    "accuracy_split_and_average": 0.5318559556786704,
+    "difference": 0.4626038781163435,
+    "per_level": {
+      "A1": {
+        "n": 9,
+        "accuracy_whole": 0.0,
+        "accuracy_split": 0.0
+      },
+      "A2": {
+        "n": 38,
+        "accuracy_whole": 0.0,
+        "accuracy_split": 0.9736842105263158
+      },
+      "B1": {
+        "n": 135,
+        "accuracy_whole": 0.037037037037037035,
+        "accuracy_split": 0.5333333333333333
+      },
+      "B2": {
+        "n": 116,
+        "accuracy_whole": 0.008620689655172414,
+        "accuracy_split": 0.46551724137931033
+      },
+      "C1": {
+        "n": 45,
+        "accuracy_whole": 0.044444444444444446,
+        "accuracy_split": 0.6444444444444445
+      },
+      "C2": {
+        "n": 18,
+        "accuracy_whole": 0.9444444444444444,
+        "accuracy_split": 0.0
+      }
+    }
+  }
+}

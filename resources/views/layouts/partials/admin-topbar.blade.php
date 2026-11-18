@@ -20,7 +20,13 @@
         </div>
 
         <a href="{{ route('admin.profile.show') }}" class="profile">
-            <span class="avatar">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</span>
+            <span class="avatar" style="overflow: hidden;">
+                @if (auth()->user()->avatar_url)
+                    <img src="{{ auth()->user()->avatar_url }}" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                @else
+                    {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
+                @endif
+            </span>
             <span>{{ auth()->user()->name ?? 'Администратор' }}</span>
         </a>
     </div>

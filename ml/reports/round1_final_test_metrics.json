@@ -1,0 +1,17 @@
+{
+  "note": "round1_final: max_iter=5000, complexity БЕЗ StandardScaler, class_weight=balanced — снимок test-метрик модели до шага 1 текущей сессии",
+  "accuracy": 0.4465753424657534,
+  "macro_f1": 0.3308542528479186,
+  "adjacent_accuracy": 0.9287671232876712,
+  "quadratic_weighted_kappa": 0.6786769614624716,
+  "recall_A1": 0.0,
+  "recall_C2": 0.09722222222222222,
+  "per_class_f1": {
+    "A1": 0.0,
+    "A2": 0.46,
+    "B1": 0.499,
+    "B2": 0.431,
+    "C1": 0.42,
+    "C2": 0.175
+  }
+}

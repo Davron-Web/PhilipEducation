@@ -1,0 +1,482 @@
+{
+  "categories": [
+    { "key": "greetings", "title_ru": "Знакомство и общение", "title_en": "Greetings & Small Talk" },
+    { "key": "restaurant", "title_ru": "Кафе и рестораны", "title_en": "Cafés & Restaurants" },
+    { "key": "shopping", "title_ru": "Покупки", "title_en": "Shopping" },
+    { "key": "travel", "title_ru": "Путешествия и транспорт", "title_en": "Travel & Transport" },
+    { "key": "hotel", "title_ru": "Отель", "title_en": "Hotel" },
+    { "key": "health", "title_ru": "Здоровье", "title_en": "Health" },
+    { "key": "work", "title_ru": "Работа", "title_en": "Work" },
+    { "key": "education", "title_ru": "Учёба", "title_en": "Education" },
+    { "key": "daily", "title_ru": "Повседневная жизнь", "title_en": "Daily Life" },
+    { "key": "situations", "title_ru": "Сложные ситуации", "title_en": "Real-Life Situations" }
+  ],
+  "dialogues": [
+    {
+      "slug": "meeting-a-new-classmate",
+      "category": "greetings",
+      "level": "A1",
+      "title_en": "Meeting a New Classmate",
+      "title_ru": "Знакомство с одноклассником",
+      "lines": [
+        { "speaker": "A", "name": "Anna", "en": "Hi! Are you new here?", "ru": "Привет! Ты здесь новенький?" },
+        { "speaker": "B", "name": "Tom", "en": "Yes, I am. My name is Tom.", "ru": "Да. Меня зовут Том." },
+        { "speaker": "A", "name": "Anna", "en": "Nice to meet you, Tom. I'm Anna.", "ru": "Приятно познакомиться, Том. Я Анна." },
+        { "speaker": "B", "name": "Tom", "en": "Nice to meet you too. Where are you from?", "ru": "Мне тоже приятно. Откуда ты?" },
+        { "speaker": "A", "name": "Anna", "en": "I'm from Canada. And you?", "ru": "Я из Канады. А ты?" },
+        { "speaker": "B", "name": "Tom", "en": "I'm from England.", "ru": "Я из Англии." }
+      ]
+    },
+    {
+      "slug": "good-morning-at-work",
+      "category": "greetings",
+      "level": "A1",
+      "title_en": "Good Morning at Work",
+      "title_ru": "Доброе утро на работе",
+      "lines": [
+        { "speaker": "A", "name": "Mike", "en": "Good morning, Sarah! How are you?", "ru": "Доброе утро, Сара! Как дела?" },
+        { "speaker": "B", "name": "Sarah", "en": "Good morning, Mike. I'm fine, thanks. And you?", "ru": "Доброе утро, Майк. Хорошо, спасибо. А у тебя?" },
+        { "speaker": "A", "name": "Mike", "en": "I'm a little tired today.", "ru": "Я сегодня немного устал." },
+        { "speaker": "B", "name": "Sarah", "en": "Do you want some coffee?", "ru": "Хочешь кофе?" },
+        { "speaker": "A", "name": "Mike", "en": "Yes, please. That's very kind.", "ru": "Да, пожалуйста. Очень мило с твоей стороны." },
+        { "speaker": "B", "name": "Sarah", "en": "No problem.", "ru": "Не за что." }
+      ]
+    },
+    {
+      "slug": "introducing-a-friend",
+      "category": "greetings",
+      "level": "A1",
+      "title_en": "Introducing a Friend",
+      "title_ru": "Представление друга",
+      "lines": [
+        { "speaker": "A", "name": "Lisa", "en": "David, this is my friend Kate.", "ru": "Дэвид, это моя подруга Кейт." },
+        { "speaker": "B", "name": "David", "en": "Hello, Kate. Nice to meet you.", "ru": "Привет, Кейт. Приятно познакомиться." },
+        { "speaker": "A", "name": "Lisa", "en": "Kate is a doctor.", "ru": "Кейт — врач." },
+        { "speaker": "B", "name": "David", "en": "Really? That's interesting.", "ru": "Правда? Интересно." },
+        { "speaker": "A", "name": "Lisa", "en": "And David is a teacher.", "ru": "А Дэвид — учитель." },
+        { "speaker": "B", "name": "David", "en": "Yes, I teach math at a school.", "ru": "Да, я преподаю математику в школе." }
+      ]
+    },
+    {
+      "slug": "asking-about-age-and-birthday",
+      "category": "greetings",
+      "level": "A1",
+      "title_en": "Asking About Age and Birthday",
+      "title_ru": "Вопрос о возрасте и дне рождения",
+      "lines": [
+        { "speaker": "A", "name": "Ben", "en": "How old are you, Emma?", "ru": "Сколько тебе лет, Эмма?" },
+        { "speaker": "B", "name": "Emma", "en": "I'm twenty-two. How about you?", "ru": "Мне двадцать два. А тебе?" },
+        { "speaker": "A", "name": "Ben", "en": "I'm twenty-five. When is your birthday?", "ru": "Мне двадцать пять. Когда у тебя день рождения?" },
+        { "speaker": "B", "name": "Emma", "en": "It's in May, on the tenth.", "ru": "В мае, десятого." },
+        { "speaker": "A", "name": "Ben", "en": "Oh, that's next week!", "ru": "О, это же на следующей неделе!" },
+        { "speaker": "B", "name": "Emma", "en": "Yes, I'm very excited.", "ru": "Да, я очень жду." }
+      ]
+    },
+    {
+      "slug": "saying-goodbye",
+      "category": "greetings",
+      "level": "A1",
+      "title_en": "Saying Goodbye",
+      "title_ru": "Прощание",
+      "lines": [
+        { "speaker": "A", "name": "Jack", "en": "I have to go now.", "ru": "Мне пора идти." },
+        { "speaker": "B", "name": "Mia", "en": "Okay. See you tomorrow?", "ru": "Хорошо. Увидимся завтра?" },
+        { "speaker": "A", "name": "Jack", "en": "Yes, see you at school.", "ru": "Да, увидимся в школе." },
+        { "speaker": "B", "name": "Mia", "en": "Have a nice evening!", "ru": "Хорошего вечера!" },
+        { "speaker": "A", "name": "Jack", "en": "Thanks, you too. Bye!", "ru": "Спасибо, и тебе. Пока!" },
+        { "speaker": "B", "name": "Mia", "en": "Bye!", "ru": "Пока!" }
+      ]
+    },
+    {
+      "slug": "meeting-a-neighbour",
+      "category": "greetings",
+      "level": "A2",
+      "title_en": "Meeting a Neighbour",
+      "title_ru": "Знакомство с соседом",
+      "lines": [
+        { "speaker": "A", "name": "Oliver", "en": "Hello! I think we're neighbours. I live in flat 5.", "ru": "Здравствуйте! Кажется, мы соседи. Я живу в квартире 5." },
+        { "speaker": "B", "name": "Grace", "en": "Oh, hi! I'm Grace from flat 6. Did you move in recently?", "ru": "О, привет! Я Грейс из квартиры 6. Вы недавно переехали?" },
+        { "speaker": "A", "name": "Oliver", "en": "Yes, last Saturday. I'm Oliver.", "ru": "Да, в прошлую субботу. Я Оливер." },
+        { "speaker": "B", "name": "Grace", "en": "Welcome to the building! How do you like it so far?", "ru": "Добро пожаловать в наш дом! Как вам здесь пока?" },
+        { "speaker": "A", "name": "Oliver", "en": "It's quiet and the area is very nice.", "ru": "Здесь тихо, и район очень приятный." },
+        { "speaker": "B", "name": "Grace", "en": "If you need anything, just knock on my door.", "ru": "Если что-то понадобится, просто постучите ко мне." }
+      ]
+    },
+    {
+      "slug": "talking-about-hobbies",
+      "category": "greetings",
+      "level": "A2",
+      "title_en": "Talking About Hobbies",
+      "title_ru": "Разговор о хобби",
+      "lines": [
+        { "speaker": "A", "name": "Daniel", "en": "What do you do in your free time, Sophie?", "ru": "Чем ты занимаешься в свободное время, Софи?" },
+        { "speaker": "B", "name": "Sophie", "en": "I love reading and I sometimes paint. What about you?", "ru": "Я люблю читать и иногда рисую. А ты?" },
+        { "speaker": "A", "name": "Daniel", "en": "I play football twice a week.", "ru": "Я играю в футбол два раза в неделю." },
+        { "speaker": "B", "name": "Sophie", "en": "That sounds fun. Are you in a team?", "ru": "Звучит здорово. Ты в команде?" },
+        { "speaker": "A", "name": "Daniel", "en": "Yes, a small local team. We play on Sundays.", "ru": "Да, в небольшой местной команде. Мы играем по воскресеньям." },
+        { "speaker": "B", "name": "Sophie", "en": "Maybe I'll come and watch one day.", "ru": "Может, как-нибудь приду посмотреть." }
+      ]
+    },
+    {
+      "slug": "meeting-an-old-friend",
+      "category": "greetings",
+      "level": "A2",
+      "title_en": "Meeting an Old Friend",
+      "title_ru": "Встреча со старым другом",
+      "lines": [
+        { "speaker": "A", "name": "James", "en": "Chloe? Is that you? I haven't seen you for years!", "ru": "Хлоя? Это ты? Сто лет тебя не видел!" },
+        { "speaker": "B", "name": "Chloe", "en": "James! Wow, what a surprise! How have you been?", "ru": "Джеймс! Ого, вот так сюрприз! Как ты поживаешь?" },
+        { "speaker": "A", "name": "James", "en": "Pretty good. I got married last year.", "ru": "Неплохо. В прошлом году я женился." },
+        { "speaker": "B", "name": "Chloe", "en": "Congratulations! I moved to London for work.", "ru": "Поздравляю! А я переехала в Лондон по работе." },
+        { "speaker": "A", "name": "James", "en": "That's great. We should have coffee and catch up.", "ru": "Здорово. Надо бы выпить кофе и обо всём поговорить." },
+        { "speaker": "B", "name": "Chloe", "en": "Definitely. Let's exchange numbers.", "ru": "Обязательно. Давай обменяемся номерами." }
+      ]
+    },
+    {
+      "slug": "small-talk-at-a-party",
+      "category": "greetings",
+      "level": "B1",
+      "title_en": "Small Talk at a Party",
+      "title_ru": "Светская беседа на вечеринке",
+      "lines": [
+        { "speaker": "A", "name": "Ryan", "en": "So, how do you know the host?", "ru": "Итак, откуда вы знаете хозяина вечеринки?" },
+        { "speaker": "B", "name": "Hannah", "en": "We used to work together at a design agency. And you?", "ru": "Мы раньше вместе работали в дизайнерском агентстве. А вы?" },
+        { "speaker": "A", "name": "Ryan", "en": "I'm his cousin, actually. I just flew in from Dublin.", "ru": "Вообще-то я его двоюродный брат. Только что прилетел из Дублина." },
+        { "speaker": "B", "name": "Hannah", "en": "Oh, how was the flight?", "ru": "О, как прошёл перелёт?" },
+        { "speaker": "A", "name": "Ryan", "en": "A bit bumpy, but I'm glad I made it in time.", "ru": "Немного трясло, но я рад, что успел вовремя." },
+        { "speaker": "B", "name": "Hannah", "en": "Well, you picked a great night. The food here is amazing.", "ru": "Что ж, вы выбрали отличный вечер. Еда здесь потрясающая." }
+      ]
+    },
+    {
+      "slug": "language-exchange-partner",
+      "category": "greetings",
+      "level": "B1",
+      "title_en": "Language Exchange Partner",
+      "title_ru": "Партнёр по языковому обмену",
+      "lines": [
+        { "speaker": "A", "name": "Alex", "en": "Thanks for agreeing to practise with me, Yuki.", "ru": "Спасибо, что согласилась практиковаться со мной, Юки." },
+        { "speaker": "B", "name": "Yuki", "en": "My pleasure. I want to improve my English, and you're learning Japanese, right?", "ru": "С удовольствием. Я хочу улучшить английский, а ты учишь японский, верно?" },
+        { "speaker": "A", "name": "Alex", "en": "Exactly. Shall we speak English for half an hour, then switch?", "ru": "Именно. Давай полчаса говорить по-английски, а потом поменяемся?" },
+        { "speaker": "B", "name": "Yuki", "en": "Sounds fair. Please correct me if I make mistakes.", "ru": "Звучит честно. Пожалуйста, поправляй меня, если я ошибаюсь." },
+        { "speaker": "A", "name": "Alex", "en": "Sure, but honestly, your English is already quite good.", "ru": "Конечно, но, честно говоря, твой английский уже довольно хороший." },
+        { "speaker": "B", "name": "Yuki", "en": "That's kind of you, but I still struggle with phrasal verbs.", "ru": "Спасибо, но у меня всё ещё проблемы с фразовыми глаголами." }
+      ]
+    },
+    {
+      "slug": "ordering-coffee",
+      "category": "restaurant",
+      "level": "A1",
+      "title_en": "Ordering Coffee",
+      "title_ru": "Заказ кофе",
+      "lines": [
+        { "speaker": "A", "name": "Barista", "en": "Hello! What can I get you?", "ru": "Здравствуйте! Что вам приготовить?" },
+        { "speaker": "B", "name": "Customer", "en": "A cappuccino, please.", "ru": "Капучино, пожалуйста." },
+        { "speaker": "A", "name": "Barista", "en": "Small or large?", "ru": "Маленький или большой?" },
+        { "speaker": "B", "name": "Customer", "en": "Large, please. How much is it?", "ru": "Большой, пожалуйста. Сколько стоит?" },
+        { "speaker": "A", "name": "Barista", "en": "It's three dollars fifty.", "ru": "Три доллара пятьдесят центов." },
+        { "speaker": "B", "name": "Customer", "en": "Here you are. Thank you!", "ru": "Вот, пожалуйста. Спасибо!" }
+      ]
+    },
+    {
+      "slug": "buying-breakfast",
+      "category": "restaurant",
+      "level": "A1",
+      "title_en": "Buying Breakfast",
+      "title_ru": "Покупка завтрака",
+      "lines": [
+        { "speaker": "A", "name": "Seller", "en": "Good morning! Can I help you?", "ru": "Доброе утро! Чем могу помочь?" },
+        { "speaker": "B", "name": "Nick", "en": "Yes, I'd like a sandwich and an orange juice.", "ru": "Да, я бы хотел сэндвич и апельсиновый сок." },
+        { "speaker": "A", "name": "Seller", "en": "Cheese or chicken sandwich?", "ru": "Сэндвич с сыром или с курицей?" },
+        { "speaker": "B", "name": "Nick", "en": "Chicken, please.", "ru": "С курицей, пожалуйста." },
+        { "speaker": "A", "name": "Seller", "en": "Anything else?", "ru": "Что-нибудь ещё?" },
+        { "speaker": "B", "name": "Nick", "en": "No, thank you. That's all.", "ru": "Нет, спасибо. Это всё." }
+      ]
+    },
+    {
+      "slug": "table-for-two",
+      "category": "restaurant",
+      "level": "A1",
+      "title_en": "Table for Two",
+      "title_ru": "Столик на двоих",
+      "lines": [
+        { "speaker": "A", "name": "Waiter", "en": "Good evening. Do you have a reservation?", "ru": "Добрый вечер. У вас забронировано?" },
+        { "speaker": "B", "name": "Laura", "en": "No, we don't. Do you have a table for two?", "ru": "Нет. У вас есть столик на двоих?" },
+        { "speaker": "A", "name": "Waiter", "en": "Yes. Inside or outside?", "ru": "Да. Внутри или на улице?" },
+        { "speaker": "B", "name": "Laura", "en": "Inside, please. It's cold today.", "ru": "Внутри, пожалуйста. Сегодня холодно." },
+        { "speaker": "A", "name": "Waiter", "en": "Follow me, please. Here is the menu.", "ru": "Пройдите за мной, пожалуйста. Вот меню." },
+        { "speaker": "B", "name": "Laura", "en": "Thank you.", "ru": "Спасибо." }
+      ]
+    },
+    {
+      "slug": "ordering-a-meal",
+      "category": "restaurant",
+      "level": "A2",
+      "title_en": "Ordering a Meal",
+      "title_ru": "Заказ еды",
+      "lines": [
+        { "speaker": "A", "name": "Waiter", "en": "Are you ready to order?", "ru": "Вы готовы сделать заказ?" },
+        { "speaker": "B", "name": "Peter", "en": "Yes. I'll have the tomato soup to start.", "ru": "Да. На первое я возьму томатный суп." },
+        { "speaker": "A", "name": "Waiter", "en": "And for the main course?", "ru": "А на основное блюдо?" },
+        { "speaker": "B", "name": "Peter", "en": "The grilled fish with vegetables, please.", "ru": "Рыбу на гриле с овощами, пожалуйста." },
+        { "speaker": "A", "name": "Waiter", "en": "Would you like something to drink?", "ru": "Хотите что-нибудь выпить?" },
+        { "speaker": "B", "name": "Peter", "en": "Just a glass of water, please.", "ru": "Просто стакан воды, пожалуйста." }
+      ]
+    },
+    {
+      "slug": "asking-for-the-bill",
+      "category": "restaurant",
+      "level": "A2",
+      "title_en": "Asking for the Bill",
+      "title_ru": "Просьба принести счёт",
+      "lines": [
+        { "speaker": "A", "name": "Rachel", "en": "Excuse me, could we have the bill, please?", "ru": "Извините, можно нам счёт, пожалуйста?" },
+        { "speaker": "B", "name": "Waiter", "en": "Of course. Did you enjoy your meal?", "ru": "Конечно. Вам понравилась еда?" },
+        { "speaker": "A", "name": "Rachel", "en": "Yes, it was delicious. Can I pay by card?", "ru": "Да, было очень вкусно. Можно оплатить картой?" },
+        { "speaker": "B", "name": "Waiter", "en": "Yes, no problem. Here's the card machine.", "ru": "Да, без проблем. Вот терминал." },
+        { "speaker": "A", "name": "Rachel", "en": "Is service included?", "ru": "Обслуживание включено?" },
+        { "speaker": "B", "name": "Waiter", "en": "No, it isn't, but tips are optional.", "ru": "Нет, но чаевые — на ваше усмотрение." }
+      ]
+    },
+    {
+      "slug": "food-allergy",
+      "category": "restaurant",
+      "level": "A2",
+      "title_en": "Food Allergy",
+      "title_ru": "Аллергия на продукты",
+      "lines": [
+        { "speaker": "A", "name": "Maria", "en": "Excuse me, does this salad contain nuts?", "ru": "Извините, в этом салате есть орехи?" },
+        { "speaker": "B", "name": "Waiter", "en": "Yes, it has walnuts in the dressing.", "ru": "Да, в заправке есть грецкие орехи." },
+        { "speaker": "A", "name": "Maria", "en": "I'm allergic to nuts. Can you make it without them?", "ru": "У меня аллергия на орехи. Можно приготовить без них?" },
+        { "speaker": "B", "name": "Waiter", "en": "Certainly. I'll tell the chef.", "ru": "Конечно. Я передам повару." },
+        { "speaker": "A", "name": "Maria", "en": "Thank you. And please use a clean bowl.", "ru": "Спасибо. И, пожалуйста, используйте чистую миску." },
+        { "speaker": "B", "name": "Waiter", "en": "Don't worry, we'll be very careful.", "ru": "Не волнуйтесь, мы будем очень осторожны." }
+      ]
+    },
+    {
+      "slug": "ordering-a-pizza-by-phone",
+      "category": "restaurant",
+      "level": "A2",
+      "title_en": "Ordering a Pizza by Phone",
+      "title_ru": "Заказ пиццы по телефону",
+      "lines": [
+        { "speaker": "A", "name": "Operator", "en": "Pizza Palace, how can I help you?", "ru": "«Пицца Палас», чем могу помочь?" },
+        { "speaker": "B", "name": "Sam", "en": "Hi, I'd like to order a large pepperoni pizza for delivery.", "ru": "Здравствуйте, я хотел бы заказать большую пиццу пепперони с доставкой." },
+        { "speaker": "A", "name": "Operator", "en": "Sure. What's your address?", "ru": "Конечно. Какой у вас адрес?" },
+        { "speaker": "B", "name": "Sam", "en": "24 Green Street, apartment 3.", "ru": "Грин-стрит, 24, квартира 3." },
+        { "speaker": "A", "name": "Operator", "en": "It will take about forty minutes.", "ru": "Это займёт около сорока минут." },
+        { "speaker": "B", "name": "Sam", "en": "Great. I'll pay in cash.", "ru": "Отлично. Я заплачу наличными." }
+      ]
+    },
+    {
+      "slug": "complaining-about-food",
+      "category": "restaurant",
+      "level": "B1",
+      "title_en": "Complaining About Food",
+      "title_ru": "Жалоба на еду",
+      "lines": [
+        { "speaker": "A", "name": "Mark", "en": "Excuse me, I'm afraid my steak is overcooked. I asked for medium-rare.", "ru": "Извините, боюсь, мой стейк пережарен. Я просил среднюю прожарку с кровью." },
+        { "speaker": "B", "name": "Waiter", "en": "I'm so sorry about that. Let me take it back to the kitchen.", "ru": "Приношу извинения. Позвольте отнести его обратно на кухню." },
+        { "speaker": "A", "name": "Mark", "en": "Thanks. Also, the chips are a bit cold.", "ru": "Спасибо. И ещё картошка фри немного холодная." },
+        { "speaker": "B", "name": "Waiter", "en": "I'll have them replaced as well. It should take about ten minutes.", "ru": "Её я тоже заменю. Это займёт около десяти минут." },
+        { "speaker": "A", "name": "Mark", "en": "That's fine, I'm not in a hurry.", "ru": "Ничего, я не тороплюсь." },
+        { "speaker": "B", "name": "Waiter", "en": "And the dessert will be on the house, to apologise.", "ru": "А десерт будет за счёт заведения — в качестве извинения." }
+      ]
+    },
+    {
+      "slug": "choosing-a-restaurant",
+      "category": "restaurant",
+      "level": "B1",
+      "title_en": "Choosing a Restaurant",
+      "title_ru": "Выбор ресторана",
+      "lines": [
+        { "speaker": "A", "name": "Ella", "en": "Where shall we go for dinner tonight?", "ru": "Куда пойдём ужинать сегодня вечером?" },
+        { "speaker": "B", "name": "Josh", "en": "How about that new Italian place near the station?", "ru": "Как насчёт того нового итальянского ресторана у вокзала?" },
+        { "speaker": "A", "name": "Ella", "en": "I've heard it's quite expensive, though.", "ru": "Но я слышала, что там довольно дорого." },
+        { "speaker": "B", "name": "Josh", "en": "True, but the reviews say it's worth it.", "ru": "Правда, но в отзывах пишут, что оно того стоит." },
+        { "speaker": "A", "name": "Ella", "en": "Alright, but let's book a table first. It might be busy on a Friday.", "ru": "Ладно, но давай сначала забронируем столик. В пятницу там может быть много народу." },
+        { "speaker": "B", "name": "Josh", "en": "Good idea. I'll call them right now.", "ru": "Хорошая идея. Сейчас им позвоню." }
+      ]
+    },
+    {
+      "slug": "business-lunch",
+      "category": "restaurant",
+      "level": "B2",
+      "title_en": "Business Lunch",
+      "title_ru": "Деловой обед",
+      "lines": [
+        { "speaker": "A", "name": "Client", "en": "Thank you for inviting me. This place has a lovely atmosphere.", "ru": "Спасибо за приглашение. У этого места прекрасная атмосфера." },
+        { "speaker": "B", "name": "Manager", "en": "I'm glad you like it. I thought it would be a good setting to discuss the contract.", "ru": "Рад, что вам нравится. Я подумал, что это подходящая обстановка для обсуждения контракта." },
+        { "speaker": "A", "name": "Client", "en": "Before we get down to business, what would you recommend on the menu?", "ru": "Прежде чем перейти к делу, что бы вы порекомендовали из меню?" },
+        { "speaker": "B", "name": "Manager", "en": "The lamb is excellent, but if you prefer something lighter, the sea bass is superb.", "ru": "Баранина здесь превосходная, но если вы предпочитаете что-то полегче, сибас просто великолепен." },
+        { "speaker": "A", "name": "Client", "en": "I'll go for the sea bass. Now, regarding the delivery schedule you proposed...", "ru": "Возьму сибаса. Итак, насчёт предложенного вами графика поставок..." },
+        { "speaker": "B", "name": "Manager", "en": "Yes, we're prepared to be flexible on that, provided the order volume stays the same.", "ru": "Да, мы готовы проявить гибкость в этом вопросе при условии, что объём заказа останется прежним." }
+      ]
+    },
+    {
+      "slug": "buying-fruit",
+      "category": "shopping",
+      "level": "A1",
+      "title_en": "Buying Fruit",
+      "title_ru": "Покупка фруктов",
+      "lines": [
+        { "speaker": "A", "name": "Seller", "en": "Hello! What would you like?", "ru": "Здравствуйте! Что желаете?" },
+        { "speaker": "B", "name": "Amy", "en": "How much are the apples?", "ru": "Сколько стоят яблоки?" },
+        { "speaker": "A", "name": "Seller", "en": "Two dollars a kilo.", "ru": "Два доллара за килограмм." },
+        { "speaker": "B", "name": "Amy", "en": "I'd like two kilos, please.", "ru": "Мне два килограмма, пожалуйста." },
+        { "speaker": "A", "name": "Seller", "en": "Here you are. That's four dollars.", "ru": "Вот, пожалуйста. С вас четыре доллара." },
+        { "speaker": "B", "name": "Amy", "en": "Thank you. Goodbye!", "ru": "Спасибо. До свидания!" }
+      ]
+    },
+    {
+      "slug": "finding-the-right-size",
+      "category": "shopping",
+      "level": "A1",
+      "title_en": "Finding the Right Size",
+      "title_ru": "Подбор размера",
+      "lines": [
+        { "speaker": "A", "name": "Assistant", "en": "Can I help you?", "ru": "Могу я вам помочь?" },
+        { "speaker": "B", "name": "Leo", "en": "Yes. Do you have this T-shirt in medium?", "ru": "Да. У вас есть эта футболка размера M?" },
+        { "speaker": "A", "name": "Assistant", "en": "Yes, here it is.", "ru": "Да, вот она." },
+        { "speaker": "B", "name": "Leo", "en": "Can I try it on?", "ru": "Можно её примерить?" },
+        { "speaker": "A", "name": "Assistant", "en": "Sure. The fitting room is over there.", "ru": "Конечно. Примерочная вон там." },
+        { "speaker": "B", "name": "Leo", "en": "Thanks.", "ru": "Спасибо." }
+      ]
+    },
+    {
+      "slug": "at-the-supermarket",
+      "category": "shopping",
+      "level": "A1",
+      "title_en": "At the Supermarket",
+      "title_ru": "В супермаркете",
+      "lines": [
+        { "speaker": "A", "name": "Kevin", "en": "Excuse me, where is the milk?", "ru": "Извините, где молоко?" },
+        { "speaker": "B", "name": "Worker", "en": "It's in aisle four, next to the cheese.", "ru": "В четвёртом ряду, рядом с сыром." },
+        { "speaker": "A", "name": "Kevin", "en": "And the bread?", "ru": "А хлеб?" },
+        { "speaker": "B", "name": "Worker", "en": "The bread is at the back of the shop.", "ru": "Хлеб в конце магазина." },
+        { "speaker": "A", "name": "Kevin", "en": "Thank you very much.", "ru": "Большое спасибо." },
+        { "speaker": "B", "name": "Worker", "en": "You're welcome.", "ru": "Пожалуйста." }
+      ]
+    },
+    {
+      "slug": "returning-shoes",
+      "category": "shopping",
+      "level": "A2",
+      "title_en": "Returning Shoes",
+      "title_ru": "Возврат обуви",
+      "lines": [
+        { "speaker": "A", "name": "Nina", "en": "Hi, I bought these shoes last week, but they're too small.", "ru": "Здравствуйте, я купила эти туфли на прошлой неделе, но они малы." },
+        { "speaker": "B", "name": "Assistant", "en": "Do you have the receipt?", "ru": "У вас есть чек?" },
+        { "speaker": "A", "name": "Nina", "en": "Yes, here it is.", "ru": "Да, вот он." },
+        { "speaker": "B", "name": "Assistant", "en": "Would you like a bigger size or a refund?", "ru": "Хотите размер побольше или вернуть деньги?" },
+        { "speaker": "A", "name": "Nina", "en": "A bigger size, please. Size 39.", "ru": "Размер побольше, пожалуйста. 39-й." },
+        { "speaker": "B", "name": "Assistant", "en": "Let me check if we have them in stock.", "ru": "Сейчас проверю, есть ли они в наличии." }
+      ]
+    },
+    {
+      "slug": "buying-a-gift",
+      "category": "shopping",
+      "level": "A2",
+      "title_en": "Buying a Gift",
+      "title_ru": "Покупка подарка",
+      "lines": [
+        { "speaker": "A", "name": "Tim", "en": "I'm looking for a present for my mother.", "ru": "Я ищу подарок для мамы." },
+        { "speaker": "B", "name": "Assistant", "en": "What does she like?", "ru": "Что ей нравится?" },
+        { "speaker": "A", "name": "Tim", "en": "She likes gardening and cooking.", "ru": "Она любит садоводство и готовить." },
+        { "speaker": "B", "name": "Assistant", "en": "How about this cookbook or these garden gloves?", "ru": "Как насчёт этой кулинарной книги или этих садовых перчаток?" },
+        { "speaker": "A", "name": "Tim", "en": "The cookbook looks nice. Can you gift-wrap it?", "ru": "Кулинарная книга выглядит хорошо. Можете упаковать её в подарочную упаковку?" },
+        { "speaker": "B", "name": "Assistant", "en": "Of course, it's free.", "ru": "Конечно, это бесплатно." }
+      ]
+    },
+    {
+      "slug": "at-the-pharmacy",
+      "category": "shopping",
+      "level": "A2",
+      "title_en": "At the Pharmacy",
+      "title_ru": "В аптеке",
+      "lines": [
+        { "speaker": "A", "name": "Pharmacist", "en": "Hello, how can I help?", "ru": "Здравствуйте, чем могу помочь?" },
+        { "speaker": "B", "name": "Julia", "en": "I have a headache. Can you recommend something?", "ru": "У меня болит голова. Можете что-нибудь посоветовать?" },
+        { "speaker": "A", "name": "Pharmacist", "en": "These tablets work well. Take one every six hours.", "ru": "Эти таблетки хорошо помогают. Принимайте по одной каждые шесть часов." },
+        { "speaker": "B", "name": "Julia", "en": "Can I take them with food?", "ru": "Их можно принимать во время еды?" },
+        { "speaker": "A", "name": "Pharmacist", "en": "Yes, it's better after a meal.", "ru": "Да, лучше после еды." },
+        { "speaker": "B", "name": "Julia", "en": "Great, I'll take them.", "ru": "Отлично, я их возьму." }
+      ]
+    },
+    {
+      "slug": "asking-for-a-discount",
+      "category": "shopping",
+      "level": "A2",
+      "title_en": "Asking for a Discount",
+      "title_ru": "Просьба о скидке",
+      "lines": [
+        { "speaker": "A", "name": "Chris", "en": "This jacket is lovely, but it's a bit expensive.", "ru": "Эта куртка чудесная, но немного дорогая." },
+        { "speaker": "B", "name": "Seller", "en": "It's made of real leather.", "ru": "Она из натуральной кожи." },
+        { "speaker": "A", "name": "Chris", "en": "Is there any discount?", "ru": "Есть какая-нибудь скидка?" },
+        { "speaker": "B", "name": "Seller", "en": "If you pay in cash, I can give you ten percent off.", "ru": "Если заплатите наличными, могу дать скидку десять процентов." },
+        { "speaker": "A", "name": "Chris", "en": "Deal! I'll take it.", "ru": "Договорились! Беру." },
+        { "speaker": "B", "name": "Seller", "en": "Excellent choice.", "ru": "Отличный выбор." }
+      ]
+    },
+    {
+      "slug": "buying-a-laptop",
+      "category": "shopping",
+      "level": "B1",
+      "title_en": "Buying a Laptop",
+      "title_ru": "Покупка ноутбука",
+      "lines": [
+        { "speaker": "A", "name": "Sales Assistant", "en": "Are you looking for anything in particular?", "ru": "Вы ищете что-то конкретное?" },
+        { "speaker": "B", "name": "Adam", "en": "Yes, I need a laptop for programming, but I don't want to spend more than a thousand dollars.", "ru": "Да, мне нужен ноутбук для программирования, но я не хочу тратить больше тысячи долларов." },
+        { "speaker": "A", "name": "Sales Assistant", "en": "In that case, I'd suggest this model. It has 16 gigabytes of RAM and a fast SSD.", "ru": "В таком случае я бы посоветовал эту модель. У неё 16 гигабайт оперативной памяти и быстрый SSD." },
+        { "speaker": "B", "name": "Adam", "en": "How long does the battery last?", "ru": "Сколько держит батарея?" },
+        { "speaker": "A", "name": "Sales Assistant", "en": "Around ten hours with normal use. It also comes with a two-year warranty.", "ru": "Около десяти часов при обычном использовании. Также на него даётся гарантия два года." },
+        { "speaker": "B", "name": "Adam", "en": "Sounds good. Can I see how the keyboard feels?", "ru": "Звучит неплохо. Можно попробовать клавиатуру?" }
+      ]
+    },
+    {
+      "slug": "wrong-online-order",
+      "category": "shopping",
+      "level": "B1",
+      "title_en": "Wrong Online Order",
+      "title_ru": "Неправильный онлайн-заказ",
+      "lines": [
+        { "speaker": "A", "name": "Support", "en": "Customer service, this is Paul. How can I help you?", "ru": "Служба поддержки, меня зовут Пол. Чем могу помочь?" },
+        { "speaker": "B", "name": "Irene", "en": "Hi, I ordered a blue dress, but I received a green one.", "ru": "Здравствуйте, я заказала синее платье, а получила зелёное." },
+        { "speaker": "A", "name": "Support", "en": "I'm sorry about that. Could you give me your order number?", "ru": "Приношу извинения. Не могли бы вы назвать номер заказа?" },
+        { "speaker": "B", "name": "Irene", "en": "Yes, it's 48213.", "ru": "Да, 48213." },
+        { "speaker": "A", "name": "Support", "en": "Thank you. We'll send you the correct dress, and a courier will collect the wrong one for free.", "ru": "Спасибо. Мы отправим вам нужное платье, а курьер бесплатно заберёт неправильное." },
+        { "speaker": "B", "name": "Irene", "en": "That's great, thank you for sorting it out so quickly.", "ru": "Отлично, спасибо, что так быстро решили вопрос." }
+      ]
+    },
+    {
+      "slug": "negotiating-at-a-car-dealer",
+      "category": "shopping",
+      "level": "B2",
+      "title_en": "Negotiating at a Car Dealer",
+      "title_ru": "Торг в автосалоне",
+      "lines": [
+        { "speaker": "A", "name": "Dealer", "en": "This model is very popular. It's been our best-seller this year.", "ru": "Эта модель очень популярна. В этом году она наш бестселлер." },
+        { "speaker": "B", "name": "Victor", "en": "I can see why, but the price is higher than I expected, to be honest.", "ru": "Понимаю почему, но, честно говоря, цена выше, чем я ожидал." },
+        { "speaker": "A", "name": "Dealer", "en": "Bear in mind it includes a five-year service package.", "ru": "Учтите, что в неё входит пятилетний пакет обслуживания." },
+        { "speaker": "B", "name": "Victor", "en": "Even so, the dealership down the road offered me a similar car for two thousand less.", "ru": "Даже так, автосалон дальше по улице предложил мне похожую машину на две тысячи дешевле." },
+        { "speaker": "A", "name": "Dealer", "en": "Let me speak to my manager and see what we can do.", "ru": "Позвольте мне поговорить с менеджером и посмотреть, что можно сделать." },
+        { "speaker": "B", "name": "Victor", "en": "Please do. If you can match their offer, I'm willing to sign today.", "ru": "Пожалуйста. Если сможете предложить такие же условия, я готов подписать договор сегодня." }
+      ]
+    },
+    {
+      "slug": "buying-a-train-ticket",
+      "category": "travel",
+      "level": "A1",
+      "title_en": "Buying a Train Ticket",
+      "title_ru": "Покупка билета на поезд",
+      "lines": [
+        { "speaker": "A", "name": "Clerk", "en": "Hello. Where are you going?", "ru": "Здравствуйте. Куда вы едете?" },
+        { "speaker": "B", "name": "Paul", "en": "To Manchester, please.", "ru": "В Манчестер, пожалуйста." },
+        { "speaker": "A", "name": "Clerk", "en": "Single or return?", "ru": "В одну сторону или туда и обратно?" },
+        { "speaker": "B", "name": "Paul", "en": "Return, please.", "ru": "Туда и обратно, пожалуйста." },
+        { "speaker": "A", "name": "Clerk", "en": "That's thirty pounds. The train leaves at ten o'clock.", "ru": "Тридцать фунтов. Поезд отправляется в десять часов." },
+        { "speaker": "B", "name": "Paul", "en": "Which platform?", "ru": "С какой платформы?" },
+        { "speaker": "A", "name": "Clerk", "en": "Platform two.", "ru": "Со второй платформы." }
+      ]
+    }
+  ]
+}

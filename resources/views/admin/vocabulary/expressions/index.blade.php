@@ -12,6 +12,7 @@
             'phrasal_verb' => 'Фразовый глагол',
             'proverb' => 'Пословица',
             'collocation' => 'Коллокация',
+            'linking_word' => 'Связующее слово',
         ];
 
         $totalExpressions = \App\Models\Vocabulary\Expression::count();

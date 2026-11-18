@@ -20,26 +20,34 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                display: ['"Playfair Display"', 'ui-serif', 'Georgia', 'serif'],
+                sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                display: ['Unbounded', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             },
 
-            // Цвета — ссылки на CSS-переменные --pe-*, которые переопределяются
-            // под html.dark. Одна палитра обслуживает обе темы, и разметку
-            // (bg-armor2, text-ink, text-gold) для тёмной темы править не нужно.
+            // Цвета — ссылки на CSS-переменные --pe-*-rgb (каналы R G B без
+            // обёртки), которые переопределяются под html.dark. Формат
+            // rgb(var(...) / <alpha-value>) — то, что реально даёт Tailwind'у
+            // накладывать дробную прозрачность (bg-ink/50 и т.п.): на бывшем
+            // var(--pe-ink), где --pe-ink уже был готовым цветом (#hex), это
+            // не работало — такие классы просто не попадали в собранный CSS
+            // (обнаружено и подтверждено на bg-ink/N, text-ink/N, bg-armor2/N,
+            // border-brand/N, shadow-brand/N и т.д. по всему проекту, 612
+            // вхождений в 71 файле). Сами --pe-X (без -rgb) остаются как были
+            // — от них напрямую зависят дашборд, phil-widget, phil-mascot и
+            // градиенты, которые используют var(--pe-X) как обычный цвет.
             colors: {
-                ink: 'var(--pe-ink)',
-                armor: 'var(--pe-armor)',
-                armor2: 'var(--pe-armor2)',
-                surface2: 'var(--pe-surface2)',
-                line: 'var(--pe-line)',
-                brand: 'var(--pe-brand)',
-                sky: 'var(--pe-sky)',
-                skylight: 'var(--pe-skylight)',
-                sun: 'var(--pe-sun)',
-                navy: 'var(--pe-navy)',
-                navy2: 'var(--pe-navy2)',
-                gold: 'var(--pe-gold)',
+                ink: 'rgb(var(--pe-ink-rgb) / <alpha-value>)',
+                armor: 'rgb(var(--pe-armor-rgb) / <alpha-value>)',
+                armor2: 'rgb(var(--pe-armor2-rgb) / <alpha-value>)',
+                surface2: 'rgb(var(--pe-surface2-rgb) / <alpha-value>)',
+                line: 'rgb(var(--pe-line-rgb) / <alpha-value>)',
+                brand: 'rgb(var(--pe-brand-rgb) / <alpha-value>)',
+                sky: 'rgb(var(--pe-sky-rgb) / <alpha-value>)',
+                skylight: 'rgb(var(--pe-skylight-rgb) / <alpha-value>)',
+                sun: 'rgb(var(--pe-sun-rgb) / <alpha-value>)',
+                navy: 'rgb(var(--pe-navy-rgb) / <alpha-value>)',
+                navy2: 'rgb(var(--pe-navy2-rgb) / <alpha-value>)',
+                gold: 'rgb(var(--pe-gold-rgb) / <alpha-value>)',
             },
 
             // Шкала скруглений сужена глобально: весь существующий

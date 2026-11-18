@@ -1,85 +1,49 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-it('загружает аватар и сохраняет путь к файлу', function () {
-    Storage::fake('public');
-    $user = User::factory()->create(['email' => 'me.profile@gmail.com']);
+it('выбирает аватар из готового набора', function () {
+    $user = User::factory()->create(['avatar' => null]);
+    $chosen = config('avatars.files')[2];
 
     $this->actingAs($user)
-        ->put('/profiles', [
-            'name' => $user->name,
-            'email' => $user->email,
-            'avatar' => UploadedFile::fake()->image('me.jpg', 300, 300),
-        ])
+        ->patch('/profiles/avatar', ['avatar' => $chosen])
         ->assertRedirect();
 
-    $user->refresh();
-
-    expect($user->avatar)->not->toBeNull();
-    Storage::disk('public')->assertExists($user->avatar);
+    expect($user->fresh()->avatar)->toBe($chosen);
 });
 
-it('отклоняет файл, который не является картинкой', function () {
-    Storage::fake('public');
-    $user = User::factory()->create();
+it('отклоняет аватар, которого нет в наборе', function () {
+    $user = User::factory()->create(['avatar' => null]);
 
     $this->actingAs($user)
-        ->put('/profiles', [
-            'name' => $user->name,
-            'email' => $user->email,
-            'avatar' => UploadedFile::fake()->create('payload.php', 10, 'text/plain'),
-        ])
+        ->patch('/profiles/avatar', ['avatar' => 'not-a-real-file.png'])
         ->assertSessionHasErrors('avatar');
 
     expect($user->fresh()->avatar)->toBeNull();
 });
 
-it('удаляет прежний файл при замене аватара', function () {
-    Storage::fake('public');
-    $user = User::factory()->create();
+it('позволяет сменить выбранный аватар на другой из набора', function () {
+    $user = User::factory()->create(['avatar' => config('avatars.files')[0]]);
+    $next = config('avatars.files')[1];
 
-    $this->actingAs($user)->put('/profiles', [
-        'name' => $user->name,
-        'email' => $user->email,
-        'avatar' => UploadedFile::fake()->image('first.jpg'),
-    ]);
+    $this->actingAs($user)->patch('/profiles/avatar', ['avatar' => $next]);
 
-    $first = $user->fresh()->avatar;
-
-    $this->actingAs($user)->put('/profiles', [
-        'name' => $user->name,
-        'email' => $user->email,
-        'avatar' => UploadedFile::fake()->image('second.jpg'),
-    ]);
-
-    // Иначе storage постепенно забивается осиротевшими файлами.
-    Storage::disk('public')->assertMissing($first);
-    Storage::disk('public')->assertExists($user->fresh()->avatar);
+    expect($user->fresh()->avatar)->toBe($next);
 });
 
-it('убирает аватар по галочке', function () {
+it('подчищает старый загруженный вручную файл при выборе аватара из набора', function () {
+    // Имитация данных ДО того, как загрузку файла убрали в пользу галереи —
+    // такие пути ещё могут встречаться у части пользователей.
     Storage::fake('public');
-    $user = User::factory()->create();
+    Storage::disk('public')->put('avatars/legacy-upload.jpg', 'fake image bytes');
+    $user = User::factory()->create(['avatar' => 'avatars/legacy-upload.jpg']);
 
-    $this->actingAs($user)->put('/profiles', [
-        'name' => $user->name,
-        'email' => $user->email,
-        'avatar' => UploadedFile::fake()->image('me.jpg'),
-    ]);
+    $this->actingAs($user)->patch('/profiles/avatar', ['avatar' => config('avatars.files')[0]]);
 
-    $path = $user->fresh()->avatar;
-
-    $this->actingAs($user)->put('/profiles', [
-        'name' => $user->name,
-        'email' => $user->email,
-        'remove_avatar' => 1,
-    ]);
-
-    expect($user->fresh()->avatar)->toBeNull();
-    Storage::disk('public')->assertMissing($path);
+    Storage::disk('public')->assertMissing('avatars/legacy-upload.jpg');
+    expect($user->fresh()->avatar)->toBe(config('avatars.files')[0]);
 });
 
 it('меняет адрес и не запирает пользователя', function () {

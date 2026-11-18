@@ -14,6 +14,15 @@ use Illuminate\View\View;
 class ExpressionController extends Controller
 {
     /**
+     * Порядок функциональных подгрупп «Связующих слов» — задан явно (не
+     * алфавитом и не id), потому что учебная логика идёт от вступления к
+     * заключению. Подписи берутся из lang/{ru,en,tg}/site.php по текущей
+     * локали, а не хранятся в БД — иначе подгруппа не переключалась бы
+     * вместе с языком интерфейса.
+     */
+    private const SUBCATEGORY_ORDER = ['intro', 'addition', 'contrast', 'examples', 'cause_effect', 'conclusion'];
+
+    /**
      * Display a listing of expressions (idioms, phrasal verbs, proverbs,
      * collocations). Mirrors WordController::index(): no ?category query
      * shows the category picker grid, a category (or "all") shows the
@@ -59,7 +68,22 @@ class ExpressionController extends Controller
             'phrasal_verb' => 'Фразовый глагол',
             'proverb' => 'Пословица',
             'collocation' => 'Коллокация',
+            'linking_word' => 'Связующее слово',
         ];
+
+        // Внутри темы группируем по функциональной подгруппе только когда
+        // она реально есть (пока это только «Связующие слова») — у всех
+        // остальных тем subcategory = null, и они по-прежнему рендерятся
+        // одним плоским списком, как раньше.
+        $subcategoryGroups = null;
+
+        if ($selectedCategory && $selectedCategory !== 'all' && $expressions->contains(fn ($e) => filled($e->subcategory))) {
+            $subcategoryGroups = $expressions
+                ->groupBy(fn ($e) => $e->subcategory ?: '_other')
+                ->sortBy(fn ($group, $key) => array_search($key, self::SUBCATEGORY_ORDER, true) === false
+                    ? count(self::SUBCATEGORY_ORDER)
+                    : array_search($key, self::SUBCATEGORY_ORDER, true));
+        }
 
         return view('public.expressions.index', compact(
             'expressions',
@@ -69,7 +93,8 @@ class ExpressionController extends Controller
             'selectedType',
             'selectedLevel',
             'search',
-            'types'
+            'types',
+            'subcategoryGroups'
         ));
     }
 

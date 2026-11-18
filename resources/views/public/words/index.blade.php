@@ -32,11 +32,11 @@
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
         @if (! $selectedCategory)
-            {{-- ===== Выбор темы (карточки) ===== --}}
+            {{-- ===== Хаб коллекций: По уровням / По темам / Для экзаменов ===== --}}
             <div class="mb-8 flex flex-wrap items-end justify-between gap-4" data-reveal>
                 <div>
                     <h1 class="text-3xl font-extrabold text-ink sm:text-4xl">Словарь</h1>
-                    <p class="mt-1 text-ink/60">Выберите тему, чтобы начать учить слова — всего {{ $categoryCounts->sum() }} слов в {{ $categoryCounts->count() }} темах.</p>
+                    <p class="mt-1 text-ink/60">{{ __('site.vocabulary_collections.hub_intro') }}</p>
                 </div>
 
                 <x-ui.button :href="route('words.mine')" variant="outline">
@@ -46,60 +46,29 @@
             </div>
 
             @php
-                // 1 слово / 2 слова / 5 слов
-                $wordsPlural = function (int $n): string {
-                    $mod100 = $n % 100;
-                    $mod10 = $n % 10;
-                    if ($mod100 >= 11 && $mod100 <= 14) return 'слов';
-                    if ($mod10 === 1) return 'слово';
-                    if ($mod10 >= 2 && $mod10 <= 4) return 'слова';
-                    return 'слов';
-                };
+                $blocks = [
+                    'level' => __('site.vocabulary_collections.hub_levels_title'),
+                    'topic' => __('site.vocabulary_collections.hub_topics_title'),
+                    'exam' => __('site.vocabulary_collections.hub_exams_title'),
+                ];
             @endphp
 
-            <div class="grid gap-5 sm:grid-cols-2">
-                <a
-                    href="{{ route('words.index', ['category' => 'all']) }}"
-                    class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
-                    data-reveal
-                >
-                    <div class="flex items-center justify-center bg-navy px-6 py-12 sm:py-14">
-                        <h2 class="text-center font-display text-xl font-semibold leading-snug text-white sm:text-2xl">Все слова</h2>
+            @foreach ($blocks as $type => $blockTitle)
+                @continue(($collectionGroups[$type] ?? collect())->isEmpty())
+                <div class="mb-10" data-reveal>
+                    <h2 class="mb-4 text-xl font-extrabold text-ink">{{ $blockTitle }}</h2>
+                    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                        @foreach ($collectionGroups[$type] as $collection)
+                            @include('public.words._collection-card', ['collection' => $collection, 'learned' => $collectionLearnedCounts[$collection->id] ?? 0])
+                        @endforeach
                     </div>
-                    <div class="flex items-center justify-between gap-4 border-t border-line px-6 py-4">
-                        <span class="inline-flex items-center gap-2 text-sm font-semibold text-ink/60">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
-                            {{ $categoryCounts->sum() }} {{ $wordsPlural($categoryCounts->sum()) }}
-                        </span>
-                        <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand">
-                            Открыть
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition group-hover:translate-x-1"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-                        </span>
-                    </div>
-                </a>
+                </div>
+            @endforeach
 
-                @foreach ($categoryCounts as $cat => $count)
-                    <a
-                        href="{{ route('words.index', ['category' => $cat]) }}"
-                        class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
-                        data-reveal
-                    >
-                        <div class="flex items-center justify-center bg-surface2 px-6 py-12 sm:py-14">
-                            <h2 class="text-center font-display text-xl font-semibold leading-snug text-ink sm:text-2xl">{{ $cat }}</h2>
-                        </div>
-                        <div class="flex items-center justify-between gap-4 border-t border-line px-6 py-4">
-                            <span class="inline-flex items-center gap-2 text-sm font-semibold text-ink/60">
-                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z" /><circle cx="7" cy="7" r="1.2" fill="currentColor" stroke="none" /></svg>
-                                {{ $count }} {{ $wordsPlural($count) }}
-                            </span>
-                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand">
-                                Открыть
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition group-hover:translate-x-1"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-                            </span>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
+            <a href="{{ route('words.index', ['category' => 'all']) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-ink/60 transition hover:text-brand" data-reveal>
+                {{ __('site.vocabulary_collections.browse_all_link') }}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+            </a>
         @else
             {{-- ===== Список слов выбранной темы ===== --}}
             @php
@@ -112,7 +81,7 @@
                 ])->values();
             @endphp
 
-            <div x-data="Object.assign(flashcardDeck({{ Js::from($flashcards) }}, '/words'), { mode: 'list', filter: 'all', addWordOpen: false })">
+            <div x-data="mergeAlpineData(flashcardDeck({{ Js::from($flashcards) }}, '/words'), { mode: 'list', filter: 'all', addWordOpen: false })">
                 <a href="{{ route('words.index') }}" class="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-ink/60 transition hover:text-brand" data-reveal>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
                     Все темы
@@ -155,36 +124,7 @@
                         @foreach ($words as $word)
                             @php $isLearned = in_array($word->id, $learnedWordIds, true); @endphp
                             <div x-show="filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}">
-                                <a
-                                    href="{{ route('words.show', $word->id) }}"
-                                    class="group flex h-full flex-col rounded-2xl border border-line bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
-                                    data-reveal
-                                >
-                                    <div class="mb-2 flex items-start justify-between gap-2">
-                                        <div>
-                                            <h3 class="flex items-center gap-1.5 text-lg font-bold capitalize text-ink">
-                                                {{ $word->word }}
-                                                <x-speak-button :word="$word->word" :audio-url="$word->audio_url" />
-                                            </h3>
-                                            @if ($word->transcription)
-                                                <span class="text-sm text-ink/40">/{{ $word->transcription }}/</span>
-                                            @endif
-                                        </div>
-                                        <x-ui.badge :variant="$isLearned ? 'success' : 'neutral'">{{ $isLearned ? 'Выучено' : 'Новое' }}</x-ui.badge>
-                                    </div>
-
-                                    @if ($word->translations->isNotEmpty())
-                                        <p class="font-semibold text-brand">{{ $word->translations->pluck('translation')->join(', ') }}</p>
-                                    @endif
-
-                                    @if ($word->example)
-                                        <p class="mt-2 flex-1 text-sm italic text-ink/50">&laquo;{{ $word->example }}&raquo;</p>
-                                    @endif
-
-                                    @if ($selectedCategory === 'all' && $word->category)
-                                        <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/10 border border-sun/30 px-2.5 py-0.5 text-xs font-bold text-sun">{{ $word->category }}</span>
-                                    @endif
-                                </a>
+                                @include('public.words._word-card', ['word' => $word, 'isLearned' => $isLearned, 'showCategory' => $selectedCategory === 'all'])
                             </div>
                         @endforeach
                     </div>
@@ -196,7 +136,7 @@
                         </template>
 
                         <template x-if="current">
-                            <div class="mx-auto max-w-md" data-reveal>
+                            <div class="mx-auto max-w-md">
                                 <div
                                     class="flip-card h-72 cursor-pointer"
                                     :class="{ 'is-flipped': flipped }"

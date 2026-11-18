@@ -91,7 +91,10 @@ it('даёт опыт за пройденный урок и записывает
 
     $progress = $user->progress()->where('lesson_id', $lesson->id)->first();
 
-    expect($user->fresh()->points)->toBe(25)
+    // 25 за урок + 5 за streak (первый день серии) — оба начисления
+    // происходят в одном complete(), с тех пор как появился рейтинг
+    // «Лидеры» и streak тоже стал источником XP.
+    expect($user->fresh()->points)->toBe(30)
         ->and($progress->time_spent)->toBe(600)
         ->and($progress->is_completed)->toBeTrue();
 });

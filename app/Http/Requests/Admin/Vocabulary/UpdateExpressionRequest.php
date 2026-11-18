@@ -15,13 +15,15 @@ class UpdateExpressionRequest extends FormRequest
     {
         return [
             'text' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'in:idiom,phrasal_verb,proverb,collocation'],
+            'type' => ['required', 'in:idiom,phrasal_verb,proverb,collocation,linking_word'],
             'transcription' => ['nullable', 'string', 'max:255'],
             'example' => ['nullable', 'string'],
             'meaning' => ['nullable', 'string'],
             'literal_translation' => ['nullable', 'string', 'max:255'],
             'difficulty' => ['required', 'integer', 'min:1', 'max:5'],
             'category' => ['nullable', 'string', 'max:255'],
+            'subcategory' => ['nullable', 'string', 'max:255'],
+            'register' => ['nullable', 'in:formal,neutral,informal'],
             'level_id' => ['nullable', 'integer', 'exists:levels,id'],
             'base_verb' => ['nullable', 'string', 'max:255'],
             'particle' => ['nullable', 'string', 'max:255'],

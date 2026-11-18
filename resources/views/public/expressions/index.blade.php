@@ -53,7 +53,7 @@
             <div class="grid gap-5 sm:grid-cols-2">
                 <a
                     href="{{ route('expressions.index', ['category' => 'all']) }}"
-                    class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
+                    class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[var(--pe-brand)] before:to-[var(--pe-sky)] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                     data-reveal
                 >
                     <div class="flex items-center justify-center bg-navy px-6 py-12 sm:py-14">
@@ -74,7 +74,7 @@
                 @foreach ($categoryCounts as $cat => $count)
                     <a
                         href="{{ route('expressions.index', ['category' => $cat]) }}"
-                        class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[#C9A961] before:to-[#D4AF37] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
+                        class="card-lift group relative block overflow-hidden rounded-2xl border border-line bg-armor2 shadow-soft before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-[var(--pe-brand)] before:to-[var(--pe-sky)] before:transition-transform before:duration-300 before:content-[''] hover:border-brand/30 hover:before:scale-x-100"
                         data-reveal
                     >
                         <div class="flex items-center justify-center bg-surface2 px-6 py-12 sm:py-14">
@@ -105,7 +105,7 @@
                 ])->values();
             @endphp
 
-            <div x-data="Object.assign(flashcardDeck({{ Js::from($flashcards) }}, '/expressions'), expressionQuiz({{ Js::from($flashcards) }}), { mode: 'list', filter: 'all', addOpen: false })">
+            <div x-data="mergeAlpineData(flashcardDeck({{ Js::from($flashcards) }}, '/expressions'), expressionQuiz({{ Js::from($flashcards) }}), { mode: 'list', filter: 'all', addOpen: false })">
                 <a href="{{ route('expressions.index') }}" class="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-ink/60 transition hover:text-brand" data-reveal>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
                     Все темы
@@ -178,49 +178,38 @@
                     </x-ui.card>
                 @else
                     {{-- ===== Список ===== --}}
-                    <div x-show="mode === 'list'" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                        @foreach ($expressions as $expression)
-                            @php $isLearned = in_array($expression->id, $learnedExpressionIds, true); @endphp
-                            <div x-show="filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}">
-                                <a
-                                    href="{{ route('expressions.show', $expression->id) }}"
-                                    class="group flex h-full flex-col rounded-2xl border border-line bg-armor2/70 p-5 shadow-lg shadow-ink/5 backdrop-blur-xl transition duration-300 ease-out hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-2xl hover:shadow-brand/15"
-                                    data-reveal
-                                >
-                                    <div class="mb-2 flex items-start justify-between gap-2">
-                                        <div>
-                                            <h3 class="flex items-center gap-1.5 text-lg font-bold text-ink">
-                                                {{ $expression->text }}
-                                                <x-speak-button :word="$expression->text" :audio-url="$expression->audio_url" />
-                                            </h3>
-                                            @if ($expression->transcription)
-                                                <span class="text-sm text-ink/40">/{{ $expression->transcription }}/</span>
-                                            @endif
+                    <div x-show="mode === 'list'">
+                        @if ($subcategoryGroups)
+                            {{-- Тема с функциональными подгруппами (пока только «Связующие
+                                 слова») — каждая подгруппа своим блоком с заголовком. --}}
+                            <div class="space-y-10">
+                                @foreach ($subcategoryGroups as $subcategoryKey => $groupExpressions)
+                                    <div data-reveal>
+                                        <h2 class="mb-4 flex items-center gap-2 text-lg font-extrabold text-ink">
+                                            {{ __('site.expressions.linking_subgroups.'.$subcategoryKey) }}
+                                            <span class="rounded-full bg-surface2 px-2.5 py-0.5 text-xs font-bold text-ink/40">{{ $groupExpressions->count() }}</span>
+                                        </h2>
+                                        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                                            @foreach ($groupExpressions as $expression)
+                                                @php $isLearned = in_array($expression->id, $learnedExpressionIds, true); @endphp
+                                                <div x-show="filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}">
+                                                    @include('public.expressions._card', ['expression' => $expression, 'isLearned' => $isLearned])
+                                                </div>
+                                            @endforeach
                                         </div>
-                                        <x-ui.badge :variant="$isLearned ? 'success' : 'neutral'">{{ $isLearned ? 'Выучено' : 'Новое' }}</x-ui.badge>
                                     </div>
-
-                                    <div class="mb-1 flex items-center gap-2">
-                                        <x-ui.badge variant="accent">{{ $types[$expression->type] ?? $expression->type }}</x-ui.badge>
-                                        @if ($expression->level)
-                                            <x-ui.badge variant="level" :level="$expression->level" />
-                                        @endif
-                                    </div>
-
-                                    @if ($expression->translations->isNotEmpty())
-                                        <p class="font-semibold text-brand">{{ $expression->translations->pluck('translation')->join(', ') }}</p>
-                                    @endif
-
-                                    @if ($expression->example)
-                                        <p class="mt-2 flex-1 text-sm italic text-ink/50">&laquo;{{ $expression->example }}&raquo;</p>
-                                    @endif
-
-                                    @if ($selectedCategory === 'all' && $expression->category)
-                                        <span class="mt-3 inline-flex w-fit items-center rounded-full bg-sun/10 border border-sun/30 px-2.5 py-0.5 text-xs font-bold text-sun">{{ $expression->category }}</span>
-                                    @endif
-                                </a>
+                                @endforeach
                             </div>
-                        @endforeach
+                        @else
+                            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                                @foreach ($expressions as $expression)
+                                    @php $isLearned = in_array($expression->id, $learnedExpressionIds, true); @endphp
+                                    <div x-show="filter === 'all' || (filter === 'learned') === {{ $isLearned ? 'true' : 'false' }}">
+                                        @include('public.expressions._card', ['expression' => $expression, 'isLearned' => $isLearned])
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
 
                     {{-- ===== Карточки (флеш-карты) ===== --}}
@@ -230,7 +219,7 @@
                         </template>
 
                         <template x-if="current">
-                            <div class="mx-auto max-w-md" data-reveal>
+                            <div class="mx-auto max-w-md">
                                 <div
                                     class="flip-card h-72 cursor-pointer"
                                     :class="{ 'is-flipped': flipped }"
@@ -283,7 +272,7 @@
                         </template>
 
                         <template x-if="quizPool.length >= 4 && quizQuestions.length && !quizDone">
-                            <div class="mx-auto max-w-lg" data-reveal>
+                            <div class="mx-auto max-w-lg">
                                 <div class="mb-4 flex items-center justify-between text-sm font-semibold text-ink/40">
                                     <span x-text="(quizIndex + 1) + ' / ' + quizQuestions.length"></span>
                                     <span x-text="'Правильно: ' + quizScore"></span>
@@ -319,7 +308,7 @@
                         </template>
 
                         <template x-if="quizPool.length >= 4 && quizDone">
-                            <div class="mx-auto max-w-md text-center" data-reveal>
+                            <div class="mx-auto max-w-md text-center">
                                 <div class="rounded-2xl border border-line bg-armor2 p-10 shadow-soft">
                                     <p class="text-5xl font-extrabold text-brand" x-text="quizScore + ' / ' + quizQuestions.length"></p>
                                     <p class="mt-2 text-ink/60">правильных ответов</p>
